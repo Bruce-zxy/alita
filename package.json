@@ -6,6 +6,7 @@
   "dependencies": {
     "antd-mobile": "^2.2.9",
     "formik": "^1.5.1",
+    "less": "^3.9.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "qrcode.react": "^0.9.3",

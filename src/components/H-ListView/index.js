@@ -5,7 +5,7 @@ import "./index.css";
  * @name index.js
  * @author HadesZ
  * @date {2019-04-26 17:45:59}
- * @parmas datas, selectable, editable, toEdit, onSelect
+ * @parmas datas, toEdit, onClick
  * @description null
  * @Example
  * vvv
@@ -54,53 +54,48 @@ class ListView extends Component {
     thumbnail = thumbnail || "";
     extra     = extra || "";
     data = { title, labels, currPrice, origPrice, thumbnail, extra };
-    return <ListItem {...this.props} data={data}/>
+    return <ListItem  refs={(ref) => this.ListItems} {...this.props} data={data}/>
   }
   render() {
-    let { direction, datas, selectable, editable, toEdit, onSelect } = this.props;
-    direction = direction || "horizontal";
-    let selection = !!onSelect ? "selectable" : "not-selectable";
-    let edition = !!onSelect ? (!!toEdit ? "editable" : "not-editable") : "not-editable";
+    let { datas } = this.props;
     let graph = datas.thumbnail ? "has-graph" : "no-graph";
+    console.log(this);
+    
     return (
-      <div id="h-list-view" className={`${selection} ${direction} ${edition} ${graph}`}>
+      <div id="h-list-view" className={`${graph}`}>
         {datas.map((data, i) => (
-        <>
-          {!!i && <div className="h-divider" ></div>}
-          <div className="h-list-container">
-            <div className="h-white-space"></div>
-            {this.toCreateListItem(data)}
-            <div className="h-white-space"></div>
+          <div className="h-list-body" key={i}>
+            <div className="h-divider"></div>
+            <div className="h-list-container" >
+              <div className="h-white-space"></div>
+              {this.toCreateListItem(data)}
+              <div className="h-white-space"></div>
+            </div>
           </div>
-        </>
         ))}
       </div>
     );
   }
 }
 
-const ListItem = ({ direction, onClick, onSelect, toEdit, data: { title, labels, currPrice, origPrice, thumbnail, extra } }) => (
+const ListItem = ({ onClick, toEdit, data }) => (
   <div className="h-list">
-    <div className="h-list-selection" onClick={onSelect}>
-      <input type="radio"></input>
-    </div>
-    <div className="h-list-content" onClick={onSelect ? onSelect : onClick}>
-      {thumbnail ? <div className="h-list-img" style={{ backgroundImage: `url(${thumbnail})` }}></div> : ""}
+    <div className="h-list-content" onClick={onClick}>
+      {data.thumbnail ? <div className="h-list-img" style={{ backgroundImage: `url(${data.thumbnail})` }}></div> : ""}
       <div className="h-list-info">
-        <p className="h-list-title">{title}</p>
+        <p className="h-list-title">{data.title}</p>
         <p className="h-list-label">
-          {labels.slice(0, 4).map((label, i) => <span key={i}>{label}</span>)}
+          {data.labels.slice(0, 4).map((label, i) => <span key={i}>{label}</span>)}
         </p>
         <p className="h-list-price">
-          <span className="integer">&yen;{currPrice.toString().split('.')[0]}</span>
-          <span className="decimal">.{currPrice.toString().split('.')[1]}</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          {origPrice ? <span className="orig decimal">原价：&yen;{origPrice.toString().split('.')[0]}.{origPrice.toString().split('.')[1]}</span> : ""}
+          <span className="integer">&yen;{data.currPrice.toString().split('.')[0]}</span>
+          <span className="decimal">.{data.currPrice.toString().split('.')[1]}</span>
+          {data.origPrice ? <span className="orig decimal">原价：&yen;{data.origPrice.toString().split('.')[0]}.{data.origPrice.toString().split('.')[1]}</span> : ""}
         </p>
-        <p className="h-list-extra" onClick={onExpandExtra({ title, labels, currPrice, origPrice, thumbnail, extra })}>{extra}</p>
+        <p className="h-list-extra" onClick={onExpandExtra(data)}>{data.extra}</p>
       </div>
     </div>
-    {!!onSelect && !!toEdit ? <div className="h-list-more" onClick={toEdit}>编辑</div> : ""}
+    <div className="h-list-more" onClick={(e) => toEdit(e, data)}>编辑</div>
   </div>
 )
 

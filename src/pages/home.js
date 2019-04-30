@@ -25,6 +25,8 @@ export default (props) => {
       <HListView 
         datas={list_view_data}
         onClick={() => console.log("onClick")}
+        toEdit={() => console.log('edit')}
+        onSelect={() => console.log('select')}
       />
 
     </Fragment>

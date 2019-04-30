@@ -63,7 +63,7 @@ export const list_view_data = [{
     title: "1这是一个超长的标题有多长呢我也不知道所以就是超长的",
     labels: ["标签1", "标签1", "标签1", "标签1", "标签1", "标签1", "标签1", "标签1"],
     currPrice: 23333.22,
-    // origPrice: 0.01, 
+    origPrice: 0.01, 
     thumbnail: "http://xvhweb.jxxnhjq.com/Content/official-new/img/section1.jpg",
     extra: "这也是一个超长的文本，具体有多长呢，我也不知道，但是我想试一试能不能自动溢出"
 }, {

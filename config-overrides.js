@@ -1,7 +1,7 @@
 const {
   override,
   fixBabelImports,
-  // addLessLoader,
+  addLessLoader,
 } = require("customize-cra");
  
 module.exports = override(fixBabelImports(
@@ -11,8 +11,8 @@ module.exports = override(fixBabelImports(
     // libraryDirectory: "es", 
     style: 'css' // change importing css to less
   },
-  // addLessLoader({
-  //   javascriptEnabled: true,
-  //   modifyVars: { "@primary-color": "#1DA57A" }
-  // })
+  addLessLoader({
+    javascriptEnabled: true,
+    modifyVars: { "@primary-color": "#1DA57A" }
+  })
 ));

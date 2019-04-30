@@ -32,7 +32,7 @@
   overflow: hidden;
   /* box-shadow: 2px 4px 8px #ccc; */
 }
-.h-list .h-list-selection {
+/* .h-list .h-list-selection {
   display: -ms-flexbox;
   display: flex;
   width: 8vw;
@@ -48,7 +48,7 @@
 .not-selectable .h-list .h-list-selection {
   width: 0;
   transition: all .25s ease-in-out;
-}
+} */
 .h-list .h-list-content {
   height: 30vw;
   width: 100vw;
@@ -64,7 +64,7 @@
   transition: all .25s ease-in-out;
 }
 .h-list .h-list-more {
-  width: 0vw;
+  width: 10vw;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-positive: 1;
@@ -79,10 +79,10 @@
   cursor: pointer;
   transition: all .25s ease-in-out;
 }
-.selectable.editable .h-list .h-list-more {
+/* .selectable.editable .h-list .h-list-more {
   width: 10vw;
   transition: all .25s ease-in-out;
-}
+} */
 .h-list-content .h-list-img {
   display: -ms-flexbox;
   display: flex;

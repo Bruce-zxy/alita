@@ -1,0 +1,123 @@
+#hdz-list-view {
+  width: 100vw;
+  height: auto;
+}
+#hdz-list-view .hdz-list-item {
+  width: 100vw;
+  height: 33vw;
+  padding: 2vw;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-bottom: 1px solid #E1E1E1;
+  background: #FFF;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+#hdz-list-view .hdz-list-item:last-child {
+  border-bottom: none;
+}
+#hdz-list-view .hdz-list-item .hdz-list-image {
+  width: 38.66666667vw;
+  height: 29vw;
+  overflow: hidden;
+}
+#hdz-list-view .hdz-list-item .hdz-list-image.hdz-list-image-raidus {
+  border-radius: 6px;
+}
+#hdz-list-view .hdz-list-item .hdz-list-image img {
+  width: 100%;
+  height: 100%;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content {
+  width: 60vw;
+  height: 100%;
+  margin: 0 2vw;
+  overflow: hidden;
+  font-size: 3vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content p {
+  margin: 0;
+  line-height: 1.5;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-title {
+  width: 100%;
+  height: 30%;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-tags {
+  width: 100%;
+  height: 20%;
+  font-size: 2.5vw;
+  overflow: hidden;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-tags span {
+  border: 1px solid #FF5E24;
+  color: #FF5E24;
+  border-radius: 1vw;
+  padding: .5vw 1vw;
+  margin: .5vw .25vw;
+  box-sizing: content-box;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price {
+  width: 100%;
+  height: 20%;
+  overflow: hidden;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price span:first-child {
+  font-size: 5vw;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price span:last-child {
+  position: relative;
+  font-size: 2.5vw;
+  text-decoration: line-through;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price span:before {
+  content: "￥";
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter {
+  width: 100%;
+  height: 20%;
+  overflow: hidden;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-intro {
+  width: 100%;
+  height: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#hdz-list-view .hdz-list-item .hdz-list-extra {
+  width: 15vw;
+  height: 100%;
+  transition: all 0.35s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+#hdz-list-view .hdz-list-item .hdz-list-extra .hdz-list-extra-block {
+  width: 100%;
+  height: 100%;
+  color: #FFF;
+  background: #FDA400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}

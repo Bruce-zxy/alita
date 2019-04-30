@@ -1,0 +1,130 @@
+@full-width: 100vw;
+@content-width: 60vw;
+@extra-width: 15vw;
+@item-height: 33vw;
+
+.display-flex(@jc: center, @ai: center, @fd: row) {
+    display: flex;
+    justify-content: @jc;
+    align-items: @ai;
+    flex-direction: @fd;
+}
+.text-hide-simple() {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+.text-hide(@line) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: @line;
+    -webkit-box-orient: vertical;
+}
+
+#hdz-list-view {
+    width: @full-width;
+    height: auto;
+    .hdz-list-item {
+        width: @full-width;
+        height: @item-height;
+        padding: 2vw;
+        box-sizing: border-box;
+        overflow: hidden;
+        border-bottom: 1px solid #E1E1E1;
+        background: #FFF;
+        .display-flex(flex-start);
+        &:last-child {
+            border-bottom: none;
+        }
+        .hdz-list-image {
+            width: (@item-height - 4vw)/3*4;
+            height: @item-height - 4vw;
+            overflow: hidden;
+            &.hdz-list-image-raidus {
+                border-radius: 6px;
+            }
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .hdz-list-content {
+            width: @content-width;
+            height: 100%;
+            margin: 0 2vw;
+            overflow: hidden;
+            font-size: 3vw;
+            .display-flex(space-between, flex-start, column);
+            p {
+                margin: 0;
+                line-height: 1.5;
+            }
+            .hdz-list-title {
+                width: 100%;
+                height: 30%;
+                font-weight: bold;
+                .text-hide(2);
+            }
+            .hdz-list-tags {
+                width: 100%;
+                height: 20%;
+                font-size: 2.5vw;
+                overflow: hidden;
+                flex-wrap: wrap;
+                .display-flex(flex-start);
+                span {
+                    border: 1px solid #FF5E24;
+                    color: #FF5E24;
+                    border-radius: 1vw;
+                    padding: .5vw 1vw;
+                    margin: .5vw .25vw;
+                    box-sizing: content-box;
+                }
+            }
+            .hdz-list-price {
+                width: 100%;
+                height: 20%;
+                overflow: hidden;
+                span {
+                    &:first-child {
+                        font-size: 5vw;
+                    }
+                    &:last-child {
+                        position: relative;
+                        font-size: 2.5vw;
+                        text-decoration: line-through;
+                    }
+                    &:before {
+                        content: "￥";
+                    }
+                }
+            }
+            .hdz-list-counter {
+                width: 100%;
+                height: 20%;
+                overflow: hidden;
+            }
+            .hdz-list-intro {
+                width: 100%;
+                height: 20%;
+                .text-hide-simple();
+            }
+        }
+
+        .hdz-list-extra {
+            width: @extra-width;
+            height: 100%;
+            transition: all .35s ease-in-out;
+            .display-flex(space-between, center, column);
+            .hdz-list-extra-block {
+                width: 100%;
+                height: 100%;
+                color: #FFF;
+                background: #FDA400;
+                .display-flex();
+            }
+        }
+    }
+}
