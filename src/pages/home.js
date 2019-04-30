@@ -6,7 +6,7 @@ import HGrid from '../components/H-Grid';
 import HAnnouncement from '../components/H-Announcement';
 import HBanner from '../components/H-Banner';
 import HSpaceBlock from '../components/H-SpaceBlock';
-import HListView from '../components/H-ListView';
+import HList from '../components/H-List';
 
 import { swiper_data, grid_data, list_view_data } from '../data';
 
@@ -22,11 +22,37 @@ export default (props) => {
       <HGrid data={grid_data} />
       <HSpaceBlock />
       <HBanner image={`https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556274961995&di=8163a3b6045253d7abf8302d23e8d018&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fblog%2F201403%2F20%2F20140320135645_YswQ8.jpeg`} ratio={3.7} />
-      <HListView 
+      <HList
+        className="List"
         datas={list_view_data}
-        onClick={() => console.log("onClick")}
-        toEdit={() => console.log('edit')}
-        onSelect={() => console.log('select')}
+        renderItem={(data, i) => {
+          return (
+            <HList.Item key={i}>
+              <HList.Item.Image
+                image={data.thumbnail}
+                radius
+              />
+              <HList.Item.Content>
+                <HList.Item.Content.Title>{data.title}</HList.Item.Content.Title>
+                <HList.Item.Content.Tags
+                  tags={data.labels}
+                />
+                <HList.Item.Content.Highlight
+                  highlight={data.currPrice}
+                  lowlight={data.origPrice}
+                  color="red"
+                />
+                {/* <HList.Item.Content.Counter
+                  onChange={(value) => console.log(value)}
+                /> */}
+                <HList.Item.Content.Extra>{data.extra}</HList.Item.Content.Extra>
+              </HList.Item.Content>
+              {<HList.Item.Action
+                datas={data.action}
+              />}
+            </HList.Item>
+          )
+        }}
       />
 
     </Fragment>

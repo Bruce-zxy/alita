@@ -1,5 +1,5 @@
-import React from 'react';
-import _ from "lodash";
+import React, { useState } from 'react';
+import { find } from "lodash";
 
 import './index.css';
 
@@ -22,9 +22,7 @@ const toHandleParamType = (param, type_array, other) => {
         }
     }
     let type = param.$$typeof || toGetType(param);
-    const param_func = _.find(type_array, { type: type.toString() });
-    console.log(param_func);
-    
+    const param_func = find(type_array, { type: type.toString() });
     if (!!param_func) {
         return param_func.action(param);
     } else if (!!other) {
@@ -40,7 +38,7 @@ function HList(props) {
     datas = toHandleParamType(datas, [{ type: "Array", action: (data) => data }], () => []);
     return (
         <div id="hdz-list-view" className={toCheckClassName(className)}>
-            {!!children ? children : datas.map(data => renderItem(data))}
+            {!!children ? children : datas.map(renderItem)}
         </div>
     );
 
@@ -71,23 +69,20 @@ function Content({ className, children }) {
     )
 }
 
-function Extra({ className, datas }) {
+function Action({ className, datas }) {
     datas = toHandleParamType(datas, [{ type: "Array", action: datas => datas }], () => []);
-
     return (
-        <div className={`hdz-list-extra ${toCheckClassName(className)}`}>
-            {datas.map((data, i) => <a href="javascript:;" className="hdz-list-extra-block" onClick={data.action} key={i}>{data.text}</a>)}
-            
+        <div className={`hdz-list-action ${toCheckClassName(className)}`}>
+            {datas.map((data, i) => <span className="hdz-list-extra-block" onClick={data.action} key={i}>{data.text}</span>)}
         </div>
     )
 }
 
 function Title({ className, children }) {
-
     return (
-        <p className={`hdz-list-title ${toCheckClassName(className)}`}>
+        <div className={`hdz-list-title ${toCheckClassName(className)}`}>
             {children}
-        </p>
+        </div>
     )
 }
 
@@ -96,34 +91,59 @@ function Tags({ className, tags }) {
     tags = toHandleParamType(tags, [{ type: "Array", action: (data) => data }], () => []);
     return (
         <div className={`hdz-list-tags ${toCheckClassName(className)}`}>
-            {tags.map((item) => <span>{item}</span>)}
+            {tags.map((item, i) => <span key={i} style={{ color: item.color, borderColor: item.color }}>{item.text}</span>)}
         </div>
     )
 }
 
-function Price({ className, current, origin, highLight }) {
+function Highlight({ className, highlight, lowlight, color }) {
     return (
-        <div className={`hdz-list-price ${toCheckClassName(className)}`}>
-            <span style={{ color: highLight }}>{current}</span>
-            <span>{origin}</span>
+        <div className={`hdz-list-highlight ${toCheckClassName(className)}`}>
+            <span style={{ color: color }}>{highlight}</span>
+            <span>{lowlight}</span>
         </div>
     )
 }
-function Counter({ className, photo, action, title, labels, price, description, data }) {
-
+function Counter({ className, onChange }) {
+    const [thisState, setThisState] = useState({
+        value: 1
+    })
+    const toHandleChange = (e) => {
+        let value = e.target.value.replace(/[^\d]/g, '');
+        if (thisState.value === value) return;
+        onChange(value);
+        setThisState({ value });
+    }
+    const toHandleClick = (type) => () => {
+        if (type === 'sub') {
+            if (!thisState.value) return;
+            let value = thisState.value * 1 - 1;
+            setThisState({ value });
+            onChange(value);
+        } else if (type === 'plus') {
+            let value = thisState.value * 1 + 1;
+            setThisState({ value });
+            onChange(value);
+        }
+    }
     return (
         <div className={`hdz-list-counter ${toCheckClassName(className)}`}>
-
+            <div className="hdz-counter">
+                <div className="hdz-counter-sub" onClick={toHandleClick('sub')}>-</div>
+                <div className="hdz-counter-show">
+                    <input type="text" placeholder="" onChange={toHandleChange} value={thisState.value} />
+                </div>
+                <div className="hdz-counter-plus" onClick={toHandleClick('plus')}>+</div>
+            </div>
         </div>
     )
 }
 
-function Intro({ className, children }) {
-
+function Extra({ className, children }) {
     return (
-        <p className={`hdz-list-intro ${toCheckClassName(className)}`}>
+        <div className={`hdz-list-extra ${toCheckClassName(className)}`}>
             {children}
-        </p>
+        </div>
     )
 }
 
@@ -133,8 +153,8 @@ HList['Item']['Image'] = Image;
 HList['Item']['Content'] = Content;
 HList['Item']['Content']['Title'] = Title;
 HList['Item']['Content']['Tags'] = Tags;
-HList['Item']['Content']['Price'] = Price;
+HList['Item']['Content']['Highlight'] = Highlight;
 HList['Item']['Content']['Counter'] = Counter;
-HList['Item']['Content']['Intro'] = Intro;
-HList['Item']['Extra'] = Extra;
+HList['Item']['Content']['Extra'] = Extra;
+HList['Item']['Action'] = Action;
 export default HList;

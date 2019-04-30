@@ -1,9 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { ListView, List } from 'antd-mobile';
 import { StickyContainer, Sticky } from 'react-sticky';
-import HList from '../components/H-List';
-
-import { list_view_data } from '../data';
 
 import ShopContext from '../context/shop';
 
@@ -93,23 +90,6 @@ export default (props) => {
     setDataSource( genListViewSourceData(dataSource, gProvinceIndex) );
   }, []);
 
-  const btn_group = [{
-    text: "编辑",
-    action: () => {
-      console.log('BJ');
-    }
-  }, {
-      text: "确认",
-      action: () => {
-        console.log('QR');
-      }
-  }, {
-    text: "取消",
-    action: () => {
-      console.log('QX');
-    }
-  }]
-
   /**
     Render
    */
@@ -117,70 +97,34 @@ export default (props) => {
   console.log('!!!catalog::render!!!', {dataSource});
 
   return (
-    <HList 
-      className="List"
-      datas={list_view_data}
-      renderItem={(data) => {
-        return (
-          <HList.Item className="HLIST-ITEM">
-            <HList.Item.Image 
-              image={data.thumbnail} 
-              radius 
-            />
-            <HList.Item.Content>
-              <HList.Item.Content.Title>{data.title}</HList.Item.Content.Title>
-              <HList.Item.Content.Tags 
-                tags={data.labels}
-              />
-              <HList.Item.Content.Price 
-                current={data.currPrice}
-                origin={data.origPrice}
-                highLight="red"
-              />
-              {/* <HList.Item.Content.Counter 
-                onChange={(value) => console.log(value)} 
-              /> */}
-              <HList.Item.Content.Intro>{data.extra}</HList.Item.Content.Intro>
-            </HList.Item.Content>
-            {<HList.Item.Extra 
-              datas={btn_group} 
-            />}
-          </HList.Item>  
-        )
-      }}
-    >
-    </HList>
+    <div style={{ paddingTop: '44px', position: 'relative' }}>
+      <ListView.IndexedList
+        ref={(ref) => (thisRef['listView'] = ref)}
+        dataSource={dataSource}
+        useBodyScroll
+        renderSectionWrapper={sectionID => ( <StickyContainer key={`s_${sectionID}_c`} style={{ zIndex: 4 }} /> )}
+        renderSectionHeader={sectionData => (
+          <Sticky>
+            {({ style }) => (
+              <div
+                style={{
+                  ...style,
+                  zIndex: 3,
+                  backgroundColor: sectionData.charCodeAt(0) % 2 ? '#5890ff' : '#F8591A',
+                  color: 'white',
+                }}
+              >{sectionData}</div>
+            )}
+          </Sticky>
+        )}
+        renderHeader={() => <span>custom header</span>}
+        renderFooter={() => <span>custom footer</span>}
+        renderRow={rowData => (<List.Item>{rowData}</List.Item>)}
+        quickSearchBarStyle={{ top: 85 }}
+        delayTime={10}
+        delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
+        onQuickSearch={toGotoPos} 
+      />
+    </div>
   )
-
-  // return (
-  //   <div style={{ paddingTop: '44px', position: 'relative' }}>
-  //     <ListView.IndexedList
-  //       ref={(ref) => (thisRef['listView'] = ref)}
-  //       dataSource={dataSource}
-  //       useBodyScroll
-  //       renderSectionWrapper={sectionID => ( <StickyContainer key={`s_${sectionID}_c`} style={{ zIndex: 4 }} /> )}
-  //       renderSectionHeader={sectionData => (
-  //         <Sticky>
-  //           {({ style }) => (
-  //             <div
-  //               style={{
-  //                 ...style,
-  //                 zIndex: 3,
-  //                 backgroundColor: sectionData.charCodeAt(0) % 2 ? '#5890ff' : '#F8591A',
-  //                 color: 'white',
-  //               }}
-  //             >{sectionData}</div>
-  //           )}
-  //         </Sticky>
-  //       )}
-  //       renderHeader={() => <span>custom header</span>}
-  //       renderFooter={() => <span>custom footer</span>}
-  //       renderRow={rowData => (<List.Item>{rowData}</List.Item>)}
-  //       quickSearchBarStyle={{ top: 85 }}
-  //       delayTime={10}
-  //       delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
-  //       onQuickSearch={toGotoPos} 
-  //     />
-  //   </div>
-  // )
 }

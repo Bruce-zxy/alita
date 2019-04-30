@@ -36,19 +36,14 @@
   margin: 0 2vw;
   overflow: hidden;
   font-size: 3vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: column;
-}
-#hdz-list-view .hdz-list-item .hdz-list-content p {
-  margin: 0;
   line-height: 1.5;
 }
 #hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-title {
   width: 100%;
-  height: 30%;
+  height: 40%;
+  font-size: 3.5vw;
   font-weight: bold;
+  line-height: 1.6;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -58,7 +53,6 @@
 #hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-tags {
   width: 100%;
   height: 20%;
-  font-size: 2.5vw;
   overflow: hidden;
   flex-wrap: wrap;
   display: flex;
@@ -69,40 +63,87 @@
 #hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-tags span {
   border: 1px solid #FF5E24;
   color: #FF5E24;
+  font-size: 2.6vw;
+  line-height: 1.5;
   border-radius: 1vw;
-  padding: .5vw 1vw;
-  margin: .5vw .25vw;
-  box-sizing: content-box;
+  padding: .4vw 1vw 0;
+  margin: .5vw .5vw .5vw 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
-#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price {
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-highlight {
   width: 100%;
   height: 20%;
   overflow: hidden;
 }
-#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price span:first-child {
-  font-size: 5vw;
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-highlight span:first-child {
+  font-size: 4vw;
+  color: red;
+  margin-right: 1vw;
 }
-#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price span:last-child {
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-highlight span:last-child {
   position: relative;
-  font-size: 2.5vw;
+  font-size: 2.8vw;
+  color: #999;
   text-decoration: line-through;
-}
-#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-price span:before {
-  content: "￥";
 }
 #hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter {
   width: 100%;
   height: 20%;
   overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
 }
-#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-intro {
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter .hdz-counter {
+  width: 20vw;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter .hdz-counter > div {
+  width: 5.5vw;
+  height: 5.5vw;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter .hdz-counter .hdz-counter-sub {
+  font-size: 5vw;
+  color: #999;
+  border: 1px solid #CCC;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter .hdz-counter .hdz-counter-show input {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: none;
+  text-align: center;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-counter .hdz-counter .hdz-counter-plus {
+  font-size: 3vw;
+  color: #999;
+  border: 1px solid #CCC;
+}
+#hdz-list-view .hdz-list-item .hdz-list-content .hdz-list-extra {
   width: 100%;
   height: 20%;
+  color: #666;
+  line-height: 2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-#hdz-list-view .hdz-list-item .hdz-list-extra {
+#hdz-list-view .hdz-list-item .hdz-list-action {
   width: 15vw;
   height: 100%;
   transition: all 0.35s ease-in-out;
@@ -111,7 +152,7 @@
   align-items: center;
   flex-direction: column;
 }
-#hdz-list-view .hdz-list-item .hdz-list-extra .hdz-list-extra-block {
+#hdz-list-view .hdz-list-item .hdz-list-action .hdz-list-extra-block {
   width: 100%;
   height: 100%;
   color: #FFF;
