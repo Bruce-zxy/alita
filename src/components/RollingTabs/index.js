@@ -9,7 +9,7 @@ const SubclassTabs = ({ className, width, onMoreClick, children }) => {
             <div className="subclass-tabs-body">
                 {children}
             </div>
-            <div className="subclass-tabs-more" onClick={onMoreClick}>···</div>
+            {/* <div className="subclass-tabs-more" onClick={onMoreClick}>···</div> */}
         </div>
     )
 }

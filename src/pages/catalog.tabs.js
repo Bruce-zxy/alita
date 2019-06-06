@@ -100,17 +100,13 @@ export default (props) => {
         tabs={tabs} initalPage={1}
       >
         {tabs.map((tab) => (
-          <div key={tab.id} style={{ width: "calc(100% - 100px)" }}>
-            <div>
-              {tab.title}
-            </div>
-            <div>
+          <div key={tab.id} style={{ display: 'flex', alignItems: 'stretch', height: '100%', flexDirection: 'column', justifyContent: 'flex-start', backgroundColor: '#fff', overflow: 'hidden' }}>
+            <div style={{ width: '100%', height: '100%', overflow: 'hidden', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flexStart', alignItems: 'flex-start' }}>                 
+              <div>{tab.title}</div>
               <RollingTabs onMoreClick={(e) => alert(e.target.textContent)}>
                 {tab.menus.map(menuItem => <Button key={menuItem.title} inline size='small' onClick={() => setChoice(menuItem)} >{menuItem.title}</Button>)}
               </RollingTabs>
-              <div>
-                { (choice.tabId !== tab.id) ? null : <Grid data={grids} /> }
-              </div>
+              <div> {(choice.tabId !== tab.id) ? null : <Grid data={grids} />} </div>
             </div>
           </div>
         ))}
@@ -119,3 +115,8 @@ export default (props) => {
     </Fragment>
   )
 }
+
+
+
+
+
