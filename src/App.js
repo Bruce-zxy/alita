@@ -11,6 +11,8 @@ import config from './lib/config';
 import logo from './logo.svg';
 import './App.scss';
 
+import Map from './components/Map';
+
 const App = () => (
   <div className="App">
     <header className="App-header">
@@ -44,6 +46,7 @@ const AppRoute = () => {
       <Route path={config.LOCAL_URL.HOME_URL} exact       component={() => <Redirect to={{pathname: config.LOCAL_URL.HOME}} /> } />
       <Route path={config.LOCAL_URL.MAIN_PAGE}            component={MainPage}      />
       <Route path={`${config.LOCAL_URL.EXCEPTION}/:type`} component={ExceptionPage} />
+      <Route path={`/test`} component={Map} />
     </ShopProvider>
   );
 }

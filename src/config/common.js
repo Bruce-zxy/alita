@@ -46,5 +46,9 @@ module.exports = {
         "API_KEY": "27807",
         "API_SIGN": "3a0343bfe2324c0837afde0d26e9d0e7",
         "API_WEAID": "36"
+    },
+    AMAP: {
+        API_V3_URL: 'http://restapi.amap.com/v3',
+        KEY: '6d03400761065ced940e1a7ef444a7b8'
     }
 };
