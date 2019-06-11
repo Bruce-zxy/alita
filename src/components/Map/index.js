@@ -13,33 +13,50 @@ class AMAP extends Component {
     // 地图事件
     map_events = {
         created: (ins) => this.MAP = ins,
-        click: () => { console.log('You Clicked The Map') }
     }
     // 地图插件
     map_plugins = ['ToolBar'];
     // 地图工具事件
     tool_event = {
-        created: (tool) => {
-            console.log(tool)
-            this.TOOL = tool;
+        created: (tool) => this.TOOL = tool,
+    }
+    // 点集事件
+    markersEvents = {
+        click: (MapsOption, marker) => {
+            const { order } = marker.getExtData();
+            console.log('to', order);
+            
+            this.setState({
+                current: order - 1
+            })
         },
-        // draw({ obj }) {
-        //     AMAP.drawWhat(obj);
-        // }
     }
-    componentDidMount() {
 
-    }
     onAfterChange = (from, to) => {
         if (from === to) return false;
-        console.log(from, 'slide to', to);
         this.setState({
-            current: 2
+            current: to
         })
     }
 
+    toRenderMapMarker = (data) => {
+        const markers = data.sort((a, b) => a.order - b.order).map(item => {
+            item.draggable = true;
+            item.position = {
+                latitude: item.latitude,
+                longitude: item.longitude
+            }
+            return item;
+        });
+        
+        return (
+            <Markers
+                markers={markers}
+                events={this.markersEvents}
+            />
+        )
+    }
     toRenderMapSwiper = (data) => {
-
         return (
             data.sort((a, b) => a.order - b.order).map(val => (
                 <a className="react-amap-swiper-container" key={val} href="javascript:;" >
@@ -67,6 +84,7 @@ class AMAP extends Component {
                         plugins={this.map_plugins}
                     >
                         <MouseTool events={this.tool_event} />
+                        {this.toRenderMapMarker(data)}
                         <div className="react-amap-swiper">
                             <Carousel
                                 selectedIndex={current}
@@ -85,6 +103,8 @@ class AMAP extends Component {
         )
     }
 }
+
+
 
 
 export default () => {
@@ -116,7 +136,7 @@ export default () => {
                 latitude: "31.381444",
                 longitude: "121.466891",
                 description: "这个是交运宝山的描述这个是交运宝山的描述这个是交运宝山的描述这个是交运宝山的描述这个是交运宝山的描述这个是交运宝山的描述",
-                html: `<p style={{ color: "red" }}>如果同时设置了description和html,那么html会覆盖掉description</p>`
+                html: `<p style="color: red">如果同时设置了description和html,那么html会覆盖掉description</p>`
             }]
         })
     }, [])
