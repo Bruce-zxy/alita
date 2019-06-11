@@ -22,7 +22,7 @@ module.exports = {
     },
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
-    "API_ROOT": "http://atlantis.yg-net.com/api",
+    "API_ROOT": "http://192.168.30.224:3000/api",
     "API_URL": {
         "UPLOAD": {
             "BACKEND_STORAGE": ""
