@@ -12,6 +12,7 @@ import logo from './logo.svg';
 import './App.scss';
 
 import Map from './components/Map';
+import MapBox from './components/MapBox';
 
 const App = () => (
   <div className="App">
@@ -47,6 +48,7 @@ const AppRoute = () => {
       <Route path={config.LOCAL_URL.MAIN_PAGE}            component={MainPage}      />
       <Route path={`${config.LOCAL_URL.EXCEPTION}/:type`} component={ExceptionPage} />
       <Route path={`/test`} component={Map} />
+      <Route path={`/mapbox`} component={MapBox} />
     </ShopProvider>
   );
 }

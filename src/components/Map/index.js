@@ -2,57 +2,126 @@ import React, { Component, useState, useEffect, useContext } from 'react';
 import { Carousel } from 'antd-mobile';
 import { Map, MouseTool, Markers } from 'react-amap';
 import * as classname from 'classname';
+import * as turf from '@turf/turf';
 
 import config from '../../config/common';
 import './index.scss'
 
+// // 小数部分保留指定精度
+// function toFixed(num, fix) {
+//     return num.toString().split('.').map((item, i) => {
+//         if (i === 1) {
+//             return item[fix] > 4 ? item.slice(0, fix) * 1 + 1 : item.slice(0, fix);
+//         } else {
+//             return item;
+//         }
+//     }).join('.') * 1;
+// }
+
+// function toTransformAMapToTurf(arr, reverse) {
+//     if (reverse !== false) {
+//         return arr.map(item => ([item.longitude*1, item.latitude*1]));
+//     } else {
+//         return arr.map(item => ({ longitude: item[0], latitude: item[1] }));
+//     }
+// }
+
+// // 求两地理坐标之间的距离
+// function toGetGreatCircleDistance(p1, p2, unit) {
+//     let from = turf.point([p1.longitude*1, p1.latitude*1]);
+//     let to = turf.point([p2.longitude*1, p2.latitude*1]);
+//     let options = { units: unit || 'kilometers' };
+//     return turf.distance(from, to, options);
+// }
+
+// 根据地理坐标点集获取坐标中心点
+function toGetCenterCoordinate(arr) {
+    let features = turf.featureCollection(arr.map(item => turf.point([item.longitude*1, item.latitude*1])));
+    return turf.center(features);
+}
+
+// function toGetBBoxPolygon(arr) {
+//     let line = turf.lineString(toTransformAMapToTurf(arr));
+//     let bbox = turf.bbox(line);
+//     let bboxPolygon = turf.bboxPolygon(bbox);
+//     return bboxPolygon;
+// }
+
+const Loadding = () => (
+    <div className="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+)
+
 class AMAP extends Component {
+    creation_flag = false
     state = {
-        current: 0
+        current: 0,
+        map_center: null,
+        map_zoom: 15
     }
-    // 地图事件
-    map_events = {
-        created: (ins) => this.MAP = ins,
-    }
-    // 地图插件
     map_plugins = ['ToolBar'];
-    // 地图工具事件
-    tool_event = {
-        created: (tool) => this.TOOL = tool,
-    }
-    // 点集事件
-    markersEvents = {
-        click: (MapsOption, marker) => {
-            const { order } = marker.getExtData();
-            console.log('to', order);
-            
+    map_events = {
+        created: (ins) => {
+            const { geometry: { coordinates } } = toGetCenterCoordinate(this.props.data);
+            this.MAP = ins;
             this.setState({
-                current: order - 1
+                map_center: {
+                    longitude: coordinates[0],
+                    latitude: coordinates[1]
+                }
+            })
+        }
+    }
+    markers_events = {
+        created: () => {
+            if (!this.creation_flag) {
+                this.MAP.setFitView(null, true);
+            } 
+            this.creation_flag = true;
+        },
+        click: (MapsOption, marker) => {
+            const { order, longitude, latitude } = marker.getExtData();
+            this.setState({
+                current: order - 1,
+                map_center: {
+                    longitude: longitude,
+                    latitude: latitude
+                }
             })
         },
     }
 
     onAfterChange = (from, to) => {
         if (from === to) return false;
+        const { data } = this.props;
+        const curr_marker = data.sort((a, b) => a.order - b.order)[to];
         this.setState({
-            current: to
+            map_center: {
+                longitude: curr_marker.longitude,
+                latitude: curr_marker.latitude
+            }
         })
     }
 
     toRenderMapMarker = (data) => {
+        const { mode } = this.props;
         const markers = data.sort((a, b) => a.order - b.order).map(item => {
-            item.draggable = true;
+            item.draggable = mode === 'edit';
             item.position = {
                 latitude: item.latitude,
                 longitude: item.longitude
             }
             return item;
         });
-        
         return (
             <Markers
                 markers={markers}
-                events={this.markersEvents}
+                events={this.markers_events}
             />
         )
     }
@@ -73,17 +142,21 @@ class AMAP extends Component {
     }
 
     render() {
-        const { current } = this.state;
+        const { current, map_center, map_zoom } = this.state;
         const { className, data } = this.props;
+        
         return (
-            <div style={{ width: "100vw", height: "100vh" }}>
-                <div id="react-amap-container" className={classname(className)}>
+            <div id="react-amap-container" className={classname(className)}>
+                {data.length ? (
                     <Map
                         amapkey={config.AMAP.KEY}
-                        event={this.map_events}
+                        center={map_center}
+                        zoom={map_zoom}
+                        events={this.map_events}
                         plugins={this.map_plugins}
+                        viewMode="3D"
                     >
-                        <MouseTool events={this.tool_event} />
+                        <MouseTool />
                         {this.toRenderMapMarker(data)}
                         <div className="react-amap-swiper">
                             <Carousel
@@ -98,7 +171,9 @@ class AMAP extends Component {
                             </Carousel>
                         </div>
                     </Map>
-                </div>
+                ) : (
+                    <Loadding />
+                )}
             </div>
         )
     }
@@ -142,9 +217,12 @@ export default () => {
     }, [])
 
     return (
-        <AMAP 
-            // className="amap"
-            data={thisState.data}
-        />
+        <div style={{ width: "100vw", height: "100vh" }}>
+            <AMAP 
+                className="amap"
+                data={thisState.data}
+                mode="display"
+            />
+        </div>
     )
 };
