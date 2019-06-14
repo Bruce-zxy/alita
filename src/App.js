@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import initReactFastclick from 'react-fastclick';
 
 import ShopProvider from './context/shop.provider';
 
@@ -13,6 +14,9 @@ import './App.scss';
 
 import Map from './components/Map';
 import MapBox from './components/MapBox';
+import Calendar from './components/Calendar';
+
+initReactFastclick();
 
 const App = () => (
   <div className="App">
@@ -49,6 +53,7 @@ const AppRoute = () => {
       <Route path={`${config.LOCAL_URL.EXCEPTION}/:type`} component={ExceptionPage} />
       <Route path={`/test`} component={Map} />
       <Route path={`/mapbox`} component={MapBox} />
+      <Route path={`/calendar`} component={Calendar} />
     </ShopProvider>
   );
 }
