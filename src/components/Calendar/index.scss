@@ -4,14 +4,15 @@
 #react-calendar-container {
     width: 100vw;
     height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 
     .react-calendar-body {
         width: 100%;
         height: 100%;
 
         .react-calendar-header {
+            position: relative;
+            z-index: 12;
             width: 100%;
             height: 20vw;
 
@@ -74,8 +75,48 @@
                         background: #000;
                         border-radius: 50%;
                         margin-bottom: 4px;
+
                         &:last-child {
                             margin: 0;
+                        }
+                    }
+
+                    .calendar-view-type {
+                        position: absolute;
+                        width: 22vw;
+                        height: auto;
+                        top: 12vw;
+                        right: 2vw;
+                        z-index: 12;
+                        transform-origin: 100% 0;
+                        transform: scale(0);
+                        transition: all .15s ease-in-out;
+
+                        &.show {
+                            transform: scale(1);
+                            transition: all .15s ease-in-out;
+                        }
+
+                        .calendar-view-select {
+
+                            display: flex;
+                            width: 100%;
+                            height: auto;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+
+                            background: #FFF;
+                            box-shadow: 2px 2px 6px #aaa;
+                            border-radius: 2px;
+
+                            >p {
+                                width: 100%;
+                                height: 10vw;
+                                line-height: 10vw;
+                                text-align: center;
+                                font-size: 4vw;
+                            }
                         }
                     }
                 }
@@ -90,6 +131,8 @@
                 box-sizing: border-box;
                 font-size: 3vw;
                 color: #666;
+                background: #f5f5f9;
+                border-bottom: 1px solid #EEE;
 
                 >span {
                     position: relative;
@@ -104,9 +147,11 @@
 
         .react-calendar-content {
             position: relative;
+            top: 0;
             z-index: 10;
             width: 100%;
             height: auto;
+            transition: top .35s ease-in-out;
 
             .react-calendar-week {
                 width: 100%;
@@ -124,31 +169,99 @@
                     justify-content: center;
                     align-items: center;
                     border: 1px solid transparent;
+                    border-radius: 50%;
                     box-sizing: border-box;
+                    transition: all .15s ease-in-out;
 
                     &.active {
-                        color: red;
-                        border: 1px solid #aaa;
-                        border-radius: 50%;
+                        color: #FFF !important;
+                        border: 1px solid #fda085;
+                        background: #fda085;
+                        box-shadow: 1px 1px 20px #fda085;
+                        transition: all .15s ease-in-out;
+                    }
+                    >span {
+                        position: absolute;
+                        &:nth-child(1) {
+                            top: 1vh;
+                            left: 50%;
+                            width: 4px;
+                            height: 4px;
+                            margin-left: -2px;
+                            border-radius: 50%;
+                            box-sizing: border-box;
+                            background-color: #fda085; 
+                        }
+                        &:nth-child(2) {}
+                        &:nth-child(3) {}
+                        &:nth-child(4) {
+                            top: 50%;
+                            left: .5vw;
+                            font-size: 3vw;
+                            margin-top: -1.5vw;
+                        }
                     }
 
-                    &.clicked {
-                        color: blue;
-                        border: 1px solid #aaa;
-                        border-radius: 50%;
-                    }
                 }
             }
         }
 
         .react-calendar-footer {
             position: relative;
+            top: 0;
             z-index: 11;
 
             width: 100%;
             height: calc(100vh - 110vw);
             background: #FFF;
+            transition: top .35s ease-in-out, height .5s ease-in-out;
+            border-radius: 10px 10px 0 0;
 
+            .react-calendar-footer-swiper {
+                height: 3vh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border-bottom: 1px solid #EEE;
+
+                >span {
+                    height: 1px;
+                    width: 5vw;
+                    background: #999;
+                    margin: 2px 0;
+                }
+            }
+
+            .react-calendar-footer {}
+        }
+
+        &.week {
+            .react-calendar-footer {
+                height: calc(100vh - 35vw);
+                top: -75vw;
+                transition: top .35s ease-in-out;
+            }
+
+            .react-calendar-content {
+                transition: top .35s ease-in-out;
+            }
+        }
+
+        .calendar-event-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: transparent;
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+
+            &.show {
+                display: block;
+            }
         }
     }
 }
