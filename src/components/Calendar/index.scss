@@ -172,6 +172,7 @@
                     border-radius: 50%;
                     box-sizing: border-box;
                     transition: all .15s ease-in-out;
+                    overflow: hidden;
 
                     &.active {
                         color: #FFF !important;
@@ -179,9 +180,19 @@
                         background: #fda085;
                         box-shadow: 1px 1px 20px #fda085;
                         transition: all .15s ease-in-out;
+
+                        >span {
+                            &:nth-child(1) {
+                                display: none;
+                            }
+                        }
                     }
+
                     >span {
                         position: absolute;
+                        font-size: 3vw;
+                        color: #999;
+
                         &:nth-child(1) {
                             top: 1vh;
                             left: 50%;
@@ -190,14 +201,41 @@
                             margin-left: -2px;
                             border-radius: 50%;
                             box-sizing: border-box;
-                            background-color: #fda085; 
+                            background-color: transparent;
                         }
-                        &:nth-child(2) {}
-                        &:nth-child(3) {}
+
+                        &:nth-child(2) {
+                            top: 0;
+                            right: 0;
+                            height: 100%;
+                            width: 3vw;
+                            padding-top: .5vh;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            align-items: flex-end;
+                            transform-origin: 0 50%;
+                            transform: scale(.65);
+                            >span {
+                                border: 1px solid #CCC;
+                                border-radius: 4px;
+                                padding: 1px;
+                            }
+                        }
+
+                        &:nth-child(3) {
+                            bottom: .2vh;
+                            left: 0;
+                            width: 100%;
+                            text-align: center;
+                            transform-origin: 50% 0;
+                            transform: scale(0.65);
+
+                        }
+
                         &:nth-child(4) {
                             top: 50%;
                             left: .5vw;
-                            font-size: 3vw;
                             margin-top: -1.5vw;
                         }
                     }
@@ -210,14 +248,17 @@
             position: relative;
             top: 0;
             z-index: 11;
-
             width: 100%;
             height: calc(100vh - 110vw);
+            padding-top: 3vh;
             background: #FFF;
             transition: top .35s ease-in-out, height .5s ease-in-out;
             border-radius: 10px 10px 0 0;
 
             .react-calendar-footer-swiper {
+                position: absolute;
+                top: 0;
+                left: 0;
                 height: 3vh;
                 width: 100%;
                 display: flex;
@@ -234,7 +275,47 @@
                 }
             }
 
-            .react-calendar-footer {}
+            .react-calendar-footer-content {
+                width: 100%;
+                height: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+
+                .active-list-container {
+                    padding: 1vh 2vw;
+                    box-sizing: border-box;
+
+                    .active-list-item {
+                        box-shadow: 2px 2px 6px #CCC;
+                        border: 1px solid #EEE;
+                        border-radius: 4px;
+                        padding: .5vh 0;
+                        margin-bottom: 10px;
+
+                        >p {
+                            padding: 1vh 2vw;
+
+                            &.active-title {
+                                font-size: 4vw;
+                            }
+
+                            &.active-note {
+                                font-size: 3vw;
+                            }
+                        }
+
+                        .horizental-divider {
+                            height: 1px;
+                            width: 100%;
+                            background: #EEE;
+                        }
+                    }
+                }
+                .active-block {
+                    width: 100%;
+                    height: 10px;
+                }
+            }
         }
 
         &.week {
