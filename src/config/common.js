@@ -1,24 +1,18 @@
 module.exports = {
     "APP_NAME": "SYS_APP_WECHAT_WESHOP",
-    "VERSION": "Ver 0.1.0 Build 20190318",
+    "VERSION": "Ver 0.1.0 Build 20190621",
 
     "LOCAL_URL": {
         "ROOT"          : "/",
         "HOME_URL"      : "/app/weshop",
         "EXCEPTION"     : "/app/weshop/exception",
         "CONTENTS"      : "/app/weshop/contents",
-
         "MAIN_PAGE"     : "/app/weshop/mainpage",
         "HOME"          : "/app/weshop/mainpage/home",
-        "MAINDATA"      : "/app/weshop/mainpage/maindata",
-        "PRIVATE"       : "/app/weshop/mainpage/private",
-        "PRODUCTS"      : "/app/weshop/mainpage/private/products",
-        "SKUS"          : "/app/weshop/mainpage/private/skus",
-        "INVENTORIES"   : "/app/weshop/mainpage/private/inventories",
-        "ORDERS"        : "/app/weshop/mainpage/private/orders",
-        "ORDER_NEW"     : "/app/weshop/mainpage/private/ordernew",
-        "ORDER_DETAILS" : "/app/weshop/mainpage/private/orderdetails",
-        "MINE"          : "/app/weshop/mainpage/private/mine"
+
+        "ATTENTION": "/app/weshop/mainpage/attention",
+        "SERVICE": "/app/weshop/mainpage/service",
+        "MINE": "/app/weshop/mainpage/mine"
     },
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
@@ -52,3 +46,5 @@ module.exports = {
         KEY: '6d03400761065ced940e1a7ef444a7b8'
     }
 };
+
+
