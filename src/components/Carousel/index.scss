@@ -1,21 +1,30 @@
 .hdz-swiper {
     width: 100vw;
-    height: 56.25vw;
-    overflow: hidden
-}
+    height: auto;
+    overflow: hidden;
 
-.hdz-swiper .hdz-swiper-body {
-    width: 100%;
-    height: 100%
-}
+    .hdz-swiper-body {
+        width: 100%;
+        height: 100%;
 
-.hdz-swiper .hdz-swiper-body .hdz-swiper-link {
-    display: block;
-    width: 100vw;
-    height: 56.25vw
-}
+        .hdz-swiper-link {
+            position: relative;
+            display: block;
+            width: 100vw;
+            height: 41.3vw;
+            padding: 2.67vw;
+            box-sizing: border-box;
 
-.hdz-swiper .hdz-swiper-body .hdz-swiper-link .hdz-swiper-image {
-    width: 100%;
-    height: 100%
+            .hdz-swiper-image {
+                width: 100%;
+                height: 100%;
+                border-radius: 6px;
+                box-shadow: 1px 1px 6px #EEE;
+            }
+        }
+
+        .slider-decorator-0 {
+            bottom: 4vw !important;
+        }
+    }
 }

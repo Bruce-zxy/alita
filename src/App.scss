@@ -1,6 +1,59 @@
 @import './config/style.scss';
-@import url("http://at.alicdn.com/t/font_1251090_pmzs3gaftp8.css");
+@import url("http://at.alicdn.com/t/font_1251090_wp4wv0l9rtf.css");
+
+body {
+    font-family: 'Alibaba-PuHuiTi-Medium';
+}
 
 .am-tabs-tab-bar-wrap {
     box-shadow: -1px -1px 4px #EEE;
+}
+
+.hdz-block-space {
+    width: 100%;
+    height: 1.6vw;
+    background: transparent;
+}
+
+.hdz-navi-container {
+    .hdz-navi-list {
+        width: 100vw;
+        height: 28.3vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+
+        .hdz-navi-item {
+            width: 25vw;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &:first-child {
+                    width: 14.5vw;
+                    height: 14.5vw;
+                    border-radius: 50%;
+                    margin-bottom: 3vw;
+                    
+                    >i {
+                        font-size: 6.7vw;
+                        color: #FFF;
+                    }
+                }
+
+                &:last-child {
+                    width: 100%;
+                    color: #666;
+                }
+            }
+        }
+    }
 }

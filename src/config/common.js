@@ -8,11 +8,26 @@ module.exports = {
         "EXCEPTION"     : "/app/weshop/exception",
         "CONTENTS"      : "/app/weshop/contents",
         "MAIN_PAGE"     : "/app/weshop/mainpage",
+
         "HOME"          : "/app/weshop/mainpage/home",
+        "LATEST_ACTIVITY": "/app/weshop/mainpage/home/latest_activity",
+        "TRAINING_NOTICE": "/app/weshop/mainpage/home/training_notice",
+        "VOLUNTEER_APPLY": "/app/weshop/mainpage/home/volunteer_apply",
 
         "ATTENTION": "/app/weshop/mainpage/attention",
+
         "SERVICE": "/app/weshop/mainpage/service",
-        "MINE": "/app/weshop/mainpage/mine"
+        "SERVICE_DETAILS": "/app/weshop/mainpage/service/service_details",
+        "SERVICE_SUBMIT": "/app/weshop/mainpage/service/service_submit",
+
+        "MINE": "/app/weshop/mainpage/mine",
+        "SETTING": "/app/weshop/mainpage/mine/setting",
+        "NICKNAME": "/app/weshop/mainpage/mine/setting/nickname",
+        "SEX": "/app/weshop/mainpage/mine/setting/sex",
+        "PHONE": "/app/weshop/mainpage/mine/setting/phone",
+        "SCORES": "/app/weshop/mainpage/mine/scores",
+        "ORDER": "/app/weshop/mainpage/mine/order",
+        "SUGGESTION": "/app/weshop/mainpage/mine/suggestion",
     },
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",

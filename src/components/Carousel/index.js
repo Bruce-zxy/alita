@@ -12,7 +12,11 @@ export default (props) => {
                 infinite
                 {...props}
             >
-                {props.children}
+                {props.list.map(item => (
+                    <a className="hdz-swiper-link" href={item.link} key={item.name}>
+                        <img className="hdz-swiper-image" src={item.image} alt={item.name} />
+                    </a>
+                ))}
             </Carousel>
         </div>
     );
