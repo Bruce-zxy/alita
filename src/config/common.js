@@ -10,8 +10,9 @@ module.exports = {
         "MAIN_PAGE"     : "/app/weshop/mainpage",
 
         "HOME"          : "/app/weshop/mainpage/home",
-        "LATEST_ACTIVITY": "/app/weshop/mainpage/home/latest_activity",
-        "TRAINING_NOTICE": "/app/weshop/mainpage/home/training_notice",
+        "LIST"          : "/app/weshop/mainpage/home/list",
+        "LATEST_ACTIVITY": "/app/weshop/mainpage/home/list/latest_activity",
+        "TRAINING_NOTICE": "/app/weshop/mainpage/home/list/training_notice",
         "VOLUNTEER_APPLY": "/app/weshop/mainpage/home/volunteer_apply",
 
         "ATTENTION": "/app/weshop/mainpage/attention",

@@ -5,6 +5,8 @@ import { TabBar } from 'antd-mobile';
 // import ShopContext from '../context/shop';
 
 import HomePage from './home';
+import ActivityList from './list';
+import ApplicationPage from './application';
 import MinePage from './mine';
 import AttentionPage from './attention';
 import ServicePage from './service';
@@ -41,10 +43,29 @@ const MainPageRoutes = (props) => {
   // const { match: { url }} = props;
   return (
     <Fragment>
-      <Route component={HomePage} path={`${gPageUrl['HOME']}`} />
-      <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} />
-      <Route component={ServicePage} path={`${gPageUrl['SERVICE']}`} />
-      <Route component={MinePage} path={`${gPageUrl['MINE']}`} />
+      <Fragment>
+        <Route component={HomePage} path={`${gPageUrl['HOME']}`} exact />
+        <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact/>
+        <Route component={ActivityList} path={`${gPageUrl['LIST']}/:news_type`} exact/>
+      </Fragment>
+      <Fragment>
+        <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
+      </Fragment>
+      <Fragment>
+        <Route component={ServicePage} path={`${gPageUrl['SERVICE']}`} exact />
+        <Route component={ServicePage} path={`${gPageUrl['SERVICE_DETAILS']}`} />
+        <Route component={ServicePage} path={`${gPageUrl['SERVICE_SUBMIT']}`} />
+      </Fragment>
+      <Fragment>
+        <Route component={MinePage} path={`${gPageUrl['MINE']}`} exact />
+        <Route component={MinePage} path={`${gPageUrl['SETTING']}`} />
+        <Route component={MinePage} path={`${gPageUrl['NICKNAME']}`} />
+        <Route component={MinePage} path={`${gPageUrl['SEX']}`} />
+        <Route component={MinePage} path={`${gPageUrl['PHONE']}`} />
+        <Route component={MinePage} path={`${gPageUrl['SCORES']}`} />
+        <Route component={MinePage} path={`${gPageUrl['ORDER']}`} />
+        <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} />
+      </Fragment>
     </Fragment>
   )
 }
