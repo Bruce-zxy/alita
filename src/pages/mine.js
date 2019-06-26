@@ -1,121 +1,113 @@
-import React, {Fragment, useContext, useEffect} from 'react';
-// import { Route } from 'react-router-dom';
-import { Toast, Button, List, Grid } from 'antd-mobile';
-import { withFormik, Field } from 'formik';
-import * as Yup from 'yup';
-
-import _ from 'lodash';
-
-import InputField from '../components/InputField';
-import LogoutButton from '../components/LogoutButton';
+import React, { Fragment, Component} from 'react';
 
 import ShopContext from '../context/shop';
-// import { shopReducer, ACTION_SET } from '../context/shop.reducer';
 
 import config from '../lib/config';
 
-const gPageUrl = config.LOCAL_URL;
-const GRID_COL_NUM_MAX = 4;
-const gGridItems = [
-    { page: 'ORDERS',    text: '我的订单', icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png' },
-    { page: 'FAVORITES', text: '我的收藏', icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png' },
-    { page: 'ACCOUNTS',  text: '我的账户', icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png' },
-    { page: 'COUPONS',   text: '我的卡券', icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png' },
-];
-const gListItems = [
-    { style: {'text-align': 'right'}, component: InputField, name: 'realName'      , placeholder: "真实姓名" , label: '姓名'    },
-    { style: {'text-align': 'right'}, component: InputField, name: 'phoneNumber'   , placeholder: "手机号码" , label: '电话'    },
-    { style: {'text-align': 'right'}, component: InputField, name: 'invoiceTitle'  , placeholder: "发票抬头" , label: '发票抬头' },
-    { style: {'text-align': 'right'}, component: InputField, name: 'invoiceTaxNO'  , placeholder: "发票税号" , label: '发票税号' },
-]
+const { LOCAL_URL } = config;
 
-const MinePage = (props) => {
-    
-    /**
-        State & Context & Props
-    */
-    // const { match: { url }} = props;
-    const { values, errors, touched, isSubmitting, setSubmitting, setFieldValue } = props;  // from Formik
-
-    const shopContext = useContext(ShopContext);
-
-    /**
-        Helper functions
-    */
-    const gotoPage = (target, id) => {
-        // console.log({id, target, url: gPageUrl[target.page]});
-        props.history.push(gPageUrl[target.page]);
-    }
-
-    const updateProfile = async () => {
-        setSubmitting(true);
-    
-        try {
-            const result = await shopContext.updateCurrentUserInfo({
-                real_name: values.realName,
-                phonenumber: values.phoneNumber
-            });
-            // console.log({result});
-
-            if (!result) throw new Error('更新失败！')
-        } 
-        catch (err) {
-            Toast.fail(err.message);
-        } 
-        finally {
-            setSubmitting(false);
-        }
-
-    }
-
-    /**
-        Lifecycle
-    */
-
-    useEffect(() => {
-        console.log('MinePage::useEffect: ', {shopContext});
-        if (!shopContext.user || !shopContext.user.credential || !shopContext.user.credential.user) return;
-        setFieldValue('realName',   shopContext.user.credential.user.real_name);
-        setFieldValue('phoneNumber',shopContext.user.credential.user.phonenumber);
-    }, [shopContext.user]);
-
-    /**
-        render
-    */
-    const gridtotalnumber = gGridItems.length;
-    return (
-        <Fragment>
-            <h3>个人中心</h3>
-            <Grid hasLine={false} columnNum={gridtotalnumber > GRID_COL_NUM_MAX ? GRID_COL_NUM_MAX : gridtotalnumber} data={gGridItems} onClick={gotoPage} />
-        
-            <List renderHeader={() => '个人信息'}> 
-            { gListItems.map((item) => (
-                <List.Item className="mine-li" arrow="horizontal" key={item.name} >
-                    <Field {...item}  ></Field>
-                </List.Item>
-            ))}
-            </List>
-
-            <Button disabled={(_.isEmpty(touched)) || (!_.isEmpty(errors)) || isSubmitting} onClick={updateProfile} type='primary'>更新个人信息</Button>
-            <LogoutButton type='warning' />
-            <Button type='ghost' onClick={() => props.history.push(gPageUrl['ROOT'])}>Root Page</Button>
-
-        </Fragment>
-    )
+const user = {
+    name: '她在岛屿写日记',
+    avatar: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR',
+    scores: '152'
 }
 
-export default withFormik({
-    mapPropsToValues({ realName, phoneNumber, invoiceTitle, invoiceTaxNO }) {
-        // console.log('###### mapPropsToValues');
-        return {
-            realName        : realName      || '',
-            phoneNumber     : phoneNumber   || '',
-            invoiceTitle    : invoiceTitle  || '',
-            invoiceTaxNO    : invoiceTaxNO  || '',
+export default class extends Component {
+
+    toRenderUserPanel = (user) => {
+        if (!user) {
+            return (
+                <Fragment>
+                    <img src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561547251987&di=e63f4f0adfe4ffffa7ed7fa8c0fc9580&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa12f24e688c1cda3ff4cc453f3486a88adaf08cc2cdb-tQvJqX_fw658' alt='placeholder+image' />
+                    <p className="user-name">你好，年轻人</p>
+                    <a className="apply-to-volunteer" href={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</a>
+                </Fragment>
+            )
+        } else {
+            return (
+                <Fragment>
+                    <img src={user.avatar} alt='placeholder+image' />
+                    <p className="user-name">{user.name}<i className="iconfont iconaixin"></i></p>
+                    <div className="user-scores">
+                        <p>{user.scores}</p>
+                        <p>我的积分</p>
+                    </div>
+                </Fragment>
+            )
         }
-    },
-    validationSchema: Yup.object().shape({
-        realName    : Yup.string().required('请告知我们该如何称呼您'),
-        phoneNumber : Yup.string().matches(/^1[34578]\d{9}$/, '请输入正确的手机号码以便必要的时候我们和您取得联系')
-    }),
-})(MinePage);
+    }
+
+    toRenderUserFunction = (user) => {
+        if (!user) {
+            return (
+                <div className="my-order">
+                    <p className="order-type-title">
+                        <span>我的订单</span>
+                        <a>查看全部</a>
+                    </p>
+                    <div className="order-type-list">
+                        <div className="order-type-item">
+                            <i className="iconfont iconjilu"></i>
+                            <p>待派单</p>
+                        </div>
+                        <div className="order-type-item">
+                            <i className="iconfont iconjilu"></i>
+                            <p>待接单</p>
+                        </div>
+                        <div className="order-type-item">
+                            <i className="iconfont iconjilu"></i>
+                            <p>待确认</p>
+                        </div>
+                        <div className="order-type-item">
+                            <i className="iconfont iconjilu"></i>
+                            <p>待结单</p>
+                        </div>
+                        <div className="order-type-item">
+                            <i className="iconfont iconjilu"></i>
+                            <p>已结单</p>
+                        </div>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <Fragment>
+                    <a href={LOCAL_URL['ORDER_WANTDO']}>
+                        <i className="iconfont iconxiadan"></i>
+                        <span>我的需求单</span>
+                        <i className="iconfont iconjiantouyou"></i>
+                    </a>
+                    <a href={LOCAL_URL['ORDER_TODO']}>
+                        <i className="iconfont iconwodedingdan"></i>
+                        <span>我的任务单</span>
+                        <i className="iconfont iconjiantouyou"></i>
+                    </a>
+                    <a href={LOCAL_URL['SUGGESTION']}>
+                        <i className="iconfont icontousuyujianyi"></i>
+                        <span>志愿者建议</span>
+                        <i className="iconfont iconjiantouyou"></i>
+                    </a>
+                </Fragment>
+            )
+        }
+    }
+
+    render() {
+        return (
+            <div className="hdz-mine">
+                <div className="user-info-container">
+                    <div className="user-info">
+                        <div className="user-info-panel">
+                            {this.toRenderUserPanel(user)}
+                        </div>
+                    </div>
+                    <a className="user-setting" href={LOCAL_URL['SETTING']}><i className="iconfont iconshezhicopy"></i></a> 
+                </div>
+                <div className="hdz-block-space"></div>
+                <div className="user-function">
+                    {this.toRenderUserFunction(user)}
+                </div>
+            </div>
+        )
+    }
+}

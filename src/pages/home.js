@@ -10,19 +10,19 @@ import config from '../lib/config';
 const gPageUrl = config.LOCAL_URL;
 
 const carousel_list = [{
-  name: '1',
+  id: '1',
   link: 'javascript:;',
   image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=1'
 }, {
-  name: '1',
+  id: '1',
   link: 'javascript:;',
   image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=2'
 }, {
-  name: '1',
+  id: '1',
   link: 'javascript:;',
   image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=3'
 }, {
-  name: '1',
+  id: '1',
   link: 'javascript:;',
   image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=4'
 }]

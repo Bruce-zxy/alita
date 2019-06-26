@@ -21,6 +21,17 @@
                 border-radius: 6px;
                 box-shadow: 1px 1px 6px #EEE;
             }
+
+            p {
+                position: absolute;
+                bottom: 2.67vw;
+                left: 2.67vw;
+                width: calc(100% - 2.67vw - 2.67vw);
+                color: #FFF;
+                padding: 2vw;
+                background: rgba(153, 153, 153, .6);
+                border-radius: 0 0 4px 4px;
+            }
         }
 
         .slider-decorator-0 {

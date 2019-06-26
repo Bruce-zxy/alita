@@ -29,6 +29,8 @@ module.exports = {
         "PHONE": "/app/weshop/mainpage/mine/setting/phone",
         "SCORES": "/app/weshop/mainpage/mine/scores",
         "ORDER": "/app/weshop/mainpage/mine/order",
+        "ORDER_TODO": "/app/weshop/mainpage/mine/order/todo",
+        "ORDER_WANTDO": "/app/weshop/mainpage/mine/order/wantdo",
         "SUGGESTION": "/app/weshop/mainpage/mine/suggestion",
     },
 
