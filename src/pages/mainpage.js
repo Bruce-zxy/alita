@@ -6,6 +6,7 @@ import { TabBar } from 'antd-mobile';
 
 import HomePage from './home';
 import ActivityList from './list';
+import ActivityDetail from './detail';
 import ApplicationPage from './application';
 import MinePage from './mine';
 import AttentionPage from './attention';
@@ -45,8 +46,9 @@ const MainPageRoutes = (props) => {
     <Fragment>
       <Fragment>
         <Route component={HomePage} path={`${gPageUrl['HOME']}`} exact />
+        <Route component={ActivityList} path={`${gPageUrl['HOME_LIST']}/:news_type`} exact/>
+        <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact/>
         <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact/>
-        <Route component={ActivityList} path={`${gPageUrl['LIST']}/:news_type`} exact/>
       </Fragment>
       <Fragment>
         <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
