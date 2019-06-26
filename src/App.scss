@@ -725,6 +725,7 @@ p {
             right: 2.67vw;
             top: 2.67vw;
             z-index: 17;
+
             i {
                 font-size: 6.4vw;
                 color: #FFF;
@@ -825,6 +826,46 @@ p {
                     }
                 }
             }
+        }
+    }
+}
+
+.hdz-setting {
+    padding: 2.67vw;
+    box-sizing: border-box;
+
+    >a {
+        width: 100%;
+        height: 11.73vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+        background: #FFF;
+        border-radius: 4px;
+        padding: 0 2.67vw;
+        margin: 1px 0;
+        color: #555;
+        font-size: 3.73vw;
+
+        >p {
+            flex-grow: 1;
+            text-align: right;
+            padding: 0 2vw;
+
+            >img {
+                width: 13.33vw;
+                height: 13.33vw;
+                border-radius: 50%;
+            }
+        }
+
+        &.user-avatar {
+            height: 18.13vw;
+        }
+
+        &.user-title {
+            background: transparent;
         }
     }
 }

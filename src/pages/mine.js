@@ -9,7 +9,9 @@ const { LOCAL_URL } = config;
 const user = {
     name: '她在岛屿写日记',
     avatar: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR',
-    scores: '152'
+    scores: '152',
+    sex: '女',
+    phone: '18679183994'
 }
 
 export default class extends Component {
