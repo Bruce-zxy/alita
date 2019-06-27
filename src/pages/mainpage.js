@@ -72,7 +72,7 @@ const MainPageRoutes = {
       <Route component={SettingPage} path={`${gPageUrl['SETTING']}/:type`} exact />
       <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} exact />
       <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type`} exact/>
-      <Route component={MinePage} path={`${gPageUrl['ORDER']}/:type/:id`} exact/>
+      <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type/:id`} exact/>
       <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} exact/>
     </Fragment>
   )

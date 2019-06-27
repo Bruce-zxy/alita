@@ -1351,6 +1351,7 @@ input {
     }
 }
 
+// 订单页
 .hdz-mine-order {
     .mine-order-list {
         width: 100vw;
@@ -1368,7 +1369,7 @@ input {
             border-radius: 4px;
 
 
-            .order-title {
+            .order-date {
                 height: 3.5vw;
                 line-height: 3.5vw;
                 overflow: hidden;
@@ -1396,64 +1397,62 @@ input {
                     flex-grow: 1;
                     padding: 0 1.33vw;
 
-                    p {
-                        &:nth-child(1) {
-                            font-size: 3.73vw;
-                            font-weight: bold;
-                            color: #333;
-                            line-height: 1.35;
-                        }
+                    .order-title {
+                        font-size: 3.73vw;
+                        font-weight: bold;
+                        color: #333;
+                        line-height: 1.35;
+                    }
 
-                        &:nth-child(2) {
-                            width: 133%;
+                    .order-tags {
+                        width: 133%;
+                        display: flex;
+                        justify-content: flex-start;
+                        flex-wrap: wrap;
+                        align-items: flex-start;
+                        transform-origin: 0% 0%;
+                        transform: scale(.75);
+                        margin-top: 1vw;
+
+                        span {
+                            height: 100%;
                             display: flex;
-                            justify-content: flex-start;
-                            flex-wrap: wrap;
-                            align-items: flex-start;
-                            transform-origin: 0% 0%;
-                            transform: scale(.75);
-                            margin-top: 1vw;
-
-                            span {
-                                height: 100%;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                font-size: 3.2vw;
-                                color: #5593F8;
-                                background: #E8EDF5;
-                                border-radius: 4px;
-                                padding: 1vw 2vw;
-                                margin: 0 1vw 1vw 0;
-                            }
+                            justify-content: center;
+                            align-items: center;
+                            font-size: 3.2vw;
+                            color: #5593F8;
+                            background: #E8EDF5;
+                            border-radius: 4px;
+                            padding: 1vw 2vw;
+                            margin: 0 1vw 1vw 0;
                         }
+                    }
 
-                        &:nth-child(3) {
-                            height: 5.33vw;
-                            overflow: hidden;
+                    .order-functions {
+                        height: 5.33vw;
+                        overflow: hidden;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-content: flex-start;
+                        transform-origin: 100% 0%;
+                        transform: scale(.9);
+
+                        span {
                             display: flex;
-                            justify-content: flex-end;
-                            align-content: flex-start;
-                            transform-origin: 100% 0%;
-                            transform: scale(.9);
+                            justify-content: center;
+                            align-items: center;
+                            padding: .08vw 3.4vw;
+                            background: #FFF;
+                            border: 1px solid #DCDCDC;
+                            border-radius: 2.67vw;
+                            font-size: 3.2vw;
+                            color: #999;
+                            margin-left: 1vw;
 
-                            span {
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                padding: .08vw 3.4vw;
-                                background: #FFF;
-                                border: 1px solid #DCDCDC;
-                                border-radius: 2.67vw;
-                                font-size: 3.2vw;
-                                color: #999;
-                                margin-left: 1vw;
-
-                                &.confirm {
-                                    color: #FFF;
-                                    border: 1px solid transparent;
-                                    background-image: linear-gradient(133deg, #FFAF31 0%, #FFDA40 100%);
-                                }
+                            &.confirm {
+                                color: #FFF;
+                                border: 1px solid transparent;
+                                background-image: linear-gradient(133deg, #FFAF31 0%, #FFDA40 100%);
                             }
                         }
                     }
@@ -1508,5 +1507,105 @@ input {
             }
         }
 
+    }
+}
+
+// 订单详情页
+.hdz-mine-order-details {
+    .order-details-state {
+        width: 100vw;
+        height: 16vw;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 5.33vw;
+        color: #FFF;
+        background-image: linear-gradient(133deg, #FF6F70 0%, #FF916D 100%);
+        margin-bottom: -2.67vw;
+
+        p {
+            width: 100%;
+            height: 8vw;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 4.8vw;
+
+            i {
+                margin-left: 2vw;
+            }
+        }
+    }
+
+    .order-details-header {
+        width: 100vw;
+        padding: 4vw 5.33vw;
+        background: #FFF;
+        border-radius: 6px 6px 0 0;
+
+        .order-title {
+            width: 100%;
+            font-size: 4.27vw;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .order-tags {
+            width: 133%;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            transform-origin: 0% 0%;
+            transform: scale(.75);
+            margin: 2vw 0 1vw;
+
+            span {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 3.2vw;
+                color: #FF6F70;
+                background: #FFEFEF;
+                border-radius: 4px;
+                padding: 1vw 2vw;
+                margin: 0 1vw 1vw 0;
+            }
+        }
+
+        .order-images {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+
+            img {
+                width: 32%;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .order-details-intro,
+    .order-details-notice {
+        width: 100vw;
+        padding: 1vw 5.33vw 4vw;
+        background: #FFF;
+
+        >p {
+            height: 8vw;
+            line-height: 8vw;
+            font-size: 3.2vw;
+            font-weight: bold;
+            color: #333333;
+            border-bottom: 1px solid #EEE;
+        }
+
+        >div {
+            padding: 2.13vw 0;
+            font-size: 3.2vw;
+            color: #555;
+        }
     }
 }
