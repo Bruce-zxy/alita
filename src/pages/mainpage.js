@@ -5,15 +5,16 @@ import { TabBar } from 'antd-mobile';
 // import ShopContext from '../context/shop';
 
 import HomePage from './home';
-import ActivityList from './list';
-import ActivityDetail from './detail';
-import ApplicationPage from './application';
+import ActivityList from './home_list';
+import ActivityDetail from './home_detail';
+import ApplicationPage from './home_application';
 import AttentionPage from './attention';
 import ServicePage from './service';
 import ServiceSubmitPage from './service_submit';
 import MinePage from './mine';
-import ScoresPage from './scores';
-import SettingPage from './setting';
+import ScoresPage from './mine_scores';
+import SettingPage from './mine_setting';
+import OrderPage from './mine_order';
 
 import config from '../lib/config';
 
@@ -70,8 +71,9 @@ const MainPageRoutes = {
       <Route component={SettingPage} path={`${gPageUrl['SETTING']}`} exact />
       <Route component={SettingPage} path={`${gPageUrl['SETTING']}/:type`} exact />
       <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} exact />
-      <Route component={MinePage} path={`${gPageUrl['ORDER']}`} />
-      <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} />
+      <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type`} exact/>
+      <Route component={MinePage} path={`${gPageUrl['ORDER']}/:type/:id`} exact/>
+      <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} exact/>
     </Fragment>
   )
 };

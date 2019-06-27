@@ -1321,7 +1321,7 @@ input {
             top: -5.34vw;
             left: calc(50% - 53.33vw/2);
             z-index: 1;
-            display: flex;          
+            display: flex;
             justify-content: center;
             align-items: center;
             width: 53.33vw;
@@ -1345,7 +1345,168 @@ input {
     box-shadow: -1px -1px 6px #CCC;
     background: #FFF;
     transition: all .25s ease-in-out;
+
     &.show {
         bottom: 50px;
+    }
+}
+
+.hdz-mine-order {
+    .mine-order-list {
+        width: 100vw;
+        min-height: calc(100vh - 100px);
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 2.67vw;
+
+        .mine-order-item {
+            position: relative;
+            width: 100%;
+            height: 26.67vw;
+            padding: 2.67vw;
+            background: #FFF;
+            border-radius: 4px;
+
+
+            .order-title {
+                height: 3.5vw;
+                line-height: 3.5vw;
+                overflow: hidden;
+                font-size: 3.2vw;
+                color: #999;
+                transform-origin: 0% 50%;
+                transform: scale(.85);
+                margin-bottom: 1.5vw;
+            }
+
+            .order-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+
+                .order-image {
+                    img {
+                        width: 24vw;
+                        height: 14.96vw;
+                        border-radius: 4px;
+                    }
+                }
+
+                .order-content {
+                    flex-grow: 1;
+                    padding: 0 1.33vw;
+
+                    p {
+                        &:nth-child(1) {
+                            font-size: 3.73vw;
+                            font-weight: bold;
+                            color: #333;
+                            line-height: 1.35;
+                        }
+
+                        &:nth-child(2) {
+                            width: 133%;
+                            display: flex;
+                            justify-content: flex-start;
+                            flex-wrap: wrap;
+                            align-items: flex-start;
+                            transform-origin: 0% 0%;
+                            transform: scale(.75);
+                            margin-top: 1vw;
+
+                            span {
+                                height: 100%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                font-size: 3.2vw;
+                                color: #5593F8;
+                                background: #E8EDF5;
+                                border-radius: 4px;
+                                padding: 1vw 2vw;
+                                margin: 0 1vw 1vw 0;
+                            }
+                        }
+
+                        &:nth-child(3) {
+                            height: 5.33vw;
+                            overflow: hidden;
+                            display: flex;
+                            justify-content: flex-end;
+                            align-content: flex-start;
+                            transform-origin: 100% 0%;
+                            transform: scale(.9);
+
+                            span {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                padding: .08vw 3.4vw;
+                                background: #FFF;
+                                border: 1px solid #DCDCDC;
+                                border-radius: 2.67vw;
+                                font-size: 3.2vw;
+                                color: #999;
+                                margin-left: 1vw;
+
+                                &.confirm {
+                                    color: #FFF;
+                                    border: 1px solid transparent;
+                                    background-image: linear-gradient(133deg, #FFAF31 0%, #FFDA40 100%);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .order-state {
+                position: absolute;
+                top: 0;
+                right: 2.67vw;
+                padding: 1.07vw 3.47vw;
+                font-size: 3.2vw;
+                color: #FFF;
+                background: #888;
+                border-radius: 0 0 6px 6px
+            }
+
+            &.PENNDING {
+                .order-state {
+                    background-image: linear-gradient(133deg, #FF6F70 0%, #FF916D 100%);
+                }
+            }
+
+            &.WAITING {
+                .order-state {
+                    background-image: linear-gradient(133deg, #FFAF31 0%, #FFDA40 100%);
+                }
+            }
+
+            &.TO_BE_CONFIRMED {
+                .order-state {
+                    background-image: linear-gradient(133deg, #FFAF31 0%, #FFDA40 100%);
+                }
+            }
+
+            &.TO_BE_CLOSED {
+                .order-state {
+                    background-image: linear-gradient(133deg, #FF6F70 0%, #FF916D 100%);
+                }
+            }
+
+            &.CLOSED {
+                .order-state {
+                    background-image: linear-gradient(133deg, #5593F8 0%, #6DC6FF 100%);
+                }
+            }
+
+            &.CANCEL {
+                .order-state {
+                    background-image: linear-gradient(133deg, #D9D9D9 0%, #D9D9D9 100%);
+                }
+            }
+        }
+
     }
 }
