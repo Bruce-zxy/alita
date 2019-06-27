@@ -15,6 +15,7 @@ import MinePage from './mine';
 import ScoresPage from './mine_scores';
 import SettingPage from './mine_setting';
 import OrderPage from './mine_order';
+import SuggestionPage from './suggestion';
 
 import config from '../lib/config';
 
@@ -73,7 +74,7 @@ const MainPageRoutes = {
       <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} exact />
       <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type`} exact/>
       <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type/:id`} exact/>
-      <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} exact/>
+      <Route component={SuggestionPage} path={`${gPageUrl['SUGGESTION']}`} exact/>
     </Fragment>
   )
 };
