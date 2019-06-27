@@ -10,6 +10,7 @@ import ActivityDetail from './detail';
 import ApplicationPage from './application';
 import AttentionPage from './attention';
 import ServicePage from './service';
+import ServiceSubmitPage from './service_submit';
 import MinePage from './mine';
 import ScoresPage from './scores';
 import SettingPage from './setting';
@@ -42,40 +43,38 @@ const gTabBar = {
   }
 }
 
-const MainPageRoutes = (props) => {
-  // const { match: { url }} = props;
-  return (
+const MainPageRoutes = {
+  '实践通': (
     <Fragment>
-      <Fragment>
-        <Route component={HomePage} path={`${gPageUrl['HOME']}`} exact />
-        <Route component={ActivityList} path={`${gPageUrl['HOME_LIST']}/:news_type`} exact/>
-        <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact/>
-        <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact/>
-      </Fragment>
-      <Fragment>
-        <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
-      </Fragment>
-      <Fragment>
-        <Route component={ServicePage} path={`${gPageUrl['SERVICE']}`} exact />
-        <Route component={ServicePage} path={`${gPageUrl['SERVICE_DETAILS']}`} />
-        <Route component={ServicePage} path={`${gPageUrl['SERVICE_SUBMIT']}`} />
-      </Fragment>
-      <Fragment>
-        <Route component={MinePage} path={`${gPageUrl['MINE']}`} exact />
-        <Route component={SettingPage} path={`${gPageUrl['SETTING']}`} exact />
-        <Route component={SettingPage} path={`${gPageUrl['SETTING']}/:type`} />
-{/*         <Route component={MinePage} path={`${gPageUrl['NICKNAME']}`} />
-        <Route component={MinePage} path={`${gPageUrl['SEX']}`} />
-        <Route component={MinePage} path={`${gPageUrl['PHONE']}`} /> */}
-        <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} />
-        <Route component={MinePage} path={`${gPageUrl['ORDER']}`} />
-        <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} />
-      </Fragment>
+      <Route component={HomePage} path={`${gPageUrl['HOME']}`} exact />
+      <Route component={ActivityList} path={`${gPageUrl['HOME_LIST']}/:news_type`} exact/>
+      <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact/>
+      <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact/>
+    </Fragment>
+  ),
+  '关注': (
+    <Fragment>
+      <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
+    </Fragment>
+  ),
+  '服务': (
+    <Fragment>
+      <Route component={ServicePage} path={`${gPageUrl['SERVICE']}`} exact />
+      <Route component={ServicePage} path={`${gPageUrl['SERVICE']}/:id`} exact />
+      <Route component={ServiceSubmitPage} path={`${gPageUrl['SERVICE_SUBMIT']}/:id`} exact />
+    </Fragment>
+  ),
+  '我的': (
+    <Fragment>
+      <Route component={MinePage} path={`${gPageUrl['MINE']}`} exact />
+      <Route component={SettingPage} path={`${gPageUrl['SETTING']}`} exact />
+      <Route component={SettingPage} path={`${gPageUrl['SETTING']}/:type`} exact />
+      <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} exact />
+      <Route component={MinePage} path={`${gPageUrl['ORDER']}`} />
+      <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} />
     </Fragment>
   )
-}
-
-window.count = 0;
+};
 
 export default (props) => {
   
@@ -95,17 +94,17 @@ export default (props) => {
   }
 
   return (
-    <div style={{ position: 'fixed', height: '100vh', width: '100vw', top: 0 }}>
+    <div style={{ position: 'fixed', height: '100vh', width: '100vw', top: 0, zIndex: 1 }}>
       <TabBar className="hdz-tabbar" unselectedTintColor={COLOR_UNSELECTED} tintColor={COLOR_SELECTED} barTintColor="white" hidden={false}  >
-        { Object.keys(gTabBar).map(key => (
+        { Object.keys(gTabBar).map((key, i) => (
           <TabBar.Item title={key} key={key}
             icon={gTabBar[key].icon}
             selectedIcon={gTabBar[key].selected}
             selected={tabKey === (key)}
             onPress={gotoPage(key) }
           >
-            <div style={{ position: 'fixed', height: 'calc(100% - 50px)', width: '100%', top: 0, overflow: 'auto' }}>
-              <MainPageRoutes {...props} />
+            <div style={{ position: 'fixed', height: 'calc(100% - 50px)', width: '100%', top: 0, overflow: 'auto', zIndex: 1 }}>
+              {MainPageRoutes[key]}
             </div>
           </TabBar.Item>
         )) }

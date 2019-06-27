@@ -1,12 +1,21 @@
 @import './config/style.scss';
-@import url("http://at.alicdn.com/t/font_1251090_r6kv2gaihs.css");
+@import url("http://at.alicdn.com/t/font_1251090_864ngf0j15.css");
 
 body {
     font-family: 'PingFang-Medium', '微软雅黑';
 }
 
+* {
+    box-sizing: border-box;
+}
+
 p {
     margin: 0;
+}
+
+input {
+    border: 0;
+    outline: 0;
 }
 
 .am-tabs-tab-bar-wrap {
@@ -1066,5 +1075,277 @@ p {
                 }
             }
         }
+    }
+}
+
+// 服务页
+.hdz-service {
+    .service-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #FFF;
+
+        .search-icon {
+            i {
+                font-size: 5.33vw;
+                padding: 1vw 2vw;
+            }
+        }
+
+        .search-input-container {
+            position: relative;
+            flex-grow: 1;
+            padding: 1.6vw;
+
+            i {
+                position: absolute;
+                top: 50%;
+                left: 4.5vw;
+                margin-top: -2.5vw;
+                font-size: 5vw;
+                color: #999;
+            }
+
+            input {
+                width: 100%;
+                height: 10.67vw;
+                padding: 0 5vw 0 10vw;
+                border-radius: 5.33vw;
+                background: #F7F7F7;
+            }
+        }
+    }
+
+    .service-function {
+        width: 100vw;
+        height: 9.33vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #FFF;
+
+        >div {
+            flex-grow: 1;
+            align-self: stretch;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            >i {
+                font-size: 3.2vw;
+                color: #999;
+                margin-left: 2vw;
+            }
+
+            &.service-sort {}
+
+            &.service-type {}
+
+            &.service-filter {}
+        }
+    }
+
+    .service-list {
+        padding: 2.67vw;
+
+        .service-item {
+            width: 100%;
+            height: 24vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 2.13vw 2.67vw;
+            background: #FFF;
+            border-radius: 4px;
+
+            .service-item-left {
+                width: 24vw;
+                margin-right: 2.67vw;
+
+                img {
+                    width: 24vw;
+                    height: 14.93vw;
+                    border-radius: 4px;
+                }
+            }
+
+            .service-item-right {
+                flex-grow: 1;
+                align-self: stretch;
+                overflow: hidden;
+
+                p {
+                    width: 100%;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+
+                    &.service-title {
+                        height: 5vw;
+                        font-size: 3.73vw;
+                        font-weight: bold;
+                        color: #333;
+                        -webkit-line-clamp: 1;
+                    }
+
+                    &.service-description {
+                        height: 8vw;
+                        line-height: 4vw;
+                        font-size: 3.2vw;
+                        color: #999;
+                        -webkit-line-clamp: 2;
+                        margin: 1vw 0;
+                    }
+
+                    &.service-tags {
+                        width: 133%;
+                        display: flex;
+                        justify-content: flex-start;
+                        flex-wrap: wrap;
+                        align-items: flex-start;
+                        transform-origin: 0% 0%;
+                        transform: scale(.75);
+
+                        span {
+                            height: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            font-size: 3.2vw;
+                            color: #5593F8;
+                            background: #E8EDF5;
+                            border-radius: 4px;
+                            padding: 1vw 2vw;
+                            margin: 0 1vw 1vw 0;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+// 服务详情页  
+.hdz-service-details {
+    .service-details-header {
+        width: 100vw;
+        padding: 4vw 5.33vw;
+        background: #FFF;
+
+        .service-title {
+            width: 100%;
+            font-size: 4.27vw;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .service-tags {
+            width: 133%;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            transform-origin: 0% 0%;
+            transform: scale(.75);
+            margin: 2vw 0 1vw;
+
+            span {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 3.2vw;
+                color: #5593F8;
+                background: #E8EDF5;
+                border-radius: 4px;
+                padding: 1vw 2vw;
+                margin: 0 1vw 1vw 0;
+            }
+        }
+
+        .service-images {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+
+            img {
+                width: 32%;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .service-details-intro,
+    .service-details-notice {
+        width: 100vw;
+        padding: 1vw 5.33vw 4vw;
+        background: #FFF;
+
+        >p {
+            height: 8vw;
+            line-height: 8vw;
+            font-size: 3.2vw;
+            font-weight: bold;
+            color: #333333;
+            border-bottom: 1px solid #EEE;
+        }
+
+        >div {
+            padding: 2.13vw 0;
+            font-size: 3.2vw;
+            color: #555;
+        }
+    }
+
+    .service-details-button {
+        position: fixed;
+        left: 0;
+        bottom: 50px;
+        width: 100vw;
+        height: 10.67vw;
+        background: #FFF;
+        box-shadow: -1px -1px 6px #EEE;
+        z-index: 1;
+        transition: all .25s ease-in-out;
+
+        &.noshow {
+            bottom: -10vw;
+        }
+
+        >a {
+            position: absolute;
+            top: -5.34vw;
+            left: calc(50% - 53.33vw/2);
+            z-index: 1;
+            display: flex;          
+            justify-content: center;
+            align-items: center;
+            width: 53.33vw;
+            height: 10.67vw;
+            font-size: 4.27vw;
+            color: #FFF;
+            border-radius: 5.34vw;
+            background-image: linear-gradient(133deg, #FF6F70 0%, #FF916D 100%);
+            box-shadow: 0 2px 3px 0 rgba(255, 111, 112, 0.30);
+        }
+    }
+}
+
+// 日期选择器
+.date-picker-masker {
+    position: fixed;
+    left: 0;
+    bottom: -100vw;
+    width: 100vw;
+    z-index: 101;
+    box-shadow: -1px -1px 6px #CCC;
+    background: #FFF;
+    transition: all .25s ease-in-out;
+    &.show {
+        bottom: 50px;
     }
 }

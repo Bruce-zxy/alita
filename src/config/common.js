@@ -19,8 +19,7 @@ module.exports = {
         "ATTENTION": "/app/weshop/mainpage/attention",
 
         "SERVICE": "/app/weshop/mainpage/service",
-        "SERVICE_DETAILS": "/app/weshop/mainpage/service/service_details",
-        "SERVICE_SUBMIT": "/app/weshop/mainpage/service/service_submit",
+        "SERVICE_SUBMIT": "/app/weshop/mainpage/service/submit",
 
         "MINE": "/app/weshop/mainpage/mine",
         "SETTING": "/app/weshop/mainpage/mine/setting",
