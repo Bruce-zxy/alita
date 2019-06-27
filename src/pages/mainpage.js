@@ -11,6 +11,7 @@ import ApplicationPage from './application';
 import AttentionPage from './attention';
 import ServicePage from './service';
 import MinePage from './mine';
+import ScoresPage from './scores';
 import SettingPage from './setting';
 
 import config from '../lib/config';
@@ -61,11 +62,12 @@ const MainPageRoutes = (props) => {
       </Fragment>
       <Fragment>
         <Route component={MinePage} path={`${gPageUrl['MINE']}`} exact />
-        <Route component={SettingPage} path={`${gPageUrl['SETTING']}`} />
-        <Route component={MinePage} path={`${gPageUrl['NICKNAME']}`} />
+        <Route component={SettingPage} path={`${gPageUrl['SETTING']}`} exact />
+        <Route component={SettingPage} path={`${gPageUrl['SETTING']}/:type`} />
+{/*         <Route component={MinePage} path={`${gPageUrl['NICKNAME']}`} />
         <Route component={MinePage} path={`${gPageUrl['SEX']}`} />
-        <Route component={MinePage} path={`${gPageUrl['PHONE']}`} />
-        <Route component={MinePage} path={`${gPageUrl['SCORES']}`} />
+        <Route component={MinePage} path={`${gPageUrl['PHONE']}`} /> */}
+        <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} />
         <Route component={MinePage} path={`${gPageUrl['ORDER']}`} />
         <Route component={MinePage} path={`${gPageUrl['SUGGESTION']}`} />
       </Fragment>

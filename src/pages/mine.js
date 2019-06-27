@@ -32,7 +32,7 @@ export default class extends Component {
                     <p className="user-name">{user.name}<i className="iconfont iconaixin"></i></p>
                     <div className="user-scores">
                         <p>{user.scores}</p>
-                        <p>我的积分</p>
+                        <p><a href={LOCAL_URL['SCORES']}>我的积分</a></p>
                     </div>
                 </Fragment>
             )
