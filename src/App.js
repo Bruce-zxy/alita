@@ -13,6 +13,7 @@ import './App.scss';
 initReactFastclick();
 
 const AppRoute = () => {
+  alert('??')
   return (
     <ShopProvider>
       <Route path={config.LOCAL_URL.ROOT} exact           component={() => <Redirect to={{ pathname: config.LOCAL_URL.HOME }} />} />

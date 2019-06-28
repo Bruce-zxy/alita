@@ -2,7 +2,7 @@ import React, {Fragment, useContext, useState, useEffect} from 'react';
 import { Route } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 
-// import ShopContext from '../context/shop';
+import ShopContext from '../context/shop';
 
 import HomePage from './home';
 import ActivityList from './home_list';
@@ -95,6 +95,8 @@ export default (props) => {
     setTabKey(tabName);
     history.push(gPageUrl[gTabBar[tabName].page]);
   }
+
+  console.log(ShopContext.user);
 
   return (
     <div style={{ position: 'fixed', height: '100vh', width: '100vw', top: 0, zIndex: 1 }}>

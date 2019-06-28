@@ -8,50 +8,50 @@ import ShopContext from './shop';
 import { shopReducer, ACTION_SET } from './shop.reducer';
 
 const gTargetUrl = {
-
     login: '/login',
-    users: '/users',
-    usercredentials: '/usercredentials',
-
-    publicmd: '/publicmd',
-
-    userinterface: '/userinterface',
-    contents: '/contents',
-
-    spu: '/products/spu',
-    sku: '/products/sku',
-    inventories: '/stocks/inventories',
-    reservations: '/stocks/reservations',
-    orders: '/orders',
-    orderTasks: '/ordertasks',
-    transactions: '/transactions',
-    bill: '/wepay/bill',
-    orderbill: '/wepay/orderbill',
-    consumecode: '/wechat/tmpscanurl',
+    user: '/user',
+    orders: '/orders'
 }
 export default function ShopProvider(props) {
 
     const [shopState, dispatch] = useReducer(shopReducer, {
-        user: null,
-        
-        loading: {},
-
-        criteria: {},
-
-        publicmd: [],
-
-        contents: [],
-        userinterface: [],
-
-        spu: [], spuId: null,
-        sku: [], skuId: null,
-        inventories: [],
-        reservations: [],
-
-        orders: [], orderId: null,
-        orderTasks: [],
-        transactions: [], 
-
+        user: {
+            "id": "6d9f7d95-a714-4107-87f3-e8f43b9f5ce6",
+            "create_at": "2019-06-28T00:53:37.360Z",
+            "update_at": "2019-06-28T01:04:21.551Z",
+            "account": "uu123",
+            "nickname": "uu123",
+            "avatar": null,
+            "gender": 0,
+            "vip": 0,
+            "points": 0,
+            "realName": "",
+            "phone": "",
+            "idCard": "",
+            "address": "",
+            "status": "",
+            "ex_info": {},
+            "roles": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000001",
+                    "create_at": "2019-06-28T00:31:24.128Z",
+                    "update_at": "2019-06-28T00:31:24.128Z",
+                    "name": "普通用户",
+                    "token": "user",
+                    "desc": "普通用户",
+                    "sort": 1,
+                    "ex_info": {},
+                    "isSuperAdmin": false
+                }
+            ],
+            "org": null,
+            "avatarPath": "",
+            "isSuperAdmin": false,
+            "isVolunteer": false,
+            "authorities": []
+        },
+        loading: false,
+        orders: [],
     });
 
     useEffect(() => {

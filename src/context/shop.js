@@ -5,17 +5,6 @@ export default React.createContext({
         
         loading: {},
 
-        criteria: {},
-
-        maindata: [],
-
-        contents: [],
-
-        spu: [], spuId: null,
-        sku: [], skuId: null,
-        inventories: [],
-        reservations: [],
-
         orders: [],
 
 });
