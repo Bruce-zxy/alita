@@ -5,7 +5,7 @@ import './index.scss';
 export default (props) => {
 
     return (
-        <div className="hdz-swiper">
+        <div className="hdz-swiper" key={props.list.length}>
             <Carousel
                 className="hdz-swiper-body"
                 autoplay

@@ -1,71 +1,31 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, Component, useContext } from 'react';
+import _ from 'lodash';
 
 import ShopContext from '../context/shop';
 
+import superFetch from '../lib/api';
 import config from '../lib/config';
 
 const { LOCAL_URL } = config;
 
-const service_list = [{
-    id: 1,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 2,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 3,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 4,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 5,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 6,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 7,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-    id: 8,
-    title: '“获泽习语”志愿服务',
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    tags: ['理论政策宣讲', 'test', 'adfwe'],
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}];
+// const service_list = [{
+//     id: 1,
+//     title: '“获泽习语”志愿服务',
+//     description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
+//     tags: ['理论政策宣讲'],
+//     image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效'
+// }];
 
-const service_details = {
-    id: 1,
-    title: '“多彩文艺”志愿服务',
-    tags: ['文化文明'],
-    images: ['http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'],
-    description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
-    notice: '<p>1、教练正在鼓励和帮助孩子们在冰面上保持平衡和基本动作。</p><p>2、考虑到孩子们的特殊性, 华星冰上中心特意使用整个冰球馆让他们参观体验, 面对上千平米的室内冰场, 孩子们充满了兴奋与好奇。</p>'
-}
+// const service_details = {
+//     id: 1,
+//     title: '“多彩文艺”志愿服务',
+//     tags: ['文化文明'],
+//     images: ['http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效'],
+//     description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
+//     notice: '<p>1、教练正在鼓励和帮助孩子们在冰面上保持平衡和基本动作。</p><p>2、考虑到孩子们的特殊性, 华星冰上中心特意使用整个冰球馆让他们参观体验, 面对上千平米的室内冰场, 孩子们充满了兴奋与好奇。</p>'
+// }
 
-export default class extends Component {
+class Service extends Component {
 
     toRenderServiceDetails = (details) => (
         <div className="hdz-service-details">
@@ -137,14 +97,40 @@ export default class extends Component {
     )
 
     render() {
-        const { match: { params: { id } } } = this.props;
-        const list = service_list;
-        const details = service_details;
+        const { match: { params: { id } }, list } = this.props;
+        const details = _.find(list, { id: id });
         
         if (id) {
-            return this.toRenderServiceDetails(details);
+            return this.toRenderServiceDetails({
+                ...details,
+                description: details.desc,
+                tags: [details.category.name],
+                images: details.albumList
+            });
         } else {
-            return this.toRenderServiceList(list);
+            return this.toRenderServiceList(list.map(item => ({
+                ...item,
+                description: item.desc,
+                tags: [item.category.name],
+                image: item.coverPath,
+            })));
         }
+    }
+}
+
+
+export default (props) => {
+    const shopContext = useContext(ShopContext);
+
+    if(shopContext.service[1]) {
+        return (
+            <Fragment>
+                <Service {...props} list={shopContext.service[0]} />
+            </Fragment>
+        )
+    } else {
+        return (
+            <Fragment></Fragment>
+        )
     }
 }

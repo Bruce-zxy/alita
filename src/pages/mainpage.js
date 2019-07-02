@@ -2,8 +2,6 @@ import React, {Fragment, useContext, useState, useEffect} from 'react';
 import { Route } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 
-import ShopContext from '../context/shop';
-
 import HomePage from './home';
 import ActivityList from './home_list';
 import ActivityDetail from './home_detail';
@@ -57,6 +55,7 @@ const MainPageRoutes = {
   '关注': (
     <Fragment>
       <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
+      <Route component={ActivityDetail} path={`${gPageUrl['ATTENTION_DETAIL']}/:id`} exact />
     </Fragment>
   ),
   '服务': (
@@ -85,22 +84,16 @@ export default (props) => {
   const tab_key_en = pathname.split('/').slice(4,5).shift() || 'home';
   const tab_key_cn = Object.keys(gTabBar).filter(item => (gTabBar[item].page.toLowerCase() === tab_key_en.toLowerCase())).shift();
 
-  // const shopContext = useContext(ShopContext);
   const [tabKey, setTabKey] = useState(tab_key_cn);
-  useEffect(() => {
-    // console.log('MainPage::useEffect: ', {shopContext});
-  }, []);
 
   const gotoPage = (tabName) => () => {
     setTabKey(tabName);
     history.push(gPageUrl[gTabBar[tabName].page]);
   }
 
-  console.log(ShopContext.user);
-
   return (
     <div style={{ position: 'fixed', height: '100vh', width: '100vw', top: 0, zIndex: 1 }}>
-      <TabBar className="hdz-tabbar" unselectedTintColor={COLOR_UNSELECTED} tintColor={COLOR_SELECTED} barTintColor="white" hidden={false}  >
+      <TabBar className="hdz-tabbar" unselectedTintColor={COLOR_UNSELECTED} tintColor={COLOR_SELECTED} barTintColor="white" hidden={false} >
         { Object.keys(gTabBar).map((key, i) => (
           <TabBar.Item title={key} key={key}
             icon={gTabBar[key].icon}

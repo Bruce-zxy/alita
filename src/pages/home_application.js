@@ -1,9 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import ReactDom from 'react-dom';
 import { Toast } from 'antd-mobile';
 import * as _ from 'lodash';
 
-// import ShopContext from '../context/shop';
+import { getKeyValue } from '../lib/persistance';
+import superFetch from '../lib/api';
+import ShopContext from '../context/shop';
+
+import { LOCAL_URL } from '../config/common';
 
 const NAME = 'name';
 const PHONE = 'phone';
@@ -31,7 +35,8 @@ const toCheckoutAddress = ({ value }) => {
     }
 } 
 
-const onSubmitHandler = (form) => () => {
+const onSubmitHandler = (form, shopContext) => (history) => async () => {
+    
     const form_container = ReactDom.findDOMNode(form.current);
     const input_set = Array.from(form_container.children).filter(child => child.tagName === "INPUT");
     try {
@@ -42,14 +47,21 @@ const onSubmitHandler = (form) => () => {
     } catch(err) {
         return Toast.fail(err.message, 1);
     }
-
-    // to Login Action
-    console.log(input_set);
     
+    // to Login Action
+    const result = await superFetch.post('/user/apply', JSON.parse(getKeyValue('current_user')));
+    if (result) {
+        await shopContext.updateUserInfo();
+        setTimeout(() => history.go(-1), 1000);
+        return Toast.success('申请成功！', 1);
+    } else {
+        return Toast.fail('申请失败或您已经申请过了！！', 1);
+    }
+
 }
 
-export default () => {
-
+export default ({ history }) => {
+    const shopContext = useContext(ShopContext);
     const form_ref = useRef(null);
 
     return (
@@ -67,7 +79,7 @@ export default () => {
                     <input type="number" name={PHONE} placeholder="电话"/>
                     <input type="number" name={IDCARD} placeholder="身份证"/>
                     <input type="text" name={ADDRESS} placeholder="地址（请在开头带上省/市）"/>
-                    <a href="javascript:;" onClick={onSubmitHandler(form_ref)}>提交申请</a>
+                    <a href="javascript:;" onClick={onSubmitHandler(form_ref, shopContext)(history)}>提交申请</a>
                 </div>
             </div>
       

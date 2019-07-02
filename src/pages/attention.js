@@ -1,198 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment, useContext, useState, useEffect } from 'react';
 import { Tabs } from 'antd-mobile';
+import _ from 'lodash';
+import * as moment from 'moment';
 
 import Carousel from '../components/Carousel';
 
-const carousel_list = [{
-    id: '1',
-    link: 'javascript:;',
-    image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=1',
-    title: '这是1个标题'
-}, {
-    id: '12',
-    link: 'javascript:;',
-    image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=2',
-    title: '这是2个标题'
-}, {
-    id: '13',
-    link: 'javascript:;',
-    image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=3',
-    title: '这是3个标题'
-}, {
-    id: '14',
-    link: 'javascript:;',
-    image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=4',
-    title: '这是4个标题'
-}];
+import ShopContext from '../context/shop';
+import config from '../lib/config';
+import superFetch from '../lib/api';
 
-const type_list = [{
-    id: '1',
-    type: '理论政策',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, {
-    id: '2',
-    type: '教育素质',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, {
-    id: '3',
-    type: '文化文明',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, { 
-    id: '4',
-    type: '科技科普',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, { 
-    id: '5',
-    type: '健身体育',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, { 
-    id: '6',
-    type: '培训提升',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, { 
-    id: '7',
-    type: '表彰激励',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, { 
-    id: '8',
-    type: '爱心商家',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}, {
-    id: '9',
-    type: '他山之石',
-    list: [{
-        id: 1,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }, {
-        id: 2,
-        title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-        image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-        description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-        interval: '17分钟前',
-        link: ''
-    }]
-}];
+const gPageUrl = config.LOCAL_URL;
+
+// const carousel_list = [{
+//     id: '1',
+//     link: 'javascript:;',
+//     image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=1',
+//     title: '这是1个标题'
+// }];
+
+// const type_list = [{
+//     id: '1',
+//     type: '理论政策',
+//     list: [{
+//         id: 1,
+//         title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
+//         image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
+//         description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
+//         interval: '17分钟前',
+//         link: ''
+//     }, {
+//         id: 2,
+//         title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
+//         image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
+//         description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
+//         interval: '17分钟前',
+//         link: ''
+//     }]
+// }];
 
 
-
-
-export default class extends Component {
+class Attention extends Component {
 
     constructor(props) {
         super(props);
@@ -224,32 +71,38 @@ export default class extends Component {
         </div>
     )
 
-    toRenderTabContent = tab => console.log(tab) || (
-        <div className="attention-tab-content">
-            <div className="attention-swiper">
-                <Carousel list={carousel_list} dots={false} infinite={false} />
+    toRenderTabContent = tab => {
+        
+        console.log(tab);
+        return (
+            <div className="attention-tab-content">
+                <div className="attention-swiper">
+                    <Carousel list={tab.carousel || []} dots={false} infinite={false} />
+                </div>
+                <div className="attention-list">
+                    {tab.list && tab.list.map((item, i) => (
+                        <a className="attention-item" key={i} href={item.link}>
+                            <div className="attention-item-left">
+                                <p className="attention-itme-title">{item.title}</p>
+                                <p className="attention-itme-description">{item.description}</p>
+                                <p className="attention-itme-interval">{item.interval}</p>
+                            </div>
+                            <div className="attention-item-right">
+                                <img src={item.image} alt='图片已失效' />
+                            </div>
+                        </a>
+                    ))}
+                </div>
             </div>
-            <div className="attention-list">
-                {tab.list && tab.list.map((item, i) => (
-                    <a className="attention-item" key={i} href={item.link}>
-                        <div className="attention-item-left">
-                            <p className="attention-itme-title">{item.title}</p>
-                            <p className="attention-itme-description">{item.description}</p>
-                            <p className="attention-itme-interval">{item.interval}</p>
-                        </div>
-                        <div className="attention-item-right">
-                            <img src={item.image} alt='placeholder+image' />
-                        </div>
-                    </a>
-                ))}
-            </div>
-        </div>
-    )
+        )
+}
 
     render() {
         const { current, navi_show } = this.state;
+        const { list } = this.props;
+        
 
-        const tabs = type_list.map(item => ({ title: item.type, ...item }));
+        const tabs = list.map(item => ({ title: item.type, ...item }));
 
         return (
             <div className="hdz-attention">
@@ -276,5 +129,51 @@ export default class extends Component {
                 </div>
             </div>
         )
+    }
+}
+
+export default () => {
+    const shopContext = useContext(ShopContext);
+    const [thisState, setState] = useState([]);
+    useEffect(() => {
+        (async () => {
+            let list = [];
+            let promise_arr = [];
+            if(shopContext.category.length) {
+                const category_arr = _.find(shopContext.category, { name: "频道" }).children;
+                list = category_arr.sort((a,b) => a.sort - b.sort).map((item) => ({
+                    id: item.id,
+                    type: item.name,
+                    list: []
+                }));
+            }
+            list.forEach(item => promise_arr.push(superFetch.get(`/content/list?category=${item.id}`)));
+            Promise.all(promise_arr).then((values) => {
+                values.forEach((item, i) => {
+                    list[i].list = item[0].length ? item[0].map(item => ({
+                        ...item,
+                        image: item.thumbnailPath,
+                        description: item.summary,
+                        interval: moment(item.publish_at).fromNow(),
+                        link: `${gPageUrl['ATTENTION_DETAIL']}/${item.id}`
+                    })) : [];
+                    let result = _.find(shopContext.carousel[0], { token: list[i].type });
+                    list[i].carousel = result ? result.carousels.map(item => ({
+                        ...item,
+                        title: item.desc
+                    })) : [];
+                })
+                setState(list);
+            })
+        })();
+    }, [shopContext.category[0]]);
+    if(thisState.length) {
+        return (
+            <Fragment>
+                <Attention list={thisState} key={thisState.length} />
+            </Fragment>
+        )
+    } else {
+        return <Fragment></Fragment>
     }
 }

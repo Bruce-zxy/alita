@@ -1,69 +1,88 @@
-import React, { Fragment, Component } from 'react';
-
-import ShopContext from '../context/shop';
+import React, { useState, useContext, useEffect } from 'react';
+import { Toast } from 'antd-mobile';
 
 import config from '../lib/config';
+import superFetch from '../lib/api';
 
-const { LOCAL_URL } = config;
+import ShopContext from '../context/shop';
+const { LOCAL_URL, DEFAULT_AVATAR } = config;
 
-const user = {
-    name: '她在岛屿写日记',
-    avatar: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR',
-    scores: '152',
-    sex: '女',
-    phone: '18679183994'
-}
+// const user = {
+//     name: '她在岛屿写日记',
+//     avatar: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR',
+//     scores: '152',
+//     gender: '女',
+//     phone: '18679183994'
+// }
 
-const SettingInfoLayout = ({ title, onSave, toGoBack, children }) => (
-    <div className="hdz-setting-info">
-        <div className="setting-info-header">
-            <i className="iconfont iconjiantouzuo" onClick={toGoBack}></i>
-            <p>{title}</p>
-            <a href="javascript:;" onClick={onSave}>保存</a>
-        </div>
-        <div className="setting-info-function-area">
-            {children}
-        </div>
-    </div>
-)
+export default ({ history, match }) => {
 
-export default class extends Component {
+    const [thisState, setState] = useState({ value: '' });
 
-    state = {
-        value: '',
-    }
+    const shopContext = useContext(ShopContext);
+    useEffect(() => {
+        shopContext.updateUserInfo();
+    }, []);
+    const user = shopContext.user;
 
-    onSave = (e) => {
+
+    const onSave = async (e) => {
         e.preventDefault();
-        console.log(e);
+        const { params: { type } } = match;
+        if (!!thisState.value || thisState.value === 0) {
+            user[type] = thisState.value
+            const res = await shopContext.updateCurrentUserInfo(user);
+            if (res instanceof Error) {
+                Toast.fail('更新失败！');
+            }else {
+                setTimeout(() => {
+                    history.goBack();
+                }, 1000);
+                Toast.success('更新成功！');
+            }
+            
+        }
+
     };
-    
 
-    toGoBack = (e) => {
+    const toGoBack = (e) => {
         e.preventDefault();
-        this.props.history.goBack();
+        history.goBack();
     }
 
-    toRenderSettingInfo = (type) => {
-        const { value } = this.state;
+    const SettingInfoLayout = ({ title, onSave, toGoBack, children }) => (
+        <div className="hdz-setting-info">
+            <div className="setting-info-header">
+                <i className="iconfont iconjiantouzuo" onClick={toGoBack}></i>
+                <p>{title}</p>
+                <a href="javascript:;" onClick={onSave}>保存</a>
+            </div>
+            <div className="setting-info-function-area">
+                {children}
+            </div>
+        </div>
+    )
+
+    const toRenderSettingInfo = (type) => {
+        const { value } = thisState;
         
         switch (type) {
             case 'nickname':
                 return (
-                    <SettingInfoLayout title="修改昵称" onSave={this.onSave} toGoBack={this.toGoBack}>
-                        <input type="text" placeholder="昵称" onChange={(e) => this.setState({ value: e.target.value })}/>
+                    <SettingInfoLayout title="修改昵称" onSave={onSave} toGoBack={toGoBack}>
+                        <input type="text" autoFocus placeholder={"昵称"} value={thisState.value} onChange={(e) => setState({ value: e.target.value })}/>
                     </SettingInfoLayout>
                 )
                 break;
-            case 'sex':
+            case 'gender':
                 return (
-                    <SettingInfoLayout title="修改性别" onSave={this.onSave} toGoBack={this.toGoBack}>
-                        <div className={`male ${value === 'male' ? 'active' : ''}`} onClick={(e) => this.setState({ value: 'male' })}>
+                    <SettingInfoLayout title="修改性别" onSave={onSave} toGoBack={toGoBack}>
+                        <div className={`male ${value === 0 ? 'active' : ''}`} onClick={(e) => setState({ value: 0 })}>
                             <i className="iconfont iconnan"></i>
                             <span>男</span>
                             <i className="iconfont iconxuanzhong"></i>
                         </div>
-                        <div className={`female ${value === 'female' ? 'active' : ''}`} onClick={(e) => this.setState({ value: 'female' })}>
+                        <div className={`female ${value === 1 ? 'active' : ''}`} onClick={(e) => setState({ value: 1 })}>
                             <i className="iconfont iconnv"></i>
                             <span>女</span>
                             <i className="iconfont iconxuanzhong"></i>
@@ -73,32 +92,32 @@ export default class extends Component {
                 break;
             case 'phone':
                 return (
-                    <SettingInfoLayout title="修改手机号" onSave={this.onSave} toGoBack={this.toGoBack}>
-                        <p className="user-info-phone">您的手机号：{user.phone ? user.phone.toString().replace(/(?<=[\d]{3})\d(?=[\d]{3})/g, '*') : '暂未绑定'}</p>
-                        <input type="text" placeholder="请输入新的手机号" onChange={(e) => this.setState({ value: e.target.value })} />
+                    <SettingInfoLayout title="修改手机号" onSave={onSave} toGoBack={toGoBack}>
+                        <p className="user-info-phone">您的手机号：{!!user && user.phone ? user.phone.toString().replace(/^(\d{3})\d+(\d{3})$/, "$1*****$2") : '暂未绑定'}</p>
+                        <input type="text" autoFocus placeholder="请输入新的手机号" value={thisState.value} onChange={(e) => setState({ value: e.target.value.toString().slice(0,11) })} />
                     </SettingInfoLayout>
                 )
                 break;
             default:
-                return this.toRenderSettingContent();
+                return toRenderSettingContent();
         }
     }
 
-    toRenderSettingContent = () => (
+    const toRenderSettingContent = (user) => !!user && (
         <div className="hdz-setting">
             <a className="user-avatar">
                 <span>头像</span>
-                <p><img src={user.avatar} alt='placeholder+image' /></p>
+                <p><img src={user.avatar || DEFAULT_AVATAR} alt='图片已失效' /></p>
                 <i className="iconfont iconjiantouyou"></i>
             </a>
             <a className="user-name" href={LOCAL_URL['NICKNAME']}>
                 <span>昵称</span>
-                <p>{user.name || '未设置'}</p>
+                <p>{user.nickname || '未设置'}</p>
                 <i className="iconfont iconjiantouyou"></i>
             </a>
-            <a className="user-sex" href={LOCAL_URL['SEX']}>
+            <a className="user-sex" href={LOCAL_URL['GENDER']}>
                 <span>性别</span>
-                <p>{user.sex || '未设置'}</p>
+                <p>{user.gender === 0 ? '男' : user.gender === 1 ? '女' : '未设置'}</p>
                 <i className="iconfont iconjiantouyou"></i>
             </a>
             <a className="user-title">
@@ -112,15 +131,13 @@ export default class extends Component {
         </div>
     )
 
-    onRenderType = (type) => {
+    const onRenderType = (type) => {
         if (!!type) {
-            return this.toRenderSettingInfo(type);
+            return toRenderSettingInfo(type);
         } else {
-            return this.toRenderSettingContent();
+            return toRenderSettingContent(user);
         }
     }
 
-    render() {
-        return this.onRenderType(this.props.match.params.type);
-    }
+    return onRenderType(match.params.type);
 }

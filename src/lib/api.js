@@ -7,7 +7,7 @@ const gReqOptionEx = (config.env !== 'production') ? {} :
 { 
 	credentials: 'include'  // request will include cookies to get {{session.openid}} ( https://blog.csdn.net/J_Y_X_8/article/details/72910256 )
 };
-console.log(`extra option is `, gReqOptionEx);
+// console.log(`extra option is `, gReqOptionEx);
 
 const gAppName = config.APP_NAME;
 const gApiRoot = config.API_ROOT;
@@ -57,6 +57,8 @@ const checkStatus = (response) => {
 const basicFetch = async (method, url, payload = null, extra = null) => {
 	const options = { method };
 	const current = getKeyValue('current_user');
+	const token = getKeyValue('token');
+	
 	const user = !current ? {} : JSON.parse(current);
 	// console.log('basicFetch: ', {user});
 
@@ -67,7 +69,8 @@ const basicFetch = async (method, url, payload = null, extra = null) => {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
 				'application': gAppName,
-				'authorization': user.token || undefined
+				'authorization': 'Bearer ' + (token || ''),
+				'xhr': true
 			},
 			extra
 		)
@@ -87,7 +90,8 @@ const basicFetch = async (method, url, payload = null, extra = null) => {
 				{
 					'Accept': 'application/json',
 					'application': gAppName,
-					'authorization': user.token || undefined
+					'authorization': 'Bearer ' + (token || ''),
+					'xhr': true
 				},
 				extra
 			)

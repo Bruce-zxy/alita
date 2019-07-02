@@ -1,31 +1,14 @@
-import React, { Fragment } from 'react';
-
-// import ShopContext from '../context/shop';
+import React, { Fragment, useContext } from 'react';
+import _ from 'lodash';
 
 import Carousel from '../components/Carousel';
 import Swiper from '../components/Swiper';
 
+import ShopContext from '../context/shop';
+
 import config from '../lib/config';
 
 const gPageUrl = config.LOCAL_URL;
-
-const carousel_list = [{
-  id: '1',
-  link: 'javascript:;',
-  image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=1'
-}, {
-  id: '1',
-  link: 'javascript:;',
-  image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=2'
-}, {
-  id: '1',
-  link: 'javascript:;',
-  image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=3'
-}, {
-  id: '1',
-  link: 'javascript:;',
-  image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=4'
-}]
 
 const navi_list = [{
   name: '最新活动',
@@ -34,7 +17,7 @@ const navi_list = [{
   background: ['#FF6F70', '#FF916D']
 }, {
   name: '活动通知',
-  link: '',
+  link: gPageUrl['ACTIVITY_NOTICE'],
   icon: 'icontongzhi',
   background: ['#FFAF31', '#FFDA40']
 }, {
@@ -44,7 +27,7 @@ const navi_list = [{
   background: ['#5593F8', '#6DC6FF']
 }, {
   name: '最新招募',
-  link: '',
+  link: gPageUrl['LATEST_RECRUIT'],
   icon: 'iconzhaomu',
   background: ['#30DC8B', '#57F186']
 }]
@@ -64,7 +47,7 @@ const function_list = [{
   ename_color: 'rgba(255,175,49,.5)',
   icon: 'iconjilu',
   background: '#FEF0D9',
-  link: '/'
+  link: gPageUrl['ORDER_TODO']
 }, {
   name: '积分兑换',
   name_color: 'rgba(85,147,248,1)',
@@ -75,29 +58,33 @@ const function_list = [{
   link: gPageUrl['SCORES']
 }]
 
-const activity_list = [{
-  name: '世界呼吸日 | 娄底百余志愿者开展“一呼百行”公益徒步活动',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-  name: '世界呼吸日 | 娄底百余志愿者开展“一呼百行”公益徒步活动',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-  name: '世界呼吸日 | 娄底百余志愿者开展“一呼百行”公益徒步活动',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-  name: '世界呼吸日 | 娄底百余志愿者开展“一呼百行”公益徒步活动',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}, {
-  name: '世界呼吸日 | 娄底百余志愿者开展“一呼百行”公益徒步活动',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'
-}]
-
 export default (props) => {
 
+  const shopContext = useContext(ShopContext);
+  let carousel = [];
+  let activity_list = [];
+
+  if (shopContext.carousel[1]) {
+    carousel = [].concat(_.find(shopContext.carousel[0], { token: '首页轮播' }).carousels.sort((a, b) => a.sort - b.sort).map(item => ({
+      link: item.url,
+      ...item
+    })))
+  }
+
+  if (shopContext.category[1]) {
+    const category_id = _.find(_.find(shopContext.category, { name: "通知" }).children, { name: "最新活动" }).id;
+    if (shopContext.content[0]) {
+      activity_list = [].concat(shopContext.content[0].filter(content => content.category.id === category_id)).map((content => ({
+        id: content.id,
+        name: content.title,
+        image: content.thumbnailPath
+      })));
+    }
+  }
+  
   return (
     <Fragment>
-      
-      <Carousel list={carousel_list} />
+      <Carousel list={carousel} infinite={false} />
       <div className="hdz-navi-container">
         <div className="hdz-navi-list">
           {navi_list.map(item => (
@@ -138,10 +125,10 @@ export default (props) => {
         </p>
         <div className="hot-activity-list">
           {activity_list.map((item, i) => (
-            <div className="activity_list_item" key={i}>
-              <img src={item.image} alt='placeholder+image' />
+            <a className="activity_list_item" key={i} href={`${gPageUrl['HOME_DETAIL']}/${item.id}`}>
+              <img src={item.image} alt='图片已失效' />
               <p>{item.name}</p>
-            </div>
+            </a>
           ))}
         </div>
       </div>

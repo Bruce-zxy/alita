@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import initReactFastclick from 'react-fastclick';
+import * as moment from 'moment';
+import 'moment/locale/zh-cn';
 
 import ShopProvider from './context/shop.provider';
 
@@ -11,9 +13,9 @@ import config from './lib/config';
 import './App.scss';
 
 initReactFastclick();
+moment.locale('zh-cn');
 
 const AppRoute = () => {
-  alert('??')
   return (
     <ShopProvider>
       <Route path={config.LOCAL_URL.ROOT} exact           component={() => <Redirect to={{ pathname: config.LOCAL_URL.HOME }} />} />

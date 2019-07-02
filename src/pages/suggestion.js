@@ -1,7 +1,4 @@
-import React, { Fragment, Component } from 'react';
-import { List, InputItem, DatePickerView, Button, Toast } from 'antd-mobile';
-import { createForm } from 'rc-form';
-import moment from 'moment';
+import React, { Component } from 'react';
 import ShopContext from '../context/shop';
 
 import config from '../lib/config';
@@ -13,7 +10,7 @@ export default class extends Component {
     state = {
         suggestion: [{
             name: '实践中心',
-            avatar: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
+            avatar: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
             content: `我猜您有一股脑儿的问题或不满或建议，别急，慢慢说……
     
     您的每一句话都宝贵，我听着呢！还可以留下你的联系方式，这样会更快收到我们的回复哟~
@@ -44,7 +41,7 @@ export default class extends Component {
                 {suggestion.map((item, i) => (
                     <div className={`suggestion-message-${!i ? 'left' : 'right'}`} key={i}>
                         <div className="suggestion-author-info">
-                            <img src={item.avatar} alt='placeholder+image' />
+                            <img src={item.avatar} alt='图片已失效' />
                             <p>{item.name}</p>
                         </div>
                         <div className="suggestion-content-info">

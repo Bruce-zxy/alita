@@ -19,35 +19,35 @@ const order_list = [{
     date: '2019-06-15',
     tags: ['理论政策宣讲', '教育素质提升'],
     title: '“获泽习语”志愿服务',
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
+    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
     state: '已结单'
 }, {
     id: 2,
     date: '2019-06-15',
     tags: ['理论政策宣讲', '教育素质提升'],
     title: '“获泽习语”志愿服务',
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
+    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
     state: '待派单'
 }, {
     id: 3,
     date: '2019-06-15',
     tags: ['理论政策宣讲', '教育素质提升'],
     title: '“获泽习语”志愿服务',
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
+    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
     state: '待接单'
 }, {
     id: 4,
     date: '2019-06-15',
     tags: ['理论政策宣讲', '教育素质提升'],
     title: '“获泽习语”志愿服务',
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
+    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
     state: '待确认'
 }, {
     id: 5,
     date: '2019-06-15',
     tags: ['理论政策宣讲', '教育素质提升'],
     title: '“获泽习语”志愿服务',
-    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
+    image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
     state: '已取消'
 }]
 
@@ -70,7 +70,7 @@ const service_details = {
     title: '“多彩文艺”志愿服务',
     tags: ['文化文明'],
     state: '待派单',
-    images: ['http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image'],
+    images: ['http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效', 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效'],
     description: '为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事为了回应企业和群众的诉求，鄠邑区政务服务中心24小时自助服务区开通了！在巡视同志随机询问办事',
     notice: '<p>1、教练正在鼓励和帮助孩子们在冰面上保持平衡和基本动作。</p><p>2、考虑到孩子们的特殊性, 华星冰上中心特意使用整个冰球馆让他们参观体验, 面对上千平米的室内冰场, 孩子们充满了兴奋与好奇。</p>'
 }

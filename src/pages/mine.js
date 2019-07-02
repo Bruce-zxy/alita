@@ -1,10 +1,10 @@
-import React, { Fragment, Component} from 'react';
+import React, { Fragment, Component, useContext, useEffect } from 'react';
 
 import ShopContext from '../context/shop';
 
 import config from '../lib/config';
 
-const { LOCAL_URL } = config;
+const { LOCAL_URL, DEFAULT_AVATAR } = config;
 
 const user = {
     name: '她在岛屿写日记',
@@ -14,24 +14,35 @@ const user = {
     phone: '18679183994'
 }
 
-export default class extends Component {
 
-    toRenderUserPanel = (user) => {
-        if (!user) {
+export default () =>  {
+
+    const shopContext = useContext(ShopContext);
+    const user = shopContext.user;
+    useEffect(() => {
+        shopContext.updateUserInfo()
+    }, []);
+    
+    const toRenderUserPanel = (user) => {
+        if (!user || !user.isVolunteer) {
             return (
                 <Fragment>
-                    <img src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561547251987&di=e63f4f0adfe4ffffa7ed7fa8c0fc9580&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa12f24e688c1cda3ff4cc453f3486a88adaf08cc2cdb-tQvJqX_fw658' alt='placeholder+image' />
+                    <img src={DEFAULT_AVATAR} alt='图片已失效' />
                     <p className="user-name">你好，年轻人</p>
-                    <a className="apply-to-volunteer" href={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</a>
+                    {user && user.status === '待审核' ? (
+                        <a className="apply-to-volunteer" href='javascript:;'>审核中，请等待</a>
+                    ) : (
+                        <a className="apply-to-volunteer" href={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</a>
+                    )}
                 </Fragment>
             )
         } else {
             return (
                 <Fragment>
-                    <img src={user.avatar} alt='placeholder+image' />
-                    <p className="user-name">{user.name}<i className="iconfont iconaixin"></i></p>
+                    <img src={user.avatar || DEFAULT_AVATAR} alt='图片已失效' />
+                    <p className="user-name">{user.nickname}<i className="iconfont iconaixin"></i></p>
                     <div className="user-scores">
-                        <p>{user.scores}</p>
+                        <p>{user.points}</p>
                         <p><a href={LOCAL_URL['SCORES']}>我的积分</a></p>
                     </div>
                 </Fragment>
@@ -39,35 +50,35 @@ export default class extends Component {
         }
     }
 
-    toRenderUserFunction = (user) => {
-        if (!user) {
+    const toRenderUserFunction = (user) => {
+        if (!user || !user.isVolunteer) {
             return (
                 <div className="my-order">
                     <p className="order-type-title">
                         <span>我的订单</span>
-                        <a>查看全部</a>
+                        <a href={`${LOCAL_URL['ORDER_WANTDO']}`}>查看全部</a>
                     </p>
                     <div className="order-type-list">
-                        <div className="order-type-item">
+                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待派单</p>
-                        </div>
-                        <div className="order-type-item">
+                        </a>
+                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待接单</p>
-                        </div>
-                        <div className="order-type-item">
+                        </a>
+                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待确认</p>
-                        </div>
-                        <div className="order-type-item">
+                        </a>
+                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待结单</p>
-                        </div>
-                        <div className="order-type-item">
+                        </a>
+                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>已结单</p>
-                        </div>
+                        </a>
                     </div>
                 </div>
             )
@@ -94,22 +105,21 @@ export default class extends Component {
         }
     }
 
-    render() {
-        return (
-            <div className="hdz-mine">
-                <div className="user-info-container">
-                    <div className="user-info">
-                        <div className="user-info-panel">
-                            {this.toRenderUserPanel(user)}
-                        </div>
+        
+    return (
+        <div className="hdz-mine">
+            <div className="user-info-container">
+                <div className="user-info">
+                    <div className="user-info-panel">
+                        {toRenderUserPanel(user)}
                     </div>
-                    <a className="user-setting" href={LOCAL_URL['SETTING']}><i className="iconfont iconshezhicopy"></i></a> 
                 </div>
-                <div className="hdz-block-space"></div>
-                <div className="user-function">
-                    {this.toRenderUserFunction(user)}
-                </div>
+                {user && <a className="user-setting" href={LOCAL_URL['SETTING']}><i className="iconfont iconshezhicopy"></i></a>} 
             </div>
-        )
-    }
+            <div className="hdz-block-space"></div>
+            <div className="user-function">
+                {toRenderUserFunction(user)}
+            </div>
+        </div>
+    )
 }

@@ -10,59 +10,66 @@ import { shopReducer, ACTION_SET } from './shop.reducer';
 const gTargetUrl = {
     login: '/login',
     user: '/user',
-    orders: '/orders'
+    current: '/user/current',
+    orders: '/orders',
+    carousel: '/carousel/list',
+    category: '/category/list',
+    content: '/content/list',
+    service: '/service/list',
+    attention: '/content/list'
+
 }
 export default function ShopProvider(props) {
 
     const [shopState, dispatch] = useReducer(shopReducer, {
-        user: {
-            "id": "6d9f7d95-a714-4107-87f3-e8f43b9f5ce6",
-            "create_at": "2019-06-28T00:53:37.360Z",
-            "update_at": "2019-06-28T01:04:21.551Z",
-            "account": "uu123",
-            "nickname": "uu123",
-            "avatar": null,
-            "gender": 0,
-            "vip": 0,
-            "points": 0,
-            "realName": "",
-            "phone": "",
-            "idCard": "",
-            "address": "",
-            "status": "",
-            "ex_info": {},
-            "roles": [
-                {
-                    "id": "00000000-0000-0000-0000-000000000001",
-                    "create_at": "2019-06-28T00:31:24.128Z",
-                    "update_at": "2019-06-28T00:31:24.128Z",
-                    "name": "普通用户",
-                    "token": "user",
-                    "desc": "普通用户",
-                    "sort": 1,
-                    "ex_info": {},
-                    "isSuperAdmin": false
-                }
-            ],
-            "org": null,
-            "avatarPath": "",
-            "isSuperAdmin": false,
-            "isVolunteer": false,
-            "authorities": []
-        },
-        loading: false,
+        user: null,
         orders: [],
+        carousel: [],
+        category: [],
+        content: [],
+        attention: [],
+        service: []
     });
 
+    console.log(shopState, 'init');
+
     useEffect(() => {
-        const user = getKeyValue('current_user');
-        console.log('ShopProvider::useEffect: ', {shopState, user});
-        if (!!user) {
-            dispatch({
-                type: ACTION_SET,
-                payload: { user: JSON.parse(user) }
+        (async () => {
+            const { token } = await superFetch.post(gTargetUrl['login'], {
+                account: 'test123',
+                password: '12345678'
             });
-        }
+            if (!token) throw new Error('登陆失败！');
+            setKeyValue('token', token);
+            const user = await superFetch.get(gTargetUrl['user'] + '/current');
+            setKeyValue('current_user', !!user ? JSON.stringify(user) : '');
+            
+            const category_promise = superFetch.get(gTargetUrl['category'] + '?pageSize=100');
+            const content_promise = superFetch.get(gTargetUrl['content'] + '?pageSize=100');
+            const service_promise = superFetch.get(gTargetUrl['service'] + '?pageSize=100');
+            const carousel_promise = superFetch.get(gTargetUrl['carousel'] + '?pageSize=5');
+            Promise.all([category_promise, content_promise, service_promise, carousel_promise]).then(([category, content, service, carousel]) => {
+                global.TNT('【category】：', category);
+                global.TNT('【content】：', content);
+                global.TNT('【service】：', service);
+                global.TNT('【carousel】：', carousel);
+                dispatch({
+                    type: ACTION_SET,
+                    payload: { 
+                        user: user,
+                        category: category instanceof Error ? [] : category.sort((a,b) => a.sort - b.sort),
+                        content: content instanceof Error ? [] : content.sort((a,b) => a.sort - b.sort),
+                        service: service instanceof Error ? [] : service.sort((a,b) => a.sort - b.sort),
+                        carousel: carousel instanceof Error ? [] : carousel.sort((a,b) => a.sort - b.sort) 
+                    }
+                });
+            })
+            console.log('ShopProvider::useEffect: ', {shopState, user});
+
+
+
+
+        })();
     }, []);
 
     const fetch = async (target, criteria) => { 
@@ -142,49 +149,109 @@ export default function ShopProvider(props) {
     };
     const login = async (payload) => {
         try {
-            const result = await superFetch.post(gTargetUrl['login'], payload);
-            if (!result) throw new Error('登陆失败！')
+            const { token } = await superFetch.post(gTargetUrl['login'], payload);
+            if (!token) throw new Error('登陆失败！');
+
+            const user = await superFetch.get(gTargetUrl['user'] + '/current', null, { authorization: 'Bearer ' + token })
 
             dispatch({
                 type: ACTION_SET,
-                payload: { user: result }
+                payload: { user: user }
             });
-            setKeyValue('current_user', JSON.stringify(result));
+
+            setKeyValue('token', token);
+            setKeyValue('current_user', JSON.stringify(user));
         } catch (err) {
             console.error('ShopProvider::login Error: ', err);
             return err;
         }
     }
-    const updateCurrentUserInfo = async (newvalue) => { 
-        console.log('ShopProvider::updateCurrentUserInfo: ', {newvalue, user: shopState.user}); 
-        if (!shopState.user || !shopState.user.credential || !shopState.user.credential.user) throw new Error('未找到当前用户登陆信息！');
-        
+    const updateUserInfo = async () => {
         try {
-            const [userinfo] = await superFetch.put(gTargetUrl['users'], {
-                criteria: {obj: { id: shopState.user.credential.user.id } },
-                newvalue
-            });
-            // console.log({userinfo});
-            if (!userinfo) throw new Error('用户信息更新失败！');
+            const user = await superFetch.get(gTargetUrl['current']);
             
-            const [credential] = await superFetch.get(gTargetUrl['usercredentials'], { id: shopState.user.credential.id });
-            // console.log({credential});
-            if (!credential) throw new Error('用户信息获取失败！');
-
-            shopState.user.credential = credential;
-            dispatch({
-                type: ACTION_SET,
-                payload: shopState
-            });
-            setKeyValue('current_user', JSON.stringify(shopState.user));
-
-            return userinfo;
+            if (!!user && !!user.id) {
+                dispatch({
+                    type: ACTION_SET,
+                    payload: { user: user }
+                });
+                
+                setKeyValue('current_user', JSON.stringify(user));
+            }
 
         } catch (err) {
+            console.error('ShopProvider::login Error: ', err);
+            return err;
+        }
+    }
+
+    const updateCurrentUserInfo = async (payload) => {
+        try {
+            const user = await superFetch.put(gTargetUrl['user'], payload);
+
+            console.log(user);
+            
+
+            if (!!user && !!user.id) {
+                dispatch({
+                    type: ACTION_SET,
+                    payload: { user: user }
+                });
+
+                setKeyValue('current_user', JSON.stringify(user));
+            }
+
+        } catch (err) {
+            console.error('ShopProvider::login Error: ', err);
+            return err;
+        }
+    }
+
+    // const updateCurrentUserInfo = async (newvalue) => { 
+    //     console.log('ShopProvider::updateCurrentUserInfo: ', {newvalue, user: shopState.user}); 
+    //     if (!shopState.user || !shopState.user.credential || !shopState.user.credential.user) throw new Error('未找到当前用户登陆信息！');
+        
+    //     try {
+    //         const [userinfo] = await superFetch.put(gTargetUrl['users'], {
+    //             criteria: {obj: { id: shopState.user.credential.user.id } },
+    //             newvalue
+    //         });
+    //         // console.log({userinfo});
+    //         if (!userinfo) throw new Error('用户信息更新失败！');
+            
+    //         const [credential] = await superFetch.get(gTargetUrl['usercredentials'], { id: shopState.user.credential.id });
+    //         // console.log({credential});
+    //         if (!credential) throw new Error('用户信息获取失败！');
+
+    //         shopState.user.credential = credential;
+    //         dispatch({
+    //             type: ACTION_SET,
+    //             payload: shopState
+    //         });
+    //         setKeyValue('current_user', JSON.stringify(shopState.user));
+
+    //         return userinfo;
+
+    //     } catch (err) {
+    //         console.error('ShopProvider::update Error: ', err);
+    //         return err;
+    //     }
+    // };
+
+    const getCarousel = async () => {
+        try {
+            const result = await superFetch.get(gTargetUrl['carousel']);
+            if (result) {
+                dispatch({
+                    type: ACTION_SET,
+                    payload: { carousel: [].concat(result[0][0].carousels) }
+                });
+            }
+        } catch(err) {
             console.error('ShopProvider::update Error: ', err);
             return err;
         }
-    };
+    }
 
     return (
         <ShopContext.Provider value={{
@@ -197,8 +264,10 @@ export default function ShopProvider(props) {
             remove,
             update,
 
+            updateUserInfo,
             updateCurrentUserInfo,
             login,
+            getCarousel,
         }}>
             {props.children}
         </ShopContext.Provider>
