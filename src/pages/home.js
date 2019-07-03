@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 import Carousel from '../components/Carousel';
@@ -74,7 +75,7 @@ export default (props) => {
   if (shopContext.category[1]) {
     const category_id = _.find(_.find(shopContext.category, { name: "通知" }).children, { name: "最新活动" }).id;
     if (shopContext.content[0]) {
-      activity_list = [].concat(shopContext.content[0].filter(content => content.category.id === category_id)).map((content => ({
+      activity_list = [].concat(shopContext.content[0].filter(content => content.category && content.category.id === category_id)).map((content => ({
         id: content.id,
         name: content.title,
         image: content.thumbnailPath
@@ -108,11 +109,11 @@ export default (props) => {
             slidesPerView: 2.5
           }}
           render={(item, i) => (
-            <a href={item.link} className="function-swiper-item" style={{ background: item.background }}>
+            <Link to={item.link} className="function-swiper-item" style={{ background: item.background }}>
               <p style={{ color: item.name_color }}>{item.name}</p>
               <p style={{ color: item.ename_color }}>{item.ename}</p>
               <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
-            </a>
+            </Link>
           )}
         />
       </div>
@@ -121,14 +122,14 @@ export default (props) => {
       <div className="hdz-hot-activity">
         <p>
           <span>热门活动</span>
-          <a>更多活动</a>
+          <Link to={gPageUrl['ACTIVITY_NOTICE']}>更多活动</Link>
         </p>
         <div className="hot-activity-list">
           {activity_list.map((item, i) => (
-            <a className="activity_list_item" key={i} href={`${gPageUrl['HOME_DETAIL']}/${item.id}`}>
+            <Link className="activity_list_item" key={i} to={`${gPageUrl['HOME_DETAIL']}/${item.id}`}>
               <img src={item.image} alt='图片已失效' />
               <p>{item.name}</p>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

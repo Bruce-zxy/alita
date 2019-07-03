@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Carousel } from 'antd-mobile';
 import './index.scss';
 
@@ -13,10 +14,10 @@ export default (props) => {
                 {...props}
             >
                 {props.list.map(item => (
-                    <a className="hdz-swiper-link" href={item.link} key={item.id}>
+                    <Link className="hdz-swiper-link" to={item.link} key={item.id}>
                         <img className="hdz-swiper-image" src={item.image} alt={item.name} />
                         {item.title && <p>{item.title}</p>}
-                    </a>
+                    </Link>
                 ))}
             </Carousel>
         </div>

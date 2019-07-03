@@ -1,4 +1,5 @@
 import React, { Fragment, Component, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 import ShopContext from '../context/shop';
@@ -52,8 +53,11 @@ class Service extends Component {
                 <p>点单须知</p>
                 <div dangerouslySetInnerHTML={{ __html: details.notice }}></div>
             </div>
+            <div className="hdz-block-space-20"></div>
+            <div className="hdz-block-space-20"></div>
+            <div className="hdz-block-space-20"></div>
             <div className="service-details-button">
-                <a href={`${LOCAL_URL['SERVICE_SUBMIT']}/${details.id}`}>立即点单</a>
+                <Link to={`${LOCAL_URL['SERVICE_SUBMIT']}/${details.id}`}>立即点单</Link>
             </div>
         </div>
     )
@@ -76,7 +80,7 @@ class Service extends Component {
             </div>
             <div className="service-list">
                 {list.map((item, i) => [
-                    <a className="service-item" key={item.id} href={`${LOCAL_URL['SERVICE']}/${item.id}`}>
+                    <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
                         <div className="service-item-left">
                             <img src={item.image} alt="service-item" />
                         </div>
@@ -89,7 +93,7 @@ class Service extends Component {
                                 ))}
                             </p>
                         </div>
-                    </a>,
+                    </Link>,
                     <div className="hdz-block-space" key={i}></div>
                 ])}
             </div>
@@ -105,7 +109,7 @@ class Service extends Component {
                 ...details,
                 description: details.desc,
                 tags: [details.category.name],
-                images: details.albumList
+                images: details.albumList.map(item => item.url)
             });
         } else {
             return this.toRenderServiceList(list.map(item => ({

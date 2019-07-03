@@ -1,4 +1,5 @@
 import React, { Component, Fragment, useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Tabs } from 'antd-mobile';
 import _ from 'lodash';
 import * as moment from 'moment';
@@ -81,7 +82,7 @@ class Attention extends Component {
                 </div>
                 <div className="attention-list">
                     {tab.list && tab.list.map((item, i) => (
-                        <a className="attention-item" key={i} href={item.link}>
+                        <Link className="attention-item" key={i} to={item.link}>
                             <div className="attention-item-left">
                                 <p className="attention-itme-title">{item.title}</p>
                                 <p className="attention-itme-description">{item.description}</p>
@@ -90,7 +91,7 @@ class Attention extends Component {
                             <div className="attention-item-right">
                                 <img src={item.image} alt='图片已失效' />
                             </div>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

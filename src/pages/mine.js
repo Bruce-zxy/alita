@@ -1,4 +1,5 @@
 import React, { Fragment, Component, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import ShopContext from '../context/shop';
 
@@ -32,7 +33,7 @@ export default () =>  {
                     {user && user.status === '待审核' ? (
                         <a className="apply-to-volunteer" href='javascript:;'>审核中，请等待</a>
                     ) : (
-                        <a className="apply-to-volunteer" href={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</a>
+                        <Link className="apply-to-volunteer" to={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</Link>
                     )}
                 </Fragment>
             )
@@ -43,7 +44,7 @@ export default () =>  {
                     <p className="user-name">{user.nickname}<i className="iconfont iconaixin"></i></p>
                     <div className="user-scores">
                         <p>{user.points}</p>
-                        <p><a href={LOCAL_URL['SCORES']}>我的积分</a></p>
+                        <p><Link to={LOCAL_URL['SCORES']}>我的积分</Link></p>
                     </div>
                 </Fragment>
             )
@@ -56,50 +57,50 @@ export default () =>  {
                 <div className="my-order">
                     <p className="order-type-title">
                         <span>我的订单</span>
-                        <a href={`${LOCAL_URL['ORDER_WANTDO']}`}>查看全部</a>
+                        <Link to={`${LOCAL_URL['ORDER_WANTDO']}`}>查看全部</Link>
                     </p>
                     <div className="order-type-list">
-                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
+                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待派单</p>
-                        </a>
-                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
+                        </Link>
+                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待接单</p>
-                        </a>
-                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
+                        </Link>
+                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待确认</p>
-                        </a>
-                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
+                        </Link>
+                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>待结单</p>
-                        </a>
-                        <a className="order-type-item" href={`${LOCAL_URL['ORDER_WANTDO']}`}>
+                        </Link>
+                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
                             <i className="iconfont iconjilu"></i>
                             <p>已结单</p>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             )
         } else {
             return (
                 <Fragment>
-                    <a href={LOCAL_URL['ORDER_WANTDO']}>
+                    <Link to={LOCAL_URL['ORDER_WANTDO']}>
                         <i className="iconfont iconxiadan"></i>
                         <span>我的需求单</span>
                         <i className="iconfont iconjiantouyou"></i>
-                    </a>
-                    <a href={LOCAL_URL['ORDER_TODO']}>
+                    </Link>
+                    <Link to={LOCAL_URL['ORDER_TODO']}>
                         <i className="iconfont iconwodedingdan"></i>
                         <span>我的任务单</span>
                         <i className="iconfont iconjiantouyou"></i>
-                    </a>
-                    <a href={LOCAL_URL['SUGGESTION']}>
+                    </Link>
+                    <Link to={LOCAL_URL['SUGGESTION']}>
                         <i className="iconfont icontousuyujianyi"></i>
                         <span>志愿者建议</span>
                         <i className="iconfont iconjiantouyou"></i>
-                    </a>
+                    </Link>
                 </Fragment>
             )
         }
@@ -114,7 +115,7 @@ export default () =>  {
                         {toRenderUserPanel(user)}
                     </div>
                 </div>
-                {user && <a className="user-setting" href={LOCAL_URL['SETTING']}><i className="iconfont iconshezhicopy"></i></a>} 
+                {user && <Link className="user-setting" to={LOCAL_URL['SETTING']}><i className="iconfont iconshezhicopy"></i></Link>} 
             </div>
             <div className="hdz-block-space"></div>
             <div className="user-function">

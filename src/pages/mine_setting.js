@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Toast } from 'antd-mobile';
 
 import config from '../lib/config';
@@ -110,24 +111,24 @@ export default ({ history, match }) => {
                 <p><img src={user.avatar || DEFAULT_AVATAR} alt='图片已失效' /></p>
                 <i className="iconfont iconjiantouyou"></i>
             </a>
-            <a className="user-name" href={LOCAL_URL['NICKNAME']}>
+            <Link className="user-name" to={LOCAL_URL['NICKNAME']}>
                 <span>昵称</span>
                 <p>{user.nickname || '未设置'}</p>
                 <i className="iconfont iconjiantouyou"></i>
-            </a>
-            <a className="user-sex" href={LOCAL_URL['GENDER']}>
+            </Link>
+            <Link className="user-sex" to={LOCAL_URL['GENDER']}>
                 <span>性别</span>
                 <p>{user.gender === 0 ? '男' : user.gender === 1 ? '女' : '未设置'}</p>
                 <i className="iconfont iconjiantouyou"></i>
-            </a>
+            </Link>
             <a className="user-title">
                 <span>联系方式</span>
             </a>
-            <a className="user-phone" href={LOCAL_URL['PHONE']}>
+            <Link className="user-phone" to={LOCAL_URL['PHONE']}>
                 <span>手机</span>
                 <p>{user.phone || '未设置'}</p>
                 <i className="iconfont iconjiantouyou"></i>
-            </a>
+            </Link>
         </div>
     )
 

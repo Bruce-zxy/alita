@@ -47,9 +47,9 @@ const MainPageRoutes = {
   '实践通': (
     <Fragment>
       <Route component={HomePage} path={`${gPageUrl['HOME']}`} exact />
-      <Route component={ActivityList} path={`${gPageUrl['HOME_LIST']}/:news_type`} exact/>
-      <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact/>
-      <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact/>
+      <Route component={ActivityList} path={`${gPageUrl['HOME_LIST']}/:news_type`} exact />
+      <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact />
+      <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact />
     </Fragment>
   ),
   '关注': (
@@ -71,9 +71,9 @@ const MainPageRoutes = {
       <Route component={SettingPage} path={`${gPageUrl['SETTING']}`} exact />
       <Route component={SettingPage} path={`${gPageUrl['SETTING']}/:type`} exact />
       <Route component={ScoresPage} path={`${gPageUrl['SCORES']}`} exact />
-      <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type`} exact/>
-      <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type/:id`} exact/>
-      <Route component={SuggestionPage} path={`${gPageUrl['SUGGESTION']}`} exact/>
+      <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type`} exact />
+      <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type/:id`} exact />
+      <Route component={SuggestionPage} path={`${gPageUrl['SUGGESTION']}`} exact />
     </Fragment>
   )
 };
@@ -93,7 +93,7 @@ export default (props) => {
 
   return (
     <div style={{ position: 'fixed', height: '100vh', width: '100vw', top: 0, zIndex: 1 }}>
-      <TabBar className="hdz-tabbar" unselectedTintColor={COLOR_UNSELECTED} tintColor={COLOR_SELECTED} barTintColor="white" hidden={false} >
+      <TabBar className="hdz-tabbar" unselectedTintColor={COLOR_UNSELECTED} tintColor={COLOR_SELECTED} barTintColor="white" hidden={false}>
         { Object.keys(gTabBar).map((key, i) => (
           <TabBar.Item title={key} key={key}
             icon={gTabBar[key].icon}

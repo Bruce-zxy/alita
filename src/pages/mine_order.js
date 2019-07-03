@@ -1,10 +1,11 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, Component, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Tabs } from 'antd-mobile';
-// import { createForm } from 'rc-form';
-// import moment from 'moment';
+
 import ShopContext from '../context/shop';
 
 import config from '../lib/config';
+import superFetch from '../lib/api';
 
 const { LOCAL_URL } = config;
 
@@ -75,7 +76,30 @@ const service_details = {
     notice: '<p>1、教练正在鼓励和帮助孩子们在冰面上保持平衡和基本动作。</p><p>2、考虑到孩子们的特殊性, 华星冰上中心特意使用整个冰球馆让他们参观体验, 面对上千平米的室内冰场, 孩子们充满了兴奋与好奇。</p>'
 }
 
-export default class extends Component {
+class MineOrder extends Component {
+
+    constructor(props) {
+        super(props);
+        const { match: { params: { type, id } } } = props;
+        this.state = {
+            id,
+            type,
+            current: 0,
+            list: [],
+            detail: {}
+        }
+    }
+
+    componentDidMount() {
+        const { id } = this.state;
+        if (id) {
+            superFetch.get('/')
+        } else {
+
+        }
+    }
+
+    toSetCurrentTab = (index) => this.setState({ current: index })
 
     toRenderOrderListTabContent = (type) => (data) => (
         <div className="mine-order-list">
@@ -87,7 +111,7 @@ export default class extends Component {
                             <img src={item.image} alt="order-images" />
                         </div>
                         <div className="order-content">
-                            <a className="order-title" href={`${LOCAL_URL['ORDER']}/${type}/${item.id}`}>{item.title}</a>
+                            <Link className="order-title" to={`${LOCAL_URL['ORDER']}/${type}/${item.id}`}>{item.title}</Link>
                             <p className="order-tags">
                                 {item.tags && item.tags.map((tag, j) => (
                                     <span key={j}>{tag}</span>
@@ -95,7 +119,7 @@ export default class extends Component {
                             </p>
                             <p className="order-functions">
                                 {CAN_BE_CANCELED_STATE.includes(item.state) && <span>取消订单</span>}
-                                {type === 'wantdo' && CAN_BE_CONFIRMED_STATE.includes(item.state) && <span className="confirm">确认</span>}
+                                {type === 'todo' && CAN_BE_CONFIRMED_STATE.includes(item.state) && <span className="confirm">确认</span>}
                             </p>
                         </div>
                     </div>
@@ -107,12 +131,17 @@ export default class extends Component {
     )
 
     toRenderOrderList = (type) => {
+        const { requirements, tasks } = this.props;
+        const { current } = this.state;
         const list = order_list;
         return (
-            <Tabs tabs={tabs}
+            <Tabs 
+                tabs={tabs}
+                page={current}
                 tabBarActiveTextColor={ACTIVE_COLOR}
                 tabBarUnderlineStyle={{ borderColor: ACTIVE_COLOR }}
                 renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={tabs.length} />}
+                onTabClick={(tab, index) => this.toSetCurrentTab(index)}
             >
                 {this.toRenderOrderListTabContent(type)(list)}
 
@@ -170,8 +199,11 @@ export default class extends Component {
     }
 
     render() {
-        const { match: { params: { type,id } } } = this.props;
+        const { requirements, tasks } = this.props;
+        const { id, type } = this.state;
         console.log(type, id);
+        console.log(requirements, tasks);
+        
         
         return (
             <div className="hdz-mine-order">
@@ -179,4 +211,20 @@ export default class extends Component {
             </div>
         )
     }
+}
+
+export default (props) => {
+    const shopContext = useContext(ShopContext);
+
+    console.log(shopContext, '【INIT】');
+    
+    useEffect(() => {
+        shopContext.getOrder();
+    }, [])
+
+    return (
+        <Fragment>
+            <MineOrder {...props} requirements={shopContext.requirements[0] || []} tasks={shopContext.tasks[0] || []} />
+        </Fragment>
+    )
 }

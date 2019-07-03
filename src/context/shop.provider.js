@@ -1,4 +1,5 @@
 import React, {useEffect, useReducer} from 'react';
+import _ from 'lodash';
 
 import superFetch from '../lib/api';
 import { setKeyValue, getKeyValue } from '../lib/persistance';
@@ -16,19 +17,21 @@ const gTargetUrl = {
     category: '/category/list',
     content: '/content/list',
     service: '/service/list',
-    attention: '/content/list'
-
+    attention: '/content/list',
+    requirement: '/flow/requirement',
+    task: '/flow/task'
 }
 export default function ShopProvider(props) {
 
     const [shopState, dispatch] = useReducer(shopReducer, {
         user: null,
-        orders: [],
         carousel: [],
         category: [],
         content: [],
         attention: [],
-        service: []
+        service: [],
+        requirements: [],
+        tasks: []
     });
 
     console.log(shopState, 'init');
@@ -44,10 +47,10 @@ export default function ShopProvider(props) {
             const user = await superFetch.get(gTargetUrl['user'] + '/current');
             setKeyValue('current_user', !!user ? JSON.stringify(user) : '');
             
-            const category_promise = superFetch.get(gTargetUrl['category'] + '?pageSize=100');
-            const content_promise = superFetch.get(gTargetUrl['content'] + '?pageSize=100');
-            const service_promise = superFetch.get(gTargetUrl['service'] + '?pageSize=100');
-            const carousel_promise = superFetch.get(gTargetUrl['carousel'] + '?pageSize=5');
+            const category_promise = superFetch.get(gTargetUrl['category'] + '?pageSize=1000');
+            const content_promise = superFetch.get(gTargetUrl['content'] + '?pageSize=1000');
+            const service_promise = superFetch.get(gTargetUrl['service'] + '?pageSize=1000');
+            const carousel_promise = superFetch.get(gTargetUrl['carousel'] + '?pageSize=100');
             Promise.all([category_promise, content_promise, service_promise, carousel_promise]).then(([category, content, service, carousel]) => {
                 global.TNT('【category】：', category);
                 global.TNT('【content】：', content);
@@ -207,47 +210,23 @@ export default function ShopProvider(props) {
         }
     }
 
-    // const updateCurrentUserInfo = async (newvalue) => { 
-    //     console.log('ShopProvider::updateCurrentUserInfo: ', {newvalue, user: shopState.user}); 
-    //     if (!shopState.user || !shopState.user.credential || !shopState.user.credential.user) throw new Error('未找到当前用户登陆信息！');
-        
-    //     try {
-    //         const [userinfo] = await superFetch.put(gTargetUrl['users'], {
-    //             criteria: {obj: { id: shopState.user.credential.user.id } },
-    //             newvalue
-    //         });
-    //         // console.log({userinfo});
-    //         if (!userinfo) throw new Error('用户信息更新失败！');
-            
-    //         const [credential] = await superFetch.get(gTargetUrl['usercredentials'], { id: shopState.user.credential.id });
-    //         // console.log({credential});
-    //         if (!credential) throw new Error('用户信息获取失败！');
-
-    //         shopState.user.credential = credential;
-    //         dispatch({
-    //             type: ACTION_SET,
-    //             payload: shopState
-    //         });
-    //         setKeyValue('current_user', JSON.stringify(shopState.user));
-
-    //         return userinfo;
-
-    //     } catch (err) {
-    //         console.error('ShopProvider::update Error: ', err);
-    //         return err;
-    //     }
-    // };
-
-    const getCarousel = async () => {
+    const getOrder = async () => {
         try {
-            const result = await superFetch.get(gTargetUrl['carousel']);
-            if (result) {
+            const requirements = await superFetch.get(gTargetUrl['requirement'] + '?pageSize=1000');
+            const tasks = await superFetch.get(gTargetUrl['task']);
+            console.log(requirements);
+            console.log(tasks);
+            
+            if (requirements instanceof Array && tasks instanceof Array) {
                 dispatch({
                     type: ACTION_SET,
-                    payload: { carousel: [].concat(result[0][0].carousels) }
+                    payload: { 
+                        requirements: requirements.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)), 
+                        tasks: tasks.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)) 
+                    }
                 });
             }
-        } catch(err) {
+        } catch (err) {
             console.error('ShopProvider::update Error: ', err);
             return err;
         }
@@ -267,7 +246,7 @@ export default function ShopProvider(props) {
             updateUserInfo,
             updateCurrentUserInfo,
             login,
-            getCarousel,
+            getOrder
         }}>
             {props.children}
         </ShopContext.Provider>

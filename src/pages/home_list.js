@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
@@ -88,11 +89,11 @@ const toRenderActivityComponent = (data) => {
       <div className="latest-activity-list">
         {data.map((item, i) => (
           <div className="latest-activity-item-container" key={i}>
-            <a className="latest-activity-item" href={`${LOCAL_URL.HOME_DETAIL}/${item.id}`}>
+            <Link className="latest-activity-item" to={`${LOCAL_URL.HOME_DETAIL}/${item.id}`}>
               <img src={item.image} alt='图片已失效' />
               <p className="activity-name">{item.name}</p>
               <p className="activity-date"><i className="iconfont iconshijian"></i>{item.date}</p>
-            </a>
+            </Link>
           </div>
         ))}
       </div>
@@ -108,7 +109,7 @@ const toRenderTrainingComponent = (data) => {
       <div className="training-notice-list">
         {data.map((item, i) => (
           <div className="training-notice-item-container" key={i}>
-            <a className="training-notice-item" href={`${LOCAL_URL.HOME_DETAIL}/${item.id}`}>
+            <Link className="training-notice-item" to={`${LOCAL_URL.HOME_DETAIL}/${item.id}`}>
               <div className="training-left">
                 <p className="training-name">{item.name}</p>
                 <p className="training-description">{item.description}</p>
@@ -117,7 +118,7 @@ const toRenderTrainingComponent = (data) => {
                 <img src={item.image} alt='图片已失效' />
                 <p className="training-date">{item.date}</p>
               </div>
-            </a>
+            </Link>
           </div>
         ))}
       </div>
