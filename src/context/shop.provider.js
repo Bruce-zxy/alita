@@ -41,7 +41,8 @@ export default function ShopProvider(props) {
     useEffect(() => {
         (async () => {
             const params = window.location.search.slice(1).split('&').map(item => ({ [item.split('=')[0]]: item.split('=')[1] }));
-            const { token  } = _.find(params, (o) => !!o['token']);
+            const token_obj = _.find(params, (o) => !!o['token']);
+            const token = getKeyValue('token') ? getKeyValue('token') : token_obj ? token_obj.token : null;
             global.TNT('【TOKEN】', token);
 
             const promise_all = [];

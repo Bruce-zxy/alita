@@ -109,11 +109,11 @@ export default (props) => {
             slidesPerView: 2.5
           }}
           render={(item, i) => (
-            <Link to={item.link} className="function-swiper-item" style={{ background: item.background }}>
+            <a href={item.link} className="function-swiper-item" style={{ background: item.background }}>
               <p style={{ color: item.name_color }}>{item.name}</p>
               <p style={{ color: item.ename_color }}>{item.ename}</p>
               <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
-            </Link>
+            </a>
           )}
         />
       </div>
