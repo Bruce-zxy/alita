@@ -62,43 +62,47 @@ class Service extends Component {
         </div>
     )
 
-    toRenderServiceList = (list) => (
-        <div className="hdz-service">
-            <div className="service-header">
-                <div className="search-icon">
-                    <i className="iconfont iconjiantouzuo" onClick={this.props.history.goBack}></i>
+    toRenderServiceList = (list) => {
+        return (
+            <div className="hdz-service">
+                <div className="service-header">
+                    <div className="search-icon">
+                        <i className="iconfont iconjiantouzuo" onClick={this.props.history.goBack}></i>
+                    </div>
+                    <div className="search-input-container">
+                        <i className="iconfont iconsousuo"></i>
+                        <input type="text" placeholder="请输入服务关键字" />
+                    </div>
                 </div>
-                <div className="search-input-container">
-                    <i className="iconfont iconsousuo"></i>
-                    <input type="text" placeholder="请输入服务关键字" />
+                <div className="service-function">
+                    <div className="service-sort">综合排序 <i className="iconfont iconbelow-s"></i></div>
+                    <div className="service-type">类型 <i className="iconfont iconbelow-s"></i></div>
+                    <div className="service-filter">筛选 <i className="iconfont iconguolv"></i></div>
+                </div>
+                <div className="service-list">
+                    {list.map((item, i) => [
+                        <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
+                            <div className="service-item-left">
+                                <img src={item.image} alt="service-item" />
+                            </div>
+                            <div className="service-item-right">
+                                <p className="service-title">{item.title}</p>
+                                <p className="service-description">{item.description}</p>
+                                <p className="service-tags">
+                                    {item.tags && item.tags.map((tag) => (
+                                        <span key={tag}>{tag}</span>
+                                    ))}
+                                </p>
+                            </div>
+                        </Link>,
+                        <div className="hdz-block-space" key={i}></div>
+                    ])}
                 </div>
             </div>
-            <div className="service-function">
-                <div className="service-sort">综合排序 <i className="iconfont iconbelow-s"></i></div>
-                <div className="service-type">类型 <i className="iconfont iconbelow-s"></i></div>
-                <div className="service-filter">筛选 <i className="iconfont iconguolv"></i></div>
-            </div>
-            <div className="service-list">
-                {list.map((item, i) => [
-                    <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
-                        <div className="service-item-left">
-                            <img src={item.image} alt="service-item" />
-                        </div>
-                        <div className="service-item-right">
-                            <p className="service-title">{item.title}</p>
-                            <p className="service-description">{item.description}</p>
-                            <p className="service-tags">
-                                {item.tags && item.tags.map((tag) => (
-                                    <span key={tag}>{tag}</span>
-                                ))}
-                            </p>
-                        </div>
-                    </Link>,
-                    <div className="hdz-block-space" key={i}></div>
-                ])}
-            </div>
-        </div>
-    )
+        )
+    }
+    
+
 
     render() {
         const { match: { params: { id } }, list } = this.props;

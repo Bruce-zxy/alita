@@ -1,4 +1,5 @@
-import React, { Fragment, Component } from 'react';
+import React, { useContext } from 'react';
+import * as moment from 'moment';
 
 import ShopContext from '../context/shop';
 
@@ -29,34 +30,41 @@ const scores_info ={
     }]
 }
 
-export default class extends Component {
+export default () => {
+
+    const shopContext = useContext(ShopContext);
+    const { score, user } = shopContext;
+    const scores = score[1] ? score[0].map(item => ({
+        ...item,
+        name: item.title,
+        date: moment(item.create_at).format('YYYY-MM-DD'),
+        type: item.value < 0 ? 'out' : 'in',
+        amount: Math.abs(item.value)
+    })) : [];
 
 
-    render() {
-        const scores = scores_info;
-        return (
-            <div className="hdz-scores">
-                <div className="scores-info-container">
-                    <div className="scores-icon">
-                        <i className="iconfont iconjifen1-copy"></i>
-                    </div>
-                    <div className="scores-balance">
-                        <p>积分余额</p>
-                        <p>{scores.balance}</p>
-                    </div>
+    return (
+        <div className="hdz-scores">
+            <div className="scores-info-container">
+                <div className="scores-icon">
+                    <i className="iconfont iconjifen1-copy"></i>
                 </div>
-                <div className="scores-info">
-                    <div className="scores-info-list">
-                        {scores.list.sort((a, b) => new Date(b.date) - new Date(a.date)).map((item, i) => (
-                            <div className="scores-info-item" key={i}>
-                                <span>{item.date}</span>
-                                <span>{item.name}</span>
-                                <span className={item.type}>{item.amount}</span>
-                            </div>
-                        ))}
-                    </div>
+                <div className="scores-balance">
+                    <p>积分余额</p>
+                    <p>{!!user ? user.points : 0}</p>
                 </div>
             </div>
-        )
-    }
+            <div className="scores-info">
+                <div className="scores-info-list">
+                    {scores.sort((a, b) => new Date(b.date) - new Date(a.date)).map((item, i) => (
+                        <div className="scores-info-item" key={i}>
+                            <span>{item.date}</span>
+                            <span>{item.name}</span>
+                            <span className={item.type}>{item.amount}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
 }

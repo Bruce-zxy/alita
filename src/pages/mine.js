@@ -20,9 +20,6 @@ export default () =>  {
 
     const shopContext = useContext(ShopContext);
     const user = shopContext.user;
-    useEffect(() => {
-        shopContext.updateUserInfo()
-    }, []);
     
     const toRenderUserPanel = (user) => {
         if (!user || !user.isVolunteer) {
@@ -41,7 +38,7 @@ export default () =>  {
             return (
                 <Fragment>
                     <img src={user.avatar || DEFAULT_AVATAR} alt='图片已失效' />
-                    <p className="user-name">{user.nickname}<i className="iconfont iconaixin"></i></p>
+                    <p className="user-name">{user.nickname || '未设置'}<i className="iconfont iconaixin"></i></p>
                     <div className="user-scores">
                         <p>{user.points}</p>
                         <p><Link to={LOCAL_URL['SCORES']}>我的积分</Link></p>
@@ -88,12 +85,12 @@ export default () =>  {
                 <Fragment>
                     <Link to={LOCAL_URL['ORDER_WANTDO']}>
                         <i className="iconfont iconxiadan"></i>
-                        <span>我的需求单</span>
+                        <span>我点的单</span>
                         <i className="iconfont iconjiantouyou"></i>
                     </Link>
                     <Link to={LOCAL_URL['ORDER_TODO']}>
                         <i className="iconfont iconwodedingdan"></i>
-                        <span>我的任务单</span>
+                        <span>我接的单</span>
                         <i className="iconfont iconjiantouyou"></i>
                     </Link>
                     <Link to={LOCAL_URL['SUGGESTION']}>

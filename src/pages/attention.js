@@ -64,7 +64,7 @@ class Attention extends Component {
 
     toRenderTabHeader = props => (
         <div className="attention-tabs">
-            <Tabs.DefaultTabBar {...props} page={4} />
+            <Tabs.DefaultTabBar {...props} page={window.innerWidth < 350 ? 3 : 4} />
             <div className="attention-tabs-function">
                 <i className="iconfont icongengduo-2" onClick={this.toShowPanel}></i>
                 <i className="iconfont iconsousuo"></i>
@@ -73,8 +73,6 @@ class Attention extends Component {
     )
 
     toRenderTabContent = tab => {
-        
-        console.log(tab);
         return (
             <div className="attention-tab-content">
                 <div className="attention-swiper">
@@ -101,8 +99,6 @@ class Attention extends Component {
     render() {
         const { current, navi_show } = this.state;
         const { list } = this.props;
-        
-
         const tabs = list.map(item => ({ title: item.type, ...item }));
 
         return (
@@ -161,7 +157,8 @@ export default () => {
                     let result = _.find(shopContext.carousel[0], { token: list[i].type });
                     list[i].carousel = result ? result.carousels.map(item => ({
                         ...item,
-                        title: item.desc
+                        title: item.desc,
+                        link: 'javascript:;'
                     })) : [];
                 })
                 setState(list);
