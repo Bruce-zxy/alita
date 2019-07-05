@@ -25,25 +25,32 @@ export default ({ history, match }) => {
         shopContext.updateUserInfo();
     }, []);
     const user = shopContext.user;
+    let input_ref = null;
 
 
     const onSave = async (e) => {
         e.preventDefault();
         const { params: { type } } = match;
-        if (!!thisState.value || thisState.value === 0) {
-            user[type] = thisState.value
-            const res = await shopContext.updateCurrentUserInfo(user);
-            if (res instanceof Error) {
-                Toast.fail('更新失败！');
-            }else {
-                setTimeout(() => {
-                    history.goBack();
-                }, 1000);
-                Toast.success('更新成功！');
+        if (input_ref) {
+            if (type === 'nickname' && input_ref.value.replace(/[^\x00-\xff]/g, "01").length > 12) {
+                return Toast.fail('昵称必须小于等于6个字符！');
+            } else if (type === 'phone' && (isNaN(input_ref.value) || input_ref.value.includes('e') || input_ref.value.length !== 11)) {
+                return Toast.fail('请输入正确的手机号！');
             }
-            
+            user[type] = input_ref.value;
+        } else {
+            if (!thisState.value) {
+                return Toast.fail('您未选择任何选项！');
+            }
+            user[type] = thisState.value;
         }
-
+        const res = await shopContext.updateCurrentUserInfo(user);
+        if (res instanceof Error) {
+            Toast.fail('更新失败！');
+        }else {
+            Toast.success('更新成功！', 1);
+            setTimeout(() => history.goBack(), 1000);
+        }
     };
 
     const toGoBack = (e) => {
@@ -71,7 +78,12 @@ export default ({ history, match }) => {
             case 'nickname':
                 return (
                     <SettingInfoLayout title="修改昵称" onSave={onSave} toGoBack={toGoBack}>
-                        <input type="text" autoFocus placeholder={"昵称"} value={thisState.value} onChange={(e) => setState({ value: e.target.value })}/>
+                        <input 
+                            ref={ins => input_ref = ins}
+                            type="text" 
+                            autoFocus 
+                            placeholder={"昵称"} 
+                        />
                     </SettingInfoLayout>
                 )
                 break;
@@ -95,7 +107,12 @@ export default ({ history, match }) => {
                 return (
                     <SettingInfoLayout title="修改手机号" onSave={onSave} toGoBack={toGoBack}>
                         <p className="user-info-phone">您的手机号：{!!user && user.phone ? user.phone.toString().replace(/^(\d{3})\d+(\d{3})$/, "$1*****$2") : '暂未绑定'}</p>
-                        <input type="text" autoFocus placeholder="请输入新的手机号" value={thisState.value} onChange={(e) => setState({ value: e.target.value.toString().slice(0,11) })} />
+                        <input 
+                            ref={ins => input_ref = ins}
+                            type="text" 
+                            autoFocus 
+                            placeholder="请输入新的手机号" 
+                        />
                     </SettingInfoLayout>
                 )
                 break;
@@ -139,6 +156,10 @@ export default ({ history, match }) => {
             return toRenderSettingContent(user);
         }
     }
+
+    console.log('????????????????');
+    console.log(match.params.type);
+    
 
     return onRenderType(match.params.type);
 }

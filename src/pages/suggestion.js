@@ -18,7 +18,6 @@ const robot = {
 }
 
 export default (props) => {
-
     const shopContext = useContext(ShopContext);
     const [thisState, setState] = useState ([])
     const input_ref = useRef();
@@ -28,7 +27,7 @@ export default (props) => {
         toFetchSuggestion();
     }, [shopContext.user]);
 
-    const toScroll = (time) => {
+    const toScroll = (time = 300) => {
         timer = setTimeout(() => {
             document.querySelector('#last-one').scrollIntoView({ behavior: "smooth" });
             clearTimeout(timer);
@@ -36,7 +35,6 @@ export default (props) => {
     }
 
     const toFetchSuggestion = async () => {
-        console.log("//////!!!!!!!!!!!!");
         if (shopContext.user) {
             const suggestion_customer = await superFetch.get(`/feedback/list?userId=${shopContext.user.id}`);
             if (suggestion_customer[1]) {
