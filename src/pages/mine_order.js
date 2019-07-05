@@ -226,7 +226,7 @@ export default (props) => {
     const shopContext = useContext(ShopContext);
     
     useEffect(() => {
-        if (!shopContext.requirements[0] || !shopContext.tasks[0]) {
+        if (!!shopContext.user) {
             shopContext.getOrder();
         }
     }, [])
