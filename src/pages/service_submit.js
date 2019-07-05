@@ -41,7 +41,7 @@ class ServiceSubmit extends Component {
             if (!!error) {
                 Toast.fail('请将非选填的选项填写完整！', 2);
             } else {
-                value.date = date.format('YYYY-MM-DD HH:mm:ss');
+                value.date = date && date.format('YYYY-MM-DD HH:mm:ss');
                 const res = await superFetch.post('/service/apply', { ...value, id });
                 if (res === true) {
                     Toast.success('提交成功！请等待管理员处理！', 2);

@@ -1,6 +1,6 @@
 import React, { Fragment, Component, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Tabs, Toast } from 'antd-mobile';
+import { Tabs, Toast, Modal } from 'antd-mobile';
 import _ from 'lodash';
 import * as moment from 'moment';
 
@@ -86,19 +86,28 @@ class MineOrder extends Component {
         this.state = { tab_index };
     }
 
-    orderHandler = (action) => (flow) => async () => {
-        const res = await superFetch.post('/flow/dispatch', {
-            action,
-            flow,
-            option: this.props.operator
-        });
+    orderHandler = (action) => (flow) => () => {
+        Modal.alert('操作确认', `是否确定对此进行【${action}】操作?`, [{ 
+                text: '取消', 
+                onPress: () => {} 
+            }, { 
+                text: '确认', 
+                onPress: async () => {
+                    const res = await superFetch.post('/flow/dispatch', {
+                        action,
+                        flow,
+                        option: this.props.operator
+                    });
 
-        if (res instanceof Error || !res) {
-            Toast.fail('操作失败！');
-        }else {
-            this.props.toRefreshOrderInfo();
-            Toast.success('操作成功！');
-        }
+                    if (res instanceof Error || !res) {
+                        Toast.fail('操作失败！');
+                    }else {
+                        this.props.toRefreshOrderInfo();
+                        Toast.success('操作成功！');
+                    }   
+                }
+            }
+        ])
     }
 
     toRenderOrderListTabContent = (type) => (list) => (tabs) => (tab) => {
