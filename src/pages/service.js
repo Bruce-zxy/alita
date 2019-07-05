@@ -80,7 +80,7 @@ class Service extends Component {
                     <div className="service-filter">筛选 <i className="iconfont iconguolv"></i></div>
                 </div>
                 <div className="service-list">
-                    {list.map((item, i) => [
+                    {list.length > 0 ? list.map((item, i) => [
                         <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
                             <div className="service-item-left">
                                 <img src={item.image} alt="service-item" />
@@ -96,7 +96,9 @@ class Service extends Component {
                             </div>
                         </Link>,
                         <div className="hdz-block-space" key={i}></div>
-                    ])}
+                    ]) : (
+                        <p className="list-empty">暂无此分类数据</p>
+                    )}
                 </div>
             </div>
         )

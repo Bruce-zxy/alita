@@ -79,7 +79,7 @@ class Attention extends Component {
                     <Carousel list={tab.carousel || []} dots={false} infinite={false} />
                 </div>
                 <div className="attention-list">
-                    {tab.list && tab.list.map((item, i) => (
+                    {tab.list && tab.list.length > 0 ? tab.list.map((item, i) => (
                         <Link className="attention-item" key={i} to={item.link}>
                             <div className="attention-item-left">
                                 <p className="attention-itme-title">{item.title}</p>
@@ -90,7 +90,9 @@ class Attention extends Component {
                                 <img src={item.image} alt='图片已失效' />
                             </div>
                         </Link>
-                    ))}
+                    )) : (
+                        <p className="list-empty">暂无此分类数据</p>
+                    )}
                 </div>
             </div>
         )

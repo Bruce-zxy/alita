@@ -1,6 +1,4 @@
-import React, { Component, useState, useEffect, useContext, useRef } from 'react';
-import { findDomNode } from 'react-dom';
-import ScrollTo from 'react-scroll-into-view'
+import React, { useState, useEffect, useContext, useRef } from 'react';
 
 import ShopContext from '../context/shop';
 
@@ -32,23 +30,24 @@ export default (props) => {
 
     const toScroll = (time) => {
         timer = setTimeout(() => {
-            document.querySelector('.scroll-to').click();
-            clearTimeout(timer)
+            document.querySelector('#last-one').scrollIntoView({ behavior: "smooth" });
+            clearTimeout(timer);
         }, time)
     }
 
     const toFetchSuggestion = async () => {
+        console.log("//////!!!!!!!!!!!!");
         if (shopContext.user) {
             const suggestion_customer = await superFetch.get(`/feedback/list?userId=${shopContext.user.id}`);
             if (suggestion_customer[1]) {
                 setState(() => {
                     const data = suggestion_customer[0].reverse().map(item => ({
-                        name: item.user ? item.user.account : '自己',
+                        name: item.user ? item.user.nickname ? item.user.nickname : '本人' : '',
                         avatar: item.user ? item.user.avatarPath : DEFAULT_AVATAR,
                         content: item.title
                     }));
                     data.push(robot);
-                    toScroll(0)
+                    toScroll(0);
                     return data;
                 });
             }
@@ -59,18 +58,18 @@ export default (props) => {
         await superFetch.post('/feedback', { title: input_ref.current.value });
         setState((prevState) => {
             prevState.push({
-                name: shopContext.user ? shopContext.user.account : '自己',
+                name: shopContext.user ? shopContext.user.nickname ? shopContext.user.nickname : '本人' : '',
                 avatar: shopContext.user ? shopContext.user.avatarPath : DEFAULT_AVATAR,
                 content: input_ref.current.value
             })
-            toScroll(1000);
+            toScroll(0);
             input_ref.current.value = '';
             return [].concat(prevState);
         })
     }
 
     return (
-        <div className="hdz-suggestion-container">
+        <div className="hdz-suggestion-container" key={timer}>
             <div className="hdz-suggestion-list">
                 {thisState.map((item, i) => (
                     <div className={`suggestion-message-${item.name === '实践中心' ? 'left' : 'right'}`} key={i}>
@@ -84,15 +83,6 @@ export default (props) => {
                     </div>
                 ))}
             </div>
-
-            <ScrollTo
-                className="scroll-to"
-                style={{ position: "fixed", bottom: '-50px', right: '-50px', zIndex: '-999', opacity: '0' }}
-                selector="#last-one"
-            >
-                跳转到最新的一条数据
-            </ScrollTo>
-
             <div className="suggestion-input">
                 <input type="text" placeholder="提点建议" ref={input_ref}/>
                 <span onClick={toCreateNewSuggestion}>发送</span>

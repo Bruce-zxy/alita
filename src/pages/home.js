@@ -122,7 +122,7 @@ export default (props) => {
       <div className="hdz-hot-activity">
         <p>
           <span>热门活动</span>
-          <Link to={gPageUrl['ACTIVITY_NOTICE']}>更多活动</Link>
+          <Link to={gPageUrl['LATEST_ACTIVITY']}>更多活动</Link>
         </p>
         <div className="hot-activity-list">
           {activity_list.map((item, i) => (

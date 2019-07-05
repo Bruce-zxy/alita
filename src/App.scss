@@ -30,7 +30,12 @@ input {
     }
 }
 
-
+.list-empty {
+    text-align: center;
+    color: #999;
+    font-size: 4vw;
+    padding-top: 8vw;
+}
 
 .am-tabs-tab-bar-wrap {
     box-shadow: -1px -1px 4px #EEE;
@@ -520,6 +525,11 @@ input {
         .attention-swiper {
             background: #FFF;
             margin-bottom: 2.67vw;
+
+            .swiper-empty {
+                height: 35.96vw;
+                padding-top: 8vw;
+            }
         }
 
         .attention-list {
@@ -1554,12 +1564,6 @@ input {
             }
         }
 
-        .mine-order-none {
-            text-align: center;
-            color: #999;
-            font-size: 4vw;
-        }
-
     }
 }
 
@@ -1660,6 +1664,44 @@ input {
             padding: 2.13vw 0;
             font-size: 3.2vw;
             color: #555;
+
+            >p {
+                margin: 3vw 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                >label {
+                    width: 16vw;
+                    color: #999;
+                }
+            }
+        }
+    }
+
+    .order-details-function {
+        position: fixed;
+        bottom: 50px;
+        left: 0;
+        width: 100vw;
+        height: 50px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        background: #FFF;
+        padding: 0 5.33vw;
+
+        >a {
+            padding: 1vw 4vw;
+            display: flex;
+            justify-content: cneter;
+            align-items: center;
+            background: #FFF;
+            border: 1px solid #DCDCDC;
+            border-radius: 5vw;
+            margin-left: 2vw;
+            font-size: 3.73vw;
+            color: #999;
         }
     }
 }
@@ -1680,6 +1722,7 @@ input {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+
         .suggestion-message-left,
         .suggestion-message-right {
             display: flex;

@@ -14,7 +14,7 @@ const user = {
     sex: '女',
     phone: '18679183994'
 }
-
+const COMMON_ORDER_STATUS = ['待派单', '待接单', '待确认', '待结单', '已作废']
 
 export default () =>  {
 
@@ -26,11 +26,11 @@ export default () =>  {
             return (
                 <Fragment>
                     <img src={DEFAULT_AVATAR} alt='图片已失效' />
-                    <p className="user-name">你好，年轻人</p>
+                    <p className="user-name">{user ? user.nickname : "未设置"}</p>
                     {user && user.status === '待审核' ? (
                         <a className="apply-to-volunteer" href='javascript:;'>审核中，请等待</a>
                     ) : (
-                        <Link className="apply-to-volunteer" to={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</Link>
+                        <a className="apply-to-volunteer" href={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</a>
                     )}
                 </Fragment>
             )
@@ -57,26 +57,12 @@ export default () =>  {
                         <Link to={`${LOCAL_URL['ORDER_WANTDO']}`}>查看全部</Link>
                     </p>
                     <div className="order-type-list">
-                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
-                            <i className="iconfont iconjilu"></i>
-                            <p>待派单</p>
-                        </Link>
-                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
-                            <i className="iconfont iconjilu"></i>
-                            <p>待接单</p>
-                        </Link>
-                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
-                            <i className="iconfont iconjilu"></i>
-                            <p>待确认</p>
-                        </Link>
-                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
-                            <i className="iconfont iconjilu"></i>
-                            <p>待结单</p>
-                        </Link>
-                        <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}`}>
-                            <i className="iconfont iconjilu"></i>
-                            <p>已结单</p>
-                        </Link>
+                        {COMMON_ORDER_STATUS.map((status, i) => (
+                            <Link className="order-type-item" to={`${LOCAL_URL['ORDER_WANTDO']}?tab=${i+1}`} key={i+1}>
+                                <i className="iconfont iconjilu"></i>
+                                <p>{status}</p>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             )

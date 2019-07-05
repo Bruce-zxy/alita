@@ -8,10 +8,13 @@ import ShopContext from '../context/shop';
 
 import config from '../lib/config';
 import superFetch from '../lib/api';
+import { getSearch } from '../lib/persistance';
 
 const { LOCAL_URL } = config;
 
 const ACTIVE_COLOR = '#FF6F70';
+const COMMON_ORDER_STATUS = ['全部', '待派单', '待接单', '待确认', '待结单', '已作废']
+const VOLUNTEER_ORDER_STATUS = ['全部', '待接单', '待确认', '待结单', '已结单', '已作废']
 
 // const order_list = [{
 //     id: 1,
@@ -75,6 +78,13 @@ const ACTIVE_COLOR = '#FF6F70';
 // }
 
 class MineOrder extends Component {
+    constructor(props) {
+        super(props);
+        const params = getSearch();
+        const tab_index_obj = _.find(params, (o) => !!o['tab']);
+        const tab_index = tab_index_obj ? tab_index_obj.tab : 0;
+        this.state = { tab_index };
+    }
 
     orderHandler = (action) => (flow) => async () => {
         const res = await superFetch.post('/flow/dispatch', {
@@ -93,7 +103,7 @@ class MineOrder extends Component {
 
     toRenderOrderListTabContent = (type) => (list) => (tabs) => (tab) => {
         const { service } = this.props;
-        const data = list.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)).map(item => {
+        const data_set = list.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)).map(item => {
             const item_service = _.find(service, { id: item.target });
             return {
                 ...item,
@@ -106,17 +116,18 @@ class MineOrder extends Component {
             }
         });
         
-        if (!data.length) {
+
+        const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date));
+        if (!data_use.length) {
             return (
                 <div className="mine-order-list">
-                    <p className="mine-order-none">暂无此类型订单</p>
+                    <p className="list-empty">暂无此类型订单</p>
                 </div>
             )
         } else {
-            
             return (
                 <div className="mine-order-list">
-                    {data.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a,b) => new Date(b.date) - new Date(a.date)).map((item, i) => [
+                    {data_use.map((item, i) => [
                         <div className={`mine-order-item  mine-order-state-${tabs.findIndex(state => state.title === item.state)}`} key={item.id}>
                             <p className="order-date" >{item.date}</p>
                             <div className="order-info">
@@ -145,19 +156,27 @@ class MineOrder extends Component {
     }
 
     toRenderOrderList = (type) => {
-        const { requirements, tasks } = this.props;
+        const { requirements, tasks, user } = this.props;
+        const { tab_index } = this.state;
+
         const list = type === 'todo' ? tasks : requirements;
         let tabs = [];
-        if (list.length) {
-            tabs = [].concat(list[0].template.ex_info.flowSteps.map(item => ({ title: item.name })))
-            tabs.unshift({ title: '全部' });
+        if (!!user && user.isVolunteer) {
+            tabs = VOLUNTEER_ORDER_STATUS.map(status => ({ title: status }));
+        } else {
+            tabs = COMMON_ORDER_STATUS.map(status => ({ title: status }));
         }
+        // if (list.length) {
+        //     tabs = [].concat(list[0].template.ex_info.flowSteps.map(item => ({ title: item.name })))
+        //     tabs.unshift({ title: '全部' });
+        // }
         return (
             <Tabs 
                 tabs={tabs}
+                initialPage={tab_index}
                 tabBarActiveTextColor={ACTIVE_COLOR}
                 tabBarUnderlineStyle={{ borderColor: ACTIVE_COLOR }}
-                renderTabBar={(props) => <Tabs.DefaultTabBar {...props} />}
+                renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={window.innerWidth > 350 ? 5 : 4} activeTab={tab_index} onTabClick={(tab, index) => this.setState({ tab_index: index })}/>}
             >
                 {this.toRenderOrderListTabContent(type)(list || [])(tabs)}
             </Tabs>
@@ -165,7 +184,7 @@ class MineOrder extends Component {
     }
 
     toRenderOrderDetails = (type, id) => {
-        const { service, requirements, tasks } = this.props;
+        const { service, requirements, tasks, user } = this.props;
         const list = type === 'todo' ? tasks : requirements;
         const flow = _.find(list, { id: id });
         let details = {};
@@ -206,7 +225,23 @@ class MineOrder extends Component {
                 <div className="hdz-block-space"></div>
                 <div className="order-details-notice">
                     <p>订单信息</p>
-                    <div dangerouslySetInnerHTML={{ __html: details.notice }}></div>
+                    <div>
+                        <p className="order-number">
+                            <label>订单号</label>
+                            <span>{flow && flow.id}</span>
+                        </p>
+                        <p className="order-time">
+                            <label>下单时间</label>
+                            <span>{moment(flow && flow.create_at).format('YYYY-MM-DD HH:mm:ss')}</span>
+                        </p>
+                    </div>
+                </div>
+                <div className="hdz-block-space-20"></div>
+                <div className="hdz-block-space-20"></div>
+                <div className="hdz-block-space-20"></div>
+                <div className="order-details-function">
+                    <a href={LOCAL_URL['COMPLAINT']}>我要投诉</a>
+                    {user && !user.isVolunteer && ['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
                 </div>
             </div>
         )
@@ -226,7 +261,7 @@ export default (props) => {
     const shopContext = useContext(ShopContext);
     
     useEffect(() => {
-        if (!shopContext.requirements[0] || !shopContext.tasks[0]) {
+        if (!!shopContext.user) {
             shopContext.getOrder();
         }
     }, [])
@@ -235,6 +270,7 @@ export default (props) => {
         <Fragment>
             <MineOrder 
                 {...props} 
+                user={shopContext.user}
                 service={shopContext.service[0] || []} 
                 requirements={shopContext.requirements[0] || []} 
                 tasks={shopContext.tasks[0] || []} 
