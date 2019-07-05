@@ -246,8 +246,6 @@ export default function ShopProvider(props) {
     const getScore = async () => {
         try {
             const scores = await superFetch.get(gTargetUrl['score'] + '?pageSize=1000');
-            console.log(scores);
-
             if (scores instanceof Array) {
                 dispatch({
                     type: ACTION_SET,

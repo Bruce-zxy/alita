@@ -1664,6 +1664,44 @@ input {
             padding: 2.13vw 0;
             font-size: 3.2vw;
             color: #555;
+
+            >p {
+                margin: 3vw 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                >label {
+                    width: 16vw;
+                    color: #999;
+                }
+            }
+        }
+    }
+
+    .order-details-function {
+        position: fixed;
+        bottom: 50px;
+        left: 0;
+        width: 100vw;
+        height: 50px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        background: #FFF;
+        padding: 0 5.33vw;
+
+        >a {
+            padding: 1vw 4vw;
+            display: flex;
+            justify-content: cneter;
+            align-items: center;
+            background: #FFF;
+            border: 1px solid #DCDCDC;
+            border-radius: 5vw;
+            margin-left: 2vw;
+            font-size: 3.73vw;
+            color: #999;
         }
     }
 }

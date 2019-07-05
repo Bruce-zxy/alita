@@ -12,6 +12,8 @@ import superFetch from '../lib/api';
 const { LOCAL_URL } = config;
 
 const ACTIVE_COLOR = '#FF6F70';
+const COMMON_ORDER_STATUS = ['全部', '待派单', '待接单', '待确认', '待结单', '已作废']
+const VOLUNTEER_ORDER_STATUS = ['全部', '待接单', '待确认', '待结单', '已结单', '已作废']
 
 // const order_list = [{
 //     id: 1,
@@ -146,19 +148,24 @@ class MineOrder extends Component {
     }
 
     toRenderOrderList = (type) => {
-        const { requirements, tasks } = this.props;
+        const { requirements, tasks, user } = this.props;
         const list = type === 'todo' ? tasks : requirements;
         let tabs = [];
-        if (list.length) {
-            tabs = [].concat(list[0].template.ex_info.flowSteps.map(item => ({ title: item.name })))
-            tabs.unshift({ title: '全部' });
+        if (!!user && user.isVolunteer) {
+            tabs = VOLUNTEER_ORDER_STATUS.map(status => ({ title: status }));
+        } else {
+            tabs = COMMON_ORDER_STATUS.map(status => ({ title: status }));
         }
+        // if (list.length) {
+        //     tabs = [].concat(list[0].template.ex_info.flowSteps.map(item => ({ title: item.name })))
+        //     tabs.unshift({ title: '全部' });
+        // }
         return (
             <Tabs 
                 tabs={tabs}
                 tabBarActiveTextColor={ACTIVE_COLOR}
                 tabBarUnderlineStyle={{ borderColor: ACTIVE_COLOR }}
-                renderTabBar={(props) => <Tabs.DefaultTabBar {...props} />}
+                renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={window.innerWidth > 350 ? 5 : 4} />}
             >
                 {this.toRenderOrderListTabContent(type)(list || [])(tabs)}
             </Tabs>
@@ -207,7 +214,23 @@ class MineOrder extends Component {
                 <div className="hdz-block-space"></div>
                 <div className="order-details-notice">
                     <p>订单信息</p>
-                    <div dangerouslySetInnerHTML={{ __html: details.notice }}></div>
+                    <div>
+                        <p className="order-number">
+                            <label>订单号</label>
+                            <span>{flow && flow.id}</span>
+                        </p>
+                        <p className="order-time">
+                            <label>下单时间</label>
+                            <span>{moment(flow && flow.create_at).format('YYYY-MM-DD HH:mm:ss')}</span>
+                        </p>
+                    </div>
+                </div>
+                <div className="hdz-block-space-20"></div>
+                <div className="hdz-block-space-20"></div>
+                <div className="hdz-block-space-20"></div>
+                <div className="order-details-function">
+                    <a href={LOCAL_URL['COMPLAINT']}>我要投诉</a>
+                    {['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
                 </div>
             </div>
         )
@@ -236,6 +259,7 @@ export default (props) => {
         <Fragment>
             <MineOrder 
                 {...props} 
+                user={shopContext.user}
                 service={shopContext.service[0] || []} 
                 requirements={shopContext.requirements[0] || []} 
                 tasks={shopContext.tasks[0] || []} 
