@@ -173,7 +173,7 @@ class MineOrder extends Component {
     }
 
     toRenderOrderDetails = (type, id) => {
-        const { service, requirements, tasks } = this.props;
+        const { service, requirements, tasks, user } = this.props;
         const list = type === 'todo' ? tasks : requirements;
         const flow = _.find(list, { id: id });
         let details = {};
@@ -230,7 +230,7 @@ class MineOrder extends Component {
                 <div className="hdz-block-space-20"></div>
                 <div className="order-details-function">
                     <a href={LOCAL_URL['COMPLAINT']}>我要投诉</a>
-                    {['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
+                    {!user.isVolunteer && ['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
                 </div>
             </div>
         )
