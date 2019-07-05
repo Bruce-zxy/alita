@@ -17,14 +17,13 @@ module.exports = {
         "TRAINING_NOTICE" : APP_ROOT + "/mainpage/home/list/training_notice",
         "LATEST_RECRUIT"  : APP_ROOT + "/mainpage/home/list/latest_recruit",
         "HOME_DETAIL"     : APP_ROOT + "/mainpage/home/detail",
-        "VOLUNTEER_APPLY" : APP_ROOT + "/mainpage/home/volunteer_apply",
-
+        
         "ATTENTION"       : APP_ROOT + "/mainpage/attention",
         "ATTENTION_DETAIL": APP_ROOT + "/mainpage/attention/detail",
-
+        
         "SERVICE"         : APP_ROOT + "/mainpage/service",
         "SERVICE_SUBMIT"  : APP_ROOT + "/mainpage/service/submit",
-
+        
         "MINE"            : APP_ROOT + "/mainpage/mine",
         "SETTING"         : APP_ROOT + "/mainpage/mine/setting",
         "NICKNAME"        : APP_ROOT + "/mainpage/mine/setting/nickname",
@@ -35,7 +34,8 @@ module.exports = {
         "ORDER_TODO"      : APP_ROOT + "/mainpage/mine/order/todo",
         "ORDER_WANTDO"    : APP_ROOT + "/mainpage/mine/order/wantdo",
         "SUGGESTION"      : APP_ROOT + "/mainpage/mine/suggestion",
-        "COMPLAINT"       : APP_ROOT + "/mainpage/mine/complaint"
+        "COMPLAINT"       : APP_ROOT + "/mainpage/mine/complaint",
+        "VOLUNTEER_APPLY" : APP_ROOT + "/mainpage/mine/volunteer_apply"
     },
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
