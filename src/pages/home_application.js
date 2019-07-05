@@ -9,9 +9,9 @@ import ShopContext from '../context/shop';
 
 import { LOCAL_URL } from '../config/common';
 
-const NAME = 'name';
+const NAME = 'realName';
 const PHONE = 'phone';
-const IDCARD = 'idcard';
+const IDCARD = 'idCard';
 const ADDRESS = 'address';
 
 const toCheckoutName = ({ value }) => { 
