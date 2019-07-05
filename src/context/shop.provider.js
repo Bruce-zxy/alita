@@ -2,7 +2,7 @@ import React, {useEffect, useReducer} from 'react';
 import _ from 'lodash';
 
 import superFetch from '../lib/api';
-import { setKeyValue, getKeyValue } from '../lib/persistance';
+import { setKeyValue, getKeyValue, getSearch } from '../lib/persistance';
 // import config from '../config';
 
 import ShopContext from './shop';
@@ -40,7 +40,7 @@ export default function ShopProvider(props) {
 
     useEffect(() => {
         (async () => {
-            const params = window.location.search.slice(1).split('&').map(item => ({ [item.split('=')[0]]: item.split('=')[1] }));
+            const params = getSearch();
             const token_obj = _.find(params, (o) => !!o['token']);
             const token = getKeyValue('token') ? getKeyValue('token') : token_obj ? token_obj.token : null;
             global.TNT('【TOKEN】', token);

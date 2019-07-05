@@ -8,6 +8,7 @@ import ShopContext from '../context/shop';
 
 import config from '../lib/config';
 import superFetch from '../lib/api';
+import { getSearch } from '../lib/persistance';
 
 const { LOCAL_URL } = config;
 
@@ -77,6 +78,13 @@ const VOLUNTEER_ORDER_STATUS = ['全部', '待接单', '待确认', '待结单',
 // }
 
 class MineOrder extends Component {
+    constructor(props) {
+        super(props);
+        const params = getSearch();
+        const tab_index_obj = _.find(params, (o) => !!o['tab']);
+        const tab_index = tab_index_obj ? tab_index_obj.tab : 0;
+        this.state = { tab_index };
+    }
 
     orderHandler = (action) => (flow) => async () => {
         const res = await superFetch.post('/flow/dispatch', {
@@ -149,6 +157,8 @@ class MineOrder extends Component {
 
     toRenderOrderList = (type) => {
         const { requirements, tasks, user } = this.props;
+        const { tab_index } = this.state;
+
         const list = type === 'todo' ? tasks : requirements;
         let tabs = [];
         if (!!user && user.isVolunteer) {
@@ -163,9 +173,10 @@ class MineOrder extends Component {
         return (
             <Tabs 
                 tabs={tabs}
+                initialPage={tab_index}
                 tabBarActiveTextColor={ACTIVE_COLOR}
                 tabBarUnderlineStyle={{ borderColor: ACTIVE_COLOR }}
-                renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={window.innerWidth > 350 ? 5 : 4} />}
+                renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={window.innerWidth > 350 ? 5 : 4} activeTab={tab_index} onTabClick={(tab, index) => this.setState({ tab_index: index })}/>}
             >
                 {this.toRenderOrderListTabContent(type)(list || [])(tabs)}
             </Tabs>

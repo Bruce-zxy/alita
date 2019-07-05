@@ -11,3 +11,6 @@ export function removeKey (key) {
 export function flushAll () {
 	sessionStorage.clear();
 }
+export function getSearch () {
+	return window.location.search.slice(1).split('&').map(item => ({ [item.split('=')[0]]: item.split('=')[1] }));
+}
