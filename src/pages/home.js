@@ -89,12 +89,12 @@ export default (props) => {
       <div className="hdz-navi-container">
         <div className="hdz-navi-list">
           {navi_list.map(item => (
-            <a href={item.link} className="hdz-navi-item" key={item.name}>
+            <Link to={item.link} className="hdz-navi-item" key={item.name}>
               <span style={{ backgroundImage: `linear-gradient(-45deg, ${item.background[0]} 0%, ${item.background[1]} 100%)`, boxShadow: `0 1px 2px 0 ${item.background[0]}`  }}>
                 <i className={`iconfont ${item.icon}`}></i>
               </span>
               <span>{item.name}</span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
@@ -109,11 +109,11 @@ export default (props) => {
             slidesPerView: 2.5
           }}
           render={(item, i) => (
-            <a href={item.link} className="function-swiper-item" style={{ background: item.background }}>
+            <Link to={`${gPageUrl['HOME_DETAIL']}/${item.id}`} className="function-swiper-item" style={{ background: item.background }}>
               <p style={{ color: item.name_color }}>{item.name}</p>
               <p style={{ color: item.ename_color }}>{item.ename}</p>
               <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
-            </a>
+            </Link>
           )}
         />
       </div>

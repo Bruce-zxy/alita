@@ -30,7 +30,7 @@ export default () =>  {
                     {user && user.status === '待审核' ? (
                         <a className="apply-to-volunteer" href='javascript:;'>审核中，请等待</a>
                     ) : (
-                        <a className="apply-to-volunteer" href={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</a>
+                        <Link className="apply-to-volunteer" to={LOCAL_URL['VOLUNTEER_APPLY']}>申请成为志愿者</Link>
                     )}
                 </Fragment>
             )

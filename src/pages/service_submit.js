@@ -23,7 +23,6 @@ const { LOCAL_URL } = config;
 class ServiceSubmit extends Component {
 
     state = {
-        show_botton: true,
         show_picker: false,
         date: null
     }
@@ -54,15 +53,12 @@ class ServiceSubmit extends Component {
         });
     }
 
-    toShowDatePicker = () => this.setState({ show_picker: true, show_button: false })
-    toHideDatePicker = () => this.setState({ show_picker: false, show_button: true })
-    toShowButton = () => this.setState({ show_button: true })
-    toHideButton = () => this.setState({ show_button: false })
+    toShowDatePicker = () => this.setState({ show_picker: true })
+    toHideDatePicker = () => this.setState({ show_picker: false })
 
     toHandlerDateConfirm = () => {
         if (!this.state.date) {
             this.setState({
-                show_botton: true,
                 show_picker: false,
                 date: moment(new Date())
             })
@@ -104,14 +100,14 @@ class ServiceSubmit extends Component {
                 <div className="hdz-block-space"></div>
 
                 <List className="service-details-input-area">
-                    <InputItem {...getFieldProps('realName', { rules: [{ required: true }] })} clear placeholder="姓名" labelNumber={3} onFocus={this.toHideButton} onBlur={this.toShowButton}>姓名</InputItem>
-                    <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/ }] })} clear placeholder="用于取得联系" labelNumber={3} onFocus={this.toHideButton} onBlur={this.toShowButton}>电话</InputItem>
-                    <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7} onFocus={this.toHideButton} onBlur={this.toShowButton}>上门服务地址</InputItem>
+                    <InputItem {...getFieldProps('realName', { rules: [{ required: true }] })} clear placeholder="姓名" labelNumber={3}>姓名</InputItem>
+                    <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/ }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
+                    <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>上门服务地址</InputItem>
                     <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望上门时间</InputItem>
-                    <InputItem {...getFieldProps('other')} clear placeholder="选填" labelNumber={5} onFocus={this.toHideButton} onBlur={this.toShowButton}>特殊要求</InputItem>
+                    <InputItem {...getFieldProps('other')} clear placeholder="选填" labelNumber={5}>特殊要求</InputItem>
                 </List>
 
-                <div className={`service-details-button ${this.state.show_button ? 'show' : 'noshow'}`}>
+                <div className={`service-details-button ${!this.state.show_picker ? 'show' : 'noshow'}`}>
                     <a href="javascript:;" onClick={this.onSubmit}>提交订单</a>
                 </div>
 
