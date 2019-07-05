@@ -82,7 +82,7 @@ class MineOrder extends Component {
         super(props);
         const params = getSearch();
         const tab_index_obj = _.find(params, (o) => !!o['tab']);
-        const tab_index = tab_index_obj ? tab_index_obj.tab : 0;
+        const tab_index = tab_index_obj && !isNaN(tab_index_obj.tab) ? tab_index_obj.tab : 0;
         this.state = { tab_index };
     }
 
@@ -124,8 +124,6 @@ class MineOrder extends Component {
                 state: item.state,
             }
         });
-        
-
         const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date));
         if (!data_use.length) {
             return (
@@ -179,12 +177,14 @@ class MineOrder extends Component {
         //     tabs = [].concat(list[0].template.ex_info.flowSteps.map(item => ({ title: item.name })))
         //     tabs.unshift({ title: '全部' });
         // }
+        
         return (
             <Tabs 
                 tabs={tabs}
-                initialPage={tab_index}
+                page={tab_index*1}  // 很重要！！完全不知道为什么一定要是数字型的才能跳转！！
                 tabBarActiveTextColor={ACTIVE_COLOR}
                 tabBarUnderlineStyle={{ borderColor: ACTIVE_COLOR }}
+                onChange={(tab, index) => this.setState({ tab_index: index })}
                 renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={window.innerWidth > 350 ? 5 : 4} activeTab={tab_index} onTabClick={(tab, index) => this.setState({ tab_index: index })}/>}
             >
                 {this.toRenderOrderListTabContent(type)(list || [])(tabs)}
