@@ -93,7 +93,7 @@ class MineOrder extends Component {
 
     toRenderOrderListTabContent = (type) => (list) => (tabs) => (tab) => {
         const { service } = this.props;
-        const data = list.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)).map(item => {
+        const data_set = list.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)).map(item => {
             const item_service = _.find(service, { id: item.target });
             return {
                 ...item,
@@ -106,17 +106,18 @@ class MineOrder extends Component {
             }
         });
         
-        if (!data.length) {
+
+        const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date));
+        if (!data_use.length) {
             return (
                 <div className="mine-order-list">
                     <p className="mine-order-none">暂无此类型订单</p>
                 </div>
             )
         } else {
-            
             return (
                 <div className="mine-order-list">
-                    {data.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a,b) => new Date(b.date) - new Date(a.date)).map((item, i) => [
+                    {data_use.map((item, i) => [
                         <div className={`mine-order-item  mine-order-state-${tabs.findIndex(state => state.title === item.state)}`} key={item.id}>
                             <p className="order-date" >{item.date}</p>
                             <div className="order-info">
