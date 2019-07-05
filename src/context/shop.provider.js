@@ -29,6 +29,7 @@ export default function ShopProvider(props) {
         carousel: [],
         category: [],
         content: [],
+        intro: [],
         attention: [],
         service: [],
         requirements: [],
