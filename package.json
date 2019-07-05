@@ -2,7 +2,7 @@
   "name": "weshop",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/app/volunteer",
+  "homepage": "/static/volunteer",
   "dependencies": {
     "@turf/bbox": "^6.0.1",
     "@turf/turf": "^5.1.6",
