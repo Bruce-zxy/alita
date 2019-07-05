@@ -30,7 +30,12 @@ input {
     }
 }
 
-
+.list-empty {
+    text-align: center;
+    color: #999;
+    font-size: 4vw;
+    padding-top: 8vw;
+}
 
 .am-tabs-tab-bar-wrap {
     box-shadow: -1px -1px 4px #EEE;
@@ -520,6 +525,11 @@ input {
         .attention-swiper {
             background: #FFF;
             margin-bottom: 2.67vw;
+
+            .swiper-empty {
+                height: 35.96vw;
+                padding-top: 8vw;
+            }
         }
 
         .attention-list {
@@ -1554,12 +1564,6 @@ input {
             }
         }
 
-        .mine-order-none {
-            text-align: center;
-            color: #999;
-            font-size: 4vw;
-        }
-
     }
 }
 
@@ -1680,6 +1684,7 @@ input {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+
         .suggestion-message-left,
         .suggestion-message-right {
             display: flex;

@@ -13,12 +13,18 @@ export default (props) => {
                 infinite
                 {...props}
             >
-                {props.list.map(item => (
-                    <Link className="hdz-swiper-link" to={item.link} key={item.id}>
+                {props.list.length > 0 ? props.list.map(item => (
+                    <a className="hdz-swiper-link" href={item.link} key={item.id}>
                         <img className="hdz-swiper-image" src={item.image} alt={item.name} />
-                        {item.title && <p>{item.title}</p>}
-                    </Link>
-                ))}
+                        {item.title && <p className="hadz-swiper-title">{item.title}</p>}
+                    </a>
+                )) : (
+                    <a className="hdz-swiper-link">
+                        <div className="swiper-empty">
+                            <p className="list-empty">暂无轮播图数据</p>
+                        </div>
+                    </a>
+                )}
             </Carousel>
         </div>
     );

@@ -111,7 +111,7 @@ class MineOrder extends Component {
         if (!data_use.length) {
             return (
                 <div className="mine-order-list">
-                    <p className="mine-order-none">暂无此类型订单</p>
+                    <p className="list-empty">暂无此类型订单</p>
                 </div>
             )
         } else {

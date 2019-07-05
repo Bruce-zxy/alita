@@ -82,8 +82,12 @@ const training_notice = [{
 }];
 
 const toRenderActivityComponent = (data) => {
-  if (Object.prototype.toString.call(data) !== '[object Array]') {
-    return <div className="latest-activity-list"></div>
+  if (Object.prototype.toString.call(data) !== '[object Array]' || data.length === 0) {
+    return (
+      <div className="latest-activity-list">
+        <p className="list-empty">暂无此分类数据</p>
+      </div>
+    )
   } else {
     return (
       <div className="latest-activity-list">
@@ -102,8 +106,12 @@ const toRenderActivityComponent = (data) => {
 }
 
 const toRenderTrainingComponent = (data) => {
-  if (Object.prototype.toString.call(data) !== '[object Array]') {
-    return <div className="training-notice-list"></div>
+  if (Object.prototype.toString.call(data) !== '[object Array]' || data.length === 0) {
+    return (
+      <div className="training-notice-list">
+        <p className="list-empty">暂无此分类数据</p>
+      </div>
+    )
   } else {
     return (
       <div className="training-notice-list">
