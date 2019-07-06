@@ -39,24 +39,21 @@ const function_list = [{
   ename: 'REGISTERED', 
   ename_color: 'rgba(255, 111, 112, .5)',
   icon: 'iconzhuce',
-  background: '#FFEFEF',
-  link: gPageUrl['VOLUNTEER_APPLY']
+  background: '#FFEFEF'
 }, {
   name: '查看服务记录',
   name_color: 'rgba(255,175,49,1)',
   ename: 'RECORD',
   ename_color: 'rgba(255,175,49,.5)',
   icon: 'iconjilu',
-  background: '#FEF0D9',
-  link: gPageUrl['ORDER_TODO']
+  background: '#FEF0D9'
 }, {
   name: '积分兑换',
   name_color: 'rgba(85,147,248,1)',
   ename: 'INTEGRAL',
   ename_color: 'rgba(85,147,248,.5)',
   icon: 'iconjifen',
-  background: '#E8EDF5',
-  link: gPageUrl['SCORES']
+  background: '#E8EDF5'
 }]
 
 export default (props) => {
@@ -64,6 +61,7 @@ export default (props) => {
   const shopContext = useContext(ShopContext);
   let carousel = [];
   let activity_list = [];
+  let functions = {};
 
   if (shopContext.carousel[1]) {
     carousel = [].concat(_.find(shopContext.carousel[0], { token: '首页轮播' }).carousels.sort((a, b) => a.sort - b.sort).map(item => ({
@@ -74,12 +72,15 @@ export default (props) => {
 
   if (shopContext.category[1]) {
     const category_id = _.find(_.find(shopContext.category, { name: "通知" }).children, { name: "最新活动" }).id;
+    const function_id = _.find(shopContext.category, { name: "实践中心" }).id;
+    
     if (shopContext.content[0]) {
-      activity_list = [].concat(shopContext.content[0].filter(content => content.category && content.category.id === category_id)).map((content => ({
+      activity_list = [].concat(shopContext.content[0].filter(content => content.category && content.category.id === category_id)).map(content => ({
         id: content.id,
         name: content.title,
         image: content.thumbnailPath
-      })));
+      }));
+      functions = [].concat(shopContext.content[0].filter(content => content.category && content.category.id === function_id).sort((a,b) => a.sort - b.sort));
     }
   }
   
@@ -109,7 +110,7 @@ export default (props) => {
             slidesPerView: 2.5
           }}
           render={(item, i) => (
-            <Link to={`${gPageUrl['HOME_DETAIL']}/${item.id}`} className="function-swiper-item" style={{ background: item.background }}>
+            <Link to={`${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : ''}`} className="function-swiper-item" style={{ background: item.background }}>
               <p style={{ color: item.name_color }}>{item.name}</p>
               <p style={{ color: item.ename_color }}>{item.ename}</p>
               <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
