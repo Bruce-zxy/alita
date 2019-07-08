@@ -26,7 +26,7 @@ export default () =>  {
             return (
                 <Fragment>
                     <img src={DEFAULT_AVATAR} alt='图片已失效' />
-                    <p className="user-name">{user ? user.nickname : "未设置"}</p>
+                    <p className="user-name" style={{ color: "#999" }}>{user && user.nickname ? user.nickname : "昵称未设置"}</p>
                     {user && user.status === '待审核' ? (
                         <a className="apply-to-volunteer" href='javascript:;'>审核中，请等待</a>
                     ) : (

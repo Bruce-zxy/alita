@@ -32,8 +32,8 @@ export default ({ history, match }) => {
         e.preventDefault();
         const { params: { type } } = match;
         if (input_ref) {
-            if (type === 'nickname' && input_ref.value.replace(/[^\x00-\xff]/g, "01").length > 12) {
-                return Toast.fail('昵称必须小于等于6个字符！');
+            if (type === 'nickname' && !input_ref.value || input_ref.value.replace(/[^\x00-\xff]/g, "01").length > 12) {
+                return Toast.fail('昵称不能为空且必须小于等于6个字符！');
             } else if (type === 'phone' && (isNaN(input_ref.value) || input_ref.value.includes('e') || input_ref.value.length !== 11)) {
                 return Toast.fail('请输入正确的手机号！');
             }
