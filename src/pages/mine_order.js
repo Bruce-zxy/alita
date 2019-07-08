@@ -243,6 +243,38 @@ class MineOrder extends Component {
                             <label>下单时间</label>
                             <span>{moment(flow && flow.create_at).format('YYYY-MM-DD HH:mm:ss')}</span>
                         </p>
+                        <p className="order-state">
+                            <label>订单状态</label>
+                            <span>{flow && flow.state}</span>
+                        </p>
+                        <p className="order-title">
+                            <label>服务标题</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.service && flow.ex_info.service.title}</span>
+                        </p>
+                        <p className="order-category">
+                            <label>服务标题</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.service && flow.ex_info.service.category.name}</span>
+                        </p>
+                        <p className="order-name">
+                            <label>申请者姓名</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.realName}</span>
+                        </p>
+                        <p className="order-name">
+                            <label>申请者联系方式</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.phone}</span>
+                        </p>
+                        <p className="order-name">
+                            <label>申请者联系地址</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.address}</span>
+                        </p>
+                        <p className="order-name">
+                            <label>要求服务时间</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.date}</span>
+                        </p>
+                        <p className="order-name">
+                            <label>特殊要求</label>
+                            <span>{flow && flow.ex_info && flow.ex_info.other}</span>
+                        </p>
                     </div>
                 </div>
                 <div className="hdz-block-space-20"></div>
