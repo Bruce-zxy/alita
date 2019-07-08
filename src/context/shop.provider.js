@@ -17,6 +17,7 @@ const gTargetUrl = {
     category: '/category/list',
     content: '/content/list',
     service: '/service/list',
+    organization: '/organization/list',
     attention: '/content/list',
     requirement: '/flow/requirement',
     task: '/flow/task',
@@ -32,6 +33,7 @@ export default function ShopProvider(props) {
         intro: [],
         attention: [],
         service: [],
+        organizations: [],
         requirements: [],
         tasks: [],
         score: []
@@ -54,16 +56,18 @@ export default function ShopProvider(props) {
                 promise_all.push(superFetch.get(gTargetUrl['category'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['content'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['service'] + '?pageSize=1000'));
+                promise_all.push(superFetch.get(gTargetUrl['organization'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['carousel'] + '?pageSize=100'));
                 promise_all.push(superFetch.get(gTargetUrl['current']));
                 promise_all.push(superFetch.get(gTargetUrl['requirement'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['task'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['score'] + '?pageSize=1000'));
             }
-            Promise.all(promise_all).then(([category, content, service, carousel, user, requirements, tasks, score]) => {
+            Promise.all(promise_all).then(([category, content, service, organizations, carousel, user, requirements, tasks, score]) => {
                 global.TNT('【category】：', category);
                 global.TNT('【content】：', content);
                 global.TNT('【service】：', service);
+                global.TNT('【organizations】：', organizations);
                 global.TNT('【carousel】：', carousel);
                 global.TNT('【user】：', user);
                 global.TNT('【requirements】：', requirements);
@@ -77,6 +81,7 @@ export default function ShopProvider(props) {
                         category: !category || category instanceof Error ? [] : category.sort((a,b) => a.sort - b.sort),
                         content: !content || content instanceof Error ? [] : content.sort((a,b) => a.sort - b.sort),
                         service: !service || service instanceof Error ? [] : service.sort((a,b) => a.sort - b.sort),
+                        organizations: !organizations || organizations instanceof Error ? [] : organizations.sort((a,b) => a.sort - b.sort),
                         carousel: !carousel || carousel instanceof Error ? [] : carousel.sort((a,b) => a.sort - b.sort),
                         user: !!user ? user : null,
                         requirements: !requirements || requirements instanceof Error ? [] : requirements.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)),

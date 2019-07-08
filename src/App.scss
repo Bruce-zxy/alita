@@ -293,6 +293,22 @@ input {
                 }
             }
 
+            select {
+                height: 11.73vw;
+                width: 76vw;
+                border: none;
+                outline: none;
+                margin: 1.87vw 0;
+                border-radius: 5.87vw;
+                padding: 0 5.87vw;
+                /*很关键：将默认的select选择框样式清除*/
+                appearance: none;
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                background: #FFF;
+                color: #666;
+            }
+
             a {
                 display: flex;
                 justify-content: center;

@@ -83,6 +83,8 @@ export default (props) => {
       functions = [].concat(shopContext.content[0].filter(content => content.category && content.category.id === function_id).sort((a,b) => a.sort - b.sort));
     }
   }
+
+  console.log(props);
   
   return (
     <Fragment>
@@ -110,7 +112,7 @@ export default (props) => {
             slidesPerView: 2.5
           }}
           render={(item, i) => (
-            <Link to={`${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : ''}`} className="function-swiper-item" style={{ background: item.background }}>
+            <Link to={`${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : 'none'}`} className="function-swiper-item" style={{ background: item.background }}>
               <p style={{ color: item.name_color }}>{item.name}</p>
               <p style={{ color: item.ename_color }}>{item.ename}</p>
               <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
