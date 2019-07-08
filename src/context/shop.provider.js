@@ -77,13 +77,12 @@ export default function ShopProvider(props) {
                 dispatch({
                     type: ACTION_SET,
                     payload: { 
-                        user: user,
+                        user: !!user ? user : null,
                         category: !category || category instanceof Error ? [] : category.sort((a,b) => a.sort - b.sort),
                         content: !content || content instanceof Error ? [] : content.sort((a,b) => a.sort - b.sort),
                         service: !service || service instanceof Error ? [] : service.sort((a,b) => a.sort - b.sort),
                         organizations: !organizations || organizations instanceof Error ? [] : organizations.sort((a,b) => a.sort - b.sort),
                         carousel: !carousel || carousel instanceof Error ? [] : carousel.sort((a,b) => a.sort - b.sort),
-                        user: !!user ? user : null,
                         requirements: !requirements || requirements instanceof Error ? [] : requirements.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)),
                         tasks: !tasks || tasks instanceof Error ? [] : tasks.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)),
                         score: !score || score instanceof Error ? [] : score.sort((a, b) => new Date(a.create_at) - new Date(b.create_at)),

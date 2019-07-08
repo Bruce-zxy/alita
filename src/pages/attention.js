@@ -160,7 +160,7 @@ export default () => {
                     list[i].carousel = result ? result.carousels.map(item => ({
                         ...item,
                         title: item.desc,
-                        link: 'javascript:;'
+                        link: item.url
                     })) : [];
                 })
                 setState(list);
