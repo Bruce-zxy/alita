@@ -1688,8 +1688,10 @@ input {
                 align-items: center;
 
                 >label {
-                    width: 16vw;
+                    width: 25vw;
                     color: #999;
+                    margin-right: 2vw;
+                    text-align: justify;
                 }
             }
         }
