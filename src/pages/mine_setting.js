@@ -125,7 +125,7 @@ export default ({ history, match }) => {
         <div className="hdz-setting">
             <a className="user-avatar">
                 <span>头像</span>
-                <p><img src={user.avatar || DEFAULT_AVATAR} alt='图片已失效' /></p>
+                <p><img src={user.avatarPath || DEFAULT_AVATAR} alt='图片已失效' /></p>
                 <i className="iconfont iconjiantouyou"></i>
             </a>
             <Link className="user-name" to={LOCAL_URL['NICKNAME']}>

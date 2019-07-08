@@ -84,8 +84,6 @@ export default (props) => {
     }
   }
 
-  console.log(props);
-  
   return (
     <Fragment>
       <Carousel list={carousel} infinite={false} />

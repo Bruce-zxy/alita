@@ -31,7 +31,7 @@ export default ({ match }) => {
 
     } else {
 
-        if (data.author) {
+        if (data.title) {
             return (
                 <div className="hdz-article-container">
                     <p className="article-title">{data.title}</p>
