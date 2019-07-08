@@ -37,7 +37,7 @@ export default () =>  {
         } else {
             return (
                 <Fragment>
-                    <img src={user.avatar || DEFAULT_AVATAR} alt='图片已失效' />
+                    <img src={user.avatarPath || DEFAULT_AVATAR} alt='图片已失效' />
                     <p className="user-name">{user.nickname || '未设置'}<i className="iconfont iconaixin"></i></p>
                     <div className="user-scores">
                         <p>{user.points}</p>
