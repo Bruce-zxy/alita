@@ -20,6 +20,7 @@ module.exports = {
         
         "ATTENTION"       : APP_ROOT + "/mainpage/attention",
         "ATTENTION_DETAIL": APP_ROOT + "/mainpage/attention/detail",
+        "ATTENTION_SEARCH": APP_ROOT + "/mainpage/attention/search",
         
         "SERVICE"         : APP_ROOT + "/mainpage/service",
         "SERVICE_SUBMIT"  : APP_ROOT + "/mainpage/service/submit",

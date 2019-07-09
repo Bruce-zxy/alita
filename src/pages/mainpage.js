@@ -7,6 +7,7 @@ import ActivityList from './home_list';
 import ActivityDetail from './home_detail';
 import ApplicationPage from './home_application';
 import AttentionPage from './attention';
+import SearchPage from './search';
 import ServicePage from './service';
 import ServiceSubmitPage from './service_submit';
 import MinePage from './mine';
@@ -55,6 +56,7 @@ const MainPageRoutes = {
     <Fragment>
       <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
       <Route component={ActivityDetail} path={`${gPageUrl['ATTENTION_DETAIL']}/:id`} exact />
+      <Route component={SearchPage} path={`${gPageUrl['ATTENTION_SEARCH']}`} exact />
     </Fragment>
   ),
   '服务': (
