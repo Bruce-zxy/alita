@@ -28,6 +28,14 @@ const { LOCAL_URL } = config;
 
 class Service extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            services: props.list,
+            keyword: ''
+        }
+    }
+
     toRenderServiceDetails = (details) => (
         <div className="hdz-service-details">
             <div className="service-details-header">
@@ -63,6 +71,13 @@ class Service extends Component {
     )
 
     toRenderServiceList = (list) => {
+        const { keyword } = this.state;
+        const onChangeHandler = (e) => {
+            const { value } = e.target;
+            this.setState({
+                keyword: value
+            })
+        }
         return (
             <div className="hdz-service">
                 <div className="service-header">
@@ -71,7 +86,7 @@ class Service extends Component {
                     </div>
                     <div className="search-input-container">
                         <i className="iconfont iconsousuo"></i>
-                        <input type="text" placeholder="请输入服务关键字" />
+                        <input type="text" placeholder="请输入服务关键字" value={keyword} onChange={onChangeHandler} />
                     </div>
                 </div>
                 <div className="service-function">
@@ -80,7 +95,7 @@ class Service extends Component {
                     <div className="service-filter">筛选 <i className="iconfont iconguolv"></i></div>
                 </div>
                 <div className="service-list">
-                    {list.length > 0 ? list.map((item, i) => [
+                    {list.length > 0 ? list.filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword)).map((item, i) => [
                         <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
                             <div className="service-item-left">
                                 <img src={item.image} alt="service-item" />
@@ -107,8 +122,9 @@ class Service extends Component {
 
 
     render() {
-        const { match: { params: { id } }, list } = this.props;
-        const details = _.find(list, { id: id });
+        const { match: { params: { id } } } = this.props;
+        const { services } = this.state;
+        const details = _.find(services, { id: id });
         
         if (id) {
             return this.toRenderServiceDetails({
@@ -118,7 +134,7 @@ class Service extends Component {
                 images: details.albumList.map(item => item.url)
             });
         } else {
-            return this.toRenderServiceList(list.map(item => ({
+            return this.toRenderServiceList(services.map(item => ({
                 ...item,
                 description: item.desc,
                 tags: [item.category.name],
