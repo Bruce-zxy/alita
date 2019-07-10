@@ -1,5 +1,6 @@
 import React, { Fragment, Component, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { Modal } from 'antd-mobile';
 import _ from 'lodash';
 
 import ShopContext from '../context/shop';
@@ -7,6 +8,7 @@ import ShopContext from '../context/shop';
 import superFetch from '../lib/api';
 import config from '../lib/config';
 
+const operation = Modal.operation;
 const { LOCAL_URL } = config;
 
 // const service_list = [{
@@ -31,9 +33,41 @@ class Service extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            services: props.list,
+            services: [].concat(props.list),
             keyword: ''
         }
+        this.filterSet = {
+            sort: [{
+                key: '创建时间',
+                handler: (arr) => arr.sort((a,b) => new Date(b.create_at) - new Date(a.create_at))
+            }, {
+                key: '修改时间',
+                handler: (arr) => arr.sort((a, b) => new Date(b.update_at) - new Date(a.update_at))
+            }, {
+                key: '积分',
+                handler: (arr) => arr.sort((a, b) => b.points - a.points)
+            }],
+            type: props.category.map(item => ({
+                key: item.name, 
+                handler: (arr) => arr.filter(service => item.name === service.category.name)
+            })),
+            filter: []
+        }
+    }
+
+    onFilterClickHandler = (flag) => () => {
+        const { list } = this.props;
+        const { services } = this.state;
+        const filter_set = this.filterSet[flag].map(item => ({
+            text: `按【${item.key}】排序`,
+            onPress: () => this.setState({ services: item.handler([].concat(services)) })
+        }));
+        operation([
+            ...filter_set,
+            { text: '清空所有条件', onPress: () => this.setState({ services: [].concat(list) }) },
+        ]);
+
+
     }
 
     toRenderServiceDetails = (details) => (
@@ -78,6 +112,8 @@ class Service extends Component {
                 keyword: value
             })
         }
+        const service_list = list.filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+
         return (
             <div className="hdz-service">
                 <div className="service-header">
@@ -90,12 +126,12 @@ class Service extends Component {
                     </div>
                 </div>
                 <div className="service-function">
-                    <div className="service-sort">综合排序 <i className="iconfont iconbelow-s"></i></div>
-                    <div className="service-type">类型 <i className="iconfont iconbelow-s"></i></div>
-                    <div className="service-filter">筛选 <i className="iconfont iconguolv"></i></div>
+                    <div className="service-sort" onClick={this.onFilterClickHandler('sort')}>综合排序 <i className="iconfont iconbelow-s"></i></div>
+                    <div className="service-type" onClick={this.onFilterClickHandler('type')}>类型 <i className="iconfont iconbelow-s"></i></div>
+                    <div className="service-filter" onClick={this.onFilterClickHandler('filter')}>筛选 <i className="iconfont iconguolv"></i></div>
                 </div>
                 <div className="service-list">
-                    {list.length > 0 ? list.filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword)).map((item, i) => [
+                    {service_list.length > 0 ? service_list.map((item, i) => [
                         <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
                             <div className="service-item-left">
                                 <img src={item.image} alt="service-item" />
@@ -125,6 +161,9 @@ class Service extends Component {
         const { match: { params: { id } } } = this.props;
         const { services } = this.state;
         const details = _.find(services, { id: id });
+
+        console.log(services);
+        
         
         if (id) {
             return this.toRenderServiceDetails({
@@ -151,7 +190,7 @@ export default (props) => {
     if(shopContext.service[1]) {
         return (
             <Fragment>
-                <Service {...props} list={shopContext.service[0]} />
+                <Service {...props} list={shopContext.service[0]} category={shopContext.service_category} />
             </Fragment>
         )
     } else {

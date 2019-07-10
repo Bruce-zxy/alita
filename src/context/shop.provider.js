@@ -17,6 +17,7 @@ const gTargetUrl = {
     category: '/category/list',
     content: '/content/list',
     service: '/service/list',
+    service_category: '/service/category/list',
     organization: '/organization/list',
     attention: '/content/list',
     requirement: '/flow/requirement',
@@ -56,6 +57,7 @@ export default function ShopProvider(props) {
                 promise_all.push(superFetch.get(gTargetUrl['category'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['content'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['service'] + '?pageSize=1000'));
+                promise_all.push(superFetch.get(gTargetUrl['service_category'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['organization'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['carousel'] + '?pageSize=100'));
                 promise_all.push(superFetch.get(gTargetUrl['current']));
@@ -63,10 +65,11 @@ export default function ShopProvider(props) {
                 promise_all.push(superFetch.get(gTargetUrl['task'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['score'] + '?pageSize=1000'));
             }
-            Promise.all(promise_all).then(([category, content, service, organizations, carousel, user, requirements, tasks, score]) => {
+            Promise.all(promise_all).then(([category, content, service, service_category, organizations, carousel, user, requirements, tasks, score]) => {
                 global.TNT('【category】：', category);
                 global.TNT('【content】：', content);
                 global.TNT('【service】：', service);
+                global.TNT('【service_category】：', service_category);
                 global.TNT('【organizations】：', organizations);
                 global.TNT('【carousel】：', carousel);
                 global.TNT('【user】：', user);
@@ -81,6 +84,7 @@ export default function ShopProvider(props) {
                         category: !category || category instanceof Error ? [] : category.sort((a,b) => a.sort - b.sort),
                         content: !content || content instanceof Error ? [] : content.sort((a,b) => a.sort - b.sort),
                         service: !service || service instanceof Error ? [] : service.sort((a,b) => a.sort - b.sort),
+                        service_category: !service_category || service_category instanceof Error ? [] : service_category.sort((a,b) => a.sort - b.sort),
                         organizations: !organizations || organizations instanceof Error ? [] : organizations.sort((a,b) => a.sort - b.sort),
                         carousel: !carousel || carousel instanceof Error ? [] : carousel.sort((a,b) => a.sort - b.sort),
                         requirements: !requirements || requirements instanceof Error ? [] : requirements.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)),
