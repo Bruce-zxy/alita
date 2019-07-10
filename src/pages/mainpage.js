@@ -15,6 +15,7 @@ import ScoresPage from './mine_scores';
 import SettingPage from './mine_setting';
 import OrderPage from './mine_order';
 import SuggestionPage from './suggestion';
+import ComplaintPage from './complaint';
 
 import config from '../lib/config';
 
@@ -75,6 +76,7 @@ const MainPageRoutes = {
       <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type`} exact />
       <Route component={OrderPage} path={`${gPageUrl['ORDER']}/:type/:id`} exact />
       <Route component={SuggestionPage} path={`${gPageUrl['SUGGESTION']}`} exact />
+      <Route component={ComplaintPage} path={`${gPageUrl['COMPLAINT']}`} exact />
       <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact />
     </Fragment>
   )
