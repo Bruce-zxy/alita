@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import superFetch from '../lib/api';
+import { LOCAL_URL } from '../config/common';
 
 export default ({ history }) => {
 
@@ -87,7 +88,7 @@ export default ({ history }) => {
             {!thisState.recent_show && (
                 <div className="search-result-container">
                     {thisState.result && thisState.result.length ? thisState.result.map(item => (
-                        <Link key={item.id} className="search-result-item" to={`${gPageUrl['HOME_DETAIL']}/${item.id}`}>
+                        <Link key={item.id} className="search-result-item" to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
                             <p dangerouslySetInnerHTML={{ __html: item.title.replace(thisState.value, `<span class="result-title-highlight">${thisState.value}</span>`) }}></p>
                             <p>{item.text.replace(/<\/?.+?\/?>/g, '').slice(0, 150) || '文章无内容'}</p>
                             <p><span>{item.category.name}</span></p>
