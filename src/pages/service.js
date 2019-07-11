@@ -49,7 +49,7 @@ class Service extends Component {
             }],
             type: props.category.map(item => ({
                 key: item.name, 
-                handler: (arr) => arr.filter(service => item.name === service.category.name)
+                handler: (arr) => props.list.filter(service => item.name === service.category.name)
             })),
             filter: []
         }
@@ -162,9 +162,6 @@ class Service extends Component {
         const { services } = this.state;
         const details = _.find(services, { id: id });
 
-        console.log(services);
-        
-        
         if (id) {
             return this.toRenderServiceDetails({
                 ...details,
