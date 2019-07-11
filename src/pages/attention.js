@@ -67,7 +67,7 @@ class Attention extends Component {
             <Tabs.DefaultTabBar {...props} page={window.innerWidth < 350 ? 3 : 4} />
             <div className="attention-tabs-function">
                 <i className="iconfont icongengduo-2" onClick={this.toShowPanel}></i>
-                <i className="iconfont iconsousuo"></i>
+                <Link to={gPageUrl['ATTENTION_SEARCH']}><i className="iconfont iconsousuo"></i></Link>
             </div>
         </div>
     )

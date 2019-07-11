@@ -104,7 +104,7 @@ class ServiceSubmit extends Component {
                     <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/ }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
                     <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>上门服务地址</InputItem>
                     <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望上门时间</InputItem>
-                    <InputItem {...getFieldProps('other')} clear placeholder="选填" labelNumber={5}>特殊要求</InputItem>
+                    <InputItem {...getFieldProps('other')} clear placeholder="选填" labelNumber={5}>其他要求</InputItem>
                 </List>
 
                 <div className={`service-details-button ${!this.state.show_picker ? 'show' : 'noshow'}`}>
