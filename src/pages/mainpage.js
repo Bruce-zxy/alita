@@ -58,6 +58,7 @@ const MainPageRoutes = {
       <Route component={AttentionPage} path={`${gPageUrl['ATTENTION']}`} exact />
       <Route component={ActivityDetail} path={`${gPageUrl['ATTENTION_DETAIL']}/:id`} exact />
       <Route component={SearchPage} path={`${gPageUrl['ATTENTION_SEARCH']}`} exact />
+      <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact />
     </Fragment>
   ),
   '服务': (
