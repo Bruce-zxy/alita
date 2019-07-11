@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import config from '../lib/config';
 import superFetch from '../lib/api';
+import { LOCAL_URL } from '../config/common';
 
 export default ({ history }) => {
 
@@ -87,11 +88,11 @@ export default ({ history }) => {
             {!thisState.recent_show && (
                 <div className="search-result-container">
                     {thisState.result && thisState.result.length ? thisState.result.map(item => (
-                        <div key={item.id} className="search-result-item">
+                        <Link key={item.id} className="search-result-item" to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
                             <p dangerouslySetInnerHTML={{ __html: item.title.replace(thisState.value, `<span class="result-title-highlight">${thisState.value}</span>`) }}></p>
                             <p>{item.text.replace(/<\/?.+?\/?>/g, '').slice(0, 150) || '文章无内容'}</p>
                             <p><span>{item.category.name}</span></p>
-                        </div>
+                        </Link>
                     )) : (
                         <div className="list-none">找不到包含该关键词的新闻内容</div>
                     )}
