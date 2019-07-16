@@ -65,10 +65,10 @@ export default ({ history }) => {
     return (
         <div className="hdz-search">
             <div className="search-header">
-                <div className="search-input-container">
+                <form className="search-input-container" onSubmit={(e) => { e.preventDefault(); onSearchHandler()(); }}>
                     <i className="iconfont iconsousuo" onClick={onSearchHandler()}></i>
                     <input type="text" placeholder="请输入关键词后点击右侧搜索图标" value={thisState.value} onChange={onChangeHandler}/>
-                </div>
+                </form>
                 <div className="search-back" onClick={history.goBack}>取消</div>
             </div>
             {thisState.recent_show && (
