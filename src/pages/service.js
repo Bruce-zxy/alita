@@ -59,15 +59,15 @@ class Service extends Component {
         const { list } = this.props;
         const { services } = this.state;
         const filter_set = this.filterSet[flag].map(item => ({
-            text: `按【${item.key}】排序`,
+            text: `按【${item.key}】`,
             onPress: () => this.setState({ services: item.handler([].concat(services)) })
         }));
-        operation([
-            ...filter_set,
-            { text: '清空所有条件', onPress: () => this.setState({ services: [].concat(list) }) },
-        ]);
-
-
+        if (filter_set.length) {
+            operation([
+                ...filter_set,
+                { text: '清空所有条件', onPress: () => this.setState({ services: [].concat(list) }) },
+            ]);
+        }
     }
 
     toRenderServiceDetails = (details) => (
