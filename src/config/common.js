@@ -39,8 +39,7 @@ module.exports = {
         "VOLUNTEER_APPLY" : APP_ROOT + "/mainpage/mine/volunteer_apply"
     },
 
-    // "API_ROOT": "http://atlantis.yg-net.com/api",
-    "API_ROOT": "http://47.96.27.238:3000/api",
+    "API_ROOT": "http://atlantis.yg-net.com/api",
     "API_URL": {
         "UPLOAD": {
             "BACKEND_STORAGE": ""

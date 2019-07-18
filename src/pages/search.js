@@ -46,11 +46,14 @@ export default ({ history }) => {
     }
 
     const onChangeHandler = (e) => {
+        console.log(thisState.recent);
+        
         const { value } = e.target;
+        const recent = localStorage.getItem('recent_search');
         if (!value) {
-            setState(Object.assign({}, thisState, { value, recent: JSON.parse(localStorage.getItem('recent_search')), recent_show: true }));
+            setState(Object.assign({}, thisState, { value, recent: JSON.parse(recent || '[]'), recent_show: true }));
         } else {
-            setState(Object.assign({}, thisState, { value }));
+            setState(Object.assign({}, thisState, { value, recent: [], recent_show: true }));
         }
     }
 
@@ -62,10 +65,10 @@ export default ({ history }) => {
     return (
         <div className="hdz-search">
             <div className="search-header">
-                <div className="search-input-container">
+                <form className="search-input-container" onSubmit={(e) => { e.preventDefault(); onSearchHandler()(); }}>
                     <i className="iconfont iconsousuo" onClick={onSearchHandler()}></i>
                     <input type="text" placeholder="请输入关键词后点击右侧搜索图标" value={thisState.value} onChange={onChangeHandler}/>
-                </div>
+                </form>
                 <div className="search-back" onClick={history.goBack}>取消</div>
             </div>
             {thisState.recent_show && (

@@ -1937,6 +1937,8 @@ textarea {
         padding: 2vw;
 
         .search-result-item {
+            display: flex;
+            flex-direction: column;
             width: 96vw;
             height: auto;
             padding: 2vw;

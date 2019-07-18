@@ -48,8 +48,8 @@ export default ({ history }) => {
             Toast.info('内容为空！');
         } else {
             Modal.alert('是否确认？', '提交此投诉内容至客服人员', [
-                { text: '确认', onPress: toSubmit },
                 { text: '取消', onPress: () => console.log('取消') },
+                { text: '确认', onPress: toSubmit },
             ])
         }
     }
