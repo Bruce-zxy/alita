@@ -39,7 +39,7 @@ export default ({ history, match }) => {
             }
             user[type] = input_ref.value;
         } else {
-            if (!thisState.value) {
+            if (thisState.value === '') {
                 return Toast.fail('您未选择任何选项！');
             }
             user[type] = thisState.value;
