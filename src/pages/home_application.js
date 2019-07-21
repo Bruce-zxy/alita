@@ -13,7 +13,7 @@ const NAME = 'realName';
 const PHONE = 'phone';
 const IDCARD = 'idCard';
 const ADDRESS = 'address';
-const ORGANIZATION = 'orgId';
+const ORGANIZATION = 'org';
 
 const toCheckoutName = ({ value }) => { 
     if (value.length < 2) {
@@ -97,7 +97,7 @@ export default ({ history }) => {
                 <div className="hdz-application-form-body" ref={form_ref}>
                     <input type="text" name={NAME} placeholder="姓名（不大于6个字符）"/>
                     <input type="number" name={PHONE} placeholder="电话"/>
-                    <input type="number" name={IDCARD} placeholder="身份证"/>
+                    <input type="text" name={IDCARD} placeholder="身份证"/>
                     <select name={ORGANIZATION} >
                         {orgs.map((organization) => (
                             <option value={organization.id} key={organization.id}>{organization.name}</option>
