@@ -62,12 +62,9 @@ const onSubmitHandler = (form, shopContext) => (history) => async () => {
         [ADDRESS]: address.value,
         [ORGANIZATION]: org.value,
     });
-
-    console.log(user);
     
-
     // to Login Action
-    const result = await superFetch.post('/user/apply', JSON.parse(getKeyValue('current_user')));
+    const result = await superFetch.post('/user/apply', user);
     
     if (result) {
         await shopContext.updateUserInfo();
