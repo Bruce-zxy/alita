@@ -102,8 +102,8 @@ class ServiceSubmit extends Component {
                 <List className="service-details-input-area">
                     <InputItem {...getFieldProps('realName', { rules: [{ required: true }] })} clear placeholder="姓名" labelNumber={3}>姓名</InputItem>
                     <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/ }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
-                    <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>上门服务地址</InputItem>
-                    <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望上门时间</InputItem>
+                    <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
+                    <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望时间</InputItem>
                     <InputItem {...getFieldProps('other')} clear placeholder="选填" labelNumber={5}>其他要求</InputItem>
                 </List>
 
