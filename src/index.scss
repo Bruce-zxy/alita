@@ -1,21 +1,70 @@
+@import './config/config.scss';
+@import url("http://at.alicdn.com/t/font_1303752_6d1px3jamw7.css");
+
 * {
-  -webkit-overflow-scrolling:touch
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
 }
+
 html,
 body {
-  width: 100vw;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: 'PingFang-Medium', '微软雅黑', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
+
+a {
+    text-decoration: none;
+}
+
+input,
+textarea {
+    border: 0;
+    outline: 0;
+
+    &::-webkit-input-placeholder {
+        color: #999;
+    }
+
+    &::-moz-input-placeholder {
+        color: #999;
+    }
+
+    &::-ms-input-placeholder {
+        color: #999;
+    }
+}
+
+// 主页
+.hdz-block-small-space {
+    width: 100%;
+    height: 1.6vw;
+    background: transparent;
+}
+
+.hdz-block-medium-space {
+    width: 100%;
+    height: 2.67vw;
+    background: transparent;
+}
+
+.hdz-block-large-space {
+    width: 100%;
+    height: 5.33vw;
+    background: transparent;
 }

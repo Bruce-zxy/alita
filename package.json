@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/static/volunteer",
   "dependencies": {
+    "@loadable/component": "^5.10.2",
     "@turf/bbox": "^6.0.1",
     "@turf/turf": "^5.1.6",
     "allinlib": "^0.0.2",
