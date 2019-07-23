@@ -51,6 +51,7 @@ const MainPageRoutes = {
       <Route component={HomePage} path={`${gPageUrl['HOME']}`} exact />
       <Route component={ActivityList} path={`${gPageUrl['HOME_LIST']}/:news_type`} exact />
       <Route component={ActivityDetail} path={`${gPageUrl['HOME_DETAIL']}/:id`} exact />
+      <Route component={ApplicationPage} path={`${gPageUrl['VOLUNTEER_APPLY']}`} exact />
     </Fragment>
   ),
   '关注': (
