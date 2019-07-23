@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import ReactDom from 'react-dom';
 import { Toast } from 'antd-mobile';
 import * as _ from 'lodash';
@@ -78,6 +78,11 @@ const onSubmitHandler = (form, shopContext) => (history) => async () => {
 
 export default ({ history }) => {
     const shopContext = useContext(ShopContext);
+    useEffect(() => {
+        if (shopContext.user.isVolunteer) {
+            window.location.href = LOCAL_URL['MINE'];
+        }
+    }, [])
     const form_ref = useRef(null);
     const orgs = shopContext.organizations.reduce((prev, curr) => prev.concat(curr.children), []);
 

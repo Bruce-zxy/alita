@@ -1,0 +1,38 @@
+$WHITE: #FFF;
+$BLACK: #000;
+$GRAY_333: #333;
+$GRAY_333: #555;
+$GRAY_333: #999;
+$GRAY_333: #CCC;
+
+$PRICE_COLOR: #FE6C15;
+
+$TAG_1_COLOR: #FC5457;
+$TAG_1_BORDER_COLOR: #FEBDBE;
+$TAG_2_COLOR: #1082F5;
+$TAG_2_BORDER_COLOR: #A8D1FB;
+
+$TAB_BOTTOM_COLOR: #0572E4;
+
+$REG_FONT_SIZE: 9.87vw; // 37px
+$CARD_TITLE_FONT_SIZE: 6.4vw; // 24px
+$OVERSIZED_FONT_SIZE: 5.33vw; // 20px
+$HUGE_FONT_SIZE: 4.8vw; // 18px
+$LARGE_FONT_SIZE: 4.27vw; // 16px
+$NORMAL_FONT_SIZE: 3.73vw; // 14px
+$MINIMUM_FONT_SIZE: 3.2vw; // 12px
+
+@mixin text-overflow($line: 2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+}
+
+@mixin display-flex($direction: row, $justify: center, $align: center) {
+    display: flex;
+    direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
