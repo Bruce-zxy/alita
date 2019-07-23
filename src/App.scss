@@ -514,11 +514,23 @@ textarea {
 .hdz-attention {
     .attention-tabs {
         background: #FFF;
+        height: 11.6vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
         .am-tabs-default-bar {
             display: inline-flex;
             width: 80vw;
             overflow: hidden;
+
+            .am-tabs-default-bar-tab {
+                height: 100%;
+            }
+
+            .am-tabs-default-bar-content {
+                height: 100%;
+            }
         }
 
         .attention-tabs-function {
@@ -542,6 +554,7 @@ textarea {
 
     .attention-tab-content {
         min-height: calc(100vh - 100px);
+        margin-bottom: 20px;
 
         .attention-swiper {
             background: #FFF;

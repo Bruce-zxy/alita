@@ -1,12 +1,15 @@
 import React, {useEffect, useReducer} from 'react';
 import _ from 'lodash';
+import * as moment from 'moment';
 
 import superFetch from '../lib/api';
 import { setKeyValue, getKeyValue, getSearch } from '../lib/persistance';
-// import config from '../config';
+import config from '../lib/config';
 
 import ShopContext from './shop';
 import { shopReducer, ACTION_SET } from './shop.reducer';
+
+const gPageUrl = config.LOCAL_URL;
 
 const gTargetUrl = {
     login: '/login',
@@ -37,7 +40,7 @@ export default function ShopProvider(props) {
         organizations: [],
         requirements: [],
         tasks: [],
-        score: []
+        score: [],
     });
 
     console.log(shopState, 'init');
@@ -64,6 +67,7 @@ export default function ShopProvider(props) {
                 promise_all.push(superFetch.get(gTargetUrl['requirement'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['task'] + '?pageSize=1000'));
                 promise_all.push(superFetch.get(gTargetUrl['score'] + '?pageSize=1000'));
+                
             }
             Promise.all(promise_all).then(([category, content, service, service_category, organizations, carousel, user, requirements, tasks, score]) => {
                 global.TNT('【category】：', category);
@@ -251,24 +255,6 @@ export default function ShopProvider(props) {
             return err;
         }
     }
-
-    const getScore = async () => {
-        try {
-            const scores = await superFetch.get(gTargetUrl['score'] + '?pageSize=1000');
-            if (scores instanceof Array) {
-                dispatch({
-                    type: ACTION_SET,
-                    payload: {
-                        scores: scores.sort((a, b) => new Date(a.create_at) - new Date(b.create_at))
-                    }
-                });
-            }
-        } catch (err) {
-            console.error('ShopProvider::update Error: ', err);
-            return err;
-        }
-    }
-    
 
     return (
         <ShopContext.Provider value={{
