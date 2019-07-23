@@ -7,7 +7,12 @@ module.exports = {
     "LOCAL_URL": {
         "ROOT"            : "/",
         "HOME"        : APP_ROOT + "/home",
+        "HOME_DETAIL" : APP_ROOT + "/home/detail",
+
+
         "MINE": APP_ROOT + "/mine",
+
+
         "PROJECT": APP_ROOT + "/project",
 
 

@@ -3,4 +3,4 @@ import { Route, Link } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 
 
-export default () => [<Link key={1} to="/app/lvyoto/mine">"HOME PAGE"</Link>, <Link key={12} to="/app/lvyoto/home/detail">"HOME DETAIL PAGE"</Link>];
+export default () => <Link to="/app/lvyoto/home">"HOME PAGE"</Link>;

@@ -1,8 +1,8 @@
 {
-  "name": "weshop",
+  "name": "lvyoto",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/static/volunteer",
+  "homepage": "/static/lvyoto",
   "dependencies": {
     "@loadable/component": "^5.10.2",
     "@turf/bbox": "^6.0.1",

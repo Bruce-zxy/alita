@@ -1,8 +1,3 @@
-@font-face {
-    font-family: 'PingFang-Medium';
-    src: url('./fonts/PingFang-Medium.woff') format('woff');
-}
-
 $WHITE: #FFF;
 $BLACK: #000;
 $GRAY_333: #333;
@@ -26,3 +21,11 @@ $HUGE_FONT_SIZE: 4.8vw; // 18px
 $LARGE_FONT_SIZE: 4.27vw; // 16px
 $NORMAL_FONT_SIZE: 3.73vw; // 14px
 $MINIMUM_FONT_SIZE: 3.2vw; // 12px
+
+@mixin text-overflow($line: 2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+}
