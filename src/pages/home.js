@@ -84,6 +84,32 @@ export default (props) => {
     }
   }
 
+  const toRenderSwiperItem = (item, i) => {
+    let link = '';
+    switch (item.name) {
+      case '注册成为志愿者':
+        link = gPageUrl['VOLUNTEER_APPLY'];
+        break;
+      case '查看服务记录':
+        link = `${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : 'none'}`;
+        break;
+      case '积分兑换':
+        link = gPageUrl['POINT_EXCHANGE'];
+        break;
+      default:
+        link = '';
+        break;
+    }
+
+    return (
+      <Link to={link} className="function-swiper-item" style={{ background: item.background }}>
+        <p style={{ color: item.name_color }}>{item.name}</p>
+        <p style={{ color: item.ename_color }}>{item.ename}</p>
+        <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
+      </Link>
+    )
+  }
+
   return (
     <Fragment>
       <Carousel list={carousel} infinite={false} />
@@ -109,13 +135,7 @@ export default (props) => {
           config={{
             slidesPerView: 2.5
           }}
-          render={(item, i) => (
-            <Link to={`${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : 'none'}`} className="function-swiper-item" style={{ background: item.background }}>
-              <p style={{ color: item.name_color }}>{item.name}</p>
-              <p style={{ color: item.ename_color }}>{item.ename}</p>
-              <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
-            </Link>
-          )}
+          render={toRenderSwiperItem}
         />
       </div>
       <div className="hdz-block-space"></div>

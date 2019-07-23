@@ -16,63 +16,9 @@ const latest_activities = [{
   date: '2019-06-25',
   image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
   link: '/'
-}, {
-  id: 1,
-  name: '心态三天为公益活动募捐20多万，网友：热爱公益的主播值得支持！',
-  date: '2019-06-25',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: '/'
-}, {
-  id: 1,
-  name: '心态三天为公益活动募捐20多万，网友：热爱公益的主播值得支持！',
-  date: '2019-06-25',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: '/'
 }];
 
 const training_notice = [{
-  id: 1,
-  name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
-  description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
-  date: '2019-06-17',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: ''
-}, {
-  id: 1,
-  name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
-  description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
-  date: '2019-06-17',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: ''
-}, {
-  id: 1,
-  name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
-  description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
-  date: '2019-06-17',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: ''
-}, {
-  id: 1,
-  name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
-  description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
-  date: '2019-06-17',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: ''
-}, {
-  id: 1,
-  name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
-  description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
-  date: '2019-06-17',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: ''
-}, {
-  id: 1,
-  name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
-  description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
-  date: '2019-06-17',
-  image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=图片已失效',
-  link: ''
-}, {
   id: 1,
   name: '父亲节感恩之旅 超越爱公益活动走进鼓楼区特殊教育学校',
   description: '6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动6月16日上午，2019“超越·爱”中超联赛公益系列活动，“超越·爱专项基金公益系列活动',
@@ -138,14 +84,16 @@ const toRender = {
   'latest_activity': toRenderActivityComponent,
   'activity_notice': toRenderActivityComponent,
   'training_notice': toRenderTrainingComponent,
-  'latest_recruit': toRenderTrainingComponent
+  'latest_recruit': toRenderTrainingComponent,
+  'point_exchange': toRenderActivityComponent
 }
 
 const category = {
   'latest_activity': '最新活动',
   'activity_notice': '活动通知',
   'training_notice': '培训通知',
-  'latest_recruit': '最新招募'
+  'latest_recruit': '政策文件',
+  'point_exchange': '爱心商家'
 }
 
 export default ({ match }) => {
@@ -154,7 +102,9 @@ export default ({ match }) => {
   const shopContext = useContext(ShopContext);
   const { news_type } = match.params;
   let category_id = '';
-  if (shopContext.category[1]) {
+  if (news_type === 'point_exchange') {
+    category_id = _.find(_.find(shopContext.category, { name: "频道" }).children, { name: category[news_type] }).id;
+  } else if (shopContext.category[1]) {
     category_id = _.find(_.find(shopContext.category, { name: "通知" }).children, { name: category[news_type] }).id;
   }
 

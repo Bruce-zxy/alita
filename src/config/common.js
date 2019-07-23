@@ -16,6 +16,7 @@ module.exports = {
         "ACTIVITY_NOTICE" : APP_ROOT + "/mainpage/home/list/activity_notice",
         "TRAINING_NOTICE" : APP_ROOT + "/mainpage/home/list/training_notice",
         "LATEST_RECRUIT"  : APP_ROOT + "/mainpage/home/list/latest_recruit",
+        "POINT_EXCHANGE"  : APP_ROOT + "/mainpage/home/list/point_exchange",
         "HOME_DETAIL"     : APP_ROOT + "/mainpage/home/detail",
         
         "ATTENTION"       : APP_ROOT + "/mainpage/attention",

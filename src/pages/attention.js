@@ -133,47 +133,45 @@ class Attention extends Component {
 
 export default () => {
     const shopContext = useContext(ShopContext);
-    const [thisState, setState] = useState([]);
+    const [thisState, setThisState] = useState([]);
+
     useEffect(() => {
-        (async () => {
-            let list = [];
-            let promise_arr = [];
-            if(shopContext.category.length) {
-                const category_arr = _.find(shopContext.category, { name: "频道" }).children;
-                list = category_arr.sort((a,b) => a.sort - b.sort).map((item) => ({
-                    id: item.id,
-                    type: item.name,
-                    list: []
-                }));
-            }
-            list.forEach(item => promise_arr.push(superFetch.get(`/content/list?category=${item.id}`)));
-            Promise.all(promise_arr).then((values) => {
-                values.forEach((item, i) => {
-                    list[i].list = item[0].length ? item[0].map(item => ({
-                        ...item,
-                        image: item.thumbnailPath,
-                        description: item.summary,
-                        interval: moment(item.publish_at).fromNow(),
-                        link: `${gPageUrl['ATTENTION_DETAIL']}/${item.id}`
-                    })) : [];
-                    let result = _.find(shopContext.carousel[0], { token: list[i].type });
-                    list[i].carousel = result ? result.carousels.map(item => ({
-                        ...item,
-                        title: item.desc,
-                        link: item.url
-                    })) : [];
+        let list = [];
+        if (shopContext.category.length && shopContext.content[1] && shopContext.carousel[1]) {
+            const category_arr = _.find(shopContext.category, { name: "频道" }).children;
+            list = category_arr.sort((a, b) => a.sort - b.sort).map((item) => ({
+                id: item.id,
+                type: item.name,
+                list: [],
+                carousel: []
+            }));
+            list.forEach((item, i) => {
+                shopContext.content[0].forEach((content) => {
+                    if (content.category.id === item.id) {
+                        list[i].list.push({
+                            ...content,
+                            image: content.thumbnailPath,
+                            description: content.summary,
+                            interval: moment(content.publish_at).fromNow(),
+                            link: `${gPageUrl['ATTENTION_DETAIL']}/${content.id}`
+                        });
+                    }
                 })
-                setState(list);
+                shopContext.carousel[0].forEach(carousel => {
+                    if (carousel.token === item.type) {
+                        list[i].carousel = carousel.carousels.map(ctn => ({
+                            ...ctn,
+                            title: ctn.desc,
+                            link: ctn.url
+                        }))
+                    }
+                })
             })
-        })();
-    }, [shopContext.category[0]]);
-    if(thisState.length) {
-        return (
-            <Fragment>
-                <Attention list={thisState} key={thisState.length} />
-            </Fragment>
-        )
-    } else {
-        return <Fragment></Fragment>
-    }
+            console.log(list);
+            
+            setThisState(list);
+        }
+    }, [shopContext.content])
+    
+    return <Attention list={thisState} key={thisState.length} />;
 }
