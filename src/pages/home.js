@@ -27,7 +27,7 @@ const navi_list = [{
   icon: 'iconpeixuns',
   background: ['#5593F8', '#6DC6FF']
 }, {
-  name: '最新招募',
+  name: '政策文件',
   link: gPageUrl['LATEST_RECRUIT'],
   icon: 'iconzhaomu',
   background: ['#30DC8B', '#57F186']
