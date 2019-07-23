@@ -7,8 +7,10 @@ import { LOCAL_URL } from './common';
 
 const Home = loadable(() => import('../pages/home'), { fallback: <Loader /> });
 const HomeDetail = loadable(() => import('../pages/home_detail'), { fallback: <Loader /> });
-const Mine = loadable(() => import('../pages/mine'), { fallback: <Loader /> });
+const Service = loadable(() => import('../pages/service'), { fallback: <Loader /> });
 const Project = loadable(() => import('../pages/project'), { fallback: <Loader /> });
+const News = loadable(() => import('../pages/news'), { fallback: <Loader /> });
+const Mine = loadable(() => import('../pages/mine'), { fallback: <Loader /> });
 
 export default [{
     key: "根目录",
@@ -17,32 +19,64 @@ export default [{
     exact: true,
     children: []
 }, {
-    key: "应用首页",
+    key: "选项目",
     path: LOCAL_URL['HOME'],
     exact: false,
     children: [{
-        key: "主页",
+        key: "选项目首页",
         path: LOCAL_URL['HOME'],
         component: (props) => <Home {...props} />,
         exact: true,
         children: []
     }, {
-        key: "应用首页详情",
+        key: "选项目详情",
         path: LOCAL_URL['HOME_DETAIL'],
         component: (props) => <HomeDetail {...props} />,
         exact: true,
         children: []
     }]
 }, {
+    key: "找资金",
+    path: LOCAL_URL['PROJECT'],
+    exact: false,
+    children: [{
+        key: "选项目首页",
+        path: LOCAL_URL['PROJECT'],
+        component: (props) => <Project {...props} />,
+        exact: true,
+        children: []
+    }]
+}, {
+    key: "服务商",
+    path: LOCAL_URL['SERVICE'],
+    exact: false,
+    children: [{
+        key: "选项目首页",
+        path: LOCAL_URL['SERVICE'],
+        component: (props) => <Service {...props} />,
+        exact: true,
+        children: []
+    }]
+}, {
+    key: "资讯",
+    path: LOCAL_URL['NEWS'],
+    exact: false,
+    children: [{
+        key: "选项目首页",
+        path: LOCAL_URL['NEWS'],
+        component: (props) => <News {...props} />,
+        exact: true,
+        children: []
+    }]
+}, {
     key: "个人中心",
     path: LOCAL_URL['MINE'],
-    component: (props) => <Mine {...props} />,
     exact: false,
-    children: []
-}, {
-    key: "项目中心",
-    path: LOCAL_URL['PROJECT'],
-    component: (props) => <Project {...props} />,
-    exact: false,
-    children: []
+    children: [{
+        key: "选项目首页",
+        path: LOCAL_URL['MINE'],
+        component: (props) => <Mine {...props} />,
+        exact: true,
+        children: []
+    }]
 }]

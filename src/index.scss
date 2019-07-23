@@ -55,6 +55,12 @@ textarea {
     }
 }
 
+#root {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
 // 主页
 .hdz-block-small-space {
     width: 100%;
