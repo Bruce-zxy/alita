@@ -1,6 +1,29 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { TabBar } from 'antd-mobile';
+import { Link } from 'react-router-dom';
+import { Query } from "react-apollo";
+import { gql } from "apollo-boost";
 
 
-export default () => [<Link key={1} to="/app/lvyoto/mine">"HOME PAGE"</Link>, <Link key={12} to="/app/lvyoto/home/detail">"HOME DETAIL PAGE"</Link>];
+export default () => {
+
+
+    return (
+        <div className="hdz-home-container">
+            <Query
+                query={gql`{rates(currency: "USD"){currency rate }}`}
+            >
+                {({ loading, error, data }) => {
+                    if (loading) return <p>Loading...</p>;
+                    if (error) return <p>Error :{error}</p>;
+                    console.log(loading, error, data)
+                    if (data.rates) return data.rates.map(({ currency, rate }) => (
+                        <div key={currency}>
+                        <p>{currency}: {rate}</p>
+                        </div>
+                    ));
+                    return <div></div>
+                }}
+            </Query>
+        </div>
+    )
+};

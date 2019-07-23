@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
-import * as moment from 'moment';
 import initReactFastclick from 'react-fastclick';
+import ApolloClient, { gql } from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+import * as moment from 'moment';
 import 'moment/locale/zh-cn';
 
 import ErrorBoundary from './components/Error';
@@ -13,6 +15,10 @@ import { LOCAL_URL } from './config/common';
 
 initReactFastclick();
 moment.locale('zh-cn');
+
+const client = new ApolloClient({
+  uri: "https://48p1r2roz4.sse.codesandbox.io"
+});
 
 const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";
@@ -83,28 +89,30 @@ const AppRoute = (props) => {
 
   return (
     <ErrorBoundary>
-      <TabBar 
-        unselectedTintColor={NORMAL_COLOR} 
-        tintColor={ACTIVE_COLOR} 
-        barTintColor="white" 
-        hidden={false} 
-      >
-        {gTabBar.map(tabbar => (
-          <TabBar.Item 
-            key={tabbar.name}
-            title={tabbar.name}
-            icon={tabbar.icon}
-            selectedIcon={tabbar.selected}
-            selected={tabKey === tabbar.name}
-            onPress={gotoPage(tabbar.name)}
-          >
-            <Switch>
-              {toCreateTreeRoute(Routes)}
-              <Route component={NoMatch} />
-            </Switch>
-          </TabBar.Item>
-        ))}
-      </TabBar>
+      <ApolloProvider client={client}>
+        <TabBar 
+          unselectedTintColor={NORMAL_COLOR} 
+          tintColor={ACTIVE_COLOR} 
+          barTintColor="white" 
+          hidden={false} 
+        >
+          {gTabBar.map(tabbar => (
+            <TabBar.Item 
+              key={tabbar.name}
+              title={tabbar.name}
+              icon={tabbar.icon}
+              selectedIcon={tabbar.selected}
+              selected={tabKey === tabbar.name}
+              onPress={gotoPage(tabbar.name)}
+            >
+              <Switch>
+                {toCreateTreeRoute(Routes)}
+                <Route component={NoMatch} />
+              </Switch>
+            </TabBar.Item>
+          ))}
+        </TabBar>
+      </ApolloProvider>
     </ErrorBoundary>
   );
 }
