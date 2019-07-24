@@ -80,7 +80,7 @@ class Attention extends Component {
                 </div>
                 <div className="attention-list">
                     {tab.list && tab.list.length > 0 ? tab.list.map((item, i) => (
-                        <Link className="attention-item" key={i} to={item.link}>
+                        <a className="attention-item" key={i} href={item.link}>
                             <div className="attention-item-left">
                                 <p className="attention-itme-title">{item.title}</p>
                                 <p className="attention-itme-description">{item.description}</p>
@@ -89,14 +89,14 @@ class Attention extends Component {
                             <div className="attention-item-right">
                                 <img src={item.image} alt='图片已失效' />
                             </div>
-                        </Link>
+                        </a>
                     )) : (
                         <p className="list-empty">暂无此分类数据</p>
                     )}
                 </div>
             </div>
         )
-}
+    }
 
     render() {
         const { current, navi_show } = this.state;
