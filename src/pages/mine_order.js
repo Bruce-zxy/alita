@@ -208,6 +208,9 @@ class MineOrder extends Component {
                 details = {};
             }
         }
+        console.log(flow);
+        console.log(details);
+        
         return (
             <div className="hdz-mine-order-details">
                 <div className="order-details-state">
@@ -282,6 +285,7 @@ class MineOrder extends Component {
                 <div className="hdz-block-space-20"></div>
                 <div className="order-details-function">
                     <Link to={`${LOCAL_URL['COMPLAINT']}?id=${flow && flow.id}&type=${type}`}>我要投诉</Link>
+                    {user.isVolunteer && type === "todo" && 1/* item.actions.map(action => <span key={action} onClick={this.orderHandler(action)(item.id)}>{action}</span>) */}
                     {user && ['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
                 </div>
             </div>

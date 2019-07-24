@@ -94,10 +94,7 @@ export default (props) => {
 
   const gotoPage = (tabName) => () => {
     setTabKey(tabName);
-    console.log(props);
-    console.log(props.location.hash);
-    
-    window.location.href = gPageUrl[gTabBar[tabName].page];
+    history.push(gPageUrl[gTabBar[tabName].page]);
   }
 
   return (
