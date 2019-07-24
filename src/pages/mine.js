@@ -79,11 +79,11 @@ export default () =>  {
                         <span>我接的单</span>
                         <i className="iconfont iconjiantouyou"></i>
                     </Link>
-                    <Link to={LOCAL_URL['SUGGESTION']}>
+                    <a href={LOCAL_URL['SUGGESTION']}>
                         <i className="iconfont icontousuyujianyi"></i>
                         <span>志愿者建议</span>
                         <i className="iconfont iconjiantouyou"></i>
-                    </Link>
+                    </a>
                 </Fragment>
             )
         }
