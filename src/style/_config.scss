@@ -18,13 +18,17 @@ $SIZE_20: 5.33vw;
 $SIZE_10: 2.67vw;
 $SIZE_5: 1.33vw;
 
-$REG_FONT_SIZE: 9.87vw; // 37px
-$CARD_TITLE_FONT_SIZE: 6.4vw; // 24px
-$OVERSIZED_FONT_SIZE: $SIZE_20; // 20px
-$HUGE_FONT_SIZE: 4.8vw; // 18px
-$LARGE_FONT_SIZE: 4.27vw; // 16px
-$NORMAL_FONT_SIZE: 3.73vw; // 14px
-$MINIMUM_FONT_SIZE: 3.2vw; // 12px
+$FONT_SIZE_37: 9.87vw; // 37px
+$FONT_SIZE_24: 8vw; // 30px
+$FONT_SIZE_24: 7.47vw; // 28px
+$FONT_SIZE_24: 6.93vw; // 26px
+$FONT_SIZE_24: 6.4vw; // 24px
+$FONT_SIZE_22: 5.87vw; // 22px
+$FONT_SIZE_20: $SIZE_20; // 20px
+$FONT_SIZE_18: 4.8vw; // 18px
+$FONT_SIZE_16: 4.27vw; // 16px
+$FONT_SIZE_14: 3.73vw; // 14px
+$FONT_SIZE_12: 3.2vw; // 12px
 
 
 
@@ -38,7 +42,15 @@ $MINIMUM_FONT_SIZE: 3.2vw; // 12px
 
 @mixin display-flex($direction: row, $justify: center, $align: center, $display: flex) {
     display: $display;
-    direction: $direction;
+    flex-direction: $direction;
     justify-content: $justify;
     align-items: $align;
 }
+
+@mixin position($type: relative, $top: 0, $left: 0, $z-index: 999) {
+    position: $type;
+    top: $top;
+    left: $left;
+    z-index: $z-index;
+}
+

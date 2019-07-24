@@ -30,7 +30,7 @@ export default [{
         children: []
     }, {
         key: "选项目详情",
-        path: LOCAL_URL['HOME_DETAIL'],
+        path: LOCAL_URL['HOME_DETAIL'] + '/:id',
         component: (props) => <HomeDetail {...props} />,
         exact: true,
         children: []
@@ -60,7 +60,7 @@ export default [{
 }, {
     key: "资讯",
     path: LOCAL_URL['NEWS'],
-    exact: false,
+    exact: true,
     children: [{
         key: "选项目首页",
         path: LOCAL_URL['NEWS'],
@@ -71,7 +71,7 @@ export default [{
 }, {
     key: "个人中心",
     path: LOCAL_URL['MINE'],
-    exact: false,
+    exact: true,
     children: [{
         key: "选项目首页",
         path: LOCAL_URL['MINE'],

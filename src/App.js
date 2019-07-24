@@ -16,13 +16,13 @@ import { LOCAL_URL } from './config/common';
 initReactFastclick();
 moment.locale('zh-cn');
 
-const client = new ApolloClient({
-  uri: "http://localhost:4000"
-});
-
 // const client = new ApolloClient({
-//   uri: "https://48p1r2roz4.sse.codesandbox.io"
+//   uri: "http://localhost:4000"
 // });
+
+const client = new ApolloClient({
+  uri: "https://48p1r2roz4.sse.codesandbox.io"
+});
 
 const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";
@@ -87,8 +87,10 @@ const AppRoute = (props) => {
 
   useEffect(() => {
     const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[3]);
-    const tab_key = gTabBar[tab_key_index].name;
-    setTabKey(tab_key);
+    if (gTabBar[tab_key_index]) {
+      const tab_key = gTabBar[tab_key_index].name;
+      setTabKey(tab_key);
+    }
   }, [pathname])
 
   return (
