@@ -17,8 +17,12 @@ initReactFastclick();
 moment.locale('zh-cn');
 
 const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io"
+  uri: "http://localhost:4000"
 });
+
+// const client = new ApolloClient({
+//   uri: "https://48p1r2roz4.sse.codesandbox.io"
+// });
 
 const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";
