@@ -96,7 +96,7 @@ class Attention extends Component {
                 </div>
             </div>
         )
-}
+    }
 
     render() {
         const { current, navi_show } = this.state;
