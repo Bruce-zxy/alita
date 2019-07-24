@@ -284,8 +284,8 @@ class MineOrder extends Component {
                 <div className="hdz-block-space-20"></div>
                 <div className="hdz-block-space-20"></div>
                 <div className="order-details-function">
-                    <Link to={`${LOCAL_URL['COMPLAINT']}?id=${flow && flow.id}&type=${type}`}>我要投诉</Link>
-                    {user.isVolunteer && type === "todo" && 1/* item.actions.map(action => <span key={action} onClick={this.orderHandler(action)(item.id)}>{action}</span>) */}
+                    {!user.isVolunteer && <Link to={`${LOCAL_URL['COMPLAINT']}?id=${flow && flow.id}&type=${type}`}>我要投诉</Link>}
+                    {user.isVolunteer && type === "todo" && ['待接单'].includes(details.state) && [<a key={1} href="javascript:;" onClick={this.orderHandler('接单')(flow)}>接单</a>, <a href="javascript:;" onClick={this.orderHandler('拒绝')(flow)}>拒绝</a>]}
                     {user && ['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
                 </div>
             </div>
