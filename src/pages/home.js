@@ -7,6 +7,8 @@ import { gql } from "apollo-boost";
 import Loader from '../components/Loader';
 import { LOCAL_URL } from '../config/common';
 
+import '../style/home.scss';
+
 const GET_DATA_GQL = gql`{
     rates (currency: "USD") {
         currency 

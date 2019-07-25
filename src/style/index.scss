@@ -61,7 +61,7 @@ textarea {
     overflow: hidden;
 }
 
-// 主页
+// 通用样式集合
 .hdz-block-small-space {
     width: 100%;
     height: $SIZE_5;
@@ -78,4 +78,75 @@ textarea {
     width: 100%;
     height: $SIZE_20;
     background: transparent;
+}
+
+.detail-kv {
+    width: 100%;
+    height: 11.73vw;
+    overflow: hidden;
+    padding: 0 $SIZE_10;
+    margin: 1px 0;
+    background: $WHITE;
+    flex: 1 1;
+    @include display-flex(row, flex-start, center);
+
+    span {
+        height: 8vw;
+        line-height: 8vw;
+        font-size: $FONT_SIZE_14;
+
+        &:nth-child(1) {
+            min-width: 16vw;
+            color: $GRAY_999;
+            margin-right: 2.4vw;
+            @include display-flex();
+        }
+
+        &:nth-child(2) {
+            font-weight: bold;
+            color: $GRAY_555;
+            flex-grow: 1;
+            overflow: hidden;
+            @include display-flex(row, flex-start, flex-start);
+        }
+    }
+}
+
+.project-intro {
+    width: 100%;
+    height: 20.27vw;
+    overflow: hidden;
+    background: $WHITE;
+    @include display-flex(row, space-between);
+
+    >div {
+        width: 33.33%;
+        text-align: justify;
+
+        p {
+            width: 100%;
+            max-height: $SIZE_20;
+            line-height: $SIZE_20;
+            padding: 0 $SIZE_5;
+            overflow: hidden;
+            @include display-flex(row, center, flex-start);
+
+            &:nth-child(1) {
+                font-size: $FONT_SIZE_16;
+                font-weight: bold;
+                color: $GRAY_333;
+                margin-bottom: $SIZE_10;
+            }
+
+            &:nth-child(2) {
+                font-size: $FONT_SIZE_14;
+                color: $GRAY_555;
+            }
+        }
+
+        &:nth-child(2) {
+            border-left: 1px solid #E6E6E6;
+            border-right: 1px solid #E6E6E6;
+        }
+    }
 }

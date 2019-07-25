@@ -1,0 +1,145 @@
+@import 'config';
+
+.hdz-home-detail {
+    width: 100vw;
+    height: auto;
+
+    .home-detail-carousel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+
+        .hdz-swiper-body {
+            width: 100%;
+            height: 100%;
+
+            .hdz-swiper-link {
+                position: relative;
+                display: block;
+                width: 100%;
+                height: 48vw;
+
+                .hdz-swiper-image {
+                    display: flex;
+                    width: 100%;
+                    height: 48vw;
+                    box-shadow: 1px 1px 6px $GRAY_EEE;
+                }
+            }
+        }
+
+        .hadz-swiper-title {
+            position: absolute;
+            bottom: $SIZE_10;
+            left: 0;
+            width: 100%;
+            height: $SIZE_20;
+            font-size: $FONT_SIZE_12;
+            color: $WHITE;
+            padding: 0 $SIZE_10;
+            @include display-flex(row, space-between);
+        }
+    }
+
+    .home-detail-title {
+        width: 100%;
+        height: auto;
+        background: $WHITE;
+        padding: $SIZE_10;
+        text-align: justify;
+
+        .detail-title {
+            font-size: $FONT_SIZE_16;
+            font-weight: bold;
+            color: $GRAY_333;
+            margin-bottom: $SIZE_10;
+        }
+
+        .detail-subtitle {
+            @include display-flex(row, space-between, flex-end);
+
+            span {
+                &:nth-child(1) {
+                    font-size: $FONT_SIZE_20;
+                    font-weight: bold;
+                    color: $PRICE_COLOR;
+                }
+
+                &:nth-child(2) {
+                    font-size: $FONT_SIZE_12;
+                    color: $GRAY_999;
+                }
+            }
+        }
+    }
+
+    .home-detail-kv {
+        width: 100%;
+        height: auto;
+    }
+
+    .home-detail-intro {
+        width: 100%;
+        height: auto;
+    }
+
+    .project-information {
+        @include display-flex(row, flex-start);
+        flex-wrap: wrap;
+
+        >div {
+            font-size: $FONT_SIZE_14;
+            color: $GRAY_555;
+            padding: 1vw 6vw 1vw 0;
+
+            i {
+                font-size: $FONT_SIZE_14;
+            }
+
+            span {
+                margin-left: 1.5vw;
+            }
+        }
+    }
+
+    .member-info {
+        width: 100%;
+        height: auto;
+        padding: 0 $SIZE_10;
+        @include display-flex(row, space-between);
+        flex: 1 1;
+
+        img {
+            width: 16vw;
+            height: 16vw;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: $SIZE_10;
+        }
+
+        >div {
+            flex-grow: 1;
+            font-size: $FONT_SIZE_16;
+            color: $GRAY_555;
+
+            >p {
+                &:nth-child(1) {
+                    margin-bottom: $SIZE_10;
+                }
+            }
+        }
+    }
+
+    .apply-to {
+        width: 94.67vw;
+        height: 12.27vw;
+        border-radius: 1vw;
+        font-size: $FONT_SIZE_18;
+        font-weight: bold;
+        color: $WHITE;
+        background: $TAB_BOTTOM_COLOR;
+        margin: $SIZE_10 auto 0;
+        @include display-flex();
+    }
+}

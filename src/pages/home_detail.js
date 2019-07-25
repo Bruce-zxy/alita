@@ -9,6 +9,8 @@ import DetailPanel from '../components/DetailPanel';
 import TabPanel from '../components/TabPanel';
 import { LOCAL_URL } from '../config/common';
 
+import '../style/home_detail.scss';
+
 
 export default () => {
 
@@ -41,7 +43,7 @@ export default () => {
                     autoplay 
                     infinite
                     dots={false}
-                    beforeChange={(from, to) => setCarousel({ carousel: to })}
+                    beforeChange={(from, to) => setCarousel(to)}
                 >
                     {temp && temp.map(item => (
                         <a className="hdz-swiper-link" key={item.id}>
