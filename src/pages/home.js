@@ -91,7 +91,8 @@ export default (props) => {
         link = gPageUrl['VOLUNTEER_APPLY'];
         break;
       case '查看服务记录':
-        link = `${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : 'none'}`;
+        //link = `${gPageUrl['HOME_DETAIL']}/${functions[i] ? functions[i].id : 'none'}`;
+          link = gPageUrl['ORDER_WANTDO'];
         break;
       case '积分兑换':
         link = gPageUrl['POINT_EXCHANGE'];
@@ -102,11 +103,11 @@ export default (props) => {
     }
 
     return (
-      <Link to={link} className="function-swiper-item" style={{ background: item.background }}>
+      <a href={link} className="function-swiper-item" style={{ background: item.background }}>
         <p style={{ color: item.name_color }}>{item.name}</p>
         <p style={{ color: item.ename_color }}>{item.ename}</p>
         <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
-      </Link>
+      </a>
     )
   }
 
