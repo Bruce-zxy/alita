@@ -102,7 +102,7 @@ export default () => {
                                     <p>云南旅游大交通项目债权融资2200万元云南旅游大交通项目债权融资2200万元云南旅游大交通项目债权融资2200万元</p>
                                     <p>
                                         <span className="financing">债权融资</span>
-                                        <span className="industry">旅游大交通</span>
+                                        <span className="industry">旅游大交通2</span>
                                         <span className="industry">旅游大交通</span>
                                         <span className="industry">旅游大交通</span>
                                     </p>
@@ -114,7 +114,7 @@ export default () => {
                             </Link>
                         ))}
                     </div>
-                    <div className="hdz-block-large-space" onClick={() => document.querySelector('.hdz-pull-refresh .lvyoto-home-item').scrollIntoView(true)}></div>
+                    <div className="hdz-block-large-space" onClick={() => document.querySelector('.hdz-pull-refresh .lvyoto-home-item').scrollIntoView({ behavior: "smooth" })}></div>
                 </PullToRefresh>
             </div>
         )

@@ -132,7 +132,7 @@ export default () => {
             <DetailPanel title="融资用途" content="北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全。"/>
             <div className="hdz-block-small-space"></div>
             
-            <TabPanel data={data}/>
+            <TabPanel data={data} activeBold />
             <div className="hdz-block-small-space"></div>
 
             <DetailPanel title="会员名片">

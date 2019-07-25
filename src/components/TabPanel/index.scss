@@ -11,7 +11,7 @@
         overflow: hidden;
         background: $WHITE;
         font-size: $FONT_SIZE_16;
-        color: $GRAY_555;
+        // color: $GRAY_555;
         @include display-flex(row, space-between);
         flex: 1 1;
 
@@ -41,8 +41,8 @@
             }
 
             &.active {
-                font-weight: bold;
-                color: $GRAY_333;
+                // font-weight: bold;
+                // color: $GRAY_333;
 
                 >i {
                     transform: scale(1);

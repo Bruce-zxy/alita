@@ -17,8 +17,10 @@ import './index.scss';
 
 export default (props) => {
 
-    const { data } = props;
-
+    const { className, preClassName, data, commonColor, activeColor, lineColor, activeBold, clickHandler } = props;
+    const common_color = commonColor || '#555';
+    const active_color = activeColor || '#333';
+    const line_color = lineColor || '#0572E4';
     const [index, setIndex] = useState(0);
 
     if(data.length > 0) {
@@ -27,19 +29,19 @@ export default (props) => {
             onSwipedRight: () => index === 0 ? '' : setIndex(index * 1 - 1)
         })         
         return (
-            <div className="hdz-tab-panel">
+            <div className={`hdz-tab-panel ${className || ''}`}>
                 <div className="hdz-tabs-header">
                     {data.map((item, i) => (
-                        <div key={i} className={`tab-${i} ${index === i ? 'active' : ''}`} onClick={(e) => setIndex(i)}>
-                            <span>{item.title}</span>
-                            <i className="tab-line"></i>
+                        <div key={i} className={`tab-${i} ${index === i ? 'active' : ''}`} onClick={(e) => clickHandler(index, i) !== false && setIndex(i)}>
+                            <span style={{ color: index === i ? active_color : common_color, fontWeight: index === i && activeBold ? 'bold' : 'normal' }}>{item.title}</span>
+                            <i className="tab-line" style={{ background: line_color }}></i>
                         </div>
                     ))}
                 </div>
                 <div className="hdz-tabs-container">
                     <div className="hdz-tabs-content" style={{ width: `${100 * data.length}%`, transform: `translateX(-${100 * (index / data.length)}%)` }} {...handlers}>
                         {data.map((item, i) => (
-                            <div key={i} className={`tab-${i}-content`}>{item.content}</div>
+                            <div key={i} className={`${item.className || ''} tab-${i}-content`}>{item.content}</div>
                         ))}
                     </div>
                 </div>
