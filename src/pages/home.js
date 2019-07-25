@@ -103,11 +103,11 @@ export default (props) => {
     }
 
     return (
-      <a href={link} className="function-swiper-item" style={{ background: item.background }}>
+      <Link to={link} className="function-swiper-item" style={{ background: item.background }}>
         <p style={{ color: item.name_color }}>{item.name}</p>
         <p style={{ color: item.ename_color }}>{item.ename}</p>
         <p><i className={`iconfont ${item.icon}`} style={{ color: item.ename_color }}></i></p>
-      </a>
+      </Link>
     )
   }
 
