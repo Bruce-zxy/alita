@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, PullToRefresh } from 'antd-mobile';
-import { Query } from "react-apollo";
+import { Query, ApolloConsumer } from "react-apollo";
 import { gql } from "apollo-boost";
 
 import Loader from '../components/Loader';
@@ -19,7 +18,8 @@ export default () => {
     const [thisState, setState] = useState({
         time: 1,
         amount: 0,
-        financing: ''
+        financing: '',
+        refreshing: false,
     })
 
     const toChangeStateFactor = (key) => (handler) => {
@@ -38,10 +38,9 @@ export default () => {
     const toRenderContentByApolloClient = ({ loading, error, data, refetch, networkStatus, startPolling, stopPolling }) => {
         if (networkStatus === 4) return <Loader />;
         if (loading) return <Loader />;
-        if (error) return <p>Error :{error.message}</p>;
-        global.TNT(loading, error, Object.assign({}, data));
-        global.TNT(thisState);
+        if (error) return `【Error】 ${error.message}`;
 
+        global.TNT('【当前状态】', thisState);
 
         const { time, amount, financing, refreshing } = thisState;
         let list = [];
@@ -62,6 +61,8 @@ export default () => {
             }
         }
 
+        global.TNT('【排序后】：', list);
+
         return (
             <div className="hdz-lvyoto-home">
                 <div className="lvyoto-filter-bar">
@@ -80,11 +81,8 @@ export default () => {
                 </div>
 
                 <PullToRefresh
+                    className="hdz-pull-refresh"
                     damping={100}
-                    style={{
-                        height: document.documentElement.clientHeight - 94,
-                        overflow: 'auto',
-                    }}
                     direction="up"
                     refreshing={refreshing}
                     onRefresh={() => {
@@ -114,9 +112,8 @@ export default () => {
                             </Link>
                         ))}
                     </div>
-                    <div className="hdz-block-medium-space"></div>
+                    <div className="hdz-block-large-space" onClick={() => document.querySelector('.hdz-pull-refresh .lvyoto-home-item').scrollIntoView(true)}></div>
                 </PullToRefresh>
-
             </div>
         )
     }
@@ -129,6 +126,7 @@ export default () => {
             >
                 {toRenderContentByApolloClient}
             </Query>
+            
         </div>
     )
 };

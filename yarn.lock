@@ -9241,9 +9241,9 @@ react-sticky@^6.0.3:
     prop-types "^15.5.8"
     raf "^3.3.0"
 
-react-swipeable@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.2.3.tgz#392d6cba328090d10fcb25a06047f5ad808f7e6c"
+react-swipeable@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.3.0.tgz#861bcecab2d5ff462e5737b1a20da2bfe35d8b21"
   dependencies:
     prop-types "^15.6.2"
 

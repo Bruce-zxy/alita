@@ -1,0 +1,76 @@
+@import '../../style/config';
+
+.hdz-tab-panel {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+
+    .hdz-tabs-header {
+        width: 100%;
+        height: 11.73vw;
+        overflow: hidden;
+        background: $WHITE;
+        font-size: $FONT_SIZE_16;
+        color: $GRAY_555;
+        @include display-flex(row, space-between);
+        flex: 1 1;
+
+        >div {
+            width: 100%;
+            height: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            transform: 50% 50%;
+            transition: all .35s ease-in-out;
+
+            >i {
+                width: 0;
+                height: 1vw;
+                position: absolute;
+                display: block;
+                bottom: 0;
+                border-radius: 1px;
+                background-color: $TAB_BOTTOM_COLOR;
+                transition: all .35s ease-in-out;
+                transform-origin: 50% 100%;
+                transform: scale(0);
+                opacity: .5;
+            }
+
+            &.active {
+                font-weight: bold;
+                color: $GRAY_333;
+
+                >i {
+                    transform: scale(1);
+                    opacity: 1;
+                    width: 3.73vw;
+                }
+            }
+        }
+    }
+
+    .hdz-tabs-container {
+        width: 100%;
+        overflow: hidden;
+        border-top: 1px solid #E6E6E6;
+
+        .hdz-tabs-content {
+            height: auto;
+            transition: all .35s ease-in-out;
+            @include display-flex(row, space-between);
+
+            >div {
+                font-size: $FONT_SIZE_12;
+                color: $GRAY_555;
+                padding: $SIZE_10 $SIZE_10 $SIZE_10*1.4 $SIZE_10;
+                background: $WHITE;
+                text-align: justify;
+                line-height: $FONT_SIZE_22;
+            }
+        }
+    }
+}

@@ -3,6 +3,8 @@
 .hdz-home-container {
     width: 100vw;
     height: 100%;
+    padding-top: 11.73vw; // fjpieawofieawo
+
     .hdz-lvyoto-home {
         width: 100%;
         height: 100%;
@@ -13,6 +15,7 @@
             height: 11.73vw;
             background: $WHITE;
             box-shadow: 0px 0px 2px rgba(0, 0, 0, .2);
+            @include position(fixed); // fjoiawejfoiewa
             @include display-flex(row, space-between);
 
             >div {
@@ -32,89 +35,310 @@
             }
         }
 
-        .lvyoto-home-list {
+        .hdz-pull-refresh {
             width: 100%;
-            height: auto;
+            height: 100%;
+            overflow: auto;
+            transition: all .25s ease-in-out;
 
-            .lvyoto-home-item {
+            .lvyoto-home-list {
                 width: 100%;
-                height: 29.87vw;
-                padding: 0 $SIZE_10*1.4 0 $SIZE_10;
-                background: #FFF;
-                margin: 1px 0;
-                @include display-flex();
+                height: auto;
 
-                >img {
-                    width: 32vw;
-                    height: $SIZE_20 * 4;
-                    border-radius: 4px;
-                    margin-right: $SIZE_10;
-                }
+                .lvyoto-home-item {
+                    width: 100%;
+                    height: 29.87vw;
+                    padding: 0 $SIZE_10*1.4 0 $SIZE_10;
+                    background: #FFF;
+                    margin: 1px 0;
+                    @include display-flex();
 
-                .item-info {
-                    width: 59.73vw;
-                    height: 100%;
-                    @include display-flex(column, center, flex-start);
+                    >img {
+                        width: 32vw;
+                        height: $SIZE_20 * 4;
+                        border-radius: 4px;
+                        margin-right: $SIZE_10;
+                    }
 
-                    >p {
-                        width: 100%;
-                        overflow: hidden;
+                    .item-info {
+                        width: 59.73vw;
+                        height: 100%;
+                        @include display-flex(column, center, flex-start);
 
-                        &:nth-child(1) {
-                            height: $SIZE_20 * 2;
-                            line-height: 1.5;
-                            font-size: $FONT_SIZE_14;
-                            font-weight: bold;
-                            color: $GRAY_333;
-                            margin-bottom: .5vw;
-                            @include text-overflow();
-                        }
+                        >p {
+                            width: 100%;
+                            overflow: hidden;
 
-                        &:nth-child(2) {
-                            height: $SIZE_20;
-                            margin-bottom: .5vw;
-
-                            >span {
-
-                                border-radius: 3.6vw;
-                                height: 4.8vw;
-                                font-size: $FONT_SIZE_12;
-                                padding: 2.4vw;
-                                transform-origin: 0% 0%;
-                                transform: scale(.83);
-                                overflow: hidden;
-                                margin: 0 0 1vw 0;
-                                @include display-flex(row, center, center, inline-flex);
-
-                                &.financing {
-                                    border: 1px solid $TAG_1_BORDER_COLOR;
-                                    color: $TAG_1_COLOR;
-                                }
-
-                                &.industry {
-                                    border: 1px solid $TAG_2_BORDER_COLOR;
-                                    color: $TAG_2_COLOR;
-                                }
-                            }
-                        }
-
-                        &:nth-child(3) {
-                            @include display-flex(row, space-between);
-
-                            .price {
-                                font-size: $FONT_SIZE_16;
+                            &:nth-child(1) {
+                                height: $SIZE_20 * 2;
+                                line-height: 1.5;
+                                font-size: $FONT_SIZE_14;
                                 font-weight: bold;
-                                color: $PRICE_COLOR;
+                                color: $GRAY_333;
+                                margin-bottom: .5vw;
+                                @include text-overflow();
                             }
 
-                            .province {
-                                font-size: $FONT_SIZE_12;
-                                color: $GRAY_999;
+                            &:nth-child(2) {
+                                height: $SIZE_20;
+                                margin-bottom: .5vw;
+
+                                >span {
+
+                                    border-radius: 3.6vw;
+                                    height: 4.8vw;
+                                    font-size: $FONT_SIZE_12;
+                                    padding: 2.4vw;
+                                    transform-origin: 0% 0%;
+                                    transform: scale(.83);
+                                    overflow: hidden;
+                                    margin: 0 0 1vw 0;
+                                    @include display-flex(row, center, center, inline-flex);
+
+                                    &.financing {
+                                        border: 1px solid $TAG_1_BORDER_COLOR;
+                                        color: $TAG_1_COLOR;
+                                    }
+
+                                    &.industry {
+                                        border: 1px solid $TAG_2_BORDER_COLOR;
+                                        color: $TAG_2_COLOR;
+                                    }
+                                }
+                            }
+
+                            &:nth-child(3) {
+                                @include display-flex(row, space-between);
+
+                                .price {
+                                    font-size: $FONT_SIZE_16;
+                                    font-weight: bold;
+                                    color: $PRICE_COLOR;
+                                }
+
+                                .province {
+                                    font-size: $FONT_SIZE_12;
+                                    color: $GRAY_999;
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+
+.hdz-home-detail {
+    width: 100vw;
+    height: auto;
+
+    .home-detail-carousel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+
+        .hdz-swiper-body {
+            width: 100%;
+            height: 100%;
+
+            .hdz-swiper-link {
+                position: relative;
+                display: block;
+                width: 100%;
+                height: 48vw;
+
+                .hdz-swiper-image {
+                    display: flex;
+                    width: 100%;
+                    height: 48vw;
+                    box-shadow: 1px 1px 6px $GRAY_EEE;
+                }
+            }
+        }
+
+        .hadz-swiper-title {
+            position: absolute;
+            bottom: $SIZE_10;
+            left: 0;
+            width: 100%;
+            height: $SIZE_20;
+            font-size: $FONT_SIZE_12;
+            color: $WHITE;
+            padding: 0 $SIZE_10;
+            @include display-flex(row, space-between);
+        }
+    }
+
+    .home-detail-title {
+        width: 100%;
+        height: auto;
+        background: $WHITE;
+        padding: $SIZE_10;
+        text-align: justify;
+
+        .detail-title {
+            font-size: $FONT_SIZE_16;
+            font-weight: bold;
+            color: $GRAY_333;
+            margin-bottom: $SIZE_10;
+        }
+
+        .detail-subtitle {
+            @include display-flex(row, space-between, flex-end);
+
+            span {
+                &:nth-child(1) {
+                    font-size: $FONT_SIZE_20;
+                    font-weight: bold;
+                    color: $PRICE_COLOR;
+                }
+
+                &:nth-child(2) {
+                    font-size: $FONT_SIZE_12;
+                    color: $GRAY_999;
+                }
+            }
+        }
+    }
+
+    .home-detail-kv {
+        width: 100%;
+        height: auto;
+        background: $WHITE;
+    }
+
+    .home-detail-intro {
+        width: 100%;
+        height: auto;
+    }
+
+    .project-information {
+        @include display-flex(row, flex-start);
+        flex-wrap: wrap;
+
+        >div {
+            font-size: $FONT_SIZE_14;
+            color: $GRAY_555;
+            padding: 1vw 6vw 1vw 0;
+
+            i {
+                font-size: $FONT_SIZE_14;
+            }
+
+            span {
+                margin-left: 1.5vw;
+            }
+        }
+    }
+
+    .member-info {
+        width: 100%;
+        height: auto;
+        padding: 0 $SIZE_10;
+        @include display-flex(row, space-between);
+        flex: 1 1;
+
+        img {
+            width: 16vw;
+            height: 16vw;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: $SIZE_10;
+        }
+
+        >div {
+            flex-grow: 1;
+            font-size: $FONT_SIZE_18;
+            color: $GRAY_555;
+            >p {
+                &:nth-child(1) {
+                    margin-bottom: $SIZE_10;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+// 通用样式集合
+.detail-kv {
+    width: 100%;
+    height: 11.73vw;
+    overflow: hidden;
+    padding: 0 $SIZE_10;
+    margin: 1px 0;
+    background: $WHITE;
+    flex: 1 1;
+    @include display-flex(row, flex-start, center);
+
+    span {
+        height: 8vw;
+        line-height: 8vw;
+        font-size: $FONT_SIZE_14;
+
+        &:nth-child(1) {
+            min-width: 16vw;
+            color: $GRAY_999;
+            margin-right: 2.4vw;
+            @include display-flex();
+        }
+
+        &:nth-child(2) {
+            font-weight: bold;
+            color: $GRAY_555;
+            flex-grow: 1;
+            overflow: hidden;
+            @include display-flex(row, flex-start, flex-start);
+        }
+    }
+}
+
+.project-intro {
+    width: 100%;
+    height: 20.27vw;
+    overflow: hidden;
+    background: $WHITE;
+    @include display-flex(row, space-between);
+
+    >div {
+        width: 33.33%;
+        text-align: justify;
+
+        p {
+            width: 100%;
+            max-height: $SIZE_20;
+            line-height: $SIZE_20;
+            padding: 0 $SIZE_5;
+            overflow: hidden;
+            @include display-flex(row, center, flex-start);
+
+            &:nth-child(1) {
+                font-size: $FONT_SIZE_16;
+                font-weight: bold;
+                color: $GRAY_333;
+                margin-bottom: $SIZE_10;
+            }
+
+            &:nth-child(2) {
+                font-size: $FONT_SIZE_14;
+                color: $GRAY_555;
+            }
+        }
+
+        &:nth-child(2) {
+            border-left: 1px solid #E6E6E6;
+            border-right: 1px solid #E6E6E6;
         }
     }
 }
