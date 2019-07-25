@@ -253,12 +253,25 @@
             flex-grow: 1;
             font-size: $FONT_SIZE_18;
             color: $GRAY_555;
+
             >p {
                 &:nth-child(1) {
                     margin-bottom: $SIZE_10;
                 }
             }
         }
+    }
+
+    .apply-to {
+        width: 94.67vw;
+        height: 12.27vw;
+        border-radius: 1vw;
+        font-size: $FONT_SIZE_18;
+        font-weight: bold;
+        color: $WHITE;
+        background: $TAB_BOTTOM_COLOR;
+        margin: $SIZE_10 auto 0;
+        @include display-flex();
     }
 }
 

@@ -61,9 +61,10 @@
         .hdz-tabs-content {
             height: auto;
             transition: all .35s ease-in-out;
-            @include display-flex(row, space-between);
+            @include display-flex(row, space-between, stretch);
 
             >div {
+                width: 100vw;
                 font-size: $FONT_SIZE_12;
                 color: $GRAY_555;
                 padding: $SIZE_10 $SIZE_10 $SIZE_10*1.4 $SIZE_10;
