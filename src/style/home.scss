@@ -4,6 +4,8 @@
     width: 100vw;
     height: 100%;
     padding-top: 11.73vw;
+    overflow: hidden;
+    @include display-flex();
 
     .hdz-lvyoto-home {
         width: 100%;
@@ -128,5 +130,3 @@
         }
     }
 }
-
-

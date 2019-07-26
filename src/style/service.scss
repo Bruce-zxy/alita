@@ -1,0 +1,53 @@
+@import 'config';
+
+.hdz-service-container {
+    width: 100vw;
+    height: 100%;
+    padding-top: 11.73vw;
+    overflow: hidden;
+    @include display-flex();
+
+    .hdz-lvyoto-service {
+        width: 100%;
+        height: 100%;
+
+        .lvyoto-filter-bar {
+
+            width: 100vw;
+            height: 11.73vw;
+            background: $WHITE;
+            box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+            @include position(fixed);
+            @include display-flex(row, space-between);
+
+            >div {
+                width: 33%;
+                height: 100%;
+                color: $GRAY_999;
+                font-size: $FONT_SIZE_14;
+                @include display-flex();
+
+                &.state-active {
+                    color: $GRAY_555;
+                }
+
+                >i {
+                    margin-left: 1vw;
+                    font-size: $FONT_SIZE_12;
+                }
+            }
+        }
+
+        .hdz-pull-refresh {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            transition: all .25s ease-in-out;
+
+            .service-item {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+}

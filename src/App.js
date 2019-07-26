@@ -101,6 +101,7 @@ const AppRoute = (props) => {
           tintColor={ACTIVE_COLOR} 
           barTintColor="white" 
           hidden={false} 
+          prerenderingSiblingsNumber={Infinity}
         >
           {gTabBar.map(tabbar => (
             <TabBar.Item 

@@ -73,7 +73,7 @@ export default () => {
                         <i className="iconfont iconpaixu"></i>
                     </div>
                     <div className={`financing-amount state-${amount%3 ? 'active' : 'none'}`} onClick={() => toChangeStateFactor('amount')(amount => amount += 1)}>
-                        <span>融资金额</span>
+                        <span>主页金额</span>
                         <i className="iconfont iconpaixu"></i>
                     </div>
                     <div className={`filter-factor state-${financing ? 'active' : 'none'}`} onClick={toShowFilterModal}>
@@ -94,9 +94,9 @@ export default () => {
                         }, 1000);
                     }}
                 >
-                    <div className="lvyoto-home-list">
-                        {data && data.rates && data.rates.slice(0,10).map((item, i) => (
-                            <Link className="lvyoto-home-item" key={i} to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
+                    <div className="lvyoto-home-list" key={list.length}>
+                        {list.slice(0,10).map((item, i) => (
+                            <Link className="lvyoto-home-item" key={item.currency} to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
                                 <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image' alt='placeholder+image' />
                                 <div className="item-info">
                                     <p>云南旅游大交通项目债权融资2200万元云南旅游大交通项目债权融资2200万元云南旅游大交通项目债权融资2200万元</p>
