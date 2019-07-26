@@ -33,7 +33,7 @@ export default (props) => {
             <div className={`hdz-tab-panel ${className || ''}`}>
                 <div className="hdz-tabs-header">
                     {data.map((item, i) => (
-                        <div key={i} className={`tab-${i} ${index === i ? 'active' : ''}`} onClick={(e) => clickHandler(index, i) !== false && setIndex(i)}>
+                        <div key={i} className={`tab-${i} ${index === i ? 'active' : ''}`} onClick={(e) => clickHandler ? clickHandler(index, i) !== false && setIndex(i) : setIndex(i)}>
                             <span style={{ color: index === i ? active_color : common_color, fontWeight: index === i && activeBold ? 'bold' : 'normal' }}>{item.title}</span>
                             <i className="tab-line" style={{ background: line_color }}></i>
                         </div>
