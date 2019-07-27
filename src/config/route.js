@@ -72,16 +72,16 @@ export default [{
     children: [{
         key: "服务商首页",
         path: LOCAL_URL['SERVICE'],
-        exact: true,
+        exact: false,
         children: [{
             key: "主页",
             path: LOCAL_URL['SERVICE'],
             component: (props) => <Service {...props} />,
             exact: true,
             children: []
-        },{
-            key: "选项目首页",
-            path: LOCAL_URL['SERVICE'],
+        }, {
+            key: "服务商详情页",
+            path: '/app/lvyoto/service/detail/:id',
             component: (props) => <ServiceDetail {...props} />,
             exact: true,
             children: []

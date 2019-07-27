@@ -96,27 +96,15 @@ export default (props) => {
                     >
                         <div className="service-list">
                             {list.slice(0, 20).map((item, i) => (
-                                <Link key={i} className="service-project" to={`${LOCAL_URL['SERVICE_DETAIL']}/${item.id}`}>
-                                    <p className="project-name">北京企业资金1000万元投江西旅游酒店项目北京企业资金1000万元投江西旅游酒店项目{i}</p>
-                                    <p className="project-tags">
-                                        <span className="financing">债权投资</span>
-                                        <span className="industry">旅游大交通2</span>
-                                        <span className="industry">旅游大交通</span>
-                                        <span className="industry">旅游大交通</span>
-                                    </p>
-                                    <div className="project-intro">
-                                        <div>
-                                            <p>&yen;1000万元</p>
-                                            <p>投资金额</p>
-                                        </div>
-                                        <div>
-                                            <p>成长期</p>
-                                            <p>投资阶段</p>
-                                        </div>
-                                        <div>
-                                            <p>未知</p>
-                                            <p>资金类型</p>
-                                        </div>
+                                <Link key={i} className="service-item" to={`${LOCAL_URL['SERVICE_DETAIL']}/${item.id}`}>
+                                    <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image' alt='placeholder+image' />
+                                    <div className="service-info">
+                                        <p>江西省旅游产业担保有限责任公司</p>
+                                        <p>（旅游担保公司）</p>
+                                        <p>
+                                            <span className="service-tags">运营机构</span>
+                                            <span className="service-location">所在地：江西</span>
+                                        </p>
                                     </div>
                                 </Link>
                             ))}

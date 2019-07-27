@@ -44,10 +44,170 @@
             overflow: auto;
             transition: all .25s ease-in-out;
 
-            .service-item {
-                width: 100%;
-                height: auto;
+
+            .service-list {
+                .service-item {
+                    width: 100%;
+                    height: 24.53vw;
+                    padding: $SIZE_10;
+                    @include display-flex(row, space-between);
+
+                    >img {
+                        width: 32vw;
+                        height: 16vw;
+                        border-radius: 4px;
+                        border: 1px solid $GRAY_EEE;
+                        margin-right: $SIZE_10;
+                    }
+
+                    .service-info {
+                        width: auto;
+                        height: 16vw;
+                        overflow: hidden;
+                        flex-grow: 1;
+
+                        p {
+                            width: 100%;
+                            height: 5.33vw;
+                            line-height: 5.33vw;
+                            overflow: hidden;
+                            position: relative;
+
+                            &:nth-child(1) {
+                                font-size: $FONT_SIZE_14;
+                                font-weight: bold;
+                                color: $GRAY_333;
+                            }
+
+                            &:nth-child(2) {
+                                font-size: $FONT_SIZE_12;
+                                color: $GRAY_555;
+                            }
+
+                            &:nth-child(3) {
+                                padding-right: 20vw;
+
+                                .service-tags {
+                                    height: 4.8vw;
+                                    font-size: $FONT_SIZE_12;
+                                    color: $TAG_2_COLOR;
+                                    transform-origin: 0% 50%;
+                                    transform: scale(.83);
+                                    border: 1px solid $TAG_2_BORDER_COLOR;
+                                    border-radius: 2.4vw;
+                                    padding: 1vw 2vw;
+                                    @include display-flex(row, center, center, inline-flex);
+                                }
+
+                                .service-location {
+                                    position: absolute;
+                                    right: 0;
+                                    top: 0;
+                                    height: 100%;
+                                    font-size: $FONT_SIZE_12;
+                                    color: $GRAY_999;
+                                    @include display-flex();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+    }
+}
+
+.hdz-service-detail {
+    width: 100vw;
+    height: auto;
+    min-height: calc(100vh - 50px);
+
+    .service-detail-banner {
+        width: 100%;
+        height: 29.33vw;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .service-detail {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 11.2vw $SIZE_20 $SIZE_30 $SIZE_20;
+        background: $WHITE;
+
+        .service-detail-logo {
+            position: absolute;
+            top: -9.33vw;
+            left: $SIZE_20;
+            width: 37.33vw;
+            height: 18.67vw;
+            border: 1px solid $GRAY_EEE;
+            border-radius: 4px;
+        }
+
+        .service-detail-title {
+            width: 100%;
+            height: auto;
+            font-size: $FONT_SIZE_18;
+            font-weight: bold;
+            color: $GRAY_333;
+            margin: $SIZE_10 auto;
+        }
+
+        .service-detail-type {
+            width: 100%;
+            height: $SIZE_20;
+            line-height: $SIZE_20;
+            font-size: $FONT_SIZE_12;
+            color: $GRAY_333;
+
+            >i {
+                font-size: $FONT_SIZE_12;
+                color: #42C7A9;
+                margin-right: $SIZE_5;
+            }
+        }
+
+        .service-detail-location {
+            width: 100%;
+            height: $SIZE_20;
+            line-height: $SIZE_20;
+            font-size: $FONT_SIZE_12;
+            color: $GRAY_333;
+
+            >i {
+                font-size: $FONT_SIZE_12;
+                color: #0572E4;
+                margin-right: $SIZE_5;
+            }
+        }
+
+        .service-detail-content {
+            width: 100%;
+            height: auto;
+            margin-top: $SIZE_10;
+            font-size: $FONT_SIZE_14;
+            color: $GRAY_555;
+            line-height: 1.35;
+            text-align: justify;
+        }
+    }
+
+    .service-detail-apply {
+
+        width: 94.66vw;
+        height: 12.27vw;
+        color: $WHITE;
+        background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
+        border-radius: 4px;
+        margin: 2.4vw auto 4.53vw;
+        font-size: $FONT_SIZE_18;
+        font-weight: bold;
+        @include display-flex()
     }
 }
