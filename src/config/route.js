@@ -12,12 +12,13 @@ const ProjectDetail = loadable(() => import('../pages/project_detail'), { fallba
 const Service = loadable(() => import('../pages/service'), { fallback: <Loader /> });
 const ServiceDetail = loadable(() => import('../pages/service_detail'), { fallback: <Loader /> });
 const News = loadable(() => import('../pages/news'), { fallback: <Loader /> });
+const NewsDetail = loadable(() => import('../pages/news_detail'), { fallback: <Loader /> });
 const Mine = loadable(() => import('../pages/mine'), { fallback: <Loader /> });
 
 export default [{
     key: "根目录",
     path: LOCAL_URL['ROOT'],
-    component: (props) => <Redirect to={{ pathname: LOCAL_URL.HOME, search: props.location.search }} />,
+    component: (props) => <Redirect to={{ pathname: LOCAL_URL["HOME"], search: props.location.search }} />,
     exact: true,
     children: []
 }, {
@@ -81,7 +82,7 @@ export default [{
             children: []
         }, {
             key: "服务商详情页",
-            path: '/app/lvyoto/service/detail/:id',
+            path: LOCAL_URL['SERVICE'] + '/:id',
             component: (props) => <ServiceDetail {...props} />,
             exact: true,
             children: []
@@ -90,23 +91,39 @@ export default [{
 }, {
     key: "资讯",
     path: LOCAL_URL['NEWS'],
-    exact: true,
+    exact: false,
     children: [{
-        key: "选项目首页",
+        key: "咨询首页",
         path: LOCAL_URL['NEWS'],
-        component: (props) => <News {...props} />,
-        exact: true,
-        children: []
+        exact: false,
+        children: [{
+            key: "主页",
+            path: LOCAL_URL['NEWS'],
+            component: (props) => <News {...props} />,
+            exact: true,
+            children: []
+        }, {
+            key: "咨询详情页",
+            path: LOCAL_URL['NEWS_DETAIL'],
+            component: (props) => <NewsDetail {...props} />,
+            exact: true,
+            children: []
+        }]
     }]
 }, {
     key: "个人中心",
     path: LOCAL_URL['MINE'],
-    exact: true,
+    exact: false,
     children: [{
-        key: "选项目首页",
+        key: "个人中心首页",
         path: LOCAL_URL['MINE'],
-        component: (props) => <Mine {...props} />,
-        exact: true,
-        children: []
+        exact: false,
+        children: [{
+            key: "主页",
+            path: LOCAL_URL['MINE'],
+            component: (props) => <Mine {...props} />,
+            exact: true,
+            children: []
+        }]
     }]
 }]

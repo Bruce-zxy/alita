@@ -18,6 +18,7 @@ module.exports = {
         "SERVICE_DETAIL": APP_ROOT + "/service/detail",
         
         "NEWS": APP_ROOT + "/news",
+        "NEWS_DETAIL": APP_ROOT + "/news/detail",
         
         "MINE": APP_ROOT + "/mine",
 
