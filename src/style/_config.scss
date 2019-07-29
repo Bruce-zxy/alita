@@ -32,7 +32,7 @@ $FONT_SIZE_16: 4.27vw; // 16px
 $FONT_SIZE_14: 3.73vw; // 14px
 $FONT_SIZE_12: 3.2vw; // 12px
 
-
+$CONTENT_HEIGHT: calc(100vh - 11.73vw - 50px);
 
 @mixin text-overflow($line: 2) {
     overflow: hidden;
@@ -55,4 +55,3 @@ $FONT_SIZE_12: 3.2vw; // 12px
     left: $left;
     z-index: $z-index;
 }
-

@@ -4,16 +4,17 @@ import { Carousel } from 'antd-mobile';
 import './index.scss';
 
 export default (props) => {
+    const { className } = props;
 
     return (
-        <div className="hdz-swiper" key={props.list.length}>
+        <div className={`hdz-swiper ${className || ''}`} key={props.list && props.list.length}>
             <Carousel
-                className="hdz-swiper-body"
                 autoplay
                 infinite
                 {...props}
+                className="hdz-swiper-body"
             >
-                {props.list.length > 0 ? props.list.map(item => (
+                {props.list && props.list.length > 0 ? props.list.map(item => (
                     <a className="hdz-swiper-link" href={item.link} key={item.id}>
                         <img className="hdz-swiper-image" src={item.image} alt={item.name} />
                         {item.title && <p className="hadz-swiper-title">{item.title}</p>}

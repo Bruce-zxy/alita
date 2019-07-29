@@ -17,18 +17,22 @@ import './index.scss';
 
 export default (props) => {
 
-    const { className, preClassName, data, current, commonColor, activeColor, lineColor, activeBold, clickHandler } = props;
+    const { className, preClassName, data, current, commonColor, activeColor, lineColor, activeBold, swipable, clickHandler } = props;
     const common_color = commonColor || '#555';
     const active_color = activeColor || '#333';
     const line_color = lineColor || '#0572E4';
     const pre_index = data.findIndex(item => item.title === current);
     const [index, setIndex] = useState(pre_index === -1 ? 0 : pre_index);
 
-    if(data.length > 0) {
-        const handlers = useSwipeable({
-            onSwipedLeft: () => index === data.length - 1 ? '' : setIndex(index * 1 + 1),
-            onSwipedRight: () => index === 0 ? '' : setIndex(index * 1 - 1)
-        })         
+    if (data.length > 0) {
+        let handlers = {};
+        if (swipable !== false) {
+            handlers = useSwipeable({
+                onSwipedLeft: () => index === data.length - 1 ? '' : setIndex(index * 1 + 1),
+                onSwipedRight: () => index === 0 ? '' : setIndex(index * 1 - 1)
+            })
+        }
+
         return (
             <div className={`hdz-tab-panel ${className || ''}`}>
                 <div className="hdz-tabs-header">

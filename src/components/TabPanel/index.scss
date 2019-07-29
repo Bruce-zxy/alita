@@ -26,6 +26,10 @@
             transform: 50% 50%;
             transition: all .35s ease-in-out;
 
+            span {
+                transition: all .35s ease-in-out;
+            }
+
             >i {
                 width: 0;
                 height: 1vw;

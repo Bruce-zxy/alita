@@ -82,7 +82,7 @@ export default [{
             children: []
         }, {
             key: "服务商详情页",
-            path: LOCAL_URL['SERVICE'] + '/:id',
+            path: LOCAL_URL['SERVICE_DETAIL'] + '/:id',
             component: (props) => <ServiceDetail {...props} />,
             exact: true,
             children: []
@@ -93,7 +93,7 @@ export default [{
     path: LOCAL_URL['NEWS'],
     exact: false,
     children: [{
-        key: "咨询首页",
+        key: "资讯首页",
         path: LOCAL_URL['NEWS'],
         exact: false,
         children: [{
@@ -103,8 +103,8 @@ export default [{
             exact: true,
             children: []
         }, {
-            key: "咨询详情页",
-            path: LOCAL_URL['NEWS_DETAIL'],
+            key: "资讯详情页",
+            path: LOCAL_URL['NEWS_DETAIL'] + '/:id',
             component: (props) => <NewsDetail {...props} />,
             exact: true,
             children: []
