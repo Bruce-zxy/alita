@@ -2,7 +2,7 @@
   "name": "lvyoto",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/app/lvyoto",
+  "homepage": "/",
   "dependencies": {
     "@loadable/component": "^5.10.2",
     "@turf/bbox": "^6.0.1",

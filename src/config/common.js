@@ -21,6 +21,11 @@ module.exports = {
         "NEWS_DETAIL": APP_ROOT + "/news/detail",
         
         "MINE": APP_ROOT + "/mine",
+        "MINE_FINANCIAL": APP_ROOT + "/mine/financial",
+        "MINE_SERVICE": APP_ROOT + "/mine/service",
+        "MINE_CARD": APP_ROOT + "/mine/card",
+        "MINE_PROJECT": APP_ROOT + "/mine/project",
+        "MINE_FUNDS": APP_ROOT + "/mine/funds",
 
 
     },

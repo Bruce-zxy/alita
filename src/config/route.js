@@ -14,6 +14,11 @@ const ServiceDetail = loadable(() => import('../pages/service_detail'), { fallba
 const News = loadable(() => import('../pages/news'), { fallback: <Loader /> });
 const NewsDetail = loadable(() => import('../pages/news_detail'), { fallback: <Loader /> });
 const Mine = loadable(() => import('../pages/mine'), { fallback: <Loader /> });
+const MineFinancial = loadable(() => import('../pages/mine_financial'), { fallback: <Loader /> });
+const MineService = loadable(() => import('../pages/mine_service'), { fallback: <Loader /> });
+const MineCard = loadable(() => import('../pages/mine_card'), { fallback: <Loader /> });
+const MineProject = loadable(() => import('../pages/mine_project'), { fallback: <Loader /> });
+const MineFunds = loadable(() => import('../pages/mine_funds'), { fallback: <Loader /> });
 
 export default [{
     key: "根目录",
@@ -122,6 +127,36 @@ export default [{
             key: "主页",
             path: LOCAL_URL['MINE'],
             component: (props) => <Mine {...props} />,
+            exact: true,
+            children: []
+        }, {
+            key: "金融服务",
+            path: LOCAL_URL['MINE_FINANCIAL'],
+            component: (props) => <MineFinancial {...props} />,
+            exact: true,
+            children: []
+        }, {
+            key: "我的服务",
+            path: LOCAL_URL['MINE_SERVICE'],
+            component: (props) => <MineService {...props} />,
+            exact: true,
+            children: []
+        }, {
+            key: "名片管理",
+            path: LOCAL_URL['MINE_CARD'],
+            component: (props) => <MineCard {...props} />,
+            exact: true,
+            children: []
+        }, {
+            key: "项目管理",
+            path: LOCAL_URL['MINE_PROJECT'],
+            component: (props) => <MineProject {...props} />,
+            exact: true,
+            children: []
+        }, {
+            key: "资金管理",
+            path: LOCAL_URL['MINE_FUNDS'],
+            component: (props) => <MineFunds {...props} />,
             exact: true,
             children: []
         }]

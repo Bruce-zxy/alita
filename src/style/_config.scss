@@ -49,9 +49,17 @@ $CONTENT_HEIGHT: calc(100vh - 11.73vw - 50px);
     align-items: $align;
 }
 
-@mixin position($type: relative, $top: 0, $left: 0, $z-index: 999) {
+@mixin position($type: relative, $top: 0, $left: 0, $z-index: 999, $bottom: 0, $right: 0) {
     position: $type;
     top: $top;
     left: $left;
+    bottom: $bottom;
+    right: $right;
     z-index: $z-index;
+}
+
+@mixin font($font-size: 3.2vw, $color: #000, $font-weight: normal) {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    color: $color;
 }
