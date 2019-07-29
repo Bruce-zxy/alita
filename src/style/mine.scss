@@ -1,0 +1,100 @@
+@import 'config';
+
+.hdz-lvyoto-mine {
+    position: relative;
+    width: 100vw;
+    height: auto;
+    padding-top: 16vw;
+
+    .mine-card {
+        width: 89.33vw;
+        height: 26.67vw;
+        overflow: hidden;
+        margin: 0 auto;
+        background: $WHITE;
+        padding: $SIZE_20 $SIZE_10 * 2.4;
+        @include display-flex(row, space-between);
+
+        img {
+            width: 16.53vw;
+            height: 16.53vw;
+            border-radius: 50%;
+            margin-right: $SIZE_10 *1.5;
+        }
+
+        .mine-cart-info {
+            flex-grow: 1;
+
+            >p {
+                @include display-flex(row, flex-start);
+
+                &:nth-child(1) {
+                    margin-bottom: 3vw;
+
+                    span {
+                        &:nth-child(1) {
+                            font-size: $FONT_SIZE_20;
+                            font-weight: bold;
+                            color: $GRAY_333;
+                            margin-right: 2vw;
+                        }
+
+                        &:nth-child(2) {
+                            align-self: flex-end;
+                            height: 4.27vw;
+                            font-size: 3.2vw;
+                            color: #FFF;
+                            padding: 0 3vw;
+                            background: #FFC200;
+                            border-radius: 2.14vw;
+                            @include display-flex();
+
+                            i {
+                                font-size: $FONT_SIZE_16;
+                                margin-right: -2px;
+                            }
+                        }
+                    }
+                }
+
+                &:nth-child(2) {
+                    font-size: $FONT_SIZE_14;
+                    color: $GRAY_999;
+                }
+            }
+        }
+    }
+
+    .upgrade-vip {
+        width: 48vw;
+        height: 10.13vw;
+        font-size: $FONT_SIZE_16;
+        font-weight: bold;
+        color: $WHITE;
+        border-radius: 5.07vw;
+        background-image: linear-gradient(129deg, #FA9257 0%, #FE691C 100%);
+        margin: $SIZE_10*1.6 auto;
+        letter-spacing: 1px;
+        @include display-flex();
+    }
+
+    .mine-function {
+        width: 100%;
+        height: auto;
+
+        .mine-function-item {
+            width: 100%;
+            height: 11.73vw;
+            overflow: hidden;
+            padding: 0 $SIZE_20;
+            margin: 1px auto;
+            font-size: $FONT_SIZE_16;
+            color: $GRAY_555;
+            background: $WHITE;
+            @include display-flex(row, space-between, center);
+            span {
+                flex-grow: 1;
+            }
+        }
+    }
+}
