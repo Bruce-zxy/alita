@@ -19,6 +19,9 @@ const MineService = loadable(() => import('../pages/mine_service'), { fallback: 
 const MineCard = loadable(() => import('../pages/mine_card'), { fallback: <Loader /> });
 const MineProject = loadable(() => import('../pages/mine_project'), { fallback: <Loader /> });
 const MineFunds = loadable(() => import('../pages/mine_funds'), { fallback: <Loader /> });
+const MineProvider = loadable(() => import('../pages/mine_provider'), { fallback: <Loader /> });
+const Signup = loadable(() => import('../pages/signup'), { fallback: <Loader /> });
+const Signin = loadable(() => import('../pages/signin'), { fallback: <Loader /> });
 
 export default [{
     key: "根目录",
@@ -159,6 +162,24 @@ export default [{
             component: (props) => <MineFunds {...props} />,
             exact: true,
             children: []
+        }, {
+            key: "资金管理",
+            path: LOCAL_URL['MINE_PROVIDER'],
+            component: (props) => <MineProvider {...props} />,
+            exact: true,
+            children: []
         }]
     }]
+}, {
+    key: "注册页面",
+    path: LOCAL_URL['SIGNUP'],
+    component: (props) => <Signup {...props} />,
+    exact: false,
+    children: []
+}, {
+    key: "登录页面",
+    path: LOCAL_URL['SIGNIN'],
+    component: (props) => <Signin {...props} />,
+    exact: false,
+    children: []
 }]

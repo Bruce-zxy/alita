@@ -132,14 +132,6 @@
     }
 }
 
-
-
-
-
-
-
-
-
 .hdz-financial-service {
     width: 100vw;
     height: auto;
@@ -246,5 +238,696 @@
             @include display-flex();
             @include font($FONT_SIZE_18, $WHITE, bold);
         }
+    }
+}
+
+#my-service.hdz-my-service {
+    width: 100vw;
+    height: auto;
+
+    .my-service {
+        height: auto;
+        background: transparent;
+        padding: 1.6vw 0 0;
+
+        .service-list {
+            width: 100%;
+            height: auto;
+            @include display-flex(column);
+
+            &.none {
+                @include font($FONT_SIZE_14, $GRAY_999);
+                @include display-flex();
+            }
+
+            .service-item {
+                position: relative;
+                width: 100%;
+                height: 35.73vw;
+                overflow: hidden;
+                margin: 1.6vw 0;
+                padding: 2.4vw $SIZE_20;
+                background: $WHITE;
+
+                >p {
+                    width: 100%;
+                    height: $SIZE_20;
+                    margin-bottom: $SIZE_5;
+                    @include display-flex(fow, flex-start);
+                    @include font($FONT_SIZE_12, $GRAY_999);
+                }
+
+                .service-content {
+                    @include display-flex(row, flex-start);
+
+                    >img {
+                        width: 28.27vw;
+                        height: 18.93vw;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        margin-right: $SIZE_10;
+                    }
+
+                    .service-intro {
+                        width: 58.4vw;
+                        flex-grow: 1;
+
+                        p {
+                            &:nth-child(1) {
+                                height: 9.6vw;
+                                line-height: 4.8vw;
+                                flex-wrap: wrap;
+                                overflow: hidden;
+                                @include font($FONT_SIZE_14, $GRAY_333, bold);
+
+                                >span {
+                                    height: 4vw;
+                                    padding: 0 4.8vw;
+                                    border-radius: 2vw;
+                                    border: 1px solid $TAG_1_BORDER_COLOR;
+                                    margin: 0 1vw;
+                                    @include display-flex(row, center, center, inline-flex);
+                                    @include font($FONT_SIZE_12, $TAG_1_COLOR);
+                                }
+                            }
+
+                            &:nth-child(2) {
+                                width: 100%;
+                                height: 3.73vw;
+                                transform-origin: 0% 50%;
+                                transform: scale(.83);
+                                margin-bottom: $SIZE_5;
+                                @include font($FONT_SIZE_12, $GRAY_999);
+                            }
+
+                            &:nth-child(3) {
+                                >span {
+                                    @include font($FONT_SIZE_12, $GRAY_555);
+                                    margin-right: 3vw;
+                                }
+
+                                >i {
+                                    font-size: $FONT_SIZE_12;
+                                    margin-right: 1vw;
+
+                                    &.iconyonghu {
+                                        color: $TAB_BOTTOM_COLOR;
+                                    }
+
+                                    &.icondianhua {
+                                        color: #F87477;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .service-category {
+                    width: 19.2vw * 1.2;
+                    height: $SIZE_20 * 1.2;
+                    border-radius: $SIZE_10 $SIZE_10 0 0;
+                    background: #A8D1FB;
+                    transform-origin: 50% 100%;
+                    transform: scale(.83);
+                    @include font($FONT_SIZE_12, $WHITE);
+                    @include position(absolute, auto, auto, 99, 0, $SIZE_20);
+                    @include display-flex();
+                }
+            }
+        }
+    }
+}
+
+.hdz-business-card {
+    width: 100vw;
+    height: auto;
+
+    .business-card-list {
+        width: 100%;
+        height: auto;
+        padding: $SIZE_10;
+
+        .business-card-item {
+            position: relative;
+            width: 94.37%;
+            height: auto;
+            margin: 4vw auto;
+
+            .card-top {
+                width: 100%;
+                height: 28vw;
+                padding: $SIZE_10;
+                background: $WHITE;
+                border-radius: 1.6vw;
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+                transform-origin: 50% 100%;
+                transform: scale(1.06);
+
+                >p {
+                    width: 100%;
+                    height: $SIZE_20;
+                    margin-bottom: $SIZE_5;
+                    @include display-flex(fow, flex-start);
+                    @include font($FONT_SIZE_12, $GRAY_999);
+                }
+
+                .business-card-content {
+                    @include display-flex(row, flex-start);
+
+                    >img {
+                        width: 32vw;
+                        height: 16vw;
+                        border-radius: 4px;
+                        border: 1px solid $GRAY_EEE;
+                        overflow: hidden;
+                        margin-right: $SIZE_10;
+                    }
+
+                    .business-card-intro {
+                        width: 54.93vw;
+                        flex-grow: 1;
+
+                        >p {
+                            &:nth-child(1) {
+                                height: 9.6vw;
+                                line-height: 4.8vw;
+                                flex-wrap: wrap;
+                                overflow: hidden;
+                                margin-bottom: 1.5vw;
+                                @include font($FONT_SIZE_14, $GRAY_333, bold);
+                            }
+
+                            &:nth-child(2) {
+                                @include display-flex(row, space-between);
+
+                                span {
+                                    &:nth-child(1) {
+                                        height: 4vw;
+                                        padding: 0 2.4vw;
+                                        border-radius: 2vw;
+                                        border: 1px solid $TAG_1_BORDER_COLOR;
+                                        margin: 0 1vw;
+                                        @include display-flex(row, center, center, inline-flex);
+                                        @include font($FONT_SIZE_12, $TAG_1_COLOR);
+                                    }
+
+                                    &:nth-child(2) {
+                                        @include font($FONT_SIZE_12, $GRAY_999);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .card-bottom {
+                width: 100%;
+                height: 8vw;
+                background: $WHITE;
+                padding: 0 $SIZE_10;
+                border-radius: 0 0 1.6vw 1.6vw;
+                @include display-flex(row, flex-start);
+
+                >span {
+                    @include font($FONT_SIZE_12, $GRAY_555);
+                    margin-right: 3vw;
+                }
+
+                >i {
+                    font-size: $FONT_SIZE_12;
+                    margin-right: 1vw;
+
+                    &.iconyonghu {
+                        color: $TAB_BOTTOM_COLOR;
+                    }
+
+                    &.icondianhua {
+                        color: #F87477;
+                    }
+                }
+            }
+
+            .card-category {
+                width: 19.2vw * 1.2;
+                height: $SIZE_20 * 1.2;
+                border-radius: $SIZE_10 $SIZE_10 0 0;
+                background: #A8D1FB;
+                transform-origin: 50% 100%;
+                transform: scale(.83);
+                @include font($FONT_SIZE_12, $WHITE);
+                @include position(absolute, auto, auto, 99, 0, $SIZE_5);
+                @include display-flex();
+            }
+        }
+    }
+}
+
+#my-project.hdz-project-management {
+    width: 100vw;
+    height: auto;
+
+    .my-project {
+        height: auto;
+        background: transparent;
+        padding: 0;
+
+        .project-list {
+            width: 100%;
+            height: auto;
+            @include display-flex(column);
+
+            &.none {
+                @include font($FONT_SIZE_14, $GRAY_999);
+                @include display-flex();
+            }
+
+            .project-item {
+                position: relative;
+                width: 100%;
+                height: 35.73vw;
+                overflow: hidden;
+                margin: 1.6vw 0;
+                padding: 2.4vw $SIZE_10;
+                background: $WHITE;
+
+                >p {
+                    width: 100%;
+                    height: $SIZE_20;
+                    margin-bottom: $SIZE_5;
+                    @include display-flex(fow, space-between);
+
+
+                    span {
+                        &:nth-child(1) {
+                            @include font($FONT_SIZE_12, $GRAY_999);
+                        }
+
+                        &:nth-child(2) {
+                            @include font($FONT_SIZE_12, $PRICE_COLOR, bold);
+
+                            &.completed {
+                                @include font($FONT_SIZE_12, $TAB_BOTTOM_COLOR, bold);
+                            }
+                        }
+                    }
+                }
+
+                .project-content {
+                    @include display-flex(row, flex-start);
+
+                    >img {
+                        width: 32vw;
+                        height: 21.33vw;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        margin-right: $SIZE_10;
+                    }
+
+                    .project-intro {
+                        width: 60.8vw;
+                        height: auto;
+                        @include display-flex(column, center, flex-start);
+
+                        p {
+                            &:nth-child(1) {
+                                height: 9.6vw;
+                                line-height: 4.8vw;
+                                flex-wrap: wrap;
+                                overflow: hidden;
+                                margin-bottom: 1.5vw;
+                                @include font($FONT_SIZE_14, $GRAY_333, bold);
+                            }
+
+                            &:nth-child(2) {
+                                span {
+                                    height: 4.8vw;
+                                    border-radius: 2.4vw;
+                                    padding: 0 2.4vw;
+                                    transform-origin: 0% 50%;
+                                    transform: scale(.83);
+                                    font-size: $FONT_SIZE_12;
+                                    @include display-flex(row, center, center, inline-flex);
+
+                                    &:nth-child(1) {
+                                        @include font($FONT_SIZE_12, $TAG_1_COLOR);
+                                        border: 1px solid $TAG_1_BORDER_COLOR;
+                                    }
+
+                                    &:nth-child(2) {
+                                        @include font($FONT_SIZE_12, $TAG_2_COLOR);
+                                        border: 1px solid $TAG_2_BORDER_COLOR;
+                                    }
+                                }
+                            }
+
+                            &:nth-child(3) {
+                                @include font($FONT_SIZE_16, $PRICE_COLOR);
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
+
+                .project-category {
+                    width: 19.2vw * 1.2;
+                    height: $SIZE_20 * 1.2;
+                    border-radius: $SIZE_10 $SIZE_10 0 0;
+                    background: #A8D1FB;
+                    transform-origin: 50% 100%;
+                    transform: scale(.83);
+                    @include font($FONT_SIZE_12, $WHITE);
+                    @include position(absolute, auto, auto, 99, 0, $SIZE_5);
+                    @include display-flex();
+                }
+            }
+
+            .project-tips {
+                width: 94.67vw*1.2;
+                height: 12.67vw*1.2;
+                line-height: 1.5;
+                border-radius: 0 0 1.6vw 1.6vw;
+                padding: $SIZE_10;
+                background: $WHITE;
+                transform: scale(.83) translateY(-3.2vw);
+                box-shadow: inset 0px 15px 10px -15px rgba(0, 0, 0, 0.12);
+                @include font($FONT_SIZE_12, $GRAY_555);
+            }
+        }
+    }
+
+    .publish-project {
+        width: 16vw;
+        height: 16vw;
+        border-radius: 50%;
+        color: $WHITE;
+        text-align: center;
+        background: $TAB_BOTTOM_COLOR;
+        box-shadow: 0 2px 4px 0 rgba(5, 114, 228, 0.60);
+        @include display-flex();
+        @include position(fixed, auto, auto, 99, 18.4vw, 4.8vw);
+    }
+}
+
+#my-funds.hdz-funds-management {
+    width: 100vw;
+    height: auto;
+
+    .my-funds {
+        height: auto;
+        background: transparent;
+        padding: 0;
+
+        .funds-list {
+            width: 100%;
+            height: auto;
+            @include display-flex(column);
+
+            &.none {
+                @include font($FONT_SIZE_14, $GRAY_999);
+                @include display-flex();
+            }
+
+            .funds-item {
+                position: relative;
+                width: 100%;
+                height: 44.8vw;
+                overflow: hidden;
+                margin: 1.6vw 0;
+                padding: 2.4vw $SIZE_10;
+                background: $WHITE;
+
+                >p {
+                    width: 100%;
+                    height: $SIZE_20;
+
+                    &:nth-child(1) {
+                        @include display-flex(fow, space-between);
+
+                        span {
+                            &:nth-child(1) {
+                                @include font($FONT_SIZE_12, $GRAY_999);
+                            }
+
+                            &:nth-child(2) {
+                                @include font($FONT_SIZE_12, $PRICE_COLOR, bold);
+
+                                &.completed {
+                                    @include font($FONT_SIZE_12, $TAB_BOTTOM_COLOR, bold);
+                                }
+                            }
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        margin-bottom: $SIZE_5;
+                        @include font($FONT_SIZE_14, $GRAY_333, bold);
+                    }
+
+                    &:nth-child(3) {
+                        span {
+                            height: 4.8vw;
+                            border-radius: 2.4vw;
+                            padding: 0 2.4vw;
+                            transform-origin: 0% 50%;
+                            transform: scale(.83);
+                            font-size: $FONT_SIZE_12;
+                            @include display-flex(row, center, center, inline-flex);
+
+                            &:nth-child(1) {
+                                @include font($FONT_SIZE_12, $TAG_1_COLOR);
+                                border: 1px solid $TAG_1_BORDER_COLOR;
+                            }
+
+                            &:nth-child(2) {
+                                @include font($FONT_SIZE_12, $TAG_2_COLOR);
+                                border: 1px solid $TAG_2_BORDER_COLOR;
+                            }
+                        }
+                    }
+                }
+
+                .project-intro {
+                    >div {
+                        &:nth-child(1) {
+                            width: 30vw;
+
+                            p {
+                                &:nth-child(1) {
+                                    color: $PRICE_COLOR;
+                                }
+                            }
+                        }
+
+                        &:nth-child(2) {
+                            width: 27.2vw;
+                        }
+
+                        &:nth-child(3) {
+                            width: 41.2vw;
+                        }
+
+                        p {
+                            &:nth-child(1) {
+                                font-size: $FONT_SIZE_12;
+                            }
+
+                            &:nth-child(1) {
+                                font-size: $FONT_SIZE_14;
+                            }
+                        }
+                    }
+                }
+
+
+                .funds-category {
+                    width: 19.2vw * 1.2;
+                    height: $SIZE_20 * 1.2;
+                    border-radius: $SIZE_10 $SIZE_10 0 0;
+                    background: #A8D1FB;
+                    transform-origin: 50% 100%;
+                    transform: scale(.83);
+                    @include font($FONT_SIZE_12, $WHITE);
+                    @include position(absolute, auto, auto, 99, 0, $SIZE_5);
+                    @include display-flex();
+                }
+            }
+
+            .funds-tips {
+                width: 94.67vw*1.2;
+                height: 12.67vw*1.2;
+                line-height: 1.5;
+                border-radius: 0 0 1.6vw 1.6vw;
+                padding: $SIZE_10;
+                background: $WHITE;
+                transform: scale(.83) translateY(-3.2vw);
+                box-shadow: inset 0px 15px 10px -15px rgba(0, 0, 0, 0.12);
+                @include font($FONT_SIZE_12, $GRAY_555);
+            }
+        }
+    }
+
+    .publish-funds {
+        width: 16vw;
+        height: 16vw;
+        border-radius: 50%;
+        color: $WHITE;
+        background: $TAB_BOTTOM_COLOR;
+        text-align: center;
+        box-shadow: 0 2px 4px 0 rgba(5, 114, 228, 0.60);
+        @include display-flex();
+        @include position(fixed, auto, auto, 99, 18.4vw, 4.8vw);
+    }
+}
+
+
+
+
+#my-provider.hdz-provider-management {
+    width: 100vw;
+    height: auto;
+
+    .my-provider {
+        height: auto;
+        background: transparent;
+        padding: 0;
+
+        .provider-list {
+            width: 100%;
+            height: auto;
+            @include display-flex(column);
+
+            &.none {
+                @include font($FONT_SIZE_14, $GRAY_999);
+                @include display-flex();
+            }
+
+            .provider-item {
+                position: relative;
+                width: 100%;
+                height: 35.73vw;
+                overflow: hidden;
+                margin: 1.6vw 0;
+                padding: 2.4vw $SIZE_10;
+                background: $WHITE;
+
+                >p {
+                    width: 100%;
+                    height: $SIZE_20;
+                    margin-bottom: $SIZE_5;
+                    @include display-flex(fow, space-between);
+
+
+                    span {
+                        &:nth-child(1) {
+                            @include font($FONT_SIZE_12, $GRAY_999);
+                        }
+
+                        &:nth-child(2) {
+                            @include font($FONT_SIZE_12, $PRICE_COLOR, bold);
+
+                            &.completed {
+                                @include font($FONT_SIZE_12, $TAB_BOTTOM_COLOR, bold);
+                            }
+                        }
+                    }
+                }
+
+                .provider-content {
+                    @include display-flex(row, flex-start);
+
+                    >img {
+                        width: 32vw;
+                        height: 16vw;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        margin-right: $SIZE_10;
+                    }
+
+                    .provider-intro {
+                        width: 60.8vw;
+                        height: auto;
+                        @include display-flex(column, center, flex-start);
+
+                        p {
+                            width: 100%;
+
+                            &:nth-child(1) {
+                                height: 9.6vw;
+                                line-height: 4.8vw;
+                                flex-wrap: wrap;
+                                overflow: hidden;
+                                margin-bottom: 1.5vw;
+                                @include font($FONT_SIZE_14, $GRAY_333, bold);
+                            }
+
+                            &:nth-child(2) {
+                                position: relative;
+                                padding-right: 19.2vw;
+
+                                span {
+                                    height: 4.8vw;
+                                    border-radius: 2.4vw;
+                                    padding: 0 2.4vw;
+                                    transform-origin: 0% 50%;
+                                    transform: scale(.83);
+                                    font-size: $FONT_SIZE_12;
+                                    border: 1px solid $TAG_2_BORDER_COLOR;
+                                    @include display-flex(row, center, center, inline-flex);
+                                    @include font($FONT_SIZE_12, $TAG_2_COLOR);
+                                }
+
+                                &:after {
+                                    content: attr(data-location);
+                                    @include position(absolute, auto, auto, 99, 0, 0);
+                                    @include font($FONT_SIZE_12, $GRAY_999);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .provider-category {
+                    width: 19.2vw * 1.2;
+                    height: $SIZE_20 * 1.2;
+                    border-radius: $SIZE_10 $SIZE_10 0 0;
+                    background: #A8D1FB;
+                    transform-origin: 50% 100%;
+                    transform: scale(.83);
+                    @include font($FONT_SIZE_12, $WHITE);
+                    @include position(absolute, auto, auto, 99, 0, $SIZE_5);
+                    @include display-flex();
+                }
+            }
+
+            .provider-tips {
+                width: 94.67vw*1.2;
+                height: 12.67vw*1.2;
+                line-height: 1.5;
+                border-radius: 0 0 1.6vw 1.6vw;
+                padding: $SIZE_10;
+                background: $WHITE;
+                transform: scale(.83) translateY(-3.2vw);
+                box-shadow: inset 0px 15px 10px -15px rgba(0, 0, 0, 0.12);
+                @include font($FONT_SIZE_12, $GRAY_555);
+            }
+        }
+    }
+
+    .publish-provider {
+        width: 16vw;
+        height: 16vw;
+        border-radius: 50%;
+        color: $WHITE;
+        background: $TAB_BOTTOM_COLOR;
+        box-shadow: 0 2px 4px 0 rgba(5, 114, 228, 0.60);
+        text-align: center;
+        @include display-flex();
+        @include position(fixed, auto, auto, 99, 18.4vw, 4.8vw);
     }
 }

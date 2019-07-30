@@ -11,7 +11,7 @@ import ErrorBoundary from './components/Error';
 import NoMatch from './components/NoMatch';
 import Routes from './config/route';
 
-import { LOCAL_URL } from './config/common';
+import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
 
 initReactFastclick();
 moment.locale('zh-cn');
@@ -100,7 +100,7 @@ const AppRoute = (props) => {
           unselectedTintColor={NORMAL_COLOR} 
           tintColor={ACTIVE_COLOR} 
           barTintColor="white" 
-          hidden={false} 
+          hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[3])} 
           prerenderingSiblingsNumber={Infinity}
         >
           {gTabBar.map(tabbar => (

@@ -1,0 +1,265 @@
+@import 'config';
+
+.back-to-home {
+    width: 100%;
+    height: $SIZE_20;
+    margin-top: 5vw;
+    @include font($FONT_SIZE_14, $WHITE);
+    @include display-flex(row, flex-start);
+
+    i {
+        margin-right: 1vw;
+        @include font($FONT_SIZE_14, $WHITE);
+    }
+}
+
+.sign-bottom {
+    @include position(absolute, -63.2vw, calc(50% - 76.8vw), -1);
+    width: 153.6vw;
+    height: 121.6vw;
+    border-radius: 50%;
+    background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
+}
+
+.forgot-step-show {
+    width: 90vw;
+    margin: 0 auto;
+    padding: $SIZE_10 * 1.2;
+    @include display-flex(row, space-between);
+
+    .step-tips {
+        position: relative;
+        width: auto;
+        height: $SIZE_20;
+        line-height: $SIZE_20;
+        @include font($FONT_SIZE_14, rgba(255, 255, 255, .65), bold);
+
+        &:before {
+            content: attr(data-index);
+            text-align: center;
+            margin-left: -50%;
+            @include position(absolute, -6vw, 50%);
+            @include font($FONT_SIZE_20, rgba(255, 255, 255, .65), bold);
+        }
+
+        &.active {
+            color: $WHITE;
+
+            &:before {
+                color: $WHITE;
+            }
+        }
+    }
+
+    .step-divider {
+        border-bottom: 1px dashed #FFF;
+        flex-grow: 1;
+        margin: 0 2vw;
+    }
+}
+
+.hdz-lvyoto-signup {
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    .sign-up-panel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: $SIZE_20 * 2;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: -30px;
+            z-index: -1;
+            -webkit-filter: blur(20px);
+
+            filter: blur(5px);
+        }
+
+        >p {
+            width: 100%;
+
+            &:nth-child(1) {
+                height: 13.6vw;
+                line-height: 13.6vw;
+                margin-bottom: $SIZE_10;
+                @include font($FONT_SIZE_37, $WHITE);
+            }
+
+            &:nth-child(2) {
+                height: 6.4vw;
+                line-height: 6.4vw;
+                margin-bottom: 12.8vw;
+
+                @include font($FONT_SIZE_18, $WHITE);
+            }
+        }
+
+        .signup-form {
+            width: 100%;
+            height: auto;
+
+            >p {
+                width: 100%;
+                height: 12vw;
+                line-height: 12vw;
+                padding: 0 1.6vw;
+                border-bottom: 1px solid rgba(255, 255, 255, .65);
+                @include display-flex(row, space-between);
+
+                >i {
+                    margin-right: 3vw;
+                    @include font($FONT_SIZE_20, $GRAY_EEE);
+                }
+
+                input {
+                    min-width: 0;
+                    flex: auto;
+                    background: transparent;
+                    @include font($FONT_SIZE_16, $WHITE);
+                    @include display-flex();
+
+                    &::-webkit-input-placeholder {
+                        @include font($FONT_SIZE_16, $GRAY_EEE);
+                    }
+                }
+
+                span {
+                    width: 26.4vw;
+                    height: 5.6vw;
+                    line-height: 5.6vw;
+                    padding-left: $SIZE_10;
+                    border-left: 1px solid $WHITE;
+                    text-align: right;
+                    @include display-flex();
+                    @include font($FONT_SIZE_16, $WHITE);
+                }
+            }
+        }
+
+        .to-signup {
+            width: 100%;
+            height: 12vw;
+            border-radius: 4px;
+            background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
+            margin-top: $SIZE_10 * 3;
+            @include display-flex();
+            @include font($FONT_SIZE_18, $WHITE);
+        }
+    }
+
+
+}
+
+
+.hdz-lvyoto-signin {
+    position: relative;
+    z-index: 99;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 16vw;
+    overflow: hidden;
+
+    .signin-panel {
+        width: 90vw;
+        height: auto;
+        border-radius: 4px;
+        background: $WHITE;
+        margin: 0 auto;
+        padding: $SIZE_20;
+
+        p {
+            width: 100%;
+            height: 12vw;
+            overflow: hidden;
+
+            &:nth-child(1) {
+                @include display-flex(row, flex-start);
+                border-bottom: 1px solid $GRAY_EEE;
+
+                i {
+                    margin-right: 3vw;
+                    @include font($FONT_SIZE_18, $GRAY_999);
+                }
+
+                input {
+                    flex: auto;
+
+                    &::-webkit-input-placeholder {
+                        @include font($FONT_SIZE_16, $GRAY_999);
+                    }
+                }
+            }
+
+            &:nth-child(2) {
+                @include display-flex(row, flex-start);
+                border-bottom: 1px solid $GRAY_EEE;
+
+                i {
+                    margin-right: 3vw;
+                    @include font($FONT_SIZE_18, $GRAY_999);
+                }
+
+                input {
+                    flex: auto;
+
+                    &::-webkit-input-placeholder {
+                        @include font($FONT_SIZE_16, $GRAY_999);
+                    }
+                }
+            }
+
+            &:nth-child(3) {
+                background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
+                border-radius: 4px;
+                margin: 6.4vw 0 3.2vw;
+                @include display-flex();
+                @include font($FONT_SIZE_18, $WHITE);
+            }
+
+            &:nth-child(4) {
+                @include display-flex(row, space-between);
+
+                a {
+                    @include font($FONT_SIZE_14, $GRAY_999);
+                }
+            }
+
+            .check-code {
+                width: 26.4vw;
+                height: 5.6vw;
+                line-height: 5.6vw;
+                padding-left: $SIZE_10;
+                border-left: 1px solid $GRAY_CCC;
+                text-align: right;
+                @include display-flex();
+                @include font($FONT_SIZE_16, $GRAY_999);
+            }
+        }
+
+        .forgot-completed {
+            width: 100%;
+            height: 30vw;
+            @include display-flex(column);
+
+            i {
+                @include font($FONT_SIZE_37, $TAB_BOTTOM_COLOR);
+            }
+
+            div {
+                margin-top: 5vw;
+                @include font($FONT_SIZE_18, $TAB_BOTTOM_COLOR, bold);
+            }
+        }
+    }
+}

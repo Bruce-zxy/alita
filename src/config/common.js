@@ -26,9 +26,14 @@ module.exports = {
         "MINE_CARD": APP_ROOT + "/mine/card",
         "MINE_PROJECT": APP_ROOT + "/mine/project",
         "MINE_FUNDS": APP_ROOT + "/mine/funds",
+        "MINE_PROVIDER": APP_ROOT + "/mine/provider",
 
+        "SIGNUP": APP_ROOT + "/signup",
+        "SIGNIN": APP_ROOT + "/signin",
 
     },
+
+    "LOCAL_URL_SHOW": ['home', 'project', 'service', 'news', 'mine'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
     "API_ROOT": "http://192.168.30.224:3000/api",
