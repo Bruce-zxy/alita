@@ -24,9 +24,10 @@ const ForgotFinalStep = (props) => {
         <Fragment>
             <StepShow index={props.index} />
             <div className="signin-panel">
-                <div className="forgot-completed">
+                <div className="forgot-completed" onClick={() => props.history.push(`${props.location.pathname}?index=0`)}>
                     <i className="iconfont iconchenggong"></i>
                     <div>修改密码成功</div>
+                    <span>点击此处返回登录页面</span>
                 </div>
             </div>
         </Fragment>

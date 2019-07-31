@@ -5,23 +5,33 @@ import loadable from '@loadable/component';
 import Loader from '../components/Loader';
 import { LOCAL_URL } from './common';
 
-const Home = loadable(() => import('../pages/home'), { fallback: <Loader /> });
-const HomeDetail = loadable(() => import('../pages/home_detail'), { fallback: <Loader /> });
-const Project = loadable(() => import('../pages/project'), { fallback: <Loader /> });
-const ProjectDetail = loadable(() => import('../pages/project_detail'), { fallback: <Loader /> });
-const Service = loadable(() => import('../pages/service'), { fallback: <Loader /> });
-const ServiceDetail = loadable(() => import('../pages/service_detail'), { fallback: <Loader /> });
-const News = loadable(() => import('../pages/news'), { fallback: <Loader /> });
-const NewsDetail = loadable(() => import('../pages/news_detail'), { fallback: <Loader /> });
-const Mine = loadable(() => import('../pages/mine'), { fallback: <Loader /> });
-const MineFinancial = loadable(() => import('../pages/mine_financial'), { fallback: <Loader /> });
-const MineService = loadable(() => import('../pages/mine_service'), { fallback: <Loader /> });
-const MineCard = loadable(() => import('../pages/mine_card'), { fallback: <Loader /> });
-const MineProject = loadable(() => import('../pages/mine_project'), { fallback: <Loader /> });
-const MineFunds = loadable(() => import('../pages/mine_funds'), { fallback: <Loader /> });
-const MineProvider = loadable(() => import('../pages/mine_provider'), { fallback: <Loader /> });
-const Signup = loadable(() => import('../pages/signup'), { fallback: <Loader /> });
-const Signin = loadable(() => import('../pages/signin'), { fallback: <Loader /> });
+const Home           = loadable(() => import('../pages/home'), { fallback: <Loader /> });
+const HomeDetail     = loadable(() => import('../pages/home_detail'), { fallback: <Loader /> });
+
+const Project        = loadable(() => import('../pages/project'), { fallback: <Loader /> });
+const ProjectDetail  = loadable(() => import('../pages/project_detail'), { fallback: <Loader /> });
+
+const Service        = loadable(() => import('../pages/service'), { fallback: <Loader /> });
+const ServiceDetail  = loadable(() => import('../pages/service_detail'), { fallback: <Loader /> });
+
+const News           = loadable(() => import('../pages/news'), { fallback: <Loader /> });
+const NewsDetail     = loadable(() => import('../pages/news_detail'), { fallback: <Loader /> });
+
+const Mine           = loadable(() => import('../pages/mine'), { fallback: <Loader /> });
+const MineFinancial  = loadable(() => import('../pages/mine_financial'), { fallback: <Loader /> });
+const MineService    = loadable(() => import('../pages/mine_service'), { fallback: <Loader /> });
+const MineCard       = loadable(() => import('../pages/mine_card'), { fallback: <Loader /> });
+const MineProject    = loadable(() => import('../pages/mine_project'), { fallback: <Loader /> });
+const MineFunds      = loadable(() => import('../pages/mine_funds'), { fallback: <Loader /> });
+const MineProvider   = loadable(() => import('../pages/mine_provider'), { fallback: <Loader /> });
+
+const Signup         = loadable(() => import('../pages/signup'), { fallback: <Loader /> });
+const Signin         = loadable(() => import('../pages/signin'), { fallback: <Loader /> });
+
+const PublishProject = loadable(() => import('../pages/publish_project'), { fallback: <Loader /> });
+const PublishFunds   = loadable(() => import('../pages/publish_funds'), { fallback: <Loader /> });
+const PublishService = loadable(() => import('../pages/publish_service'), { fallback: <Loader /> });
+const PublishMember  = loadable(() => import('../pages/publish_member'), { fallback: <Loader /> });
 
 export default [{
     key: "根目录",
@@ -182,4 +192,33 @@ export default [{
     component: (props) => <Signin {...props} />,
     exact: false,
     children: []
+}, {
+    key: "发布页面",
+    path: LOCAL_URL['PUBLISH'],
+    exact: false,
+    children: [{
+        key: "发布项目",
+        path: LOCAL_URL['PUBLISH_PROJECT'],
+        component: (props) => <PublishProject {...props} />,
+        exact: true,
+        children: []
+    }, {
+        key: "发布资金",
+        path: LOCAL_URL['PUBLISH_FUNDS'],
+        component: (props) => <PublishFunds {...props} />,
+        exact: true,
+        children: []
+    }, {
+        key: "发布服务商",
+        path: LOCAL_URL['PUBLISH_SERVICE'],
+        component: (props) => <PublishService {...props} />,
+        exact: true,
+        children: []
+    }, {
+        key: "申请会员",
+        path: LOCAL_URL['PUBLISH_MEMBER'],
+        component: (props) => <PublishMember {...props} />,
+        exact: true,
+        children: []
+    }]
 }]

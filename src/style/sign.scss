@@ -257,8 +257,11 @@
             }
 
             div {
-                margin-top: 5vw;
+                margin: 5vw 0 2vw;
                 @include font($FONT_SIZE_18, $TAB_BOTTOM_COLOR, bold);
+            }
+            span {
+                @include font($FONT_SIZE_14, $GRAY_999);
             }
         }
     }

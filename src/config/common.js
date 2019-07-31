@@ -31,6 +31,12 @@ module.exports = {
         "SIGNUP": APP_ROOT + "/signup",
         "SIGNIN": APP_ROOT + "/signin",
 
+        "PUBLISH": APP_ROOT + "/publish",
+        "PUBLISH_PROJECT": APP_ROOT + "/publish/project",
+        "PUBLISH_FUNDS": APP_ROOT + "/publish/funds",
+        "PUBLISH_SERVICE": APP_ROOT + "/publish/service",
+        "PUBLISH_MEMBER": APP_ROOT + "/publish/member",
+
     },
 
     "LOCAL_URL_SHOW": ['home', 'project', 'service', 'news', 'mine'],

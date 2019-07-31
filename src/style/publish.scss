@@ -1,0 +1,103 @@
+@import 'config';
+
+.hdz-publish-project {
+    .am-list-body {
+        background: #f5f5f9;
+
+        .title-remind {
+            line-height: 1.35;
+            padding: 1.6vw 4vw 1.6vw 19.2vw;
+            margin-bottom: 1.6vw;
+            background: $WHITE;
+            @include font($FONT_SIZE_12, $GRAY_999);
+        }
+
+        .avatar-upload {
+            padding: $SIZE_10 20vw;
+            border-bottom: 1px solid $GRAY_EEE;
+            background: $WHITE;
+
+            p {
+                text-align: center;
+
+                &:nth-child(1) {
+                    @include font($FONT_SIZE_16, $GRAY_333);
+                }
+
+                &:nth-child(3) {
+                    @include font($FONT_SIZE_12, $GRAY_999);
+                }
+            }
+        }
+
+        .none-input-item {
+            label {
+                width: 85px;
+                margin-right: 5px;
+                display: inline-block;
+            }
+
+            &.tags-view {
+                .am-list-content {
+                    @include display-flex(row, flex-start, flex-start);
+
+                    >label {
+                        @include display-flex(row, space-between);
+                    }
+
+                    >div {
+                        width: 75.2vw;
+                        flex-grow: 1;
+
+                        .ant-tag {
+                            background-color: #ECECEC;
+                            color: $GRAY_999;
+
+                            &.ant-tag-checkable-checked {
+                                background-color: #1890ff;
+                                color: $WHITE;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .am-textarea-item {
+                margin: $SIZE_10 0;
+                border: 1px solid #DCDCDC !important;
+
+                textarea {
+                    @include font($FONT_SIZE_16, $GRAY_333);
+
+                    &::-webkit-input-placeholder {
+                        color: $GRAY_999;
+                    }
+
+                    &::-moz-input-placeholder {
+                        color: $GRAY_999;
+                    }
+
+                    &::-ms-input-placeholder {
+                        color: $GRAY_999;
+                    }
+
+                }
+            }
+        }
+
+
+
+
+
+    }
+
+    .publish-button {
+        width: 94.67vw;
+        height: 12vw;
+        background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
+        border-radius: 4px;
+        margin: $SIZE_10 auto;
+        @include display-flex();
+        @include font($FONT_SIZE_18, $WHITE);
+    }
+}
