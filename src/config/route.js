@@ -173,7 +173,7 @@ export default [{
             exact: true,
             children: []
         }, {
-            key: "资金管理",
+            key: "服务商管理",
             path: LOCAL_URL['MINE_PROVIDER'],
             component: (props) => <MineProvider {...props} />,
             exact: true,

@@ -1,5 +1,8 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { withApollo } from 'react-apollo';
+import { CondOperator } from '@nestjsx/crud-request';
+
 import { Modal, PullToRefresh } from 'antd-mobile';
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -7,36 +10,33 @@ import { gql } from "apollo-boost";
 import Loader from '../components/Loader';
 import TabPanel from '../components/TabPanel';
 import Carousel from '../components/Carousel';
+
+import { buildingQuery } from '../utils/global';
+import { Q_GET_ARTICLES } from '../gql';
+
 import { LOCAL_URL } from '../config/common';
 
 import '../style/news.scss';
 
+const defaultVariables = {
+    page: 0,
+    limit: 10,
+    join: [{ field: 'category' }],
+    filter: [{ field: 'category.title', operator: CondOperator.EQUALS, value: "江旅资讯" }],
+    sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
+};
+
 const NewsList = (props) => {
 
-    const { list } = props;
-
-    const [thisState, setState] = useState({
-        refreshing: false,
-    });
-
-
-    const toChangeStateFactor = (key) => (handler) => {
-        thisState[key] = handler(thisState[key]);
-        setState(Object.assign({}, thisState));
-    }
+    const { list, refreshing, onFetchMore } = props;
 
     return (
         <PullToRefresh
             className="hdz-pull-refresh"
             damping={100}
             direction="up"
-            refreshing={thisState.refreshing}
-            onRefresh={() => {
-                toChangeStateFactor('refreshing')((refreshing => refreshing = true));
-                setTimeout(() => {
-                    toChangeStateFactor('refreshing')((refreshing => refreshing = false));
-                }, 1000);
-            }}
+            refreshing={refreshing}
+            onRefresh={onFetchMore}
         >
             <div className="news-list-container">
                 <div className="news-list">
@@ -60,10 +60,10 @@ const NewsList = (props) => {
                                 <p>{item.title}</p>
                                 <p>
                                     <span>作者：{item.author}</span>
-                                    <span>{item.date}</span>
+                                    <span>{item.create_at}</span>
                                 </p>
                             </div>
-                            <img src={item.image} alt='placeholder' />
+                            <img src={item.cover} alt='placeholder' />
                         </Link>
                     ))}
                 </div>
@@ -72,7 +72,46 @@ const NewsList = (props) => {
     )
 }
 
-export default (props) => {
+export default withApollo((props) => {
+
+    const { client } = props;
+
+    const [thisState, setState] = useState({
+        refreshing: false,
+        index: 0,
+        data: []
+    });
+    useEffect(() => {
+        
+        defaultVariables.page = thisState.index;
+        
+        client.mutate({
+            mutation: Q_GET_ARTICLES,
+            variables: {
+                queryString: buildingQuery(defaultVariables)
+            },
+            update: (proxy, { data }) => {
+                let list = thisState.data;
+                if (data && data.queryArticle && data.queryArticle.data) {
+                    list = list.concat(data.queryArticle.data);
+                }
+                setState({
+                    ...thisState,
+                    refreshing: false,
+                    data: list
+                });
+            }
+        });
+    }, [thisState.index]);
+
+
+    const toChangeStateFactor = (key) => (handler) => {
+        thisState[key] = handler(thisState[key]);
+        setState(Object.assign({}, thisState));
+    }
+
+    console.log(thisState);
+    
 
     const list = [{
         title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
@@ -131,26 +170,35 @@ export default (props) => {
         image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
     }]
     
+    const onFetchMore = () => {
+        setState({
+            ...thisState,
+            index: thisState.index + 1,
+            refreshing: true
+        });
+        return true;
+    }
+
     const data = [{
         title: "行业快讯",
         className: 'lvyoto-news',
-        content: <NewsList list={list} />
+        content: <NewsList list={thisState.data} refreshing={thisState.refreshing} onFetchMore={onFetchMore} />
     }, {
         title: "江旅资讯",
         className: 'lvyoto-news',
-        content: <NewsList list={list} />
+        content: <NewsList list={thisState.data} refreshing={thisState.refreshing} onFetchMore={onFetchMore} />
     }, {
         title: "投融研报",
         className: 'lvyoto-news',
-        content: <NewsList list={list} />
+        content: <NewsList list={thisState.data} refreshing={thisState.refreshing} onFetchMore={onFetchMore} />
     }, {
         title: "投融学堂",
         className: 'lvyoto-news',
-        content: <NewsList list={list} />
+        content: <NewsList list={thisState.data} refreshing={thisState.refreshing} onFetchMore={onFetchMore} />
     }, {
         title: "通知公告",
         className: 'lvyoto-news',
-        content: <NewsList list={list} />
+        content: <NewsList list={thisState.data} refreshing={thisState.refreshing} onFetchMore={onFetchMore} />
     }]
 
     return (
@@ -158,4 +206,4 @@ export default (props) => {
             <TabPanel data={data} current="江旅金融" activeColor="#0572E4" commonColor="#999" swipable={false} clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
         </div>
     )
-};
+});

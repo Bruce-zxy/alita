@@ -139,8 +139,6 @@ const PublishProject = (props) => {
 
     global.TNT(thisMap, thisFiles, thisType);
 
-
-
     return (
         <div className="hdz-publish-project">
             <List>

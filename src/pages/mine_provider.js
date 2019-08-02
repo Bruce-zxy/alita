@@ -109,7 +109,7 @@ export default (props) => {
     return (
         <div className="hdz-provider-management" id="my-provider">
             <TabPanel data={data} current="江旅金融" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
-            <Link to="javascript:;" className="publish-provider">发布<br/>服务商</Link>
+            <Link to={LOCAL_URL['PUBLISH_SERVICE']} className="publish-provider">发布<br/>服务商</Link>
         </div>
     )
 }

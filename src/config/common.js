@@ -2,6 +2,8 @@ const APP_ROOT = "/app/lvyoto";
 
 module.exports = {
     "APP_NAME": "SYS_APP_LVYOTO",
+    "DEFAULT_USERNAME": "SuperAdmin",
+    "DEFAULT_PASSWORD": "12345678",
     "VERSION": "Ver 0.0.1 Build 20190722",
 
     "LOCAL_URL": {
@@ -50,6 +52,13 @@ module.exports = {
     },
 
     DEFAULT_AVATAR: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561547251987&di=e63f4f0adfe4ffffa7ed7fa8c0fc9580&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa12f24e688c1cda3ff4cc453f3486a88adaf08cc2cdb-tQvJqX_fw658',
+    IDENTITY_MAPS: {
+        user: '后台用户',
+        investor: '资金方',
+        financer: '项目方',
+        provider: '服务商',
+        tourist: '游客',
+    },
     COLOR_ARRAY: ['#42C7A9', '#F87477', '#FCB240', '#258CF6', '#8E73E2']
 };
 

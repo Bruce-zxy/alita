@@ -1,9 +1,11 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { TabBar } from 'antd-mobile';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Toast } from 'antd-mobile';
+import { withApollo } from 'react-apollo';
+import { gql } from "apollo-boost";
 
-import { LOCAL_URL } from '../config/common';
-
+import { LOCAL_URL, DEFAULT_USERNAME, DEFAULT_PASSWORD } from '../config/common';
+import { M_LOGIN, Q_FETCH_CURRENT_USER } from '../gql';
 import "../style/sign.scss";
 
 const StepShow = ({ index }) => {
@@ -24,10 +26,10 @@ const ForgotFinalStep = (props) => {
         <Fragment>
             <StepShow index={props.index} />
             <div className="signin-panel">
-                <div className="forgot-completed" onClick={() => props.history.push(`${props.location.pathname}?index=0`)}>
+                <div className="forgot-completed" onClick={() => props.history.push(`${LOCAL_URL['SIGNIN']}?index=0`)}>
                     <i className="iconfont iconchenggong"></i>
                     <div>修改密码成功</div>
-                    <span>点击此处返回登录页面</span>
+                    <span>请点击此处返回登录页面</span>
                 </div>
             </div>
         </Fragment>
@@ -147,9 +149,12 @@ const ForgotFirstStep = (props) => {
 
 const Login = (props) => {
 
+    const DEFAULT_USER = global.C4(DEFAULT_USERNAME);
+    const DEFAULT_PASS = global.C4(DEFAULT_PASSWORD);
+
     const [thisState, setState] = useState({
-        username: '',
-        password: ''
+        account: DEFAULT_USER,
+        password: DEFAULT_PASS
     });
 
     const toChangeStateFactor = (key) => (handler) => {
@@ -157,23 +162,44 @@ const Login = (props) => {
         setState(Object.assign({}, thisState));
     }
 
-    const toLogin = () => {
-        const { username, password } = thisState;
+    const toLogin = async () => {
+        const { client, history } = props;
+        const { account, password } = thisState;
 
+        global.TNT(thisState, props);
 
-        global.TNT(thisState);
-
+        if (account && password) {
+            let { data } = await client.mutate({
+                mutation: M_LOGIN,
+                variables: { loginData: thisState }
+            });
+            if (data && data.login && data.login.token) {
+                localStorage.setItem('u_token', data.login.token);
+                let result = await client.query({
+                    query: Q_FETCH_CURRENT_USER
+                });
+                if (result && result.data && result.data.me) {
+                    localStorage.setItem('u_user', JSON.stringify(result.data.me));
+                    Toast.success('登录成功！页面将在3秒后跳转', 3);
+                    setTimeout(() => {
+                        history.push(LOCAL_URL['MINE']);
+                    }, 3000);
+                }
+            }
+        } else {
+            Toast.info('用户名密码不能为空！', 1);
+        }
     }
 
     return (
         <div className="signin-panel">
             <p>
                 <i className="iconfont iconyonghuming"></i>
-                <input type="text" placeholder="请输入用户名" onChange={(e) => toChangeStateFactor('username')(username => username = e.target.value)} />
+                <input type="text" placeholder="请输入用户名" value={DEFAULT_USER} onChange={(e) => toChangeStateFactor('account')(account => account = e.target.value.trim())} />
             </p>
             <p>
                 <i className="iconfont iconmimasuo"></i>
-                <input type="password" placeholder="请输入密码" onChange={(e) => toChangeStateFactor('password')(password => password = e.target.value)} />
+                <input type="password" placeholder="请输入密码" value={DEFAULT_PASS} onChange={(e) => toChangeStateFactor('password')(password => password = e.target.value.trim())} />
             </p>
             <p className="signin-button" onClick={toLogin}>登录</p>
             <p>
@@ -184,12 +210,12 @@ const Login = (props) => {
     )
 }
 
-export default (props) => {
-
-    const { pathname, search } = props.location;
+export default withApollo((props) => {
+    const { pathname, search, state } = props.location;
     
     let params = {};
-    search.split('?')[1].split('&').forEach(param => {
+    let params_str = search.split('?')[1] || '';
+    params_str.split('&').forEach(param => {
         let [key, val] = param.split('=');
         params[key] = val;
     })
@@ -204,7 +230,16 @@ export default (props) => {
         setIndex(i);
     };
     
-    const panels = [<Login toSetPanelIndex={toSetPanelIndex} index={index} {...props} />, <ForgotFirstStep toSetPanelIndex={toSetPanelIndex} index={index} {...props} />, <ForgotSecondStep toSetPanelIndex={toSetPanelIndex} index={index} {...props} />, <ForgotFinalStep toSetPanelIndex={toSetPanelIndex} index={index} {...props} />]
+    const panels = [
+        <Login toSetPanelIndex={toSetPanelIndex} index={index} {...props} />, 
+        <ForgotFirstStep toSetPanelIndex={toSetPanelIndex} index={index} {...props} />, 
+        <ForgotSecondStep toSetPanelIndex={toSetPanelIndex} index={index} {...props} />, 
+        <ForgotFinalStep toSetPanelIndex={toSetPanelIndex} index={index} {...props} />
+    ];
+
+    if (state && state.message) {
+        Toast.fail(state.message, 2);
+    }
 
     return (
         <div className="hdz-lvyoto-signin">
@@ -212,4 +247,4 @@ export default (props) => {
             {panels[index]}
         </div>
     )
-}
+})
