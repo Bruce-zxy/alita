@@ -20,9 +20,9 @@ import '../style/news.scss';
 
 const defaultVariables = {
     page: 0,
-    limit: 10,
+    limit: 1000,
     join: [{ field: 'category' }],
-    filter: [{ field: 'category.title', operator: CondOperator.EQUALS, value: "江旅资讯" }],
+    // filter: [{ field: 'category.title', operator: CondOperator.EQUALS, value: "江旅资讯" }],
     sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
 };
 
