@@ -93,12 +93,19 @@ const AppRoute = (props) => {
 
   const [tabKey, setTabKey] = useState('选项目');
   const gotoPage = (tabName) => () => {
+    // 查询Tabbar时隐时见的问题
+    console.log('【NOMAL】', pathname);
+    console.log('【NOMAL】', pathname.split('/')[3]);
+    
+    
     const tab_key_index = gTabBar.findIndex(item => item.name === tabName);
     setTabKey(tabName);
     props.history.push(LOCAL_URL[gTabBar[tab_key_index].page]);
   }
 
   useEffect(() => {
+    console.log('【Effect】', pathname);
+    console.log('【Effect】', pathname.split('/')[3]);
     const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[3]);
     if (gTabBar[tab_key_index]) {
       const tab_key = gTabBar[tab_key_index].name;
