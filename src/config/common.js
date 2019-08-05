@@ -1,4 +1,5 @@
-const APP_ROOT = "/app/lvyoto";
+const { homepage } = require('../../package.json');
+const APP_ROOT = homepage;
 
 module.exports = {
     "APP_NAME": "SYS_APP_LVYOTO",
