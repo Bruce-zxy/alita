@@ -18,6 +18,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background: #f5f5f9 !important;
 }
 
 body {
@@ -37,8 +38,12 @@ a {
     text-decoration: none;
 }
 
-input,
-textarea {
+body p {
+    margin-bottom: 0;
+}
+
+body input,
+body textarea {
     border: 0;
     outline: 0;
 

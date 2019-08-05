@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 import initReactFastclick from 'react-fastclick';
-import ApolloClient, { gql } from "apollo-boost";
+import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { ApolloLink } from 'apollo-link';
+
 import * as moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -16,13 +22,20 @@ import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
 initReactFastclick();
 moment.locale('zh-cn');
 
-// const client = new ApolloClient({
-//   uri: "http://localhost:4000"
-// });
-
 const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io"
+  uri: "http://192.168.30.224:3000/graphql",
+  request: (operation) => {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('u_token')}`
+      }
+    });
+  }
 });
+
+// const client = new ApolloClient({
+//   uri: "https://48p1r2roz4.sse.codesandbox.io"
+// });
 
 const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";

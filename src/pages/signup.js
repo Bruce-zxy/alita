@@ -1,6 +1,6 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { TabBar } from 'antd-mobile';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Toast } from 'antd-mobile';
 
 import { LOCAL_URL } from '../config/common';
 
@@ -28,6 +28,11 @@ export default (props) => {
     const toSubmitRegisterInfo = () => {
         console.log(thisState);
         
+
+        Toast.success('恭喜，注册成功！页面将在3秒后跳转', 3);
+        setTimeout(() => {
+            props.history.push(LOCAL_URL['MINE'])
+        }, 3000);
     }
 
     const toFetchCode = () => {

@@ -126,7 +126,7 @@ export default (props) => {
     return (
         <div className="hdz-funds-management" id="my-funds">
             <TabPanel data={data} current="江旅金融" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
-            <Link to="javascript:;" className="publish-funds">发布<br/>资金</Link>
+            <Link to={LOCAL_URL['PUBLISH_FUNDS']} className="publish-funds">发布<br/>资金</Link>
         </div>
     )
 }

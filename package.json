@@ -2,9 +2,11 @@
   "name": "lvyoto",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "/lvyoto",
   "dependencies": {
+    "@apollo/react-hooks": "^0.1.0-beta.11",
     "@loadable/component": "^5.10.2",
+    "@nestjsx/crud-request": "^4.2.0",
     "@turf/bbox": "^6.0.1",
     "@turf/turf": "^5.1.6",
     "allinlib": "^0.0.2",
