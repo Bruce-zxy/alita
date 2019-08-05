@@ -195,11 +195,11 @@ const Login = (props) => {
         <div className="signin-panel">
             <p>
                 <i className="iconfont iconyonghuming"></i>
-                <input type="text" placeholder="请输入用户名" value={DEFAULT_USER} onChange={(e) => toChangeStateFactor('account')(account => account = e.target.value.trim())} />
+                <input type="text" placeholder="请输入用户名" defaultValue={DEFAULT_USER} onChange={(e) => toChangeStateFactor('account')(account => account = e.target.value.trim())} />
             </p>
             <p>
                 <i className="iconfont iconmimasuo"></i>
-                <input type="password" placeholder="请输入密码" value={DEFAULT_PASS} onChange={(e) => toChangeStateFactor('password')(password => password = e.target.value.trim())} />
+                <input type="password" placeholder="请输入密码" defaultValue={DEFAULT_PASS} onChange={(e) => toChangeStateFactor('password')(password => password = e.target.value.trim())} />
             </p>
             <p className="signin-button" onClick={toLogin}>登录</p>
             <p>
