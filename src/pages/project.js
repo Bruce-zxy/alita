@@ -61,7 +61,7 @@ const LookingFunds = () => {
                     list = [].concat(data.queryProduct.data);
                     // 按时间排序，1为正序，2为倒序
                     if (time % 3 !== 0) {
-                        let handler = time % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
+                        let handler = time % 3 - 1 === 0 ? ((a, b) => new Date(a.create_at) - new Date(b.create_at)) : ((a, b) => new Date(b.create_at) - new Date(a.create_at));
                         list = list.sort(handler);
                     }
                     // 按金额排序，1为正序，2为倒序
@@ -130,7 +130,7 @@ const LookingFunds = () => {
                                         </Link>
                                     ))}
                                 </div>
-                                <div className="hdz-block-large-space" onClick={() => document.querySelector('.hdz-pull-refresh .financing-project').scrollIntoView({ behavior: "smooth" })}></div>
+                                <div className="hdz-block-large-space"></div>
                             </PullToRefresh>
                         </div>
                     )
@@ -235,7 +235,16 @@ const JLFinancial = () => {
 }
 
 export default (props) => {
-    
+    const { location, history } = props;
+    const params_str = location.search.split("?")[1];
+    const params = {};
+    if (params_str) {
+        params_str.split('&').forEach(str => {
+            let [key, val] = str.split('=');
+            params[key] = val;
+        })
+    }
+
     const data = [{
         title: "找资金",
         className: 'project-looking-funds',
@@ -246,9 +255,10 @@ export default (props) => {
         content: <JLFinancial />
     }]
 
+
     return (
         <div className="hdz-lvyoto-project" id="project">
-            <TabPanel data={data} current="找资金" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
+            <TabPanel data={data} current={data[params.index] ? data[params.index].title : data[0].title} activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => history.push(`${location.pathname}?index=${to}`)} />
         </div>
     )
 };
