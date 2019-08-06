@@ -6,6 +6,7 @@ import { CondOperator } from '@nestjsx/crud-request';
 import { Modal, PullToRefresh } from 'antd-mobile';
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
+import * as moment from 'moment';
 
 import Loader from '../components/Loader';
 import TabPanel from '../components/TabPanel';
@@ -58,10 +59,7 @@ const NewsList = (props) => {
                         <Link className="news-item" key={i} to={`${LOCAL_URL['NEWS_DETAIL']}/${item.id}`}>
                             <div className="news-info">
                                 <p>{item.title}</p>
-                                <p>
-                                    <span>作者：{item.author}</span>
-                                    <span>{item.create_at}</span>
-                                </p>
+                                <p>作者：{item.author}&nbsp;&nbsp;{moment(item.create_at).format('YYYY-MM-DD')}</p>
                             </div>
                             <img src={item.cover} alt='placeholder' />
                         </Link>
