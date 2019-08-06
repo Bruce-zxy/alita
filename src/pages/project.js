@@ -54,8 +54,6 @@ const LookingFunds = () => {
                 if (error) return `【Error】 ${error.message}`;
 
                 global.TNT('【当前状态】', thisState);
-                console.log(data);
-                
 
                 const { time, amount, financing, refreshing } = thisState;
                 let list = [];

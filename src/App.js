@@ -89,7 +89,7 @@ const gTabBar = [{
 ];
 
 const AdditionalRouteConfig = () => (
-  <Fragment>
+  <Switch>
     <Route path={`${LOCAL_URL['SIGNUP']}`} component={(props) => <Signup {...props} />} exact />
     <Route path={`${LOCAL_URL['SIGNIN']}`} component={(props) => <Signin {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_PROJECT']}`} component={(props) => <PublishProject {...props} />} exact />
@@ -97,7 +97,7 @@ const AdditionalRouteConfig = () => (
     <Route path={`${LOCAL_URL['PUBLISH_SERVICE']}`} component={(props) => <PublishService {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_MEMBER']}`} component={(props) => <PublishMember {...props} />} exact />
     <Route component={NoMatch} />
-  </Fragment>
+  </Switch>
 )
 
 const MainRouteConfig = {
