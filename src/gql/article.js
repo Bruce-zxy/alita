@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import gql from 'graphql-tag';
 import { F_ARTICLE_CATEGORY_FIELDS, F_ARTICLE_CATEGORYRECURSIVE } from './article-category';
 
 export const F_ARTICLE_FIELDS = gql`
@@ -60,8 +60,12 @@ export const Q_GET_ARTICLE = gql`
 `;
 
 export const M_UPDATE_ARTICLE = gql`
+  ${F_ARTICLE_FIELDS}
+
   mutation updateArticle($id: String!, $data: ArticleInput!) {
-    updateArticle(id: $id, data: $data)
+    updateArticle(id: $id, data: $data) {
+      ...ArticleFields
+    }
   }
 `;
 

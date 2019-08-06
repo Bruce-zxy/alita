@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import gql from 'graphql-tag';
 
 export const Q_FETCH_CURRENT_USER = gql`
   query fetchCurrentUser {
@@ -7,17 +7,8 @@ export const Q_FETCH_CURRENT_USER = gql`
       account
       avatar
       realname
-      phone
-      idcard
-      address
-      company
       profile
-      identity
-      status
-      org {
-        id
-        title
-      }
+      address
     }
   }
 `;

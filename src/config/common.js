@@ -60,7 +60,8 @@ module.exports = {
         provider: '服务商',
         tourist: '游客',
     },
-    COLOR_ARRAY: ['#42C7A9', '#F87477', '#FCB240', '#258CF6', '#8E73E2']
+    COLOR_ARRAY: ['#42C7A9', '#F87477', '#FCB240', '#258CF6', '#8E73E2'],
+    ICON_ARRAY: ['iconqiyetouzixinxichaxun', 'icontouzi', 'icontouzilicai', 'iconcaiwutouzi', 'icontouzi1', 'icontouzi11', 'iconzhuanjifentouzijiaoyi', 'iconwoyaotouzi00', 'iconjijin', 'icontouzi2']
 };
 
 

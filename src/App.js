@@ -171,7 +171,7 @@ const AppRoute = (props) => {
           tintColor={ACTIVE_COLOR} 
           barTintColor="white" 
           hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[3])} 
-          prerenderingSiblingsNumber={Infinity}
+          // prerenderingSiblingsNumber={Infinity}
         >
           {gTabBar.map((tabbar, i) => (
             <TabBar.Item 

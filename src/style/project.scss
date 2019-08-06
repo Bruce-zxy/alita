@@ -206,14 +206,19 @@
 
     .finnacial-item-left {
         >p {
+            overflow: hidden;
             &:nth-child(1) {
                 font-size: $FONT_SIZE_24;
                 letter-spacing: 2px;
+                height: $SIZE_10 * 3;
+                line-height: $SIZE_10 * 3;
             }
 
             &:nth-child(2) {
                 font-size: $FONT_SIZE_14;
-                margin: $SIZE_5 0;
+                margin: $SIZE_5 0 $SIZE_10;
+                height: $SIZE_20;
+                line-height: $SIZE_20;
             }
 
             &:nth-child(3) {
@@ -231,6 +236,7 @@
     }
 
     >i {
+        margin-left: 8vw;
         font-size: 16vw;
     }
 }
