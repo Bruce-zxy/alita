@@ -54,8 +54,6 @@ const LookingFunds = () => {
                 if (error) return `【Error】 ${error.message}`;
 
                 global.TNT('【当前状态】', thisState);
-                console.log(data);
-                
 
                 const { time, amount, financing, refreshing } = thisState;
                 let list = [];
@@ -250,7 +248,7 @@ export default (props) => {
 
     return (
         <div className="hdz-lvyoto-project" id="project">
-            <TabPanel data={data} current="江旅金融" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
+            <TabPanel data={data} current="找资金" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
         </div>
     )
 };
