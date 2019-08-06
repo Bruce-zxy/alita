@@ -23,7 +23,7 @@ initReactFastclick();
 moment.locale('zh-cn');
 
 const client = new ApolloClient({
-  uri: "http://192.168.30.224:3000/graphql",
+  uri: "http://localhost:3000/graphql",
   request: (operation) => {
     operation.setContext({
       headers: {
