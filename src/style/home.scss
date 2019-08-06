@@ -9,7 +9,7 @@
 
     .hdz-lvyoto-home {
         width: 100%;
-        height: 100%;
+        height: calc(100vh - 11.73vw - 50px);
 
         .lvyoto-filter-bar {
 
@@ -130,5 +130,3 @@
         }
     }
 }
-
-

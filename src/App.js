@@ -1,26 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 import initReactFastclick from 'react-fastclick';
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { onError } from 'apollo-link-error';
-import { ApolloLink } from 'apollo-link';
+import loadable from '@loadable/component';
 
 import * as moment from 'moment';
 import 'moment/locale/zh-cn';
 
 import ErrorBoundary from './components/Error';
 import NoMatch from './components/NoMatch';
-import Routes from './config/route';
+import Loader from './components/Loader';
 
 import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
 
 initReactFastclick();
 moment.locale('zh-cn');
+
+const Home = loadable(() => import('./pages/home'), { fallback: <Loader /> });
+const HomeDetail = loadable(() => import('./pages/home_detail'), { fallback: <Loader /> });
+
+const Project = loadable(() => import('./pages/project'), { fallback: <Loader /> });
+const ProjectDetail = loadable(() => import('./pages/project_detail'), { fallback: <Loader /> });
+
+const Service = loadable(() => import('./pages/service'), { fallback: <Loader /> });
+const ServiceDetail = loadable(() => import('./pages/service_detail'), { fallback: <Loader /> });
+
+const News = loadable(() => import('./pages/news'), { fallback: <Loader /> });
+const NewsDetail = loadable(() => import('./pages/news_detail'), { fallback: <Loader /> });
+
+const Mine = loadable(() => import('./pages/mine'), { fallback: <Loader /> });
+const MineFinancial = loadable(() => import('./pages/mine_financial'), { fallback: <Loader /> });
+const MineService = loadable(() => import('./pages/mine_service'), { fallback: <Loader /> });
+const MineCard = loadable(() => import('./pages/mine_card'), { fallback: <Loader /> });
+const MineProject = loadable(() => import('./pages/mine_project'), { fallback: <Loader /> });
+const MineFunds = loadable(() => import('./pages/mine_funds'), { fallback: <Loader /> });
+const MineProvider = loadable(() => import('./pages/mine_provider'), { fallback: <Loader /> });
+
+const Signup = loadable(() => import('./pages/signup'), { fallback: <Loader /> });
+const Signin = loadable(() => import('./pages/signin'), { fallback: <Loader /> });
+
+const PublishProject = loadable(() => import('./pages/publish_project'), { fallback: <Loader /> });
+const PublishFunds = loadable(() => import('./pages/publish_funds'), { fallback: <Loader /> });
+const PublishService = loadable(() => import('./pages/publish_service'), { fallback: <Loader /> });
+const PublishMember = loadable(() => import('./pages/publish_member'), { fallback: <Loader /> });
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -32,10 +56,6 @@ const client = new ApolloClient({
     });
   }
 });
-
-// const client = new ApolloClient({
-//   uri: "https://48p1r2roz4.sse.codesandbox.io"
-// });
 
 const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";
@@ -66,26 +86,63 @@ const gTabBar = [{
     icon: <i className="iconfont iconyonghuming"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconyonghuming" style={{ color: ACTIVE_COLOR }}></i>,
   }
-]
+];
 
-const toCreateTreeRoute = (routes) => routes.map((route) => {
-  if (route.children.length) {
-    delete route.component;
-    return (
-      <Route {...route} key={route.key}>
-        <Switch>
-          {toCreateTreeRoute(route.children)}
-          <Route component={NoMatch} />
-        </Switch>
-      </Route>
-    )
-  } else {
-    return (
-      <Route {...route} key={route.key} />
-    )
-  }
-})
+const AdditionalRouteConfig = () => (
+  <Fragment>
+    <Route path={`${LOCAL_URL['SIGNUP']}`} component={(props) => <Signup {...props} />} exact />
+    <Route path={`${LOCAL_URL['SIGNIN']}`} component={(props) => <Signin {...props} />} exact />
+    <Route path={`${LOCAL_URL['PUBLISH_PROJECT']}`} component={(props) => <PublishProject {...props} />} exact />
+    <Route path={`${LOCAL_URL['PUBLISH_FUNDS']}`} component={(props) => <PublishFunds {...props} />} exact />
+    <Route path={`${LOCAL_URL['PUBLISH_SERVICE']}`} component={(props) => <PublishService {...props} />} exact />
+    <Route path={`${LOCAL_URL['PUBLISH_MEMBER']}`} component={(props) => <PublishMember {...props} />} exact />
+    <Route component={NoMatch} />
+  </Fragment>
+)
 
+const MainRouteConfig = {
+  选项目: (
+    <Switch>
+      <Route path={LOCAL_URL['HOME']} component={(props) => <Home {...props} />} exact />
+      <Route path={`${LOCAL_URL['HOME_DETAIL']}/:id`} component={(props) => <HomeDetail {...props} />} exact />
+      <AdditionalRouteConfig />
+    </Switch>
+  ), 
+  找资金: (
+    <Switch>
+      <Route path={LOCAL_URL['PROJECT']} component={(props) => <Project {...props} />} exact />
+      <Route path={`${LOCAL_URL['PROJECT_FUNDS']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
+      <Route path={`${LOCAL_URL['PROJECT_FINANCING']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
+      <AdditionalRouteConfig />
+    </Switch>
+  ), 
+  服务商: (
+    <Switch>
+      <Route path={LOCAL_URL['SERVICE']} component={(props) => <Service {...props} />} exact />
+      <Route path={`${LOCAL_URL['SERVICE_DETAIL']}/:id`} component={(props) => <ServiceDetail {...props} />} exact />
+      <AdditionalRouteConfig />
+    </Switch>
+  ), 
+  资讯: (
+    <Switch>
+      <Route path={LOCAL_URL['NEWS']} component={(props) => <News {...props} />} exact />
+      <Route path={`${LOCAL_URL['NEWS_DETAIL']}/:id`} component={(props) => <NewsDetail {...props} />} exact />
+      <AdditionalRouteConfig />
+    </Switch>
+  ), 
+  我的: (
+    <Switch>
+      <Route path={LOCAL_URL['MINE']} component={(props) => <Mine {...props} />} exact />
+      <Route path={`${LOCAL_URL['MINE_FINANCIAL']}`} component={(props) => <MineFinancial {...props} />} exact />
+      <Route path={`${LOCAL_URL['MINE_SERVICE']}`} component={(props) => <MineService {...props} />} exact />
+      <Route path={`${LOCAL_URL['MINE_CARD']}`} component={(props) => <MineCard {...props} />} exact />
+      <Route path={`${LOCAL_URL['MINE_PROJECT']}`} component={(props) => <MineProject {...props} />} exact />
+      <Route path={`${LOCAL_URL['MINE_FUNDS']}`} component={(props) => <MineFunds {...props} />} exact />
+      <Route path={`${LOCAL_URL['MINE_PROVIDER']}`} component={(props) => <MineProvider {...props} />} exact />
+      <AdditionalRouteConfig />
+    </Switch>
+  )
+}
 
 const AppRoute = (props) => {
 
@@ -93,19 +150,12 @@ const AppRoute = (props) => {
 
   const [tabKey, setTabKey] = useState('选项目');
   const gotoPage = (tabName) => () => {
-    // 查询Tabbar时隐时见的问题
-    console.log('【NOMAL】', pathname);
-    console.log('【NOMAL】', pathname.split('/')[3]);
-    
-    
     const tab_key_index = gTabBar.findIndex(item => item.name === tabName);
     setTabKey(tabName);
     props.history.push(LOCAL_URL[gTabBar[tab_key_index].page]);
   }
 
   useEffect(() => {
-    console.log('【Effect】', pathname);
-    console.log('【Effect】', pathname.split('/')[3]);
     const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[3]);
     if (gTabBar[tab_key_index]) {
       const tab_key = gTabBar[tab_key_index].name;
@@ -123,7 +173,7 @@ const AppRoute = (props) => {
           hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[3])} 
           prerenderingSiblingsNumber={Infinity}
         >
-          {gTabBar.map(tabbar => (
+          {gTabBar.map((tabbar, i) => (
             <TabBar.Item 
               key={tabbar.name}
               title={tabbar.name}
@@ -132,10 +182,7 @@ const AppRoute = (props) => {
               selected={tabKey === tabbar.name}
               onPress={gotoPage(tabbar.name)}
             >
-              <Switch>
-                {toCreateTreeRoute(Routes)}
-                <Route component={NoMatch} />
-              </Switch>
+              {MainRouteConfig[tabbar.name]}
             </TabBar.Item>
           ))}
         </TabBar>

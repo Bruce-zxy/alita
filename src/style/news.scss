@@ -32,6 +32,7 @@
                 .news-list {
                     .news-carousel {
                         border-bottom: 1px solid $GRAY_EEE;
+
                         .hdz-swiper-link {
                             padding: $SIZE_10*1.5 $SIZE_10;
                             height: 56vw;
@@ -81,13 +82,18 @@
                                     line-height: $SIZE_20;
                                     font-size: $FONT_SIZE_14;
                                     font-weight: bold;
+                                    text-align: justify;
                                     color: $GRAY_333;
                                     @include text-overflow(3)
                                 }
 
                                 &:nth-child(2) {
+                                    height: 5.33vw;
                                     font-size: $FONT_SIZE_12;
                                     color: $GRAY_999;
+                                    overflow: hidden;
+                                    text-align: left;
+                                    @include display-flex(row, flex-start, flex-start);
 
                                     span {
                                         &:nth-child(1) {
