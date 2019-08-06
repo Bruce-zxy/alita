@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import gql from 'graphql-tag';
 import { F_ORG_FIELDS, F_ORG_RECURSIVE } from './org';
 
 export const F_USER_FIELDS = gql`
@@ -29,8 +29,8 @@ export const Q_GET_USERS = gql`
   ${F_ORG_FIELDS}
   ${F_ORG_RECURSIVE}
 
-  query getUsers($queryString: String!) {
-    users(queryString: $queryString) {
+  query queryUser($queryString: String!) {
+    queryUser(queryString: $queryString) {
       total
       page
       pageCount
@@ -50,7 +50,7 @@ export const Q_GET_USER = gql`
   ${F_ORG_FIELDS}
   ${F_ORG_RECURSIVE}
 
-  query getUser($id: String!, $queryString: String! = "") {
+  query user($id: String!, $queryString: String! = "") {
     user(id: $id, queryString: $queryString) {
       ...UserFields
     }
@@ -62,8 +62,12 @@ export const Q_GET_USER = gql`
 `;
 
 export const M_UPDATE_USER = gql`
+  ${F_USER_FIELDS}
+
   mutation updateUser($id: String!, $data: UserInput!) {
-    updateUser(id: $id, data: $data)
+    updateUser(id: $id, data: $data) {
+      ...UserFields
+    }
   }
 `;
 

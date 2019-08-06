@@ -4,18 +4,20 @@ import { Modal, PullToRefresh } from 'antd-mobile';
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 
+import { buildingQuery } from '../utils/global';
+import { Q_GET_PRODUCTS } from '../gql';
+
 import Loader from '../components/Loader';
 import { LOCAL_URL, COLOR_ARRAY } from '../config/common';
 
 import '../style/service.scss';
 
-const GET_DATA_GQL = gql`{
-    rates (currency: "USD") {
-        currency 
-        rate 
-    }
-}`
-
+const defaultVariables = {
+    page: 0,
+    limit: 1000,
+    // join: [{ field: 'category' }],
+    // sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
+};
 
 export default (props) => {
 
@@ -47,8 +49,8 @@ export default (props) => {
 
         const { time, amount, financing, refreshing } = thisState;
         let list = [];
-        if (data.rates.length) {
-            list = [].concat(data.rates);
+        if (data && data.queryProduct && data.queryProduct.data.length) {
+            list = [].concat(data.queryProduct.data);
             // 按时间排序，1为正序，2为倒序
             if (time % 3 !== 0) {
                 let handler = time % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
@@ -121,7 +123,8 @@ export default (props) => {
     return (
         <div className="hdz-service-container">
             <Query
-                query={GET_DATA_GQL}
+                query={Q_GET_PRODUCTS}
+                variables={{ queryString: buildingQuery(defaultVariables) }}
                 notifyOnNetworkStatusChange
             >
                 {toRenderContentByApolloClient}

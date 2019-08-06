@@ -13,7 +13,7 @@ import TabPanel from '../components/TabPanel';
 import Carousel from '../components/Carousel';
 
 import { buildingQuery } from '../utils/global';
-import { Q_GET_ARTICLES } from '../gql';
+import { Q_GET_ARTICLES, Q_GET_PRODUCTS } from '../gql';
 
 import { LOCAL_URL } from '../config/common';
 
@@ -26,6 +26,7 @@ const defaultVariables = {
     // filter: [{ field: 'category.title', operator: CondOperator.EQUALS, value: "江旅资讯" }],
     sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
 };
+
 
 const NewsList = (props) => {
 

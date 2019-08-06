@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import gql from 'graphql-tag';
 
 export const F_ARTICLE_CATEGORY_FIELDS = gql`
   fragment ArticleCategoryFields on ArticleCategory {

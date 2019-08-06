@@ -4,18 +4,22 @@ import { Modal, PullToRefresh } from 'antd-mobile';
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 
+
+import { buildingQuery } from '../utils/global';
+import { Q_GET_ARTICLES, Q_GET_PRODUCTS } from '../gql';
+
 import Loader from '../components/Loader';
 import TabPanel from '../components/TabPanel';
-import { LOCAL_URL, COLOR_ARRAY } from '../config/common';
+import { LOCAL_URL, COLOR_ARRAY, ICON_ARRAY } from '../config/common';
 
 import '../style/project.scss';
 
-const GET_DATA_GQL = gql`{
-    rates (currency: "USD") {
-        currency 
-        rate 
-    }
-}`
+const defaultVariables = {
+    page: 0,
+    limit: 1000,
+    // join: [{ field: 'category' }],
+    // sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
+};
 
 const LookingFunds = () => {
     const [thisState, setState] = useState({
@@ -40,7 +44,8 @@ const LookingFunds = () => {
 
     return (
         <Query
-            query={GET_DATA_GQL}
+            query={Q_GET_PRODUCTS}
+            variables={{ queryString: buildingQuery(defaultVariables) }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
@@ -49,11 +54,13 @@ const LookingFunds = () => {
                 if (error) return `【Error】 ${error.message}`;
 
                 global.TNT('【当前状态】', thisState);
+                console.log(data);
+                
 
                 const { time, amount, financing, refreshing } = thisState;
                 let list = [];
-                if (data.rates.length) {
-                    list = [].concat(data.rates);
+                if (data && data.queryProduct && data.queryProduct.data.length) {
+                    list = [].concat(data.queryProduct.data);
                     // 按时间排序，1为正序，2为倒序
                     if (time % 3 !== 0) {
                         let handler = time % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
@@ -160,7 +167,8 @@ const JLFinancial = () => {
 
     return (
         <Query
-            query={GET_DATA_GQL}
+            query={Q_GET_PRODUCTS}
+            variables={{ queryString: buildingQuery(defaultVariables) }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
@@ -172,11 +180,11 @@ const JLFinancial = () => {
 
                 const { time, amount, financing, refreshing } = thisState;
                 let list = [];
-                if (data.rates.length) {
-                    list = [].concat(data.rates);
+                if (data && data.queryProduct && data.queryProduct.data.length) {
+                    list = [].concat(data.queryProduct.data);
                     // 按时间排序，1为正序，2为倒序
                     if (time % 3 !== 0) {
-                        let handler = time % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
+                        let handler = time % 3 - 1 === 0 ? ((a, b) => new Date(a.create_at) - new Date(b.create_at)) : ((a, b) => new Date(b.create_at) - new Date(a.create_at));
                         list = list.sort(handler);
                     }
                     // 按金额排序，1为正序，2为倒序
@@ -207,16 +215,16 @@ const JLFinancial = () => {
                                 </div>
                             </div>
                             <div className="financial-list">
-                                {list.slice(0, 5).map((item, i) => (
+                                {list.map((item, i) => (
                                     <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
                                         <div className="finnacial-item-left">
-                                            <p>江旅定采通</p>
-                                            <p>你采购 我付款</p>
+                                            <p>{item.name}</p>
+                                            <p>{item.slogan}</p>
                                             <p>
                                                 <Link to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}`}>查看详情</Link>
                                             </p>
                                         </div>
-                                        <i className="iconfont iconcaiwu"></i>
+                                        <i className={`iconfont ${ICON_ARRAY[i % ICON_ARRAY.length]}`}></i>
                                     </div>
                                 ))}
                             </div>
