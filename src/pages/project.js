@@ -250,7 +250,7 @@ export default (props) => {
 
     return (
         <div className="hdz-lvyoto-project" id="project">
-            <TabPanel data={data} current="江旅金融" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
+            <TabPanel data={data} current="找资金" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
         </div>
     )
 };

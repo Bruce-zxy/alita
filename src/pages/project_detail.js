@@ -27,28 +27,28 @@ const FundsDetail = (props) => {
 
             <div className="home-detail-kv">
                 <p className="detail-kv">
-                    <span>所属行业</span>
-                    <span>旅游大交通</span>
+                    <span>投资行业</span>
+                    <span>酒店与民宿，旅行社，景区</span>
                 </p>
                 <p className="detail-kv">
-                    <span>融资方式</span>
-                    <span>股权融资</span>
+                    <span>投资方式</span>
+                    <span>股权投资</span>
                 </p>
                 <p className="detail-kv">
-                    <span>融资方式</span>
-                    <span>股权融资</span>
+                    <span>投资类型</span>
+                    <span>股权合作</span>
                 </p>
                 <p className="detail-kv">
-                    <span>融资方式</span>
-                    <span>股权融资</span>
+                    <span>参股类型</span>
+                    <span>参股合作</span>
                 </p>
                 <p className="detail-kv">
-                    <span>融资方式</span>
-                    <span>股权融资</span>
+                    <span>资金类型</span>
+                    <span>企业资金，PE投资</span>
                 </p>
                 <p className="detail-kv">
-                    <span>融资方式</span>
-                    <span>股权融资</span>
+                    <span>投资地区</span>
+                    <span>江西、北京、天津</span>
                 </p>
             </div>
 
