@@ -9,6 +9,10 @@
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
     }
 
+    .hdz-tabs-container {
+        height: calc(100vh - 11.73vw - 50px);
+    }
+
     .project-looking-funds {
         height: calc(100vh - 50px);
         padding: 11.73vw 0 0 0;
