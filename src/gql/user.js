@@ -18,6 +18,7 @@ export const F_USER_FIELDS = gql`
     profile
     identity
     status
+    vip
     org {
       ...OrgFields
     }
