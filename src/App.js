@@ -96,7 +96,6 @@ const AdditionalRouteConfig = () => (
     <Route path={`${LOCAL_URL['PUBLISH_FUNDS']}`} component={(props) => <PublishFunds {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_SERVICE']}`} component={(props) => <PublishService {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_MEMBER']}`} component={(props) => <PublishMember {...props} />} exact />
-    <Route component={NoMatch} />
   </Switch>
 )
 
