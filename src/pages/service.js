@@ -53,7 +53,7 @@ export default (props) => {
             list = [].concat(data.queryProduct.data);
             // 按时间排序，1为正序，2为倒序
             if (time % 3 !== 0) {
-                let handler = time % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
+                let handler = time % 3 - 1 === 0 ? ((a, b) => new Date(a.time) - new Date(b.time)) : ((a, b) => new Date(b.time) - new Date(a.time));
                 list = list.sort(handler);
             }
             // 按金额排序，1为正序，2为倒序
