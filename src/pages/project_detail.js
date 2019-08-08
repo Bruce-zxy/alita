@@ -122,7 +122,7 @@ const FundsDetail = (props) => {
                 </div>
             </DetailPanel>
 
-            <a href="javascript:;" className="apply-to">立即投递</a>
+            {/* TEMP <a href="javascript:;" className="apply-to">立即投递</a> */}
 
             <div className="hdz-block-large-space"></div>
 
@@ -158,7 +158,7 @@ const FinancingDetail = (props) => {
                 <DetailPanel title="服务流程" content="1. 融资受理：借款人向江旅成员企业提出融资申请 2. 融资初审：江旅成员企业对借款人的相关材料进行初审并确权 3. 融资终审：江旅集团对相关材料终审并提供担保 4. 融资放款：银行受托支付给江旅成员企业 5. 代为采购：江旅成员企业集中向供应商代采，供应商向江旅成员企业提供“出货权” 6. 出货权转让：江旅成员将“出货权”转让给借款人，由终端消费者回款至指定监管账户" />
                 <div className="hdz-block-small-space"></div>
 
-                <a href="javascript:;" className="apply-to">立即投递</a>
+                {/* TEMP <a href="javascript:;" className="apply-to">立即投递</a> */}
 
                 <div className="hdz-block-large-space"></div>
             </div>

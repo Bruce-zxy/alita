@@ -2,26 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, PullToRefresh } from 'antd-mobile';
 import { Query, ApolloConsumer } from "react-apollo";
+import { CondOperator } from '@nestjsx/crud-request';
 import { buildingQuery } from '../utils/global';
-import { Q_GET_ARTICLES } from '../gql';
+import { Q_GET_PROJECTS } from '../gql';
 
 import Loader from '../components/Loader';
-import { LOCAL_URL } from '../config/common';
+import { LOCAL_URL, IF_MODE_ENUM } from '../config/common';
 
 import '../style/home.scss';
 
 const defaultVariables = {
     page: 0,
-    limit: 10,
-    join: [{ field: 'category' }],
-    sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
+    limit: 1000,
+    filter: [{ field: "status", operator: CondOperator.IN, value: "following,finished" }],
+    sort: [{ field: 'create_at', order: 'DESC' }],
 };
 
 export default () => {
     const [thisState, setState] = useState({
         time: 1,
         amount: 0,
-        financing: '',
+        category: '',
         refreshing: false,
     });
 
@@ -32,9 +33,9 @@ export default () => {
 
     const toShowFilterModal = () => {
         Modal.operation([
-            { text: '按【股权融资】排序', onPress: () => toChangeStateFactor('financing')(financing => financing = '股权融资') },
-            { text: '按【债权融资】排序', onPress: () => toChangeStateFactor('financing')(financing => financing = '债权融资') },
-            { text: '清除排序', onPress: () => toChangeStateFactor('financing')(financing => financing = '') },
+            { text: '按【股权融资】排序', onPress: () => toChangeStateFactor('category')(category => category = 'equity') },
+            { text: '按【债权融资】排序', onPress: () => toChangeStateFactor('category')(category => category = 'claim') },
+            { text: '清除排序', onPress: () => toChangeStateFactor('category')(category => category = '') },
         ])
     }
 
@@ -45,22 +46,22 @@ export default () => {
 
         global.TNT('【当前状态】', thisState, data);
 
-        const { time, amount, financing, refreshing } = thisState;
+        const { time, amount, category, refreshing } = thisState;
         let list = [];
-        if (data && data.queryArticle && data.queryArticle.data.length) {
-            list = [].concat(data.queryArticle.data);
+        if (data && data.queryProject && data.queryProject.data.length) {
+            list = [].concat(data.queryProject.data);
             // 按时间排序，1为正序，2为倒序
             if (time % 3 !== 0) {
-                let handler = time % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
+                let handler = time % 3 - 1 === 0 ? ((a, b) => new Date(a.time) - new Date(b.time)) : ((a, b) => new Date(b.time) - new Date(a.time));
                 list = list.sort(handler);
             }
             // 按金额排序，1为正序，2为倒序
             if (amount % 3 !== 0) {
-                let handler = amount % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
+                let handler = amount % 3 - 1 === 0 ? ((a, b) => a.amount - b.amount) : ((a, b) => b.amount - a.amount);
                 list = list.sort(handler);
             }
-            if (financing) {
-                list = list.filter((item) => item.financing === financing);
+            if (category) {
+                list = list.filter((item) => item.category === category);
             }
         }
 
@@ -74,10 +75,10 @@ export default () => {
                         <i className="iconfont iconpaixu"></i>
                     </div>
                     <div className={`financing-amount state-${amount%3 ? 'active' : 'none'}`} onClick={() => toChangeStateFactor('amount')(amount => amount += 1)}>
-                        <span>主页金额</span>
+                        <span>融资金额</span>
                         <i className="iconfont iconpaixu"></i>
                     </div>
-                    <div className={`filter-factor state-${financing ? 'active' : 'none'}`} onClick={toShowFilterModal}>
+                    <div className={`filter-factor state-${category ? 'active' : 'none'}`} onClick={toShowFilterModal}>
                         <span>筛选</span>
                         <i className="iconfont iconshaixuan-tianchong"></i>
                     </div>
@@ -89,50 +90,45 @@ export default () => {
                     direction="up"
                     refreshing={refreshing}
                     onRefresh={() => {
-                        toChangeStateFactor('refreshing')((refreshing => refreshing = true));
+                        // toChangeStateFactor('refreshing')((refreshing => refreshing = true));
 
-                        defaultVariables.page += 1;
-                        const queryString = buildingQuery(defaultVariables);
+                        // defaultVariables.page += 1;
+                        // const queryString = buildingQuery(defaultVariables);
 
-                        console.log(defaultVariables);
-                        
-                        fetchMore({
-                            query: Q_GET_ARTICLES,
-                            variables: {
-                                queryString: buildingQuery(defaultVariables)
-                            },
-                            updateQuery: (previousResult, { fetchMoreResult }) => {
-                                if (!fetchMoreResult) return previousResult;
-                                const { articleCategoryTrees, queryArticle } = fetchMoreResult;
+                        // fetchMore({
+                        //     query: Q_GET_PROJECTS,
+                        //     variables: {
+                        //         queryString: queryString
+                        //     },
+                        //     updateQuery: (previousResult, { fetchMoreResult }) => {
+                        //         if (!fetchMoreResult) return previousResult;
+                        //         const { queryProject } = fetchMoreResult;
                                 
-                                toChangeStateFactor('refreshing')((refreshing => refreshing = false));
-                                console.log('【？？？】', [...previousResult.queryArticle.data, ...queryArticle.data]);
-                                return {
-                                    articleCategoryTrees,
-                                    queryArticle: {
-                                        ...queryArticle,
-                                        data: [...previousResult.queryArticle.data, ...queryArticle.data]
-                                    }
-                                };
-                            }
-                        });
+                        //         // toChangeStateFactor('refreshing')((refreshing => refreshing = false));
+                        //         console.log('【？？？】', previousResult.queryProject.data, queryProject.data);
+                        //         return {
+                        //             queryProject: {
+                        //                 ...queryProject,
+                        //                 data: previousResult.queryProject.data.concat(queryProject.data)
+                        //             }
+                        //         };
+                        //     }
+                        // });
                     }}
                 >
                     <div className="lvyoto-home-list" key={list.length}>
                         {list.map((item, i) => (
-                            <Link className="lvyoto-home-item" key={item.currency} to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
-                                <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image' alt='placeholder+image' />
+                            <Link className="lvyoto-home-item" key={item.id} to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
+                                <img src={item.cover} alt='placeholder' />
                                 <div className="item-info">
-                                    <p>云南旅游大交通项目债权融资2200万元云南旅游大交通项目债权融资2200万元云南旅游大交通项目债权融资2200万元</p>
+                                    <p>{item.title}</p>
                                     <p>
-                                        <span className="financing">债权融资</span>
-                                        <span className="industry">旅游大交通2</span>
-                                        <span className="industry">旅游大交通</span>
-                                        <span className="industry">旅游大交通</span>
+                                        {item.category ? <span className="financing">{IF_MODE_ENUM[item.category.toUpperCase()]}</span> : '' }
+                                        {item.industry ? <span className="industry">{item.industry.title}</span> : ''}
                                     </p>
                                     <p>
-                                        <span className="price">2200万元</span>
-                                        <span className="province">云南</span>
+                                        <span className="price">{item.amount}万元</span>
+                                        <span className="province">{item.area ? item.area.title : '无'}</span>
                                     </p>
                                 </div>
                             </Link>
@@ -149,7 +145,7 @@ export default () => {
     return (
         <div className="hdz-home-container">
             <Query
-                query={Q_GET_ARTICLES}
+                query={Q_GET_PROJECTS}
                 variables={{ queryString: buildingQuery(defaultVariables) }}
                 notifyOnNetworkStatusChange
             >

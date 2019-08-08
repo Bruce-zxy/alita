@@ -1,13 +1,19 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { withApollo } from 'react-apollo';
 
 import '../style/service.scss';
 
 
-export default (props) => {
+export default withApollo((props) => {
 
+    const { client } = props
+    const [data, setData] = useState(null);
 
+    useEffect(() => {
+        client.query({
 
+        })
+    }, [])
 
     return (
         <div className="hdz-service-detail">
@@ -32,7 +38,7 @@ export default (props) => {
                 </div>
             </div>
 
-            <a className="service-detail-apply" href="javascript:;">交换名片</a>
+            {/* TEMP <a className="service-detail-apply" href="javascript:;">交换名片</a> */}
         </div>
     )
-}
+})

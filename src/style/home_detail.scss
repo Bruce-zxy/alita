@@ -191,5 +191,8 @@
         background: $TAB_BOTTOM_COLOR;
         margin: $SIZE_10 auto 0;
         @include display-flex();
+        &.finished {
+            background: #E1E1E1;
+        }
     }
 }
