@@ -61,7 +61,41 @@ module.exports = {
         tourist: '游客',
     },
     COLOR_ARRAY: ['#42C7A9', '#F87477', '#FCB240', '#258CF6', '#8E73E2'],
-    ICON_ARRAY: ['iconqiyetouzixinxichaxun', 'icontouzi', 'icontouzilicai', 'iconcaiwutouzi', 'icontouzi1', 'icontouzi11', 'iconzhuanjifentouzijiaoyi', 'iconwoyaotouzi00', 'iconjijin', 'icontouzi2']
+    ICON_ARRAY: ['iconqiyetouzixinxichaxun', 'icontouzi', 'icontouzilicai', 'iconcaiwutouzi', 'icontouzi1', 'icontouzi11', 'iconzhuanjifentouzijiaoyi', 'iconwoyaotouzi00', 'iconjijin', 'icontouzi2'],
+    DATA_ARRAY: ['iconjhs', 'iconjiangpai', 'iconcaiwu'],
+
+    IDENTITY_ENUM: {
+        USER: 'user',
+        INVESTOR: 'investor',
+        FINANCER: 'financer',
+        PROVIDER: 'provider',
+        TOURIST: 'tourist',
+    },
+    IF_MODE_ENUM: {
+        EQUITY: '股权融资',
+        CLAIM: '债权融资',
+    },
+    PROJECT_STATUS_ENUM: {
+        PENDING: 'pending',
+        REJECTED: 'rejected',
+        CHECKED: 'checked',
+        WAITING: 'waiting',
+        FOLLOWING: 'following',
+        CANCELLED: 'cancelled',
+        FINISHED: 'finished',
+    },
+    USER_STATUS_ENUM: {
+        NORMAL: 0,
+        PENDING: 1,
+        REJECT: 2,
+        AUDITED: 3,
+        DELETED: 4,
+    },
+    USER_LEVEL_ENUM: {
+        V0: 0,
+        V1: 1,
+        V2: 2,
+    }
 };
 
 

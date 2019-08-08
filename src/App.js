@@ -12,6 +12,8 @@ import 'moment/locale/zh-cn';
 import ErrorBoundary from './components/Error';
 import NoMatch from './components/NoMatch';
 import Loader from './components/Loader';
+import { Q_GET_METADATA_TREES, Q_GET_PROVIDER_CATEGORY_TREES } from './gql';
+import { buildingQuery } from './utils/global';
 
 import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
 
@@ -152,6 +154,36 @@ const AppRoute = (props) => {
     const tab_key_index = gTabBar.findIndex(item => item.name === tabName);
     setTabKey(tabName);
     props.history.push(LOCAL_URL[gTabBar[tab_key_index].page]);
+  }
+
+  if (!localStorage.getItem('metadata')) {
+    console.log('???');
+    const defaultVariables = {
+      page: 0,
+      limit: 1000,
+      join: [{ field: 'category' }],
+      sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
+    };
+    
+    
+    client.mutate({
+      mutation: Q_GET_METADATA_TREES,
+      variables: {
+        queryString: buildingQuery(defaultVariables)
+      },
+      update: (proxy, { data }) => {
+        if (data && data.metadataTrees) {
+          localStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
+        }
+      }
+    });
+    
+    client.mutate({
+      mutation: Q_GET_PROVIDER_CATEGORY_TREES
+    }).then(result => {
+      console.log(result);
+      
+    })
   }
 
   useEffect(() => {

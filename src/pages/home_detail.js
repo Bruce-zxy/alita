@@ -7,147 +7,156 @@ import { gql } from "apollo-boost";
 import Loader from '../components/Loader';
 import DetailPanel from '../components/DetailPanel';
 import TabPanel from '../components/TabPanel';
-import { LOCAL_URL } from '../config/common';
+import { Q_GET_PROJECT } from '../gql';
+import { IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY } from '../config/common';
 
 import '../style/home_detail.scss';
 
 
-export default () => {
+export default (props) => {
+    const { match: { params: { id } } } = props;
 
-    const [carousel, setCarousel] = useState(0)
+    const toSetVal = (val) => (key) => (def) => val ? val[key] : def;
     
-    const view = 10;
-    const temp = [{
-        id: 1,
-        image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
-    }, {
-        id: 2,
-        image: 'http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image',
-    }]
-    const data = [{
-        title: "团队介绍",
-        content: "1、北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全，以其罕见的高品质震动京城地产界。星河湾是全球唯一蝉联［国际花园社区］金奖的地产品牌。2007年，星河湾再次领跑北京高端住宅市场，同时获得北京房地产单一项目品牌价值10强第一名及中国房地产20年高端品牌第一开发模式的称号和荣誉。"
-    }, {
-        title: "项目优势",
-        content: "2、北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全，以其罕见的高品质震动京城地产界。星河湾是全球唯一蝉联［国际花园社区］金奖的地产品牌。2007年，星河湾再次领跑北京高端住宅市场，同时获得北京房地产单一项目品牌价值10强第一名及中国房地产20年高端品牌第一开发模式的称号和荣誉。"
-    }, {
-        title: "项目进展",
-        content: "3、北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全，以其罕见的高品质震动京城地产界。星河湾是全球唯一蝉联［国际花园社区］金奖的地产品牌。2007年，星河湾再次领跑北京高端住宅市场，同时获得北京房地产单一项目品牌价值10强第一名及中国房地产20年高端品牌第一开发模式的称号和荣誉。北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全，以其罕见的高品质震动京城地产界。星河湾是全球唯一蝉联［国际花园社区］金奖的地产品牌。2007年，星河湾再次领跑北京高端住宅市场，同时获得北京房地产单一项目品牌价值10强第一名及中国房地产20年高端品牌第一开发模式的称号和荣誉。北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全，以其罕见的高品质震动京城地产界。星河湾是全球唯一蝉联［国际花园社区］金奖的地产品牌。2007年，星河湾再次领跑北京高端住宅市场，同时获得北京房地产单一项目品牌价值10强第一名及中国房地产20年高端品牌第一开发模式的称号和荣誉。"
-    }]
-
     return (
-        <div className="hdz-home-detail">
-            <div className="home-detail-carousel">
-                <Carousel 
-                    className="hdz-swiper-body" 
-                    autoplay 
-                    infinite
-                    dots={false}
-                    beforeChange={(from, to) => setCarousel(to)}
-                >
-                    {temp && temp.map(item => (
-                        <a className="hdz-swiper-link" key={item.id}>
-                            <img className="hdz-swiper-image" src={item.image}/>
-                        </a>
-                    ))}
-                </Carousel>
-                <p className="hadz-swiper-title">
-                    <span>浏览量：{view}次</span>
-                    <span>{carousel*1+1}/{temp.length}</span>
-                </p>
-            </div>
-            <div className="home-detail-title">
-                <p className="detail-title">浙江安之曼酒店项目股权融资5000万元用于基础设施修建</p>
-                <p className="detail-subtitle">
-                    <span>&yen;5000万元</span>
-                    <span>所在地区：浙江</span>
-                </p>
-            </div>
-            <div className="hdz-block-small-space"></div>
-            <div className="home-detail-kv">
-                <p className="detail-kv">
-                    <span>所属行业</span>
-                    <span>旅游大交通</span>
-                </p>
-                <p className="detail-kv">
-                    <span>融资方式</span>
-                    <span>股权融资</span>
-                </p>
-            </div>
-            <div className="hdz-block-small-space"></div>
-            <div className="home-detail-intro">
-                <div className="project-intro">
-                    <div>
-                        <p>12%-15%</p>
-                        <p>资金方占股比例</p>
-                    </div>
-                    <div>
-                        <p>扩张期</p>
-                        <p>项目所处阶段</p>
-                    </div>
-                    <div>
-                        <p>5年</p>
-                        <p>最短退出年限</p>
-                    </div>
-                </div>
-                <p className="detail-kv">
-                    <span>投资退出方式</span>
-                    <span>管理层回购</span>
-                </p>
-            </div>
-            <div className="hdz-block-small-space"></div>
-            <DetailPanel title="可提供资料">
-                <div className="project-information">
-                    <div>
-                        <i className="iconfont iconjhs"></i>
-                        <span>项目/商业计划书</span>
-                    </div>
-                    <div>
-                        <i className="iconfont iconjiangpai"></i>
-                        <span>公司证件</span>
-                    </div>
-                    <div>
-                        <i className="iconfont iconcaiwu"></i>
-                        <span>财务资料</span>
-                    </div>
-                    <div>
-                        <i className="iconfont iconcaiwu"></i>
-                        <span>财务资料</span>
-                    </div>
-                    <div>
-                        <i className="iconfont iconcaiwu"></i>
-                        <span>财务资料</span>
-                    </div>
-                    <div>
-                        <i className="iconfont iconcaiwu"></i>
-                        <span>财务资料</span>
-                    </div>
-                </div>
-            </DetailPanel>
-            <div className="hdz-block-small-space"></div>
-            
-            <DetailPanel title="项目介绍" content="北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全。"/>
-            <div className="hdz-block-small-space"></div>
-            
-            <DetailPanel title="融资用途" content="北京星河湾位于朝阳区东四环路朝阳北路四季星河路，距离CBD商圈不到10分钟车程。项目北临近千亩森林公园。社区立体化园林、高品质室内装修。重点小学、双语幼儿园、超五星级会所—四季会、酒店式公寓等一应俱全。"/>
-            <div className="hdz-block-small-space"></div>
-            
-            <TabPanel data={data} activeBold />
-            <div className="hdz-block-small-space"></div>
+        <Query
+            query={Q_GET_PROJECT}
+            variables={{ id: id }}
+            notifyOnNetworkStatusChange
+        >
+            {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
 
-            <DetailPanel title="会员名片">
-                <div className="member-info">
-                    <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image' alt='placeholder+image' />
-                    <div className="menber-detail">
-                        <p>李**</p>
-                        <p>所在公司：******酒店</p>
-                    </div>
-                </div>
-            </DetailPanel>
+                if (loading) return <Loader />;
 
-            <a href="javascript:;" className="apply-to">立即投递</a>
+                if(data) {
+                    const { project } = data;
+                    const tab_data = [{
+                        title: "团队介绍",
+                        content: project.team_info || '暂无内容'
+                    }, {
+                        title: "项目优势",
+                        content: project.advantage || '暂无内容'
+                    }, {
+                        title: "项目进展",
+                        content: project.progress || '暂无内容'
+                    }]
 
-            <div className="hdz-block-large-space"></div>
-        </div>
+                    return (
+                        <div className="hdz-home-detail">
+                            <div className="home-detail-carousel">
+                                <Carousel
+                                    className="hdz-swiper-body"
+                                    autoplay
+                                    infinite
+                                    dots={false}
+                                >
+                                    <a className="hdz-swiper-link" key={project.id}>
+                                        <img className="hdz-swiper-image" src={project.cover} />
+                                    </a>
+                                </Carousel>
+                                <p className="hadz-swiper-title">
+                                    <span>浏览量：{project.views}次</span>
+                                    <span>{1}/{1}</span>
+                                </p>
+                            </div>
+                            <div className="home-detail-title">
+                                <p className="detail-title">{project.title}</p>
+                                <p className="detail-subtitle">
+                                    <span>&yen;{project.amount}万元</span>
+                                    <span>所在地区：{toSetVal(project.area)('title')('未知')}</span>
+                                </p>
+                            </div>
+                            <div className="hdz-block-small-space"></div>
+                            <div className="home-detail-kv">
+                                <p className="detail-kv">
+                                    <span>所属行业</span>
+                                    <span>{toSetVal(project.industry)('title')('未知')}</span>
+                                </p>
+                                <p className="detail-kv">
+                                    <span>融资方式</span>
+                                    <span>{project.category ? IF_MODE_ENUM[project.category.toUpperCase()] : '未知'}</span>
+                                </p>
+                            </div>
+                            <div className="hdz-block-small-space"></div>
+                            <div className="home-detail-intro">
+                                <div className="project-intro">
+                                    <div>
+                                        <p>{toSetVal(project.ratio)('title')('未知')}</p>
+                                        <p>资金方占股比例</p>
+                                    </div>
+                                    <div>
+                                        <p>{toSetVal(project.stage)('title')('未知')}</p>
+                                        <p>项目所处阶段</p>
+                                    </div>
+                                    <div>
+                                        <p>{toSetVal(project.withdrawal_year)('title')('未知')}</p>
+                                        <p>最短退出年限</p>
+                                    </div>
+                                </div>
+                                <p className="detail-kv">
+                                    <span>投资退出方式</span>
+                                    <span>{toSetVal(project.exit_mode)('title')('未知')}</span>
+                                </p>
+                            </div>
+                            <div className="hdz-block-small-space"></div>
+                            <DetailPanel title="可提供资料">
+                                <div className="project-information">
+                                    {project.data ? (
+                                        project.data.map((item, k) => (
+                                            <div key={item.id}>
+                                                <i className={`iconfont ${DATA_ARRAY[k%3]}`}></i>
+                                                <span>{item.title}</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div>暂无可提供的资料</div>
+                                    )}
+                                </div>
+                            </DetailPanel>
+                            <div className="hdz-block-small-space"></div>
+
+                            <DetailPanel title="项目介绍" content={project.info || '暂无项目介绍'} />
+                            <div className="hdz-block-small-space"></div>
+
+                            <DetailPanel title="融资用途" content={project.purposes || '暂无融资用途'} />
+                            <div className="hdz-block-small-space"></div>
+
+                            <TabPanel data={tab_data} activeBold />
+                            <div className="hdz-block-small-space"></div>
+
+                            <DetailPanel title="会员名片">
+                                {project.creator ? (
+                                    <div className="member-info">
+                                        <img src={project.creator.avatar} alt='AVATAR' />
+                                        <div className="menber-detail">
+                                            <p>{project.creator.realname.slice(0,1)}**</p>
+                                            <p>所在公司：******{project.creator.company.slice(-2)}</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="member-info">
+                                        <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR' alt='AVATAR' />
+                                        <div className="menber-detail">
+                                            <p>未知</p>
+                                            <p>所在公司：暂无</p>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                            </DetailPanel>
+                            
+                            {project.status === PROJECT_STATUS_ENUM.FINISHED && 0 ? (
+                                <a href="javascript:;" className="apply-to finished">已结束</a>
+                            ) : (
+                                <a href="javascript:;" className="apply-to">立即投递</a>
+                            )}
+
+                            <div className="hdz-block-large-space"></div>
+                        </div>
+                    )
+                };
+                
+            }}
+        </Query>
     )
 };
