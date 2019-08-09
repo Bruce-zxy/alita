@@ -34,7 +34,7 @@ export default (props) => {
                     </div>
                 </div>
 
-                <Link to="javascript:;" className="upgrade-vip">升级VIP</Link>
+                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">升级VIP</Link>
 
                 <div className="mine-function">
                     <Link to={`${LOCAL_URL['MINE_FINANCIAL']}`} className="mine-function-item">
