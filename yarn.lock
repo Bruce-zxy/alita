@@ -2401,9 +2401,9 @@ antd-mobile-demo-data@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/antd-mobile-demo-data/-/antd-mobile-demo-data-0.3.0.tgz#f275250bebdad308af481672635f8b90def34aed"
 
-antd-mobile@^2.2.9:
-  version "2.2.11"
-  resolved "https://registry.yarnpkg.com/antd-mobile/-/antd-mobile-2.2.11.tgz#1e3f55d4cd78a837cdbf7a057869842aa96d6501"
+antd-mobile@^2.2.14:
+  version "2.2.14"
+  resolved "https://registry.yarnpkg.com/antd-mobile/-/antd-mobile-2.2.14.tgz#0c3b4da1ef383799ec33f268786860e9cc4533d7"
   dependencies:
     array-tree-filter "~2.1.0"
     babel-runtime "6.x"

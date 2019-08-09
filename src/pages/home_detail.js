@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { Modal, PullToRefresh, Carousel } from 'antd-mobile';
 import { Query, ApolloConsumer } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -28,7 +27,7 @@ export default (props) => {
 
                 if (loading) return <Loader />;
 
-                if(data) {
+                if(data && data.project) {
                     const { project } = data;
                     const tab_data = [{
                         title: "团队介绍",
