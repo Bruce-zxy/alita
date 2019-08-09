@@ -111,64 +111,6 @@ export default withApollo((props) => {
 
     console.log(thisState);
     
-
-    const list = [{
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }, {
-        title: 'MOKUMOKU模式中国首发 融创莫干溪谷领跑“乡村国际”',
-        author: '陈延特',
-        date: "2019-07-01",
-        image: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image"
-    }]
-    
     const onFetchMore = () => {
         setState({
             ...thisState,
