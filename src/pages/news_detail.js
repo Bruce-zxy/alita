@@ -31,9 +31,7 @@ export default (props) => {
                                 <span>作者：{article.author}</span>
                                 <span>日期：{moment(article.create_at).format('YYYY-MM-DD HH:mm:ss')}</span>
                             </p>
-                            <div className="news-content">
-                                {article.text}
-                            </div>
+                            <div className="news-content" dangerouslySetInnerHTML={{ __html: article.text }} />
                         </div>
                     )
                 }
