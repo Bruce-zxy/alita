@@ -13,7 +13,7 @@ import { getSearch } from '../lib/persistance';
 const { LOCAL_URL } = config;
 
 const ACTIVE_COLOR = '#FF6F70';
-const COMMON_ORDER_STATUS = ['全部', '待派单', '待确认', '待结单', '已作废']
+const COMMON_ORDER_STATUS = ['全部', '待派单', '待接单', '待确认', '待结单', '已作废']
 const VOLUNTEER_ORDER_STATUS = ['全部', '待确认', '待结单', '已结单', '已作废']
 
 // const order_list = [{
@@ -111,6 +111,12 @@ class MineOrder extends Component {
     }
 
     toRenderOrderListTabContent = (type) => (list) => (tabs) => (tab) => {
+        let user = {};
+        try {
+            user = JSON.parse(sessionStorage.getItem('current_user'));
+        } catch (error) {
+            console.error(error.message);
+        }
         const { service } = this.props;
         const data_set = list.sort((a,b) => new Date(a.create_at) - new Date(b.create_at)).map(item => {
             const item_service = _.find(service, { id: item.target });
@@ -124,7 +130,7 @@ class MineOrder extends Component {
                 state: item.state,
             }
         });
-        const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date)).filter(item => item.state !== "待接单");
+        const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date)).filter(item => !user.isVolunteer && item.state !== "待接单");
         if (!data_use.length) {
             return (
                 <div className="mine-order-list">
