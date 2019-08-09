@@ -43,9 +43,7 @@ export default (props) => {
                                     <i className="iconfont icondidian"></i>
                                     <span>所在地：{provider.area ? provider.area.title : '无'}</span>
                                 </p>
-                                <div className="service-detail-content">
-                                    {provider.introduction}
-                                </div>
+                                <div className="service-detail-content" dangerouslySetInnerHTML={{ __html: provider.introduction }} />
                             </div>
 
                             {/* TEMP <a className="service-detail-apply" href="javascript:;">交换名片</a> */}
