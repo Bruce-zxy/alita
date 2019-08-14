@@ -15,51 +15,12 @@ export const F_PROJECT_FIELDS = gql`
     update_at
     create_at
     publish_at
-    amount
-    progress
-    stage {
-      id
-      title
-    }
-    exit_mode {
-      id
-      title
-    }
-    withdrawal_year {
-      id
-      title
-    }
-    ratio {
-      id
-      title
-    }
-    data {
-      id
-      title
-    }
-    risk {
-      id
-      title
-    }
-    interest {
-      id
-      title
-    }
-    occupancy_time {
-      id
-      title
-    }
-    industry {
-      id
-      title
-    }
-    area {
-      id
-      title
-    }
     creator {
       id
       realname
+    }
+    area {
+      id
     }
   }
 `;

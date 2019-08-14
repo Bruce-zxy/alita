@@ -59,10 +59,10 @@ export default withApollo((props) => {
         }
         defaultVariables.sort = [{
             field: 'amount',
-            order: thisState.amount % 3 - 1 === 0 ? 'ASC' : 'DESC'
+            order: thisState.amount % 3 - 1 === 0 ? 'DESC' : 'ASC'
         }, {
             field: 'create_at',
-            order: thisState.time % 3 - 1 === 0 ? 'ASC' : 'DESC'
+            order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
         }];
 
         toLoadMore();
