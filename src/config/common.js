@@ -75,6 +75,10 @@ module.exports = {
         EQUITY: '股权融资',
         CLAIM: '债权融资',
     },
+    IFT_MODE_ENUM: {
+        EQUITY: '股权投资',
+        CLAIM: '债权投资',
+    },
     PROJECT_STATUS_ENUM: {
         PENDING: 'pending',
         REJECTED: 'rejected',

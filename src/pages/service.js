@@ -65,8 +65,6 @@ export default withApollo((props) => {
         if (!thisState.category && !thisState.area) {
             delete defaultVariables.filter;
         } else {
-            console.log(thisState.area, thisState.category);
-            
             defaultVariables.filter = [];
             thisState.category ? defaultVariables.filter.push({ field: "category.title", operator: CondOperator.EQUALS, value: thisState.category }) : '';
             thisState.area ? defaultVariables.filter.push({ field: "area.title", operator: CondOperator.EQUALS, value: thisState.area }) : '';

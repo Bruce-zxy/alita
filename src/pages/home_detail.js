@@ -1,26 +1,74 @@
-import React from 'react';
-import { Modal, PullToRefresh, Carousel } from 'antd-mobile';
-import { Query, ApolloConsumer } from "react-apollo";
-import { gql } from "apollo-boost";
+import React, { useState, useEffect } from 'react';
+import { Carousel, Toast } from 'antd-mobile';
+import { Query, withApollo } from "react-apollo";
 
 import Loader from '../components/Loader';
 import DetailPanel from '../components/DetailPanel';
 import TabPanel from '../components/TabPanel';
-import { Q_GET_PROJECT } from '../gql';
+
+import { buildingQuery, toFetchCurrentUser } from '../utils/global';
+import { Q_GET_PROJECT, M_UPDATE_USER } from '../gql';
 import { IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY } from '../config/common';
 
 import '../style/home_detail.scss';
 
+const defaultVariables = {
+    join: [
+        { field: 'creator' }, 
+        { field: 'exit_mode' }, 
+        { field: 'industry' }, 
+        { field: 'ratio' }, 
+        { field: 'stage' }, 
+        { field: 'withdrawal_year' }, 
+        { field: 'data' },
+        { field: 'area' }
+    ],
+};
 
-export default (props) => {
-    const { match: { params: { id } } } = props;
+export default withApollo((props) => {
+    const { match: { params: { id } }, client } = props;
+    const [currUser, setCurrUser] = useState(null);
+
+    useEffect(() => {
+        try {
+            setCurrUser(JSON.parse(localStorage.getItem('u_user')));
+        } catch (error) {
+            console.log('未登录');
+        }
+    }, [])
 
     const toSetVal = (val) => (key) => (def) => val ? val[key] : def;
-    
+
+    const toApply = (project) => (refetch) => async () => {
+        if (currUser) {
+            const curr_user_projects = currUser.apply_projects.map(pro => ({ id: pro.id }))
+            const res = await client.mutate({
+                mutation: M_UPDATE_USER,
+                variables: {
+                    id: currUser.id,
+                    data: {
+                        apply_projects: [...curr_user_projects, { id: project.id }]
+                    }
+                }
+            })
+            if (res.data && res.data.updateUser) {
+                const user = await toFetchCurrentUser(client);
+                if (user.apply_projects.findIndex(pro => pro.id === project.id) !== -1) {
+                    Toast.success('申请成功！', 2);
+                } else {
+                    Toast.fail('申请失败！', 2);
+                }
+                setCurrUser(user);
+            }
+        } else {
+            Toast.fail('您尚未登录，请登陆后再申请！', 2);
+        }
+    }
+
     return (
         <Query
             query={Q_GET_PROJECT}
-            variables={{ id: id }}
+            variables={{ id: id, queryString: buildingQuery(defaultVariables) }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
@@ -94,13 +142,13 @@ export default (props) => {
                                 </div>
                                 <p className="detail-kv">
                                     <span>投资退出方式</span>
-                                    <span>{toSetVal(project.exit_mode)('title')('未知')}</span>
+                                    <span>{project.exit_mode && project.exit_mode.length ? project.exit_mode.map(mode => mode) : '未知'}</span>
                                 </p>
                             </div>
                             <div className="hdz-block-small-space"></div>
                             <DetailPanel title="可提供资料">
                                 <div className="project-information">
-                                    {project.data ? (
+                                    {project.data && project.data.length ? (
                                         project.data.map((item, k) => (
                                             <div key={item.id}>
                                                 <i className={`iconfont ${DATA_ARRAY[k%3]}`}></i>
@@ -145,17 +193,23 @@ export default (props) => {
                             </DetailPanel>
                             
                             {project.status === PROJECT_STATUS_ENUM.FINISHED && 0 ? (
-                                <a href="javascript:;" className="apply-to finished">已结束</a>
+                                <div className="apply-to finished">已结束</div>
                             ) : (
-                                <a href="javascript:;" className="apply-to">立即投递</a>
+                                currUser.apply_projects.findIndex(pro => pro.id === project.id) === -1 ? (
+                                    <div className="apply-to" onClick={toApply(project)(refetch)}>立即投递</div>
+                                ) : (
+                                    <div className="apply-to finished">您已投递</div>
+                                )
                             )}
 
                             <div className="hdz-block-large-space"></div>
                         </div>
                     )
                 };
+
+                return <div style={{ textAlign: "center" }}>未找到相关项目</div>
                 
             }}
         </Query>
     )
-};
+});

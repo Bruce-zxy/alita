@@ -44,7 +44,7 @@ export default withApollo((props) => {
         Modal.operation([
             { text: '按【股权融资】筛选', onPress: () => toSetState({ category: 'equity', page: 0 }) },
             { text: '按【债权融资】筛选', onPress: () => toSetState({ category: 'claim', page: 0 }) },
-            { text: '清除排序', onPress: () => toSetState({ category: '', page: 0 }) },
+            { text: '清除筛选', onPress: () => toSetState({ category: '', page: 0 }) },
         ])
     }
 
@@ -118,7 +118,7 @@ export default withApollo((props) => {
                         <i className="iconfont iconpaixu"></i>
                     </div>
                     <div className={`filter-factor state-${thisState.category ? 'active' : 'none'}`} onClick={toShowFilterModal}>
-                        <span>筛选</span>
+                        <span>融资方式</span>
                         <i className="iconfont iconshaixuan-tianchong"></i>
                     </div>
                 </div>
