@@ -15,6 +15,7 @@ export const F_CAPITAL_FIELDS = gql`
     update_at
     create_at
     publish_at
+    info
     type {
       id
       title
@@ -29,9 +30,35 @@ export const F_CAPITAL_FIELDS = gql`
     }
     creator {
       id
-      realname
+      avatar
+      hideName
+      hideCompany
     }
     area {
+      id
+      title
+    }
+    equity_type {
+      id
+      title
+    }
+    invest_type {
+      id
+      title
+    }
+    invest_area {
+      id
+      title
+    }
+    risk {
+      id
+      title
+    }
+    data {
+      id
+      title
+    }
+    ratio {
       id
       title
     }

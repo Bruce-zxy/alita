@@ -90,6 +90,7 @@ export default withApollo((props) => {
         const this_page = thisState.page + 1;
         const res = await client.query({
             query: Q_GET_PROVIDERS,
+            fetchPolicy: "no-cache",
             variables: {
                 queryString: buildingQuery({ ...defaultVariables, page: this_page }),
                 metadataRoot: '地区'
@@ -124,7 +125,7 @@ export default withApollo((props) => {
         <div className="hdz-service-container">
             <div className="hdz-lvyoto-service">
                 <div className="lvyoto-filter-bar">
-                    <div className={`publish-time state-${thisState.time % 3 ? 'active' : 'none'}`} onClick={() => toSetState({ time: thisState.time += 1, page: 0 })}>
+                    <div className={`publish-time state-${thisState.time % 3 ? 'active' : 'none'}`} onClick={() => toSetState({ time: thisState.time + 1, page: 0 })}>
                         <span>发布时间</span>
                         <i className="iconfont iconpaixu"></i>
                     </div>

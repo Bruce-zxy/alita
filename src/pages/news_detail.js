@@ -29,7 +29,7 @@ export default (props) => {
                             <p className="news-title">{article.title}</p>
                             <p className="news-intro">
                                 <span>作者：{article.author}</span>
-                                <span>日期：{moment(article.create_at).format('YYYY-MM-DD HH:mm:ss')}</span>
+                                <span>日期：{moment(article.create_at).format('YYYY-MM-DD')}</span>
                             </p>
                             <div className="news-content" dangerouslySetInnerHTML={{ __html: article.text }} />
                         </div>

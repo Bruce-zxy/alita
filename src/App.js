@@ -156,8 +156,7 @@ const AppRoute = (props) => {
     props.history.push(LOCAL_URL[gTabBar[tab_key_index].page]);
   }
 
-  if (!localStorage.getItem('metadata')) {
-    console.log('???');
+  if (!sessionStorage.getItem('metadata')) {
     const defaultVariables = {
       page: 0,
       limit: 1000,
@@ -172,18 +171,13 @@ const AppRoute = (props) => {
         queryString: buildingQuery(defaultVariables)
       },
       update: (proxy, { data }) => {
+        console.log(data);
+        
         if (data && data.metadataTrees) {
-          localStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
+          sessionStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
         }
       }
     });
-    
-    client.mutate({
-      mutation: Q_GET_PROVIDER_CATEGORY_TREES
-    }).then(result => {
-      console.log(result);
-      
-    })
   }
 
   useEffect(() => {

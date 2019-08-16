@@ -63,9 +63,8 @@ export const F_PROJECT_FIELDS = gql`
     }
     creator {
       id
-      realname
-      company
-      phone
+      hideName
+      hideCompany
       avatar
     }
   }

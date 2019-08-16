@@ -15,10 +15,10 @@ export default (props) => {
                 className="hdz-swiper-body"
             >
                 {props.list && props.list.length > 0 ? props.list.map(item => (
-                    <a className="hdz-swiper-link" href={item.link} key={item.id}>
+                    <Link className="hdz-swiper-link" to={item.link} key={item.id}>
                         <img className="hdz-swiper-image" src={item.image} alt={item.name} />
                         {item.title && <p className="hadz-swiper-title">{item.title}</p>}
-                    </a>
+                    </Link>
                 )) : (
                     <a className="hdz-swiper-link">
                         <div className="swiper-empty">

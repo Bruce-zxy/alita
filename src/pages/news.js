@@ -132,12 +132,13 @@ export default withApollo(({ client }) => {
                     setCarousel(data.queryArticle.data.map(item => ({
                         id: item.id,
                         title: item.title,
-                        image: item.cover
+                        image: item.cover,
+                        link: LOCAL_URL['NEWS_DETAIL'] + `/${item.id}`
                     })))
                 }
             }
         });
-    })
+    }, [])
 
     const data = [{
         title: "行业快讯",

@@ -91,6 +91,7 @@ export const toFetchCurrentUser = async (client) => {
   };
   const result = await client.query({
     query: Q_FETCH_CURRENT_USER,
+    fetchPolicy: "no-cache",
     variables: { queryString: buildingQuery(defaultVariables) }
   });
   if (result && result.data && result.data.me) {

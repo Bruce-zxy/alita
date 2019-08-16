@@ -25,6 +25,7 @@ const LookingFunds = withApollo((props) => {
         page: 0,
         limit: 10,
         join: [{ field: 'creator' }, { field: 'industry' }, { field: 'area' }, { field: 'stage' }, { field: 'type' }],
+        filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }],
         sort: [{ field: 'create_at', order: 'DESC' }],
     };
     
@@ -63,16 +64,25 @@ const LookingFunds = withApollo((props) => {
             thisState.industry ? defaultVariables.filter.push({ field: "industry.title", operator: CondOperator.EQUALS, value: thisState.industry }) : '';
         }
 
-        defaultVariables.sort = [{
-            field: 'amount',
-            order: thisState.amount % 3 - 1 === 0 ? 'DESC' : 'ASC'
-        }, {
-            field: 'create_at',
-            order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
-        }];
+        defaultVariables.sort = [];
+        if (thisState.amount % 3 !== 0) {
+            defaultVariables.sort.push({
+                field: 'amount',
+                order: thisState.amount % 3 - 1 === 0 ? 'DESC' : 'ASC'
+            })
+        }
+        if (thisState.time % 3 !== 0) {
+            defaultVariables.sort.push({
+                field: 'create_at',
+                order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
+            });
+        }
+        if (!defaultVariables.sort.length) {
+            defaultVariables.sort.push({ field: 'create_at', order: 'DESC' });
+        }
 
         toLoadMore();
-    }, [thisState.time, thisState.area, thisState.industry]);
+    }, [thisState.time, thisState.amount, thisState.industry]);
 
     const toLoadMore = async () => {
 
@@ -86,11 +96,11 @@ const LookingFunds = withApollo((props) => {
         const this_page = thisState.page + 1;
         const res = await client.query({
             query: Q_GET_CAPITALS,
+            fetchPolicy: "no-cache",
             variables: {
                 queryString: buildingQuery({ ...defaultVariables, page: this_page })
             }
         });
-
 
         if (res.data && res.data.queryCapital) {
             const { data: { queryCapital, metadataTrees } } = res;
@@ -114,10 +124,12 @@ const LookingFunds = withApollo((props) => {
         }
     }
 
+    global.TNT(thisState.data);
+
     return (
         <div className="looking-funds">
             <div className="lvyoto-filter-bar">
-                <div className={`publish-time state-${thisState.time % 3 ? 'active' : 'none'}`} onClick={() => toSetState({ time: thisState.time += 1, page: 0 })}>
+                <div className={`publish-time state-${thisState.time % 3 ? 'active' : 'none'}`} onClick={() => toSetState({ time: thisState.time + 1, page: 0 })}>
                     <span>发布时间</span>
                     <i className="iconfont iconpaixu"></i>
                 </div>
@@ -139,7 +151,7 @@ const LookingFunds = withApollo((props) => {
                 >
                     {thisState.data.map((item, i) => (
                         <Link key={i} className="financing-project" to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
-                            <p className="project-name">{item.title}{i}</p>
+                            <p className="project-name">{item.title}{item.create_at}</p>
                             <p className="project-tags">
                                 {item.category ? <span className="financing">{IFT_MODE_ENUM[item.category.toUpperCase()]}</span> : ''}
                                 {item.industry.length ? item.industry.map(industry => (<span className="industry">{industry.title}</span>)) : ''}
@@ -168,103 +180,132 @@ const LookingFunds = withApollo((props) => {
 
 })
 
-const JLFinancial = () => {
+const JLFinancial = withApollo((props) => {
+
+    const { client } = props
 
     const defaultVariables = {
         page: 0,
-        limit: 1000
+        limit: 10,
+        join: [{ field: 'category' }],
     };
 
     const [thisState, setState] = useState({
         time: 1,
-        amount: 0,
-        financing: '',
-        refreshing: false,
+        category: '',
+
+        hasMore: true,
+        data: [],
+        category_data: [],
+        page: 0
     });
 
-    const toChangeStateFactor = (key) => (handler) => {
-        thisState[key] = handler(thisState[key]);
-        setState(Object.assign({}, thisState));
+    const toSetState = (obj) => {
+        setState((prevState) => ({
+            ...prevState,
+            ...obj
+        }))
     }
 
     const toShowFilterModal = () => {
+        const category = thisState.category_data.map(category => ({ text: category.title, onPress: () => toSetState({ category: category.title, page: 0 }) }))
         Modal.operation([
-            { text: '按【股权投资】排序', onPress: () => toChangeStateFactor('financing')(financing => financing = '股权投资') },
-            { text: '按【债权投资】排序', onPress: () => toChangeStateFactor('financing')(financing => financing = '债权投资') },
-            { text: '清除排序', onPress: () => toChangeStateFactor('financing')(financing => financing = '') },
-        ])
+            ...category,
+            { text: '清除筛选', onPress: () => toSetState({ area: '', page: 0 }) },
+        ]);
     }
 
+    useEffect(() => {
+
+        if (!thisState.category) {
+            delete defaultVariables.filter;
+        } else {
+            defaultVariables.filter = [];
+            thisState.category ? defaultVariables.filter.push({ field: "category.title", operator: CondOperator.EQUALS, value: thisState.category }) : '';
+        }
+
+        defaultVariables.sort = [{
+            field: 'create_at',
+            order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
+        }];
+
+        toLoadMore();
+    }, [thisState.time, thisState.category]);
+
+    const toLoadMore = async () => {
+
+        let data = [];
+        if (thisState.page === 0) {
+            data = [];
+        } else {
+            data = [].concat(thisState.data);
+        }
+
+        const this_page = thisState.page + 1;
+        const res = await client.query({
+            query: Q_GET_PRODUCTS,
+            fetchPolicy: "no-cache",
+            variables: { queryString: buildingQuery({ ...defaultVariables, page: this_page }) }
+        });
+
+        if (res.data && res.data.queryProduct) {
+            const { data: { queryProduct } } = res;
+
+            if (this_page >= queryProduct.pageCount) {
+                toSetState({
+                    data: data.concat(queryProduct.data),
+                    category_data: res.data.productCategoryTrees,
+                    page: this_page,
+                    hasMore: false
+                });
+            } else {
+                toSetState({
+                    data: data.concat(queryProduct.data),
+                    category_data: res.data.productCategoryTrees,
+                    page: this_page,
+                    hasMore: true
+                })
+            }
+        }
+    }
+
+    global.TNT(thisState.data);
+
     return (
-        <Query
-            query={Q_GET_PRODUCTS}
-            variables={{ queryString: buildingQuery(defaultVariables) }}
-            notifyOnNetworkStatusChange
-        >
-            {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
-                if (networkStatus === 4) return <Loader />;
-                if (loading) return <Loader />;
-                if (error) return `【Error】 ${error.message}`;
-
-                global.TNT('【当前状态】', thisState);
-
-                const { time, amount, financing, refreshing } = thisState;
-                let list = [];
-                if (data && data.queryProduct && data.queryProduct.data.length) {
-                    list = [].concat(data.queryProduct.data);
-                    // 按时间排序，1为正序，2为倒序
-                    if (time % 3 !== 0) {
-                        let handler = time % 3 - 1 === 0 ? ((a, b) => new Date(a.create_at) - new Date(b.create_at)) : ((a, b) => new Date(b.create_at) - new Date(a.create_at));
-                        list = list.sort(handler);
-                    }
-                    // 按金额排序，1为正序，2为倒序
-                    if (amount % 3 !== 0) {
-                        let handler = amount % 3 - 1 === 0 ? ((a, b) => a.time - b.time) : ((a, b) => b.time - a.time);
-                        list = list.sort(handler);
-                    }
-                    if (financing) {
-                        list = list.filter((item) => item.financing === financing);
-                    }
-
-                    global.TNT('【排序后】：', list);
-
-                    return (
-                        <div className="jl-financial">
-                            <div className="lvyoto-filter-bar">
-                                <div className={`publish-time state-${time % 3 ? 'active' : 'none'}`} onClick={() => toChangeStateFactor('time')(time => time += 1)}>
-                                    <span>发布时间</span>
-                                    <i className="iconfont iconpaixu"></i>
-                                </div>
-                                <div className={`financing-amount state-${amount % 3 ? 'active' : 'none'}`} onClick={() => toChangeStateFactor('amount')(amount => amount += 1)}>
-                                    <span>金融金额</span>
-                                    <i className="iconfont iconpaixu"></i>
-                                </div>
-                                <div className={`filter-factor state-${financing ? 'active' : 'none'}`} onClick={toShowFilterModal}>
-                                    <span>筛选</span>
-                                    <i className="iconfont iconshaixuan-tianchong"></i>
-                                </div>
+        <div className="jl-financial">
+            <div className="lvyoto-filter-bar">
+                <div className={`publish-time state-${thisState.time % 3 ? 'active' : 'none'}`} onClick={() => toSetState({time: thisState.time + 1, page: 0 })}>                             <span>发布时间</span>
+                    <i className="iconfont iconpaixu"></i>
+                </div>
+                <div className={`filter-factor state-${thisState.category ? 'active' : 'none'}`} onClick={toShowFilterModal}>
+                    <span>筛选</span>
+                    <i className="iconfont iconshaixuan-tianchong"></i>
+                </div>
+            </div>
+            <div className="financial-list">
+                <InfiniteScroll
+                    loadMore={toLoadMore}
+                    hasMore={thisState.hasMore}
+                    loader={<div key={0} style={{ margin: "1vh auto", display: "flex", justifyContent: "center" }}><ActivityIndicator /></div>}
+                    useWindow={false}
+                >
+                    {thisState.data.map((item, i) => (
+                        <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
+                            <div className="finnacial-item-left">
+                                <p>{item.name}</p>
+                                <p>{item.slogan}</p>
+                                <p>
+                                    <Link to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}?index=${i}`}>查看详情</Link>
+                                </p>
                             </div>
-                            <div className="financial-list">
-                                {list.map((item, i) => (
-                                    <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
-                                        <div className="finnacial-item-left">
-                                            <p>{item.name}</p>
-                                            <p>{item.slogan}</p>
-                                            <p>
-                                                <Link to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}?index=${i}`}>查看详情</Link>
-                                            </p>
-                                        </div>
-                                        <i className={`iconfont ${ICON_ARRAY[i % ICON_ARRAY.length]}`}></i>
-                                    </div>
-                                ))}
-                            </div>
+                            <i className={`iconfont ${ICON_ARRAY[i % ICON_ARRAY.length]}`}></i>
                         </div>
-                    )
-                }
-            }}
-        </Query>
+                    ))}
+                </InfiniteScroll>
+            </div>
+        </div>
     )
-}
+})
 
 export default (props) => {
     const { location, history } = props;

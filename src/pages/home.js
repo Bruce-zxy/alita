@@ -57,13 +57,22 @@ export default withApollo((props) => {
         } else {
             defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "following,finished" }];
         }
-        defaultVariables.sort = [{
-            field: 'amount',
-            order: thisState.amount % 3 - 1 === 0 ? 'DESC' : 'ASC'
-        }, {
-            field: 'create_at',
-            order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
-        }];
+        defaultVariables.sort = [];
+        if (thisState.amount % 3 !== 0) {
+            defaultVariables.sort.push({
+                field: 'amount',
+                order: thisState.amount % 3 - 1 === 0 ? 'DESC' : 'ASC'
+            })
+        }
+        if (thisState.time % 3 !== 0) {
+            defaultVariables.sort.push({
+                field: 'create_at',
+                order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
+            });
+        }
+        if (!defaultVariables.sort.length) {
+            defaultVariables.sort.push({ field: 'create_at', order: 'DESC' });
+        }
 
         toLoadMore();
     }, [thisState.time, thisState.amount, thisState.category]);
@@ -80,6 +89,7 @@ export default withApollo((props) => {
         const this_page = thisState.page + 1;
         const res = await client.query({
             query: Q_GET_PROJECTS,
+            fetchPolicy: "no-cache",
             variables: {
                 queryString: buildingQuery({ ...defaultVariables, page: this_page })
             }

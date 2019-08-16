@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Carousel, Toast } from 'antd-mobile';
+import { Carousel, Toast, Modal } from 'antd-mobile';
+import { CondOperator } from '@nestjsx/crud-request';
 import { Query, withApollo } from "react-apollo";
 
 import Loader from '../components/Loader';
@@ -22,7 +23,7 @@ const defaultVariables = {
         { field: 'withdrawal_year' }, 
         { field: 'data' },
         { field: 'area' }
-    ],
+    ]
 };
 
 export default withApollo((props) => {
@@ -39,30 +40,36 @@ export default withApollo((props) => {
 
     const toSetVal = (val) => (key) => (def) => val ? val[key] : def;
 
-    const toApply = (project) => (refetch) => async () => {
-        if (currUser) {
-            const curr_user_projects = currUser.apply_projects.map(pro => ({ id: pro.id }))
-            const res = await client.mutate({
-                mutation: M_UPDATE_USER,
-                variables: {
-                    id: currUser.id,
-                    data: {
-                        apply_projects: [...curr_user_projects, { id: project.id }]
+    const toApply = (project) => () => {
+        const apply = async () => {
+            if (currUser) {
+                const curr_user_projects = currUser.apply_projects.map(pro => ({ id: pro.id }))
+                const res = await client.mutate({
+                    mutation: M_UPDATE_USER,
+                    variables: {
+                        id: currUser.id,
+                        data: {
+                            apply_projects: [...curr_user_projects, { id: project.id }]
+                        }
                     }
+                })
+                if (res.data && res.data.updateUser) {
+                    const user = await toFetchCurrentUser(client);
+                    if (user.apply_projects.findIndex(pro => pro.id === project.id) !== -1) {
+                        Toast.success('申请成功！', 2);
+                    } else {
+                        Toast.fail('申请失败！', 2);
+                    }
+                    setCurrUser(user);
                 }
-            })
-            if (res.data && res.data.updateUser) {
-                const user = await toFetchCurrentUser(client);
-                if (user.apply_projects.findIndex(pro => pro.id === project.id) !== -1) {
-                    Toast.success('申请成功！', 2);
-                } else {
-                    Toast.fail('申请失败！', 2);
-                }
-                setCurrUser(user);
+            } else {
+                Toast.fail('您尚未登录，请登陆后再申请！', 2);
             }
-        } else {
-            Toast.fail('您尚未登录，请登陆后再申请！', 2);
         }
+        Modal.alert('您正在提交一个申请', '是否确认申请？', [
+            { text: '取消', onPress: () => global.TNT('已取消') },
+            { text: '确认', onPress: apply },
+        ])
     }
 
     return (
@@ -87,6 +94,8 @@ export default withApollo((props) => {
                         title: "项目进展",
                         content: project.progress || '暂无内容'
                     }]
+
+                    global.TNT(project);
 
                     return (
                         <div className="hdz-home-detail">
@@ -142,7 +151,7 @@ export default withApollo((props) => {
                                 </div>
                                 <p className="detail-kv">
                                     <span>投资退出方式</span>
-                                    <span>{project.exit_mode && project.exit_mode.length ? project.exit_mode.map(mode => mode) : '未知'}</span>
+                                    <span>{project.exit_mode && project.exit_mode.length ? project.exit_mode.map(mode => mode.title).join('，') : '未知'}</span>
                                 </p>
                             </div>
                             <div className="hdz-block-small-space"></div>
@@ -176,8 +185,8 @@ export default withApollo((props) => {
                                     <div className="member-info">
                                         <img src={project.creator.avatar} alt='AVATAR' />
                                         <div className="menber-detail">
-                                            <p>{project.creator.realname.slice(0,1)}**</p>
-                                            <p>所在公司：******{project.creator.company.slice(-2)}</p>
+                                            <p>{project.creator.hideName}</p>
+                                            <p>所在公司：{project.creator.hideCompany}</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -192,14 +201,14 @@ export default withApollo((props) => {
                                 
                             </DetailPanel>
                             
-                            {project.status === PROJECT_STATUS_ENUM.FINISHED && 0 ? (
-                                <div className="apply-to finished">已结束</div>
-                            ) : (
-                                currUser.apply_projects.findIndex(pro => pro.id === project.id) === -1 ? (
-                                    <div className="apply-to" onClick={toApply(project)(refetch)}>立即投递</div>
+                            {project.status === PROJECT_STATUS_ENUM.CHECKED ? (
+                                currUser && currUser.apply_projects.findIndex(pro => pro.id === project.id) === -1 ? (
+                                    <div className="apply-to" onClick={toApply(project)}>立即投递</div>
                                 ) : (
                                     <div className="apply-to finished">您已投递</div>
                                 )
+                            ) : (
+                                <div className="apply-to finished">已结束</div>
                             )}
 
                             <div className="hdz-block-large-space"></div>
