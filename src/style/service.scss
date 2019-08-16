@@ -209,6 +209,10 @@
         margin: 2.4vw auto 4.53vw;
         font-size: $FONT_SIZE_18;
         font-weight: bold;
-        @include display-flex()
+
+        @include display-flex();
+        &.finished {
+            background: #E1E1E1;
+        }
     }
 }

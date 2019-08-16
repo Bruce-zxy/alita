@@ -47,18 +47,49 @@ export const Q_FETCH_CURRENT_USER = gql`
       apply_products {
         id
         name
+        category {
+          id
+          title
+        }
       }
       apply_projects {
         id
         title
+        status
+        category
+        cover
+        creator {
+          id
+          realname
+          phone
+        }
       }
       apply_capitals {
         id
         title
+        status
+        category
+        creator {
+          id
+          realname
+          phone
+        }
       }
       apply_providers {
         id
         name
+        area {
+          title
+        }
+        category {
+          id
+          title
+        }
+        creator {
+          id
+          realname
+          phone
+        }
       }
     }
   }

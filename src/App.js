@@ -1,8 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 import initReactFastclick from 'react-fastclick';
-import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import loadable from '@loadable/component';
 
@@ -12,10 +11,11 @@ import 'moment/locale/zh-cn';
 import ErrorBoundary from './components/Error';
 import NoMatch from './components/NoMatch';
 import Loader from './components/Loader';
-import { Q_GET_METADATA_TREES, Q_GET_PROVIDER_CATEGORY_TREES } from './gql';
+import { Q_GET_METADATA_TREES } from './gql';
 import { buildingQuery } from './utils/global';
 
 import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
+import client from './config/apollo-client';
 
 initReactFastclick();
 moment.locale('zh-cn');
@@ -38,7 +38,7 @@ const MineService = loadable(() => import('./pages/mine_service'), { fallback: <
 const MineCard = loadable(() => import('./pages/mine_card'), { fallback: <Loader /> });
 const MineProject = loadable(() => import('./pages/mine_project'), { fallback: <Loader /> });
 const MineFunds = loadable(() => import('./pages/mine_funds'), { fallback: <Loader /> });
-const MineProvider = loadable(() => import('./pages/mine_provider'), { fallback: <Loader /> });
+// const MineProvider = loadable(() => import('./pages/mine_provider'), { fallback: <Loader /> });
 
 const Signup = loadable(() => import('./pages/signup'), { fallback: <Loader /> });
 const Signin = loadable(() => import('./pages/signin'), { fallback: <Loader /> });
@@ -47,17 +47,6 @@ const PublishProject = loadable(() => import('./pages/publish_project'), { fallb
 const PublishFunds = loadable(() => import('./pages/publish_funds'), { fallback: <Loader /> });
 const PublishService = loadable(() => import('./pages/publish_service'), { fallback: <Loader /> });
 const PublishMember = loadable(() => import('./pages/publish_member'), { fallback: <Loader /> });
-
-const client = new ApolloClient({
-  uri: "http://192.168.30.224:3000/graphql",
-  request: (operation) => {
-    operation.setContext({
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('u_token')}`
-      }
-    });
-  }
-});
 
 const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";
@@ -139,7 +128,7 @@ const MainRouteConfig = {
       <Route path={`${LOCAL_URL['MINE_CARD']}`} component={(props) => <MineCard {...props} />} exact />
       <Route path={`${LOCAL_URL['MINE_PROJECT']}`} component={(props) => <MineProject {...props} />} exact />
       <Route path={`${LOCAL_URL['MINE_FUNDS']}`} component={(props) => <MineFunds {...props} />} exact />
-      <Route path={`${LOCAL_URL['MINE_PROVIDER']}`} component={(props) => <MineProvider {...props} />} exact />
+      {/* <Route path={`${LOCAL_URL['MINE_PROVIDER']}`} component={(props) => <MineProvider {...props} />} exact /> */}
       <AdditionalRouteConfig />
     </Switch>
   )

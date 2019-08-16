@@ -51,7 +51,7 @@ export default withApollo((props) => {
                     </div>
                 </div>
 
-                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">升级VIP</Link>
+                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{vip ? "查看资料" : "升级VIP"}</Link>
 
                 <div className="mine-function">
                     <Link to={`${LOCAL_URL['MINE_FINANCIAL']}`} className="mine-function-item">
@@ -79,11 +79,11 @@ export default withApollo((props) => {
                         <span>资金管理</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>}
-                    {IDENTITY_MAPS[identity] === '服务商' || <Link to={`${LOCAL_URL['MINE_PROVIDER']}`} className="mine-function-item">
+                    {/* IDENTITY_MAPS[identity] === '服务商' || <Link to={`${LOCAL_URL['MINE_PROVIDER']}`} className="mine-function-item">
                         <i className="iconfont iconproject-o icon"></i>
                         <span>服务商管理</span>
                         <i className="iconfont iconyoubian"></i>
-                    </Link>}
+                    </Link> */}
 
                     <div className="to-logout" onClick={toLogout}>退出登录</div>
                 </div>

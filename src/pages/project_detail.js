@@ -4,7 +4,7 @@ import { Toast, Modal } from 'antd-mobile';
 import * as moment from 'moment';
 
 import DetailPanel from '../components/DetailPanel';
-import { Q_GET_CAPITAL, Q_GET_PRODUCT, M_UPDATE_USER } from '../gql';
+import { Q_GET_CAPITAL, Q_GET_PRODUCT, M_APPLY_PRODUCTS, M_APPLY_CAPITALS } from '../gql';
 import { buildingQuery, toFetchCurrentUser } from '../utils/global';
 
 import Loader from '../components/Loader';
@@ -43,19 +43,17 @@ const FundsDetail = withApollo((props) => {
     }, []);
 
     const toApply = (capital) => () => {
+        let test = null;
         const apply = async () => {
+            test.close();
             if (currUser) {
-                const curr_user_capitals = currUser.apply_capitals.map(pro => ({ id: pro.id }))
                 const res = await props.client.mutate({
-                    mutation: M_UPDATE_USER,
+                    mutation: M_APPLY_CAPITALS,
                     variables: {
-                        id: currUser.id,
-                        data: {
-                            apply_capitals: [...curr_user_capitals, { id: capital.id }]
-                        }
+                        id: capital.id
                     }
                 })
-                if (res.data && res.data.updateUser) {
+                if (res.data && res.data.applyCapitals) {
                     const user = await toFetchCurrentUser(props.client);
                     if (user.apply_capitals.findIndex(pro => pro.id === capital.id) !== -1) {
                         Toast.success('申请成功！', 2);
@@ -68,7 +66,7 @@ const FundsDetail = withApollo((props) => {
                 Toast.fail('您尚未登录，请登陆后再申请！', 2);
             }
         }
-        Modal.alert('您正在提交一个申请', '是否确认申请？', [
+        test = Modal.alert('您正在提交一个申请', '是否确认申请？', [
             { text: '取消', onPress: () => global.TNT('已取消') },
             { text: '确认', onPress: apply },
         ])
@@ -249,15 +247,12 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
             if (currUser) {
                 const curr_user_products = currUser.apply_products.map(pro => ({ id: pro.id }))
                 const res = await client.mutate({
-                    mutation: M_UPDATE_USER,
+                    mutation: M_APPLY_PRODUCTS,
                     variables: {
-                        id: currUser.id,
-                        data: {
-                            apply_products: [...curr_user_products, { id: product.id }]
-                        }
+                        id: product.id
                     }
                 })
-                if (res.data && res.data.updateUser) {
+                if (res.data && res.data.applyProducts) {
                     const user = await toFetchCurrentUser(client);
                     if (user.apply_products.findIndex(pro => pro.id === product.id) !== -1) {
                         Toast.success('申请成功！');

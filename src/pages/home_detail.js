@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel, Toast, Modal } from 'antd-mobile';
-import { CondOperator } from '@nestjsx/crud-request';
 import { Query, withApollo } from "react-apollo";
 
 import Loader from '../components/Loader';
@@ -8,7 +7,7 @@ import DetailPanel from '../components/DetailPanel';
 import TabPanel from '../components/TabPanel';
 
 import { buildingQuery, toFetchCurrentUser } from '../utils/global';
-import { Q_GET_PROJECT, M_UPDATE_USER } from '../gql';
+import { Q_GET_PROJECT, M_APPLY_PROJECTS } from '../gql';
 import { IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY } from '../config/common';
 
 import '../style/home_detail.scss';
@@ -43,17 +42,13 @@ export default withApollo((props) => {
     const toApply = (project) => () => {
         const apply = async () => {
             if (currUser) {
-                const curr_user_projects = currUser.apply_projects.map(pro => ({ id: pro.id }))
                 const res = await client.mutate({
-                    mutation: M_UPDATE_USER,
+                    mutation: M_APPLY_PROJECTS,
                     variables: {
-                        id: currUser.id,
-                        data: {
-                            apply_projects: [...curr_user_projects, { id: project.id }]
-                        }
+                        id: project.id
                     }
                 })
-                if (res.data && res.data.updateUser) {
+                if (res.data && res.data.applyProjects) {
                     const user = await toFetchCurrentUser(client);
                     if (user.apply_projects.findIndex(pro => pro.id === project.id) !== -1) {
                         Toast.success('申请成功！', 2);

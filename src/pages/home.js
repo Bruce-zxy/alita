@@ -41,9 +41,12 @@ export default withApollo((props) => {
     }
 
     const toShowFilterModal = () => {
-        Modal.operation([
+        let category = [
             { text: '按【股权融资】筛选', onPress: () => toSetState({ category: 'equity', page: 0 }) },
-            { text: '按【债权融资】筛选', onPress: () => toSetState({ category: 'claim', page: 0 }) },
+            { text: '按【债权融资】筛选', onPress: () => toSetState({ category: 'claim', page: 0 }) }
+        ];
+        Modal.operation([
+            ...category,
             { text: '清除筛选', onPress: () => toSetState({ category: '', page: 0 }) },
         ])
     }
