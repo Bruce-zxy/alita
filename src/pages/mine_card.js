@@ -1,12 +1,18 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { TabBar } from 'antd-mobile';
+import { Link, Redirect } from 'react-router-dom';
+import { withApollo } from "react-apollo";
 
+import { toFetchCurrentUser } from '../utils/global';
 import { LOCAL_URL } from '../config/common';
 
 import "../style/mine.scss";
 
-export default (props) => {
+export default withApollo((props) => {
+
+    console.log(props);
+    
+
+    const [user, updateUser] = useState(null);
 
     const list = [{
         company: "江西风景独好传播运营有限责任公司（风景独好公司）",
@@ -50,6 +56,21 @@ export default (props) => {
         phone: "0791-86120203"
     }]
 
+    useEffect(() => {
+        // try {
+        //     updateUser(JSON.parse(localStorage.getItem('u_user')));
+        // } catch (error) {
+        //     global.TNT(error);
+        // }
+        // if (token) {
+            toFetchCurrentUser(props.client).then((user) => {
+                if (user) {
+                    updateUser(user);
+                }
+            })
+        // }
+    }, [])
+
     return (
         <div className="hdz-business-card">
             <div className="business-card-list">
@@ -84,4 +105,4 @@ export default (props) => {
             </div>
         </div>
     )
-}
+})

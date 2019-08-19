@@ -38,6 +38,8 @@ export default withApollo((props) => {
                         Toast.fail('交换失败！', 2);
                     }
                     setCurrUser(user);
+                } else {
+                    Toast.fail('交换失败！', 2);
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再交换！', 2);

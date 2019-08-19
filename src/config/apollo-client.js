@@ -28,7 +28,7 @@ export default new ApolloClient({
             Toast.fail(
                 <Fragment>
                 <p>【NetworkError】</p>
-                    {networkError.map(item => <p>{item.message}</p>)}
+                    <p>{networkError.message}</p>
                 </Fragment>
             );
         }

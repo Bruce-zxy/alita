@@ -36,7 +36,7 @@ export const F_USER_FIELDS = gql`
     }
     apply_providers {
       id
-      name
+      #name
     }
   }
 `;

@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { TabBar } from 'antd-mobile';
+import { withApollo } from "react-apollo";
 
 import TabPanel from '../components/TabPanel';
 import { LOCAL_URL } from '../config/common';
@@ -42,7 +42,7 @@ const ServiceList = (props) => {
 
 }
 
-export default (props) => {
+export default withApollo((props) => {
 
     const list = [{
         name: "云南旅游大交通项目债权融资2200万元",
@@ -113,4 +113,4 @@ export default (props) => {
             <TabPanel data={data} current="江旅金融" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
         </div>
     )
-}
+})

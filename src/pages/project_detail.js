@@ -61,6 +61,8 @@ const FundsDetail = withApollo((props) => {
                         Toast.fail('申请失败！', 2);
                     }
                     setCurrUser(user);
+                } else {
+                    Toast.fail('申请失败！', 2);
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！', 2);
@@ -260,6 +262,8 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                         Toast.fail('申请失败！');
                     }
                     setCurrUser(user);
+                } else {
+                    Toast.fail('申请失败！');
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！');

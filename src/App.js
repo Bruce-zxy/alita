@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 import initReactFastclick from 'react-fastclick';
 import { ApolloProvider } from "react-apollo";
@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import 'moment/locale/zh-cn';
 
 import ErrorBoundary from './components/Error';
-import NoMatch from './components/NoMatch';
+// import NoMatch from './components/NoMatch';
 import Loader from './components/Loader';
 import { Q_GET_METADATA_TREES } from './gql';
 import { buildingQuery } from './utils/global';
@@ -91,47 +91,58 @@ const AdditionalRouteConfig = () => (
 )
 
 const MainRouteConfig = {
-  选项目: (
-    <Switch>
-      <Route path={LOCAL_URL['HOME']} component={(props) => <Home {...props} />} exact />
-      <Route path={`${LOCAL_URL['HOME_DETAIL']}/:id`} component={(props) => <HomeDetail {...props} />} exact />
-      <AdditionalRouteConfig />
-    </Switch>
-  ), 
-  找资金: (
-    <Switch>
-      <Route path={LOCAL_URL['PROJECT']} component={(props) => <Project {...props} />} exact />
-      <Route path={`${LOCAL_URL['PROJECT_FUNDS']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
-      <Route path={`${LOCAL_URL['PROJECT_FINANCING']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
-      <AdditionalRouteConfig />
-    </Switch>
-  ), 
-  服务商: (
-    <Switch>
-      <Route path={LOCAL_URL['SERVICE']} component={(props) => <Service {...props} />} exact />
-      <Route path={`${LOCAL_URL['SERVICE_DETAIL']}/:id`} component={(props) => <ServiceDetail {...props} />} exact />
-      <AdditionalRouteConfig />
-    </Switch>
-  ), 
-  资讯: (
-    <Switch>
-      <Route path={LOCAL_URL['NEWS']} component={(props) => <News {...props} />} exact />
-      <Route path={`${LOCAL_URL['NEWS_DETAIL']}/:id`} component={(props) => <NewsDetail {...props} />} exact />
-      <AdditionalRouteConfig />
-    </Switch>
-  ), 
-  我的: (
-    <Switch>
-      <Route path={LOCAL_URL['MINE']} component={(props) => <Mine {...props} />} exact />
-      <Route path={`${LOCAL_URL['MINE_FINANCIAL']}`} component={(props) => <MineFinancial {...props} />} exact />
-      <Route path={`${LOCAL_URL['MINE_SERVICE']}`} component={(props) => <MineService {...props} />} exact />
-      <Route path={`${LOCAL_URL['MINE_CARD']}`} component={(props) => <MineCard {...props} />} exact />
-      <Route path={`${LOCAL_URL['MINE_PROJECT']}`} component={(props) => <MineProject {...props} />} exact />
-      <Route path={`${LOCAL_URL['MINE_FUNDS']}`} component={(props) => <MineFunds {...props} />} exact />
-      {/* <Route path={`${LOCAL_URL['MINE_PROVIDER']}`} component={(props) => <MineProvider {...props} />} exact /> */}
-      <AdditionalRouteConfig />
-    </Switch>
-  )
+  选项目: (props) => {
+    return (
+      <Switch>
+        <Route path={LOCAL_URL['HOME']} component={(props) => <Home {...props} />} exact />
+        <Route path={`${LOCAL_URL['HOME_DETAIL']}/:id`} component={(props) => <HomeDetail {...props} />} exact />
+      </Switch>
+    )
+  }, 
+  找资金: (props) => {
+    return (
+      <Switch>
+        <Route path={LOCAL_URL['PROJECT']} component={(props) => <Project {...props} />} exact />
+        <Route path={`${LOCAL_URL['PROJECT_FUNDS']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['PROJECT_FINANCING']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
+      </Switch>
+    )
+  }, 
+  服务商: (props) => {
+    return (
+      <Switch>
+        <Route path={LOCAL_URL['SERVICE']} component={(props) => <Service {...props} />} exact />
+        <Route path={`${LOCAL_URL['SERVICE_DETAIL']}/:id`} component={(props) => <ServiceDetail {...props} />} exact />
+      </Switch>
+    )
+  }, 
+  资讯: (props) => {
+    return (
+      <Switch>
+        <Route path={LOCAL_URL['NEWS']} component={(props) => <News {...props} />} exact />
+        <Route path={`${LOCAL_URL['NEWS_DETAIL']}/:id`} component={(props) => <NewsDetail {...props} />} exact />
+      </Switch>
+    )
+  }, 
+  我的: (props) => {
+    const token = localStorage.getItem('u_token');
+    if (!token) {
+      return <Signin {...props} />
+    } else {
+      return (
+        <Switch>
+          <Route path={LOCAL_URL['MINE']} component={(props) => <Mine {...props} />} exact />
+          <Route path={`${LOCAL_URL['MINE_FINANCIAL']}`} component={(props) => <MineFinancial {...props} />} exact />
+          <Route path={`${LOCAL_URL['MINE_SERVICE']}`} component={(props) => <MineService {...props} />} exact />
+          <Route path={`${LOCAL_URL['MINE_CARD']}`} component={(props) => <MineCard {...props} />} exact />
+          <Route path={`${LOCAL_URL['MINE_PROJECT']}`} component={(props) => <MineProject {...props} />} exact />
+          <Route path={`${LOCAL_URL['MINE_FUNDS']}`} component={(props) => <MineFunds {...props} />} exact />
+          {/* <Route path={`${LOCAL_URL['MINE_PROVIDER']}`} component={(props) => <MineProvider {...props} />} exact /> */}
+          
+        </Switch>
+      )
+    }
+  }
 }
 
 const AppRoute = (props) => {
@@ -160,8 +171,6 @@ const AppRoute = (props) => {
         queryString: buildingQuery(defaultVariables)
       },
       update: (proxy, { data }) => {
-        console.log(data);
-        
         if (data && data.metadataTrees) {
           sessionStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
         }
@@ -180,7 +189,7 @@ const AppRoute = (props) => {
   return (
     <ErrorBoundary>
       <ApolloProvider client={client}>
-        <TabBar 
+        {LOCAL_URL_SHOW.includes(pathname.split('/')[3]) && <TabBar 
           unselectedTintColor={NORMAL_COLOR} 
           tintColor={ACTIVE_COLOR} 
           barTintColor="white" 
@@ -195,10 +204,11 @@ const AppRoute = (props) => {
               selected={tabKey === tabbar.name}
               onPress={gotoPage(tabbar.name)}
             >
-              {MainRouteConfig[tabbar.name]}
+              {MainRouteConfig[tabbar.name](props)}
             </TabBar.Item>
           ))}
-        </TabBar>
+        </TabBar>}
+        <AdditionalRouteConfig />
       </ApolloProvider>
     </ErrorBoundary>
   );

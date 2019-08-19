@@ -176,6 +176,7 @@ const Login = (props) => {
     }
 
     const toLogin = async () => {
+        
         const { account, password } = thisState;
         global.TNT(thisState, props);
 
@@ -189,7 +190,11 @@ const Login = (props) => {
                 const user = await toFetchCurrentUser(client);
                 if (user) {
                     Toast.success('登录成功！', 1);
-                    history.push(LOCAL_URL['MINE']);
+                    if ((props.location.pathname === LOCAL_URL['SIGNIN'])) {
+                        history.push(LOCAL_URL['MINE']);
+                    } else {
+                        history.goBack();
+                    }
                 } else {
                     Toast.success('登录失败！请联系管理员！');
                 }
@@ -211,7 +216,7 @@ const Login = (props) => {
             </p>
             <p className="signin-button" onClick={toLogin}>登录</p>
             <p>
-                <Link to="/">返回首页</Link>
+                <Link to={LOCAL_URL['SIGNUP']}>去注册</Link>
                 <a href="javascript:;" onClick={() => props.toSetPanelIndex(1)}>忘记密码</a>
             </p>
         </div>

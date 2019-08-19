@@ -87,7 +87,16 @@ export const UserStatusMaps = {
 
 export const toFetchCurrentUser = async (client) => {
   const defaultVariables = {
-    join: [{ field: 'apply_capitals' }, { field: 'apply_products' }, { field: 'apply_projects' }, { field: 'apply_providers' }],
+    join: [
+      { field: 'apply_capitals' }, 
+      { field: 'apply_capitals.capital' }, 
+      { field: 'apply_products' }, 
+      { field: 'apply_products.product' }, 
+      { field: 'apply_projects' }, 
+      { field: 'apply_projects.project' }, 
+      { field: 'apply_providers' }, 
+      { field: 'apply_providers.provider' }
+    ],
   };
   const result = await client.query({
     query: Q_FETCH_CURRENT_USER,

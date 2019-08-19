@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { TabBar } from 'antd-mobile';
+import { withApollo } from "react-apollo";
 
 import TabPanel from '../components/TabPanel';
 import { LOCAL_URL } from '../config/common';
@@ -53,7 +53,7 @@ const FundsList = (props) => {
     }
 }
 
-export default (props) => {
+export default withApollo((props) => {
 
     const list = [{
         name: "北京企业资金1000万元投江西旅游酒店项目",
@@ -129,4 +129,4 @@ export default (props) => {
             <Link to={LOCAL_URL['PUBLISH_FUNDS']} className="publish-funds">发布<br/>资金</Link>
         </div>
     )
-}
+})
