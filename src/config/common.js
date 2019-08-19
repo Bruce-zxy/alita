@@ -45,7 +45,7 @@ module.exports = {
     "LOCAL_URL_SHOW": ['home', 'project', 'service', 'news', 'mine'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
-    "API_ROOT": "http://localhost:3000/api",
+    "API_ROOT": "http://47.99.183.3:3000/api",
     "API_URL": {
         "UPLOAD": {
             "BACKEND_STORAGE": ""

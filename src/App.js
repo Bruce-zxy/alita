@@ -49,7 +49,7 @@ const PublishService = loadable(() => import('./pages/publish_service'), { fallb
 const PublishMember = loadable(() => import('./pages/publish_member'), { fallback: <Loader /> });
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: "https://m.lvyoto.com/graphql",
   request: (operation) => {
     operation.setContext({
       headers: {
