@@ -50,7 +50,7 @@ export default withApollo((props) => {
                 })
                 if (res.data && res.data.applyProjects) {
                     const user = await toFetchCurrentUser(client);
-                    if (user.apply_projects.findIndex(pro => pro.id === project.id) !== -1) {
+                    if (user.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) !== -1) {
                         Toast.success('申请成功！', 2);
                     } else {
                         Toast.fail('申请失败！', 2);
@@ -198,8 +198,8 @@ export default withApollo((props) => {
                                 
                             </DetailPanel>
                             
-                            {project.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                currUser && currUser.apply_projects.findIndex(pro => pro.id === project.id) === -1 ? (
+                            {project.status !== PROJECT_STATUS_ENUM.FINISHED ? (
+                                currUser && currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
                                     <div className="apply-to" onClick={toApply(project)}>立即投递</div>
                                 ) : (
                                     <div className="apply-to finished">您已投递</div>

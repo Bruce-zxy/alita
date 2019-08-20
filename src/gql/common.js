@@ -45,6 +45,7 @@ export const Q_FETCH_CURRENT_USER = gql`
         title
       }
       apply_products {
+        create_at
         product {
           id
           name
@@ -55,12 +56,14 @@ export const Q_FETCH_CURRENT_USER = gql`
         }
       }
       apply_projects {
+        create_at
         project {
           id
           title
           status
           category
           cover
+          create_at
           creator {
             id
             realname
@@ -69,6 +72,7 @@ export const Q_FETCH_CURRENT_USER = gql`
         }
       }
       apply_capitals {
+        create_at
         capital {
           id
           title
@@ -82,6 +86,7 @@ export const Q_FETCH_CURRENT_USER = gql`
         }
       }
       apply_providers {
+        create_at
         provider {
           id
           name
@@ -94,8 +99,10 @@ export const Q_FETCH_CURRENT_USER = gql`
           }
           creator {
             id
+            avatar
             realname
             phone
+            company
           }
         }
       }

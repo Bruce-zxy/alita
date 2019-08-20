@@ -1,6 +1,10 @@
 @import 'config';
 
 .hdz-publish-project {
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
     .am-list-body {
 
         >div {

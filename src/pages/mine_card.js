@@ -1,6 +1,7 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
+import * as moment from 'moment';
 
 import { toFetchCurrentUser } from '../utils/global';
 import { LOCAL_URL } from '../config/common';
@@ -9,78 +10,37 @@ import "../style/mine.scss";
 
 export default withApollo((props) => {
 
-    console.log(props);
-    
-
     const [user, updateUser] = useState(null);
 
-    const list = [{
-        company: "江西风景独好传播运营有限责任公司（风景独好公司）",
-        tags: ['宣传机构'],
-        location: "江西",
-        create: "2019-07-01 11:20:11",
-        avatar: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image",
-        concat: "江旅国旅",
-        phone: "0791-86120203"
-    }, {
-        company: "江西风景独好传播运营有限责任公司（风景独好公司）",
-        tags: ['宣传机构'],
-        location: "江西",
-        create: "2019-07-01 11:20:11",
-        avatar: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image",
-        concat: "江旅国旅",
-        phone: "0791-86120203"
-    }, {
-        company: "江西风景独好传播运营有限责任公司（风景独好公司）",
-        tags: ['宣传机构'],
-        location: "江西",
-        create: "2019-07-01 11:20:11",
-        avatar: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image",
-        concat: "江旅国旅",
-        phone: "0791-86120203"
-    }, {
-        company: "江西风景独好传播运营有限责任公司（风景独好公司）",
-        tags: ['宣传机构'],
-        location: "江西",
-        create: "2019-07-01 11:20:11",
-        avatar: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image",
-        concat: "江旅国旅",
-        phone: "0791-86120203"
-    }, {
-        company: "江西风景独好传播运营有限责任公司（风景独好公司）",
-        tags: ['宣传机构'],
-        location: "江西",
-        create: "2019-07-01 11:20:11",
-        avatar: "http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image",
-        concat: "江旅国旅",
-        phone: "0791-86120203"
-    }]
-
     useEffect(() => {
-        // try {
-        //     updateUser(JSON.parse(localStorage.getItem('u_user')));
-        // } catch (error) {
-        //     global.TNT(error);
-        // }
-        // if (token) {
-            toFetchCurrentUser(props.client).then((user) => {
-                if (user) {
-                    updateUser(user);
-                }
-            })
-        // }
-    }, [])
+        toFetchCurrentUser(props.client).then((user) => {
+            if (user) {
+                updateUser(user);
+            }
+        })
+    }, []);
+
+    const list = user && user.apply_providers ? user.apply_providers.map(provider => ({
+        id: provider.provider.id,
+        company: provider.provider.name || '未知',
+        tags: [provider.provider.category.title],
+        location: provider.provider.area.title || '未知',
+        create: moment(provider.create_at*1).format('YYYY-MM-DD HH:mm:ss'),
+        avatar: provider.provider.creator.avatar,
+        concat: provider.provider.creator.realname || '未知',
+        phone: provider.provider.creator.phone || '未知'
+    })) : [];
 
     return (
         <div className="hdz-business-card">
             <div className="business-card-list">
-                {list && list.map((item, i) => (
+                {list.length ? list.map((item, i) => (
                     <div className="business-card-item" key={i}>
 
                         <div className="card-top">
                             <p>{item.create}</p>
                             <div className="business-card-content">
-                                <img src={item.avatar} alt='placeholder+image' />
+                                <img src={item.avatar} alt='avatar' />
                                 <div className="business-card-intro">
                                     <p>{item.company}</p>
                                     <p>
@@ -98,10 +58,10 @@ export default withApollo((props) => {
                             <span>{item.phone}</span>
                         </p>
 
-                        <Link to="javascript:;" className="card-category">项目详情</Link>
+                        <Link to={`${LOCAL_URL['SERVICE_DETAIL']}/${item.id}`} className="card-category">服务商详情</Link>
 
                     </div>
-                ))}
+                )) : <div style={{ textAlign: "center" }}>暂无数据</div>}
             </div>
         </div>
     )

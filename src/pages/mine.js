@@ -61,7 +61,7 @@ export default withApollo((props) => {
                     </Link>
                     <Link to={`${LOCAL_URL['MINE_SERVICE']}`} className="mine-function-item">
                         <i className="iconfont iconfuwu-active icon"></i>
-                        <span>我的服务</span>
+                        <span>我的申请</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>
                     <Link to={`${LOCAL_URL['MINE_CARD']}`} className="mine-function-item">

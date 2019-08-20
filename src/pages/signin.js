@@ -190,11 +190,7 @@ const Login = (props) => {
                 const user = await toFetchCurrentUser(client);
                 if (user) {
                     Toast.success('登录成功！', 1);
-                    if ((props.location.pathname === LOCAL_URL['SIGNIN'])) {
-                        history.push(LOCAL_URL['MINE']);
-                    } else {
-                        history.goBack();
-                    }
+                    history.push(LOCAL_URL['MINE']);
                 } else {
                     Toast.success('登录失败！请联系管理员！');
                 }

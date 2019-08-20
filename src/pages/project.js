@@ -154,7 +154,7 @@ const LookingFunds = withApollo((props) => {
                             <p className="project-name">{item.title}{item.create_at}</p>
                             <p className="project-tags">
                                 {item.category ? <span className="financing">{IFT_MODE_ENUM[item.category.toUpperCase()]}</span> : ''}
-                                {item.industry.length ? item.industry.map(industry => (<span className="industry">{industry.title}</span>)) : ''}
+                                {item.industry.length ? item.industry.map(industry => (<span className="industry" key={industry.title}>{industry.title}</span>)) : ''}
                             </p>
                             <div className="project-intro">
                                 <div>

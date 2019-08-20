@@ -32,7 +32,7 @@ export default withApollo((props) => {
                 })
                 if (res.data && res.data.applyProviders) {
                     const user = await toFetchCurrentUser(client);
-                    if (user.apply_providers.findIndex(pro => pro.id === provider.id) !== -1) {
+                    if (user.apply_providers.findIndex(pro => pro.provider && (pro.provider.id === provider.id)) !== -1) {
                         Toast.success('交换成功！', 2);
                     } else {
                         Toast.fail('交换失败！', 2);
@@ -85,7 +85,7 @@ export default withApollo((props) => {
                                 <div className="service-detail-content" dangerouslySetInnerHTML={{ __html: provider.introduction }} />
                             </div>
 
-                            {currUser && currUser.apply_providers.findIndex(pro => pro.id === provider.id) === -1 ? (
+                            {currUser && currUser.apply_providers.findIndex(pro => pro.provider && (pro.provider.id === provider.id)) === -1 ? (
                                 <div className="service-detail-apply" onClick={toApply(provider)}>交换名片</div>
                             ) : (
                                 <div className="service-detail-apply finished">您已交换名片</div>

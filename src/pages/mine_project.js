@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 
 import TabPanel from '../components/TabPanel';
+import { toFetchCurrentUser } from '../utils/global';
 import { LOCAL_URL } from '../config/common';
 
 import "../style/mine.scss";
@@ -44,6 +45,16 @@ const ProjectList = (props) => {
 }
 
 export default withApollo((props) => {
+
+    const [user, updateUser] = useState(null);
+
+    useEffect(() => {
+        toFetchCurrentUser(props.client).then((user) => {
+            if (user) {
+                updateUser(user);
+            }
+        })
+    }, []);
 
     const list = [{
         name: "云南旅游大交通项目债权融资2200万元",

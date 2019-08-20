@@ -55,7 +55,7 @@ const FundsDetail = withApollo((props) => {
                 })
                 if (res.data && res.data.applyCapitals) {
                     const user = await toFetchCurrentUser(props.client);
-                    if (user.apply_capitals.findIndex(pro => pro.id === capital.id) !== -1) {
+                    if (user.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === capital.id)) !== -1) {
                         Toast.success('申请成功！', 2);
                     } else {
                         Toast.fail('申请失败！', 2);
@@ -200,7 +200,7 @@ const FundsDetail = withApollo((props) => {
                             </DetailPanel>
 
                             {capital.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                currUser && currUser.apply_capitals.findIndex(pro => pro.id === data.capital.id) === -1 ? (
+                                currUser && currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) === -1 ? (
                                     <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>
                                 ) : (
                                     <div className="apply-to finished">您已投递</div>
@@ -256,7 +256,7 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                 })
                 if (res.data && res.data.applyProducts) {
                     const user = await toFetchCurrentUser(client);
-                    if (user.apply_products.findIndex(pro => pro.id === product.id) !== -1) {
+                    if (user.apply_products.findIndex(pro => pro.product && (pro.product.id === product.id)) !== -1) {
                         Toast.success('申请成功！');
                     } else {
                         Toast.fail('申请失败！');
@@ -317,7 +317,7 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                                 <DetailPanel title="服务流程" content={flows.length ? flows.map((item, i) => <p key={i+1}>{i + 1}、{item.value}</p>) : ''}/>
                                 <div className="hdz-block-small-space"></div>
 
-                                {currUser && currUser.apply_products.findIndex(pro => pro.id === data.product.id) === -1 ? (
+                                {currUser && currUser.apply_products.findIndex(pro => pro.product && (pro.product.id === data.product.id)) === -1 ? (
                                     <div className="apply-to" onClick={toApply(data.product)}>立即投递</div>
                                 ) : (
                                     <div className="apply-to finished">您已投递</div>
