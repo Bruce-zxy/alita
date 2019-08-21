@@ -10,7 +10,7 @@ import { LOCAL_URL, IFT_MODE_ENUM, PROJECT_STATUS_ENUM_CN } from '../config/comm
 import "../style/mine.scss";
 
 const FundsList = (props) => {
-    if (props.list) {
+    if (props.list.length) {
         return (
             <div className="funds-list">
                 {props.list.map((item, i) => (

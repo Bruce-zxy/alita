@@ -9,7 +9,7 @@ import { buildingQuery, toFetchCurrentUser } from '../utils/global';
 
 import Loader from '../components/Loader';
 
-import { COLOR_ARRAY, IFT_MODE_ENUM, DATA_ARRAY, PROJECT_STATUS_ENUM } from '../config/common';
+import { COLOR_ARRAY, IFT_MODE_ENUM, DATA_ARRAY, LOCAL_URL } from '../config/common';
 import '../style/project.scss';
 import '../style/home_detail.scss';
 
@@ -66,6 +66,7 @@ const FundsDetail = withApollo((props) => {
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！', 2);
+                props.history.push(LOCAL_URL['SIGNIN']);
             }
         }
         test = Modal.alert('您正在提交一个申请', '是否确认申请？', [
@@ -200,14 +201,18 @@ const FundsDetail = withApollo((props) => {
                             </DetailPanel>
 
                             {(() => {
-                                if (currUser && currUser.capitals.findIndex(pro => pro.id.toString() === data.capital.id.toString()) === -1) {
-                                    return currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) === -1 ? (
-                                        <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>
-                                    ) : (
-                                        <div className="apply-to finished">您已投递</div>
-                                    )
+                                if (currUser) {
+                                    if (currUser.capitals.findIndex(pro => pro.id === data.capital.id) === -1) {
+                                        return currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) !== -1 ? (
+                                            <div className="apply-to finished">您已投递</div>
+                                        ) : (
+                                            <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>
+                                        )
+                                    } else {
+                                        return '';
+                                    }
                                 } else {
-                                    return '';
+                                    return <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>;
                                 }
                             })()}
 
@@ -225,7 +230,7 @@ const FundsDetail = withApollo((props) => {
 })
 
 
-const FinancingDetail = withApollo(({ match, location, client }) => {
+const FinancingDetail = withApollo(({ match, history, location, client }) => {
 
     const { search } = location;
     // let params = {};
@@ -269,6 +274,7 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！');
+                history.push(LOCAL_URL['SIGNIN']);
             }
         }
         Modal.alert('您正在提交一个申请', '是否确认申请？', [
@@ -319,11 +325,17 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                                 <DetailPanel title="服务流程" content={flows.length ? flows.map((item, i) => <p key={i+1}>{i + 1}、{item.value}</p>) : ''}/>
                                 <div className="hdz-block-small-space"></div>
 
-                                {currUser && currUser.apply_products.findIndex(pro => pro.product && (pro.product.id === data.product.id)) === -1 ? (
-                                    <div className="apply-to" onClick={toApply(data.product)}>立即投递</div>
-                                ) : (
-                                    <div className="apply-to finished">您已投递</div>
-                                )}
+                                {(() => {
+                                    if (currUser) {
+                                        return currUser.apply_products.findIndex(pro => pro.product && (pro.product.id === data.product.id)) !== -1 ? (
+                                            <div className="apply-to finished">您已投递</div>
+                                        ) : (
+                                            <div className="apply-to" onClick={toApply(data.product)}>立即投递</div>
+                                        )
+                                    } else {
+                                        return <div className="apply-to" onClick={toApply(data.product)}>立即投递</div>;
+                                    }
+                                })()}
 
                                 <div className="hdz-block-large-space"></div>
                             </div>

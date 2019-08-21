@@ -11,7 +11,7 @@ import { LOCAL_URL, IF_MODE_ENUM, IFT_MODE_ENUM } from '../config/common';
 import "../style/mine.scss";
 
 const FundsList = (props) => {
-    if (props.list) {
+    if (props.list.length) {
         return (
             <div className="service-list">
                 {props.list.map((item, i) => (
@@ -47,7 +47,7 @@ const FundsList = (props) => {
 }
 
 const ProjectList = (props) => {
-    if (props.list) {
+    if (props.list.length) {
         return (
             <div className="service-list">
                 {props.list.map((item, i) => (

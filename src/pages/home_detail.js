@@ -8,7 +8,7 @@ import TabPanel from '../components/TabPanel';
 
 import { buildingQuery, toFetchCurrentUser } from '../utils/global';
 import { Q_GET_PROJECT, M_APPLY_PROJECTS } from '../gql';
-import { IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY } from '../config/common';
+import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY } from '../config/common';
 
 import '../style/home_detail.scss';
 
@@ -26,7 +26,7 @@ const defaultVariables = {
 };
 
 export default withApollo((props) => {
-    const { match: { params: { id } }, client } = props;
+    const { match: { params: { id } }, history, client } = props;
     const [currUser, setCurrUser] = useState(null);
 
     useEffect(() => {
@@ -61,6 +61,7 @@ export default withApollo((props) => {
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！', 2);
+                history.push(LOCAL_URL['SIGNIN']);
             }
         }
         Modal.alert('您正在提交一个申请', '是否确认申请？', [
@@ -200,19 +201,25 @@ export default withApollo((props) => {
                             
 
                             {(() => {
-                                if (currUser && currUser.projects.findIndex(pro => pro.id.toString() === project.id.toString()) === -1) {
-                                    return project.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                        currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
-                                            <div className="apply-to" onClick={toApply(project)}>立即投递</div>
+
+                                if (currUser) {
+                                    if (currUser.projects.findIndex(pro => pro.id === project.id) === -1) {
+                                        return project.status === PROJECT_STATUS_ENUM.CHECKED ? (
+                                            currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
+                                                <div className="apply-to" onClick={toApply(project)}>立即投递</div>
+                                            ) : (
+                                                <div className="apply-to finished">您已投递</div>
+                                            )
                                         ) : (
-                                            <div className="apply-to finished">您已投递</div>
-                                        )
-                                    ) : (
-                                        <div className="apply-to finished">已结束</div>
-                                    )
+                                            <div className="apply-to finished">已结束</div>
+                                        );
+                                    } else {
+                                        return '';
+                                    }
                                 } else {
-                                    return '';
+                                    return <div className="apply-to" onClick={toApply(project)}>立即投递</div>;
                                 }
+
                             })()}
 
                             <div className="hdz-block-large-space"></div>

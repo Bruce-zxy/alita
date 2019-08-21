@@ -3,14 +3,15 @@ import { Modal, Toast } from 'antd-mobile';
 import { Query, withApollo } from 'react-apollo';
 
 import Loader from '../components/Loader';
-import { buildingQuery, toFetchCurrentUser } from '../utils/global';
+import { toFetchCurrentUser } from '../utils/global';
 import { Q_GET_PROVIDER, M_APPLY_PROVIDERS } from '../gql';
+import { LOCAL_URL } from '../config/common';
 import '../style/service.scss';
 
 
 export default withApollo((props) => {
     
-    const { client, match } = props
+    const { client, match, history } = props
     const [currUser, setCurrUser] = useState(null);
 
     useEffect(() => {
@@ -43,6 +44,7 @@ export default withApollo((props) => {
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再交换！', 2);
+                history.push(LOCAL_URL['SIGNIN']);
             }
         }
         Modal.alert('您正在与服务商交换名片', '是否确认交换？', [
@@ -58,9 +60,6 @@ export default withApollo((props) => {
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
-
-                console.log(data);
-                
 
                 if (loading) return <Loader />;
                 
@@ -85,11 +84,17 @@ export default withApollo((props) => {
                                 <div className="service-detail-content" dangerouslySetInnerHTML={{ __html: provider.introduction }} />
                             </div>
 
-                            {currUser && currUser.apply_providers.findIndex(pro => pro.provider && (pro.provider.id === provider.id)) === -1 ? (
-                                <div className="service-detail-apply" onClick={toApply(provider)}>交换名片</div>
-                            ) : (
-                                <div className="service-detail-apply finished">您已交换名片</div>
-                            )}
+                            {(() => {
+                                if (currUser) {
+                                    return currUser.apply_providers.findIndex(pro => pro.provider && (pro.provider.id === provider.id)) !== -1 ? (
+                                        <div className="service-detail-apply finished">您已交换名片</div>
+                                    ) : (
+                                        <div className="service-detail-apply" onClick={toApply(provider)}>交换名片</div>
+                                    )
+                                } else {
+                                    return <div className="service-detail-apply" onClick={toApply(provider)}>交换名片</div>;
+                                }
+                            })()}
                         </div>
                     )
                 }
