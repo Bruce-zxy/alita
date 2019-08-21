@@ -85,6 +85,21 @@ export const UserStatusMaps = {
 };
 
 
+export const Fetch = (url, body) => {
+  let option = {
+    method: "GET",
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${localStorage.getItem('u_token')}`
+    })
+  };
+  if (body) {
+    option.method = "POST";
+    option.body = JSON.stringify(body);
+  }
+  return fetch(url, option)
+}
+
 export const toFetchCurrentUser = async (client) => {
   const result = await client.query({
     query: Q_FETCH_CURRENT_USER,

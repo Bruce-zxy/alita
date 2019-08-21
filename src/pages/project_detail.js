@@ -199,15 +199,17 @@ const FundsDetail = withApollo((props) => {
                                     )}
                             </DetailPanel>
 
-                            {capital.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                currUser && currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) === -1 ? (
-                                    <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>
-                                ) : (
-                                    <div className="apply-to finished">您已投递</div>
-                                )
-                            ) : (
-                                <div className="apply-to finished">已结束</div>
-                            )}
+                            {(() => {
+                                if (currUser && currUser.capitals.findIndex(pro => pro.id.toString() === data.capital.id.toString()) === -1) {
+                                    return currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) === -1 ? (
+                                        <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>
+                                    ) : (
+                                        <div className="apply-to finished">您已投递</div>
+                                    )
+                                } else {
+                                    return '';
+                                }
+                            })()}
 
                             <div className="hdz-block-large-space"></div>
 

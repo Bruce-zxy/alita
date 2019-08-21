@@ -41,7 +41,7 @@ export default withApollo((props) => {
                 <Link to="javascript:;" className="mine-setting" style={{ display: "none" }}><i className="iconfont iconshezhi"></i></Link>
 
                 <div className="mine-card">
-                    <img src={avatar || DEFAULT_AVATAR} alt='placeholder+image' />
+                    <img src={avatar || DEFAULT_AVATAR} alt='avatar' />
                     <div className="mine-cart-info">
                         <p>
                             <span>{realname || '暂无昵称'}</span>

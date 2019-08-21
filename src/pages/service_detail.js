@@ -69,10 +69,10 @@ export default withApollo((props) => {
                     return (
                         <div className="hdz-service-detail">
                             <div className="service-detail-banner">
-                                <img src={provider.logo} alt='placeholder+image' />
+                                <img src={provider.logo} alt='logo' />
                             </div>
                             <div className="service-detail">
-                                <img className="service-detail-logo" src={provider.logo} alt='placeholder+image' />
+                                <img className="service-detail-logo" src={provider.logo} alt='logo' />
                                 <p className="service-detail-title">{provider.name}</p>
                                 <p className="service-detail-type">
                                     <i className="iconfont iconleibie"></i>
