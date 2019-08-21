@@ -62,6 +62,7 @@ export default withApollo((props) => {
 
                     </div>
                 )) : <div style={{ textAlign: "center" }}>暂无数据</div>}
+                {!user && <Loader />}
             </div>
         </div>
     )

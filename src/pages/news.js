@@ -157,7 +157,7 @@ export default withApollo(({ client }) => {
         className: 'lvyoto-news',
         content: <NewsList category={"投融学堂"} carousel={carousel}/>
     }, {
-        title: "通知公告",
+        title: "政策公告",
         className: 'lvyoto-news',
         content: <NewsList category={"通知公告"} carousel={carousel}/>
     }]

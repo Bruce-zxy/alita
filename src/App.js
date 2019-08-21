@@ -52,22 +52,22 @@ const NORMAL_COLOR = "#555555";
 const ACTIVE_COLOR = "#0572E4";
 
 const gTabBar = [{
-    name: '选项目',
+    name: '项目招商',
     page: 'HOME',
     icon: <i className="iconfont iconxiangmu"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconxiangmu" style={{ color: ACTIVE_COLOR }}></i>,
   }, {
-    name: '找资金',
+    name: '金融资本',
     page: 'PROJECT',
     icon: <i className="iconfont iconqian"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconqian" style={{ color: ACTIVE_COLOR }}></i>,
   }, {
-    name: '服务商',
+    name: '配套服务',
     page: 'SERVICE',
     icon: <i className="iconfont iconfuwushang"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconfuwushang" style={{ color: ACTIVE_COLOR }}></i>,
   }, {
-    name: '资讯',
+    name: '行业资讯',
     page: 'NEWS',
     icon: <i className="iconfont iconxinwen"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconxinwen" style={{ color: ACTIVE_COLOR }}></i>,
@@ -91,7 +91,7 @@ const AdditionalRouteConfig = () => (
 )
 
 const MainRouteConfig = {
-  选项目: (props) => {
+  项目招商: (props) => {
     return (
       <Switch>
         <Route path={LOCAL_URL['HOME']} component={(props) => <Home {...props} />} exact />
@@ -99,7 +99,7 @@ const MainRouteConfig = {
       </Switch>
     )
   }, 
-  找资金: (props) => {
+  金融资本: (props) => {
     return (
       <Switch>
         <Route path={LOCAL_URL['PROJECT']} component={(props) => <Project {...props} />} exact />
@@ -108,7 +108,7 @@ const MainRouteConfig = {
       </Switch>
     )
   }, 
-  服务商: (props) => {
+  配套服务: (props) => {
     return (
       <Switch>
         <Route path={LOCAL_URL['SERVICE']} component={(props) => <Service {...props} />} exact />
@@ -116,7 +116,7 @@ const MainRouteConfig = {
       </Switch>
     )
   }, 
-  资讯: (props) => {
+  行业资讯: (props) => {
     return (
       <Switch>
         <Route path={LOCAL_URL['NEWS']} component={(props) => <News {...props} />} exact />
@@ -149,7 +149,7 @@ const AppRoute = (props) => {
 
   const { pathname } = props.location;
 
-  const [tabKey, setTabKey] = useState('选项目');
+  const [tabKey, setTabKey] = useState('项目招商');
   const gotoPage = (tabName) => () => {
     const tab_key_index = gTabBar.findIndex(item => item.name === tabName);
     setTabKey(tabName);
