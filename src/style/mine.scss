@@ -155,6 +155,8 @@
         height: auto;
 
         .service-item {
+            display: flex;
+            flex-direction: column;
             width: 100%;
             height: 24.53vw;
             overflow: hidden;
@@ -366,6 +368,78 @@
                     @include font($FONT_SIZE_12, $WHITE);
                     @include position(absolute, auto, auto, 99, 0, $SIZE_20);
                     @include display-flex();
+                }
+            }
+
+            .financing-project {
+                width: 100%;
+                padding: $SIZE_10 $SIZE_10*1.4 $SIZE_10 $SIZE_10;
+                background: #FFF;
+                margin: 1px 0 1.6vw;
+                @include display-flex(column, flex-start, flex-start);
+
+                .project-name {
+                    width: 100%;
+                    height: auto;
+                    min-height: $SIZE_20;
+                    font-size: $FONT_SIZE_14;
+                    font-weight: bold;
+                    color: $GRAY_333;
+                    line-height: $SIZE_20;
+                    margin-bottom: $SIZE_5;
+                    overflow: hidden;
+                }
+
+                .project-tags {
+                    height: $SIZE_20;
+                    margin-bottom: .5vw;
+                    overflow: hidden;
+
+                    >span {
+                        border-radius: 3.6vw;
+                        height: 4.8vw;
+                        font-size: $FONT_SIZE_12;
+                        padding: 2.4vw;
+                        transform-origin: 0% 0%;
+                        transform: scale(.83);
+                        overflow: hidden;
+                        margin: 0 0 1vw 0;
+                        @include display-flex(row, center, center, inline-flex);
+
+                        &.financing {
+                            border: 1px solid $TAG_1_BORDER_COLOR;
+                            color: $TAG_1_COLOR;
+                        }
+
+                        &.industry {
+                            border: 1px solid $TAG_2_BORDER_COLOR;
+                            color: $TAG_2_COLOR;
+                        }
+                    }
+                }
+
+                .project-intro {
+                    >div {
+                        text-align: center;
+
+                        &:nth-child(1) {
+                            width: 35%;
+
+                            >p {
+                                &:nth-child(1) {
+                                    color: $PRICE_COLOR;
+                                }
+                            }
+                        }
+
+                        &:nth-child(2) {
+                            width: 25%
+                        }
+
+                        &:nth-child(3) {
+                            width: 40%
+                        }
+                    }
                 }
             }
         }

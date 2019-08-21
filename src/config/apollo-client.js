@@ -19,7 +19,7 @@ export default new ApolloClient({
         if (graphQLErrors) {
             Toast.fail(
                 <Fragment>
-                    <p>【GraphQLErrors】</p>
+                    <p>【操作错误】</p>
                     {graphQLErrors.map(item => <p key={item.message}>{item.message}</p>)}
                 </Fragment>
             );
@@ -27,8 +27,8 @@ export default new ApolloClient({
         if (networkError) {
             Toast.fail(
                 <Fragment>
-                <p>【NetworkError】</p>
-                    {networkError.map(item => <p>{item.message}</p>)}
+                <p>【网络错误】</p>
+                    <p>{networkError.message}</p>
                 </Fragment>
             );
         }

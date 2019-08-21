@@ -23,20 +23,63 @@ export const F_USER_FIELDS = gql`
       ...OrgFields
     }
     apply_products {
-      id
-      name
+      create_at
+      product {
+        id
+        name
+        category {
+          id
+          title
+        }
+      }
     }
     apply_projects {
-      id
-      title
+      create_at
+      project {
+        id
+        title
+        status
+        category
+        cover
+        creator {
+          id
+          realname
+          phone
+        }
+      }
     }
     apply_capitals {
-      id
-      title
+      create_at
+      capital {
+        id
+        title
+        status
+        category
+        creator {
+          id
+          realname
+          phone
+        }
+      }
     }
     apply_providers {
-      id
-      name
+      create_at
+      provider {
+        id
+        name
+        area {
+          title
+        }
+        category {
+          id
+          title
+        }
+        creator {
+          id
+          realname
+          phone
+        }
+      }
     }
   }
 `;

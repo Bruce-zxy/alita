@@ -10,7 +10,7 @@ import { buildingQuery } from '../utils/global';
 import { Q_GET_PROVIDERS } from '../gql';
 
 import Loader from '../components/Loader';
-import { LOCAL_URL, COLOR_ARRAY } from '../config/common';
+import { LOCAL_URL } from '../config/common';
 
 import '../style/service.scss';
 

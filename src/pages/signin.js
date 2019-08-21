@@ -176,6 +176,7 @@ const Login = (props) => {
     }
 
     const toLogin = async () => {
+        
         const { account, password } = thisState;
         global.TNT(thisState, props);
 
@@ -211,7 +212,7 @@ const Login = (props) => {
             </p>
             <p className="signin-button" onClick={toLogin}>登录</p>
             <p>
-                <Link to="/">返回首页</Link>
+                <Link to={LOCAL_URL['SIGNUP']}>去注册</Link>
                 <a href="javascript:;" onClick={() => props.toSetPanelIndex(1)}>忘记密码</a>
             </p>
         </div>

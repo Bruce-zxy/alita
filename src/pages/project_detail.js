@@ -55,12 +55,14 @@ const FundsDetail = withApollo((props) => {
                 })
                 if (res.data && res.data.applyCapitals) {
                     const user = await toFetchCurrentUser(props.client);
-                    if (user.apply_capitals.findIndex(pro => pro.id === capital.id) !== -1) {
+                    if (user.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === capital.id)) !== -1) {
                         Toast.success('申请成功！', 2);
                     } else {
                         Toast.fail('申请失败！', 2);
                     }
                     setCurrUser(user);
+                } else {
+                    Toast.fail('申请失败！', 2);
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！', 2);
@@ -198,7 +200,7 @@ const FundsDetail = withApollo((props) => {
                             </DetailPanel>
 
                             {capital.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                currUser && currUser.apply_capitals.findIndex(pro => pro.id === data.capital.id) === -1 ? (
+                                currUser && currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) === -1 ? (
                                     <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>
                                 ) : (
                                     <div className="apply-to finished">您已投递</div>
@@ -224,11 +226,11 @@ const FundsDetail = withApollo((props) => {
 const FinancingDetail = withApollo(({ match, location, client }) => {
 
     const { search } = location;
-    let params = {};
-    search.split('?')[1].split('&').forEach(item => {
-        const [key,val] = item.split('=');
-        params[key] = val;
-    });
+    // let params = {};
+    // search.split('?')[1].split('&').forEach(item => {
+    //     const [key,val] = item.split('=');
+    //     params[key] = val;
+    // });
 
     const [currUser, setCurrUser] = useState(null);
 
@@ -254,12 +256,14 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                 })
                 if (res.data && res.data.applyProducts) {
                     const user = await toFetchCurrentUser(client);
-                    if (user.apply_products.findIndex(pro => pro.id === product.id) !== -1) {
+                    if (user.apply_products.findIndex(pro => pro.product && (pro.product.id === product.id)) !== -1) {
                         Toast.success('申请成功！');
                     } else {
                         Toast.fail('申请失败！');
                     }
                     setCurrUser(user);
+                } else {
+                    Toast.fail('申请失败！');
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！');
@@ -296,7 +300,7 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                     return (
                         <div className="financing-detail">
                             <div className="hdz-block-large-space"></div>
-                            <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[params.index ? params.index%5 : 0] }}>
+                            <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[data.product.id*1 ? data.product.id*1%5 : 0] }}>
                                 <div className="finnacial-item-left">
                                     <p>江旅定采通</p>
                                     <p>你采购 我付款</p>
@@ -313,7 +317,7 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                                 <DetailPanel title="服务流程" content={flows.length ? flows.map((item, i) => <p key={i+1}>{i + 1}、{item.value}</p>) : ''}/>
                                 <div className="hdz-block-small-space"></div>
 
-                                {currUser && currUser.apply_products.findIndex(pro => pro.id === data.product.id) === -1 ? (
+                                {currUser && currUser.apply_products.findIndex(pro => pro.product && (pro.product.id === data.product.id)) === -1 ? (
                                     <div className="apply-to" onClick={toApply(data.product)}>立即投递</div>
                                 ) : (
                                     <div className="apply-to finished">您已投递</div>
