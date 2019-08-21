@@ -10,7 +10,7 @@ import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM_CN } from '../config/commo
 import "../style/mine.scss";
 
 const ProjectList = (props) => {
-    if (props.list) {
+    if (props.list.length) {
         return (
             <div className="project-list">
                 {props.list.map((item, i) => (

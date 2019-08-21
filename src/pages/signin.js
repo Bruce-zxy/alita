@@ -193,7 +193,7 @@ const ForgotFirstStep = (props) => {
 
 const Login = withApollo((props) => {
 
-    const { client, history } = props;
+    const { client, history, location } = props;
     const token = localStorage.getItem('u_token');
     if (token) {
         history.push(LOCAL_URL['MINE']);
@@ -211,7 +211,7 @@ const Login = withApollo((props) => {
         thisState[key] = handler(thisState[key]);
         setState(Object.assign({}, thisState));
     }
-
+    
     const toLogin = async () => {
         
         const { account, password } = thisState;
@@ -228,7 +228,11 @@ const Login = withApollo((props) => {
                 const user = await toFetchCurrentUser(client);
                 if (user) {
                     Toast.success('登录成功！', 1);
-                    history.push(LOCAL_URL['MINE']);
+                    if (location.pathname === LOCAL_URL['SIGNIN']) {
+                        history.goBack();
+                    } else {
+                        window.location.reload();
+                    }
                 } else {
                     Toast.fail('登录失败！请联系管理员！');
                 }
