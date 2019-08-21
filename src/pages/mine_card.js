@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import * as moment from 'moment';
 
+import Loader from '../components/Loader';
 import { toFetchCurrentUser } from '../utils/global';
 import { LOCAL_URL } from '../config/common';
 
