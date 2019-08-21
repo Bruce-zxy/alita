@@ -198,7 +198,7 @@ export default withApollo((props) => {
                                 
                             </DetailPanel>
                             
-                            {project.status !== PROJECT_STATUS_ENUM.FINISHED ? (
+                            {project.status === PROJECT_STATUS_ENUM.CHECKED ? (
                                 currUser && currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
                                     <div className="apply-to" onClick={toApply(project)}>立即投递</div>
                                 ) : (

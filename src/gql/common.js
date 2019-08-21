@@ -49,6 +49,7 @@ export const Q_FETCH_CURRENT_USER = gql`
         product {
           id
           name
+          cover
           category {
             id
             title
@@ -76,8 +77,17 @@ export const Q_FETCH_CURRENT_USER = gql`
         capital {
           id
           title
-          status
           category
+          amount
+          stage {
+            title
+          }
+          industry {
+            title
+          }
+          type {
+            title
+          }
           creator {
             id
             realname

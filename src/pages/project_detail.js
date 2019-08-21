@@ -226,11 +226,11 @@ const FundsDetail = withApollo((props) => {
 const FinancingDetail = withApollo(({ match, location, client }) => {
 
     const { search } = location;
-    let params = {};
-    search.split('?')[1].split('&').forEach(item => {
-        const [key,val] = item.split('=');
-        params[key] = val;
-    });
+    // let params = {};
+    // search.split('?')[1].split('&').forEach(item => {
+    //     const [key,val] = item.split('=');
+    //     params[key] = val;
+    // });
 
     const [currUser, setCurrUser] = useState(null);
 
@@ -300,7 +300,7 @@ const FinancingDetail = withApollo(({ match, location, client }) => {
                     return (
                         <div className="financing-detail">
                             <div className="hdz-block-large-space"></div>
-                            <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[params.index ? params.index%5 : 0] }}>
+                            <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[data.product.id*1 ? data.product.id*1%5 : 0] }}>
                                 <div className="finnacial-item-left">
                                     <p>江旅定采通</p>
                                     <p>你采购 我付款</p>

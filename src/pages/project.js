@@ -57,11 +57,13 @@ const LookingFunds = withApollo((props) => {
 
     useEffect(() => {
 
-        if (!thisState.industry) {
-            delete defaultVariables.filter;
+        if (thisState.industry) {
+            defaultVariables.filter = [
+                { field: "status", operator: CondOperator.IN, value: "checked,finished" },
+                { field: "industry.title", operator: CondOperator.EQUALS, value: thisState.industry }
+            ];
         } else {
-            defaultVariables.filter = [];
-            thisState.industry ? defaultVariables.filter.push({ field: "industry.title", operator: CondOperator.EQUALS, value: thisState.industry }) : '';
+            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }];
         }
 
         defaultVariables.sort = [];
@@ -151,10 +153,10 @@ const LookingFunds = withApollo((props) => {
                 >
                     {thisState.data.map((item, i) => (
                         <Link key={i} className="financing-project" to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
-                            <p className="project-name">{item.title}{item.create_at}</p>
+                            <p className="project-name">{item.title}</p>
                             <p className="project-tags">
                                 {item.category ? <span className="financing">{IFT_MODE_ENUM[item.category.toUpperCase()]}</span> : ''}
-                                {item.industry.length ? item.industry.map(industry => (<span className="industry" key={industry.title}>{industry.title}</span>)) : ''}
+                                {item.industry && item.industry.length ? item.industry.map(industry => (<span className="industry" key={industry.title}>{industry.title}</span>)) : ''}
                             </p>
                             <div className="project-intro">
                                 <div>
@@ -162,11 +164,11 @@ const LookingFunds = withApollo((props) => {
                                     <p>投资金额</p>
                                 </div>
                                 <div>
-                                    <p>{item.stage.length ? item.stage.map(stage => stage.title).join(',') : '未知'}</p>
+                                    <p>{item.stage && item.stage.length ? item.stage.map(stage => stage.title).join(',') : '未知'}</p>
                                     <p>投资阶段</p>
                                 </div>
                                 <div>
-                                    <p>{item.type.length ? item.type.map(type => type.title).join(',') : '未知'}</p>
+                                    <p>{item.type && item.type.length ? item.type.map(type => type.title).join(',') : '未知'}</p>
                                     <p>资金类型</p>
                                 </div>
                             </div>

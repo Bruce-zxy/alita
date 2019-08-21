@@ -15,7 +15,7 @@ import '../style/home.scss';
 const defaultVariables = {
     page: 0,
     limit: 10,
-    filter: [{ field: "status", operator: CondOperator.IN, value: "following,finished" }],
+    filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }],
     sort: [{ field: 'create_at', order: 'DESC' }],
 };
 
@@ -54,11 +54,11 @@ export default withApollo((props) => {
     useEffect(() => {
         if (thisState.category) {
             defaultVariables.filter = [
-                { field: "status", operator: CondOperator.IN, value: "following,finished" },
+                { field: "status", operator: CondOperator.IN, value: "checked,finished" },
                 { field: "category", operator: CondOperator.EQUALS, value: thisState.category }
             ];
         } else {
-            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "following,finished" }];
+            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }];
         }
         defaultVariables.sort = [];
         if (thisState.amount % 3 !== 0) {
