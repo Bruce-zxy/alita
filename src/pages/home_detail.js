@@ -104,7 +104,7 @@ export default withApollo((props) => {
                                     dots={false}
                                 >
                                     <a className="hdz-swiper-link" key={project.id}>
-                                        <img className="hdz-swiper-image" src={project.cover} />
+                                        <img className="hdz-swiper-image" src={project.cover} alt="cover" />
                                     </a>
                                 </Carousel>
                                 <p className="hadz-swiper-title">
@@ -183,7 +183,7 @@ export default withApollo((props) => {
                                         <img src={project.creator.avatar} alt='AVATAR' />
                                         <div className="menber-detail">
                                             <p>{project.creator.hideName}</p>
-                                            <p>所在公司：{project.creator.hideCompany}</p>
+                                            <p>所在公司：{project.creator.hideCompany || '未知'}</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -198,15 +198,22 @@ export default withApollo((props) => {
                                 
                             </DetailPanel>
                             
-                            {project.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                currUser && currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
-                                    <div className="apply-to" onClick={toApply(project)}>立即投递</div>
-                                ) : (
-                                    <div className="apply-to finished">您已投递</div>
-                                )
-                            ) : (
-                                <div className="apply-to finished">已结束</div>
-                            )}
+
+                            {(() => {
+                                if (currUser && currUser.projects.findIndex(pro => pro.id.toString() === project.id.toString()) === -1) {
+                                    return project.status === PROJECT_STATUS_ENUM.CHECKED ? (
+                                        currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
+                                            <div className="apply-to" onClick={toApply(project)}>立即投递</div>
+                                        ) : (
+                                            <div className="apply-to finished">您已投递</div>
+                                        )
+                                    ) : (
+                                        <div className="apply-to finished">已结束</div>
+                                    )
+                                } else {
+                                    return '';
+                                }
+                            })()}
 
                             <div className="hdz-block-large-space"></div>
                         </div>

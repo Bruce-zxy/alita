@@ -39,10 +39,42 @@ export const Q_FETCH_CURRENT_USER = gql`
       projects {
         id
         title
+        status
+        category
+        cover
+        create_at
+        amount
+        industry {
+          id
+          title
+        }
+        creator {
+          id
+          realname
+          phone
+        }
       }
       capitals {
         id
         title
+        category
+        amount
+        create_at
+        status
+        stage {
+          title
+        }
+        industry {
+          title
+        }
+        type {
+          title
+        }
+        creator {
+          id
+          realname
+          phone
+        }
       }
       apply_products {
         create_at

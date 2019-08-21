@@ -129,6 +129,10 @@
                     @include font($FONT_SIZE_16, $WHITE);
                     @include display-flex();
 
+                    &:not(:last-child) {
+                        border-right: 1px solid $WHITE;
+                    }
+
                     &::-webkit-input-placeholder {
                         @include font($FONT_SIZE_16, $GRAY_EEE);
                     }
@@ -136,11 +140,11 @@
 
                 span {
                     width: 26.4vw;
-                    height: 5.6vw;
+                    height: 100%;
                     line-height: 5.6vw;
                     padding-left: $SIZE_10;
-                    border-left: 1px solid $WHITE;
                     text-align: right;
+                    overflow: hidden;
                     @include display-flex();
                     @include font($FONT_SIZE_16, $WHITE);
                 }
@@ -220,6 +224,25 @@
             }
 
             &:nth-child(3) {
+                @include display-flex(row, flex-start);
+                border-bottom: 1px solid $GRAY_EEE;
+
+                i {
+                    margin-right: 3vw;
+                    @include font($FONT_SIZE_18, $GRAY_999);
+                }
+
+                input {
+                    flex: auto;
+
+                    &::-webkit-input-placeholder {
+                        @include font($FONT_SIZE_16, $GRAY_999);
+                    }
+                }
+            }
+
+
+            &.signin-button {
                 background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
                 border-radius: 4px;
                 margin: 6.4vw 0 3.2vw;
@@ -227,7 +250,7 @@
                 @include font($FONT_SIZE_18, $WHITE);
             }
 
-            &:nth-child(4) {
+            &.signin-function {
                 @include display-flex(row, space-between);
 
                 a {
@@ -260,6 +283,7 @@
                 margin: 5vw 0 2vw;
                 @include font($FONT_SIZE_18, $TAB_BOTTOM_COLOR, bold);
             }
+
             span {
                 @include font($FONT_SIZE_14, $GRAY_999);
             }

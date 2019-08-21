@@ -89,6 +89,15 @@ module.exports = {
         CANCELLED: 'cancelled',
         FINISHED: 'finished',
     },
+    PROJECT_STATUS_ENUM_CN: {
+        pending: "审核中",
+        rejected: "未通过",
+        checked: "已通过",
+        waiting: "待分配",
+        following: "跟进中",
+        cancelled: "已取消",
+        finished: "已结束",
+    },
     USER_STATUS_ENUM: {
         NORMAL: 0,
         PENDING: 1,

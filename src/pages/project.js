@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import React, { Fragment, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, PullToRefresh } from 'antd-mobile';
-import { Query } from "react-apollo";
+import { Modal } from 'antd-mobile';
 import { withApollo } from 'react-apollo';
 import { CondOperator } from '@nestjsx/crud-request';
 import { ActivityIndicator } from 'antd-mobile';
