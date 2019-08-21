@@ -1,5 +1,6 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import { isArray, isEmpty } from 'lodash';
+import { Q_FETCH_CURRENT_USER } from '../gql';
 
 export const getTreeData = (data, root) =>
   data.map(item => {
@@ -82,3 +83,21 @@ export const UserStatusMaps = {
   3: '已审核',
   4: '已作废',
 };
+
+
+export const toFetchCurrentUser = async (client) => {
+  const defaultVariables = {
+    join: [{ field: 'apply_capitals' }, { field: 'apply_products' }, { field: 'apply_projects' }, { field: 'apply_providers' }],
+  };
+  const result = await client.query({
+    query: Q_FETCH_CURRENT_USER,
+    fetchPolicy: "no-cache",
+    variables: { queryString: buildingQuery(defaultVariables) }
+  });
+  if (result && result.data && result.data.me) {
+    localStorage.setItem('u_user', JSON.stringify(result.data.me));
+    return result.data.me;
+  } else {
+    return null;
+  }
+}

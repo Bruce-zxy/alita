@@ -131,6 +131,18 @@
             }
         }
     }
+
+    .to-logout {
+        width: 95vw;
+        height: $SIZE_10 * 4;
+        color: $WHITE;
+        background: #FE691C;
+        border-radius: 4px;
+        margin: 2vw auto 0;
+        font-size: $FONT_SIZE_16;
+
+        @include display-flex();
+    }
 }
 
 .hdz-financial-service {

@@ -5,8 +5,15 @@ import { withApollo } from 'react-apollo';
 import { gql } from "apollo-boost";
 
 import { LOCAL_URL, DEFAULT_USERNAME, DEFAULT_PASSWORD } from '../config/common';
-import { M_LOGIN, Q_FETCH_CURRENT_USER } from '../gql';
+import { buildingQuery, toFetchCurrentUser } from '../utils/global';
+import { M_LOGIN } from '../gql';
 import "../style/sign.scss";
+
+const defaultVariables = {
+    page: 0,
+    limit: 10,
+    join: [{ field: 'apply_capitals' }, { field: 'apply_products' }, { field: 'apply_projects' }, { field: 'apply_providers' }],
+};
 
 const StepShow = ({ index }) => {
     return (
@@ -149,6 +156,12 @@ const ForgotFirstStep = (props) => {
 
 const Login = (props) => {
 
+    const { client, history } = props;
+    const token = localStorage.getItem('u_token');
+    if (token) {
+        history.push(LOCAL_URL['MINE']);
+    }
+
     const DEFAULT_USER = global.C4(DEFAULT_USERNAME);
     const DEFAULT_PASS = global.C4(DEFAULT_PASSWORD);
 
@@ -163,9 +176,7 @@ const Login = (props) => {
     }
 
     const toLogin = async () => {
-        const { client, history } = props;
         const { account, password } = thisState;
-
         global.TNT(thisState, props);
 
         if (account && password) {
@@ -175,15 +186,12 @@ const Login = (props) => {
             });
             if (data && data.login && data.login.token) {
                 localStorage.setItem('u_token', data.login.token);
-                let result = await client.query({
-                    query: Q_FETCH_CURRENT_USER
-                });
-                if (result && result.data && result.data.me) {
-                    localStorage.setItem('u_user', JSON.stringify(result.data.me));
-                    Toast.success('登录成功！页面将在3秒后跳转', 3);
-                    setTimeout(() => {
-                        history.push(LOCAL_URL['MINE']);
-                    }, 3000);
+                const user = await toFetchCurrentUser(client);
+                if (user) {
+                    Toast.success('登录成功！', 1);
+                    history.push(LOCAL_URL['MINE']);
+                } else {
+                    Toast.success('登录失败！请联系管理员！');
                 }
             }
         } else {

@@ -103,6 +103,8 @@ const PublishProject = (props) => {
 
     /* 【Part 3】 ↓ */
     const onFileChange = (files, type, index) => {
+        console.log(files);
+        
         if (files.length < thisFiles.length) {
             Modal.alert('移除图片', "是否确认要移除此张图片？", [
                 { text: '取消', onPress: () => global.TNT('用户已取消！') },
@@ -113,6 +115,7 @@ const PublishProject = (props) => {
                 Toast.fail(`当前图片大小【${(files[0].file.size / 1024 / 1024).toString().slice(0, 5)}MB】，请上传小于【2M】的图片！`);
             } else {
                 setFile(files);
+                
                 sessionStorage.set(`file_${type}`, new Buffer())
             }
         }
@@ -149,7 +152,7 @@ const PublishProject = (props) => {
                                 length={1}
                                 files={thisFiles}
                                 onChange={onFileChange}
-                                onFail={msg => Toast.fail(msg)}
+                                onFail={msg => Toast.fail(msg.message) || global.TNT(msg.message)}
                                 selectable={!thisFiles.length}
                             />
                             <p>图片大小不超过2M</p>
@@ -167,7 +170,8 @@ const PublishProject = (props) => {
                                 length={2}
                                 files={thisFiles}
                                 onChange={onFileChange}
-                                onFail={msg => Toast.fail(msg)}
+                                onFail={msg => Toast.fail(msg.message) || global.TNT(msg.message)}
+                                // onImageClick={(index, img) => console.log(img)}
                                 selectable={thisFiles.length < 2}
                             />
                             <p>图片大小不超过2M</p>

@@ -78,7 +78,7 @@ export default (props) => {
                     </p>
                 </div>
                 <div className="to-signup" onClick={toSubmitRegisterInfo}>注册</div>
-                <Link to="/" className="back-to-home"><i className="iconfont iconzuobain"></i>前往首页</Link>
+                <Link to={LOCAL_URL['HOME']} className="back-to-home"><i className="iconfont iconzuobain"></i>前往首页</Link>
             </div>
         </div>
     )

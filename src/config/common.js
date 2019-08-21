@@ -45,12 +45,13 @@ module.exports = {
     "LOCAL_URL_SHOW": ['home', 'project', 'service', 'news', 'mine'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
-    "API_ROOT": "http://47.99.183.3:3000/api",
+    "API_ROOT": "http://localhost:3000/api",
     "API_URL": {
         "UPLOAD": {
             "BACKEND_STORAGE": ""
         }
     },
+    "APOLLO_ROOT": "http://localhost:3000/graphql",
 
     DEFAULT_AVATAR: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561547251987&di=e63f4f0adfe4ffffa7ed7fa8c0fc9580&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa12f24e688c1cda3ff4cc453f3486a88adaf08cc2cdb-tQvJqX_fw658',
     IDENTITY_MAPS: {
@@ -74,6 +75,10 @@ module.exports = {
     IF_MODE_ENUM: {
         EQUITY: '股权融资',
         CLAIM: '债权融资',
+    },
+    IFT_MODE_ENUM: {
+        EQUITY: '股权投资',
+        CLAIM: '债权投资',
     },
     PROJECT_STATUS_ENUM: {
         PENDING: 'pending',

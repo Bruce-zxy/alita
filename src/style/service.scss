@@ -38,79 +38,77 @@
             }
         }
 
-        .hdz-pull-refresh {
+        .service-list {
             width: 100%;
             height: 100%;
             overflow: auto;
             transition: all .25s ease-in-out;
 
 
-            .service-list {
-                .service-item {
+            .service-item {
+                width: 100%;
+                height: 24.53vw;
+                padding: $SIZE_10;
+                background: $WHITE;
+                margin-bottom: 1px;
+                @include display-flex(row, space-between);
+
+                >img {
+                    width: 32vw;
+                    height: 16vw;
+                    border-radius: 4px;
+                    border: 1px solid $GRAY_EEE;
+                    margin-right: $SIZE_10;
+                }
+
+                .service-info {
                     width: 100%;
-                    height: 24.53vw;
-                    padding: $SIZE_10;
-                    background: $WHITE;
-                    margin-bottom: 1px;
-                    @include display-flex(row, space-between);
+                    height: 16vw;
+                    overflow: hidden;
+                    -ms-flex-positive: 1;
+                    flex-grow: 1;
 
-                    >img {
-                        width: 32vw;
-                        height: 16vw;
-                        border-radius: 4px;
-                        border: 1px solid $GRAY_EEE;
-                        margin-right: $SIZE_10;
-                    }
-
-                    .service-info {
+                    p {
                         width: 100%;
-                        height: 16vw;
+                        height: 5.33vw;
+                        line-height: 5.33vw;
                         overflow: hidden;
-                        -ms-flex-positive: 1;
-                        flex-grow: 1;
+                        position: relative;
 
-                        p {
-                            width: 100%;
-                            height: 5.33vw;
-                            line-height: 5.33vw;
-                            overflow: hidden;
-                            position: relative;
+                        &:nth-child(1) {
+                            font-size: $FONT_SIZE_14;
+                            font-weight: bold;
+                            color: $GRAY_333;
+                        }
 
-                            &:nth-child(1) {
-                                font-size: $FONT_SIZE_14;
-                                font-weight: bold;
-                                color: $GRAY_333;
-                            }
+                        &:nth-child(2) {
+                            font-size: $FONT_SIZE_12;
+                            color: $GRAY_555;
+                        }
 
-                            &:nth-child(2) {
+                        &:nth-child(3) {
+                            padding-right: 20vw;
+
+                            .service-tags {
+                                height: 4.8vw;
                                 font-size: $FONT_SIZE_12;
-                                color: $GRAY_555;
+                                color: $TAG_2_COLOR;
+                                transform-origin: 0% 50%;
+                                transform: scale(.83);
+                                border: 1px solid $TAG_2_BORDER_COLOR;
+                                border-radius: 2.4vw;
+                                padding: 1vw 2vw;
+                                @include display-flex(row, center, center, inline-flex);
                             }
 
-                            &:nth-child(3) {
-                                padding-right: 20vw;
-
-                                .service-tags {
-                                    height: 4.8vw;
-                                    font-size: $FONT_SIZE_12;
-                                    color: $TAG_2_COLOR;
-                                    transform-origin: 0% 50%;
-                                    transform: scale(.83);
-                                    border: 1px solid $TAG_2_BORDER_COLOR;
-                                    border-radius: 2.4vw;
-                                    padding: 1vw 2vw;
-                                    @include display-flex(row, center, center, inline-flex);
-                                }
-
-                                .service-location {
-                                    position: absolute;
-                                    right: 0;
-                                    top: 0;
-                                    height: 100%;
-                                    font-size: $FONT_SIZE_12;
-                                    color: $GRAY_999;
-                                    @include display-flex();
-                                }
+                            .service-location {
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                height: 100%;
+                                font-size: $FONT_SIZE_12;
+                                color: $GRAY_999;
+                                @include display-flex();
                             }
                         }
                     }
@@ -211,6 +209,10 @@
         margin: 2.4vw auto 4.53vw;
         font-size: $FONT_SIZE_18;
         font-weight: bold;
-        @include display-flex()
+
+        @include display-flex();
+        &.finished {
+            background: #E1E1E1;
+        }
     }
 }

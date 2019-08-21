@@ -14,17 +14,17 @@
     }
 
     .project-looking-funds {
-        height: calc(100vh - 50px);
-        padding: 11.73vw 0 0 0;
+        height: calc(100vh - 94px);
+        // padding: 11.73vw 0 0 0;
+        padding: 0;
         background: transparent;
-        overflow: auto;
+        overflow: hidden;
 
 
 
         .looking-funds {
             width: 100%;
-            height: calc(100vh - 11.73vw*2 - 50px);
-            padding-top: 5px;
+            height: calc(100vh - 11.73vw - 50px);
             overflow: auto;
 
             .lvyoto-filter-bar {
@@ -33,7 +33,8 @@
                 height: 11.73vw;
                 background: $WHITE;
                 box-shadow: 0 0 2px rgba(0, 0, 0, .2);
-                @include position(fixed, 5px);
+                margin-top: 5px;
+                // @include position(fixed, 5px);
                 @include display-flex(row, space-between);
 
                 >div {
@@ -54,78 +55,81 @@
                 }
             }
 
-            .hdz-pull-refresh {
+            .financing-project-list {
                 width: 100%;
-                height: 100%;
+                height: calc(100% - 11.73vw - 6px);
+                margin-top: 1px;
                 overflow: auto;
                 transition: all .25s ease-in-out;
 
-                .financing-project-list {
+
+                .financing-project {
                     width: 100%;
-                    height: auto;
+                    padding: $SIZE_10 $SIZE_10*1.4 $SIZE_10 $SIZE_10;
+                    background: #FFF;
+                    margin: 1px 0 1.6vw;
+                    @include display-flex(column, flex-start, flex-start);
 
-                    .financing-project {
+                    .project-name {
                         width: 100%;
-                        padding: $SIZE_10 $SIZE_10*1.4 $SIZE_10 $SIZE_10;
-                        background: #FFF;
-                        margin: 1px 0 1.6vw;
-                        @include display-flex(column, flex-start, flex-start);
+                        height: auto;
+                        min-height: $SIZE_20;
+                        font-size: $FONT_SIZE_14;
+                        font-weight: bold;
+                        color: $GRAY_333;
+                        line-height: $SIZE_20;
+                        margin-bottom: $SIZE_5;
+                        overflow: hidden;
+                    }
 
-                        .project-name {
-                            width: 100%;
-                            height: auto;
-                            min-height: $SIZE_20;
-                            font-size: $FONT_SIZE_14;
-                            font-weight: bold;
-                            color: $GRAY_333;
-                            line-height: $SIZE_20;
-                            margin-bottom: $SIZE_5;
+                    .project-tags {
+                        height: $SIZE_20;
+                        margin-bottom: .5vw;
+                        overflow: hidden;
+
+                        >span {
+                            border-radius: 3.6vw;
+                            height: 4.8vw;
+                            font-size: $FONT_SIZE_12;
+                            padding: 2.4vw;
+                            transform-origin: 0% 0%;
+                            transform: scale(.83);
                             overflow: hidden;
-                        }
+                            margin: 0 0 1vw 0;
+                            @include display-flex(row, center, center, inline-flex);
 
-                        .project-tags {
-                            height: $SIZE_20;
-                            margin-bottom: .5vw;
-                            overflow: hidden;
+                            &.financing {
+                                border: 1px solid $TAG_1_BORDER_COLOR;
+                                color: $TAG_1_COLOR;
+                            }
 
-                            >span {
-                                border-radius: 3.6vw;
-                                height: 4.8vw;
-                                font-size: $FONT_SIZE_12;
-                                padding: 2.4vw;
-                                transform-origin: 0% 0%;
-                                transform: scale(.83);
-                                overflow: hidden;
-                                margin: 0 0 1vw 0;
-                                @include display-flex(row, center, center, inline-flex);
-
-                                &.financing {
-                                    border: 1px solid $TAG_1_BORDER_COLOR;
-                                    color: $TAG_1_COLOR;
-                                }
-
-                                &.industry {
-                                    border: 1px solid $TAG_2_BORDER_COLOR;
-                                    color: $TAG_2_COLOR;
-                                }
+                            &.industry {
+                                border: 1px solid $TAG_2_BORDER_COLOR;
+                                color: $TAG_2_COLOR;
                             }
                         }
+                    }
 
-                        .project-intro {
-                            >div {
-                                text-align: center;
+                    .project-intro {
+                        >div {
+                            text-align: center;
 
-                                &:nth-child(1) {
-                                    width: 35%
+                            &:nth-child(1) {
+                                width: 35%;
+
+                                >p {
+                                    &:nth-child(1) {
+                                        color: $PRICE_COLOR;
+                                    }
                                 }
+                            }
 
-                                &:nth-child(2) {
-                                    width: 25%
-                                }
+                            &:nth-child(2) {
+                                width: 25%
+                            }
 
-                                &:nth-child(3) {
-                                    width: 40%
-                                }
+                            &:nth-child(3) {
+                                width: 40%
                             }
                         }
                     }
@@ -134,16 +138,11 @@
         }
     }
 
-
-
-
-
-
     .project-jl-financial {
         height: calc(100vh - 50px);
         padding: 11.73vw 0 0 0;
         background: transparent;
-        overflow: auto;
+        overflow: hidden;
 
         .jl-financial {
             position: relative;
@@ -158,7 +157,7 @@
                 @include display-flex(row, space-between);
 
                 >div {
-                    width: 33%;
+                    width: 50%;
                     height: 100%;
                     color: $GRAY_999;
                     font-size: $FONT_SIZE_14;
@@ -207,6 +206,7 @@
     .finnacial-item-left {
         >p {
             overflow: hidden;
+
             &:nth-child(1) {
                 font-size: $FONT_SIZE_24;
                 letter-spacing: 2px;

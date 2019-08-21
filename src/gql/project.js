@@ -17,6 +17,10 @@ export const F_PROJECT_FIELDS = gql`
     publish_at
     amount
     progress
+    team_info
+    advantage
+    purposes
+    info
     stage {
       id
       title
@@ -59,7 +63,9 @@ export const F_PROJECT_FIELDS = gql`
     }
     creator {
       id
-      realname
+      hideName
+      hideCompany
+      avatar
     }
   }
 `;

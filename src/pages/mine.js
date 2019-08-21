@@ -1,20 +1,37 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import { withApollo } from "react-apollo";
 
+import { toFetchCurrentUser } from '../utils/global';
 import { LOCAL_URL, DEFAULT_AVATAR, IDENTITY_MAPS } from '../config/common';
 import "../style/mine.scss";
 
-export default (props) => {
+export default withApollo((props) => {
 
-    let user = null;
+    const token = localStorage.getItem('u_token');
+    const [user, updateUser] = useState({});
 
-    try {
-        user = JSON.parse(localStorage.getItem('u_user'));
-    } catch (error) {
-        global.TNT(localStorage.getItem('u_user'));
+    const toLogout = () => {
+        localStorage.clear();
+        window.location.reload();        
     }
 
-    if (user) {
+    useEffect(() => {
+        try {
+            updateUser(JSON.parse(localStorage.getItem('u_user')));
+        } catch (error) {
+            global.TNT(error);
+        }
+        if (token) {
+            toFetchCurrentUser(props.client).then((user) => {
+                if (user) {
+                    updateUser(user);
+                }
+            })
+        }
+    }, [])
+
+    if (token) {
         const { id, account, avatar, realname, vip, phone, idcard, address, company, identity, profile, status } = user;
         return (
             <div className="hdz-lvyoto-mine">
@@ -34,7 +51,7 @@ export default (props) => {
                     </div>
                 </div>
 
-                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">升级VIP</Link>
+                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{vip ? "查看资料" : "升级VIP"}</Link>
 
                 <div className="mine-function">
                     <Link to={`${LOCAL_URL['MINE_FINANCIAL']}`} className="mine-function-item">
@@ -62,11 +79,13 @@ export default (props) => {
                         <span>资金管理</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>}
-                    {IDENTITY_MAPS[identity] === '服务商' || <Link to={`${LOCAL_URL['MINE_PROVIDER']}`} className="mine-function-item">
+                    {/* IDENTITY_MAPS[identity] === '服务商' || <Link to={`${LOCAL_URL['MINE_PROVIDER']}`} className="mine-function-item">
                         <i className="iconfont iconproject-o icon"></i>
                         <span>服务商管理</span>
                         <i className="iconfont iconyoubian"></i>
-                    </Link>}
+                    </Link> */}
+
+                    <div className="to-logout" onClick={toLogout}>退出登录</div>
                 </div>
 
             </div>
@@ -75,7 +94,7 @@ export default (props) => {
         return <Redirect to={{
             pathname: LOCAL_URL["SIGNIN"],
             search: props.location.search,
-            state: { referrer: props.location, message: "自动登录失败，请重新登录！" }
+            state: { referrer: props.location }
         }} />
     }
-};
+});

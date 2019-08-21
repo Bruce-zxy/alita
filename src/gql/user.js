@@ -22,6 +22,22 @@ export const F_USER_FIELDS = gql`
     org {
       ...OrgFields
     }
+    apply_products {
+      id
+      name
+    }
+    apply_projects {
+      id
+      title
+    }
+    apply_capitals {
+      id
+      title
+    }
+    apply_providers {
+      id
+      name
+    }
   }
 `;
 
