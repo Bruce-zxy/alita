@@ -15,6 +15,7 @@ import '../style/home.scss';
 const defaultVariables = {
     page: 0,
     limit: 10,
+    join: [{field: "area"}],
     filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }],
     sort: [{ field: 'create_at', order: 'DESC' }],
 };
@@ -117,6 +118,8 @@ export default withApollo((props) => {
             }
         }
     }
+
+    global.TNT(thisState.data);
 
     return (
         <div className="hdz-home-container">
