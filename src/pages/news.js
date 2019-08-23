@@ -82,6 +82,8 @@ const NewsList = withApollo((props) => {
         }
     }
 
+    global.TNT(thisState.data);
+
     return (
 
         <div className="news-list">

@@ -153,7 +153,7 @@ export default withApollo((props) => {
                                 </p>
                             </div>
                             <div className="hdz-block-small-space"></div>
-                            <DetailPanel title="可提供资料">
+                            <DetailPanel title="需提供资料">
                                 <div className="project-information">
                                     {project.data && project.data.length ? (
                                         project.data.map((item, k) => (
@@ -163,7 +163,7 @@ export default withApollo((props) => {
                                             </div>
                                         ))
                                     ) : (
-                                        <div>暂无可提供的资料</div>
+                                        <div>暂不需提供资料</div>
                                     )}
                                 </div>
                             </DetailPanel>

@@ -10,6 +10,12 @@ export default withApollo((props) => {
 
     const token = localStorage.getItem('u_token');
     const [user, updateUser] = useState({});
+    const user_status = [
+        '点击下方按钮可升级成为VIP',
+        '您的升级申请正在审核中，请耐心等待',
+        '您的升级申请已经被拒绝，可重新申请',
+        '您的升级申请已通过，点击可查看资料'
+    ]
 
     const toLogout = () => {
         localStorage.clear();
@@ -51,7 +57,12 @@ export default withApollo((props) => {
                     </div>
                 </div>
 
-                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{vip ? "查看资料" : "升级VIP"}</Link>
+                <p className="mine-status">{user_status[status]}</p>
+                {status === 1 ? (
+                    <a href="javascript:;" className="upgrade-vip pedding">{vip === 0 ? "升级VIP" : "查看资料"}</a>
+                ) : (
+                    <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{vip === 0 ? "升级VIP" : "查看资料"}</Link>
+                )}
 
                 <div className="mine-function">
                     <Link to={`${LOCAL_URL['MINE_FINANCIAL']}`} className="mine-function-item">

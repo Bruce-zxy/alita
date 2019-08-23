@@ -120,6 +120,7 @@ export default withApollo((props) => {
         }
     }
 
+    global.TNT(thisState.data)
 
     return (
         <div className="hdz-service-container">

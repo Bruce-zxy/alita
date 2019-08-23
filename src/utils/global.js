@@ -1,6 +1,7 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import { isArray, isEmpty } from 'lodash';
-import { Q_FETCH_CURRENT_USER } from '../gql';
+import { Q_FETCH_CURRENT_USER, Q_GET_METADATA_TREES, Q_GET_PROVIDER_CATEGORY_TREES } from '../gql';
+import client from '../config/apollo-client';
 
 export const getTreeData = (data, root) =>
   data.map(item => {
@@ -100,6 +101,14 @@ export const Fetch = (url, body) => {
   return fetch(url, option)
 }
 
+export const Upload = (url, formData) => fetch(url, {
+  method: "POST",
+  headers: new Headers({
+    'authorization': `Bearer ${localStorage.getItem('u_token')}`
+  }),
+  body: formData
+})
+
 export const toFetchCurrentUser = async (client) => {
   const result = await client.query({
     query: Q_FETCH_CURRENT_USER,
@@ -111,4 +120,80 @@ export const toFetchCurrentUser = async (client) => {
   } else {
     return null;
   }
+}
+
+
+
+export const toTransformAreaTreeProps = (data, map) => data.map(node => {
+  let node_object = {
+    label: node[map.key || 'key'],
+    value: node[map.value || 'value']
+  }
+  if (node.children) {
+    node_object[map.children || 'children'] = toTransformAreaTreeProps(node.children, map);
+  }
+  return node_object;
+});
+
+export const toGetLevel = (data) => {
+  let max = 0
+  function each(data, level) {
+    data.forEach(e => {
+      if (level > max) {
+        max = level
+      }
+      if (e.children.length > 0) {
+        each(e.children, level + 1)
+      }
+    })
+  }
+  each(data, 1)
+  return max;
+}
+
+export const initMetadata = () => {
+  if (!sessionStorage.getItem('metadata')) {
+    const defaultVariables = {
+      page: 0,
+      limit: 1000,
+      join: [{ field: 'category' }],
+      sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
+    };
+
+    client.mutate({
+      mutation: Q_GET_METADATA_TREES,
+      variables: {
+        queryString: buildingQuery(defaultVariables)
+      },
+      update: (proxy, { data }) => {
+        if (data && data.metadataTrees) {
+          sessionStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
+        }
+      }
+    });
+  }
+  if (!sessionStorage.getItem('provider_metadata')) {
+    client.mutate({
+      mutation: Q_GET_PROVIDER_CATEGORY_TREES,
+      update: (proxy, { data }) => {
+        if (data && data.providerCategoryTrees) {
+          sessionStorage.setItem('provider_metadata', JSON.stringify(data.providerCategoryTrees));
+        }
+      }
+    });
+  }
+}
+
+export const dataURLtoBlob = (dataurl) => {
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {
+    type: mime
+  });
 }

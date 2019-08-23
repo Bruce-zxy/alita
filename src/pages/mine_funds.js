@@ -28,11 +28,11 @@ const FundsList = (props) => {
                                 <p>投资金额</p>
                             </div>
                             <div>
-                                <p>{item.period}</p>
+                                <p>{item.stage.length ? item.stage.map(item => item.title).join('，') : '未知'}</p>
                                 <p>投资阶段</p>
                             </div>
                             <div>
-                                <p>{item.category}</p>
+                                <p>{item.type.length ? item.type.map(item => item.title).join('，') : '未知'}</p>
                                 <p>资金类型</p>
                             </div>
                         </div>

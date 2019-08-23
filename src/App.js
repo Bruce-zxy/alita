@@ -11,10 +11,9 @@ import 'moment/locale/zh-cn';
 import ErrorBoundary from './components/Error';
 // import NoMatch from './components/NoMatch';
 import Loader from './components/Loader';
-import { Q_GET_METADATA_TREES } from './gql';
-import { buildingQuery } from './utils/global';
 
 import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
+import { initMetadata } from './utils/global';
 import client from './config/apollo-client';
 
 initReactFastclick();
@@ -38,14 +37,12 @@ const MineService = loadable(() => import('./pages/mine_service'), { fallback: <
 const MineCard = loadable(() => import('./pages/mine_card'), { fallback: <Loader /> });
 const MineProject = loadable(() => import('./pages/mine_project'), { fallback: <Loader /> });
 const MineFunds = loadable(() => import('./pages/mine_funds'), { fallback: <Loader /> });
-// const MineProvider = loadable(() => import('./pages/mine_provider'), { fallback: <Loader /> });
 
 const Signup = loadable(() => import('./pages/signup'), { fallback: <Loader /> });
 const Signin = loadable(() => import('./pages/signin'), { fallback: <Loader /> });
 
 const PublishProject = loadable(() => import('./pages/publish_project'), { fallback: <Loader /> });
 const PublishFunds = loadable(() => import('./pages/publish_funds'), { fallback: <Loader /> });
-const PublishService = loadable(() => import('./pages/publish_service'), { fallback: <Loader /> });
 const PublishMember = loadable(() => import('./pages/publish_member'), { fallback: <Loader /> });
 
 const NORMAL_COLOR = "#555555";
@@ -85,7 +82,6 @@ const AdditionalRouteConfig = () => (
     <Route path={`${LOCAL_URL['SIGNIN']}`} component={(props) => <Signin {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_PROJECT']}`} component={(props) => <PublishProject {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_FUNDS']}`} component={(props) => <PublishFunds {...props} />} exact />
-    <Route path={`${LOCAL_URL['PUBLISH_SERVICE']}`} component={(props) => <PublishService {...props} />} exact />
     <Route path={`${LOCAL_URL['PUBLISH_MEMBER']}`} component={(props) => <PublishMember {...props} />} exact />
   </Switch>
 )
@@ -137,8 +133,6 @@ const MainRouteConfig = {
           <Route path={`${LOCAL_URL['MINE_CARD']}`} component={(props) => <MineCard {...props} />} exact />
           <Route path={`${LOCAL_URL['MINE_PROJECT']}`} component={(props) => <MineProject {...props} />} exact />
           <Route path={`${LOCAL_URL['MINE_FUNDS']}`} component={(props) => <MineFunds {...props} />} exact />
-          {/* <Route path={`${LOCAL_URL['MINE_PROVIDER']}`} component={(props) => <MineProvider {...props} />} exact /> */}
-          
         </Switch>
       )
     }
@@ -156,27 +150,7 @@ const AppRoute = (props) => {
     props.history.push(LOCAL_URL[gTabBar[tab_key_index].page]);
   }
 
-  if (!sessionStorage.getItem('metadata')) {
-    const defaultVariables = {
-      page: 0,
-      limit: 1000,
-      join: [{ field: 'category' }],
-      sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
-    };
-    
-    
-    client.mutate({
-      mutation: Q_GET_METADATA_TREES,
-      variables: {
-        queryString: buildingQuery(defaultVariables)
-      },
-      update: (proxy, { data }) => {
-        if (data && data.metadataTrees) {
-          sessionStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
-        }
-      }
-    });
-  }
+  initMetadata();
 
   useEffect(() => {
     const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[3]);
