@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { List } from 'antd-mobile';
+import { List, Toast } from 'antd-mobile';
 import { Tag } from 'antd';
 import 'antd/es/tag/style/css';
 
@@ -8,8 +8,9 @@ const MyTag = (props) => {
     const [tagState, setTagState] = useState(value && value.includes(children));
 
     const handleChange = checked => {
-        setTagState(checked);
-        onChange(children, checked);
+        if (onChange(children, checked)) {
+            setTagState(checked);
+        };
     };
     return (
         <Tag.CheckableTag {...props} checked={tagState} onChange={handleChange}>{children}</Tag.CheckableTag>
@@ -17,10 +18,14 @@ const MyTag = (props) => {
 }
 
 export default (props) => {
-    const { className, title, data, value, onChange } = props;
+    const { className, title, data, value, onChange, limit } = props;
     const [tagsState, setTagsState] = useState([]);
 
     const onTagChange = (name, checked) => {
+        if (limit && tagsState.length >= limit * 1 && checked) {
+            Toast.info(`最多只能选择${limit}个选项！`);
+            return false
+        }
         let val = [];
         if (checked && !tagsState.includes(name)) {
             val = [].concat(tagsState, [name]);
@@ -30,6 +35,7 @@ export default (props) => {
         }
         setTagsState(val);
         onChange(val);
+        return true;
     }
 
     return (

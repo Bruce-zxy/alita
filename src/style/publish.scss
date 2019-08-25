@@ -14,7 +14,7 @@
 
         .am-list-line {
             .am-list-content {
-                flex: 1;
+                flex: initial;
             }
 
             .am-list-extra {
@@ -132,7 +132,7 @@
 
 .publish-image-modal {
     .am-modal-body {
-        display:flex;
+        display: flex;
         justify-content: center;
         align-items: center;
     }

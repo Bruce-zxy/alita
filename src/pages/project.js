@@ -163,8 +163,8 @@ const LookingFunds = withApollo((props) => {
                                     <p>投资金额</p>
                                 </div>
                                 <div>
-                                    <p>{item.stage && item.stage.length ? item.stage.map(stage => stage.title).join(',') : '未知'}</p>
-                                    <p>投资阶段</p>
+                                    <p>{item.area ? item.area.title : '未知'}</p>
+                                    <p>所在地区</p>
                                 </div>
                                 <div>
                                     <p>{item.type && item.type.length ? item.type.map(type => type.title).join(',') : '未知'}</p>
@@ -332,7 +332,7 @@ export default (props) => {
 
     return (
         <div className="hdz-lvyoto-project" id="project">
-            <TabPanel data={data} current={data[params.index] ? data[params.index].title : data[0].title} activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => history.push(`${location.pathname}?index=${to}`)} />
+            <TabPanel data={data} current={data[params.index] ? data[params.index].title : data[0].title} activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(props) || window.history.pushState({}, '', `${location.pathname}?index=${to}`)} />
         </div>
     )
 };

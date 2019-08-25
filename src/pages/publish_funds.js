@@ -266,13 +266,13 @@ const PublishFunds = withApollo((props) => {
                 />
                 <p className="title-remind">参考格式：寻+（省级）投资地区+（行业）项目+合作方式+（市级）资金所在地+资金主体+金额</p>
 
-                <TagsView {...getFieldProps(FIELD_2)} className="tags-view" title="行业类型" data={industry_set.map(item => item.value)} />
+                <TagsView {...getFieldProps(FIELD_2)} className="tags-view" title="行业类型" data={industry_set.map(item => item.value)} limit={3}/>
                 <InputItem {...getFieldProps(FIELD_3)} {...FIELD_3_PROPS} >投资金额</InputItem>
-                <TagsView {...getFieldProps(FIELD_4)} className="tags-view" title="资金类型" data={type_set.map(item => item.value)} />
+                <TagsView {...getFieldProps(FIELD_4)} className="tags-view" title="资金类型" data={type_set.map(item => item.value)} limit={3}/>
                 <Picker {...getFieldProps(FIELD_5)} {...FIELD_5_PROPS} >
                     <List.Item arrow="horizontal">所在地区</List.Item>
                 </Picker>
-                <TagsView {...getFieldProps(FIELD_6)} className="tags-view" title="投资地区" data={area_set.map(item => item.value)} />
+                <TagsView {...getFieldProps(FIELD_6)} className="tags-view" title="投资地区" data={area_set.map(item => item.value)} limit={3}/>
 
                <List.Item className="none-input-item">
                     <label>投资方式</label>
@@ -312,7 +312,7 @@ const PublishFunds = withApollo((props) => {
                 )}
 
                 <InputItem {...getFieldProps(FIELD_17)} {...FIELD_17_PROPS} labelNumber={5} >前期费用</InputItem>
-                <TagsView {...getFieldProps(FIELD_18)} className="tags-view" title="可提供资料" data={data_set.map(item => item.value)} />
+                <TagsView {...getFieldProps(FIELD_18)} className="tags-view" title="需提供资料" data={data_set.map(item => item.value)} />
 
                 <List.Item className="none-input-item">
                     <label>资金详情</label>

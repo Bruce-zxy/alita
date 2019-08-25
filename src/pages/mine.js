@@ -80,12 +80,12 @@ export default withApollo((props) => {
                         <span>名片管理</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>
-                    {IDENTITY_MAPS[identity] === '项目方' || <Link to={`${LOCAL_URL['MINE_PROJECT']}`} className="mine-function-item">
+                    {IDENTITY_MAPS[identity] === '项目方' && vip || <Link to={`${LOCAL_URL['MINE_PROJECT']}`} className="mine-function-item">
                         <i className="iconfont iconproject-o icon"></i>
                         <span>项目管理</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>}
-                    {IDENTITY_MAPS[identity] === '资金方' || <Link to={`${LOCAL_URL['MINE_FUNDS']}`} className="mine-function-item">
+                    {IDENTITY_MAPS[identity] === '资金方' && vip || <Link to={`${LOCAL_URL['MINE_FUNDS']}`} className="mine-function-item">
                         <i className="iconfont iconzijin icon"></i>
                         <span>资金管理</span>
                         <i className="iconfont iconyoubian"></i>
