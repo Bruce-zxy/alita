@@ -99,11 +99,11 @@ module.exports = {
         finished: "已结束",
     },
     USER_STATUS_ENUM: {
-        NORMAL: 0,
-        PENDING: 1,
-        REJECT: 2,
-        AUDITED: 3,
-        DELETED: 4,
+        0: 'NORMAL',
+        1: 'PENDING',
+        2: 'REJECT',
+        3: 'CHECKED',
+        4: 'DELETED',
     },
     USER_LEVEL_ENUM: {
         V0: 0,

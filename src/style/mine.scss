@@ -85,6 +85,13 @@
         }
     }
 
+    .mine-status {
+        margin: 3.2vw 0 -1.6vw;
+        font-size: 3.2vw;
+        color: #999;
+        text-align: center;
+    }
+
     .upgrade-vip {
         width: 48vw;
         height: 10.13vw;
@@ -96,6 +103,9 @@
         margin: $SIZE_10*1.6 auto;
         letter-spacing: 1px;
         @include display-flex();
+        &.pedding {
+            background: #CCC;
+        }
     }
 
     .mine-function {

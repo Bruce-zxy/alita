@@ -152,3 +152,21 @@ export const Q_FETCH_CURRENT_USER = gql`
   }
 `;
 
+
+export const M_LEVEL_UP = gql`
+mutation levelUp($data: LevelUpInput!) {
+  levelUp(data: $data)
+}
+`
+
+export const M_PUBLISH_PROJECT = gql`
+mutation publishProject($data: ProjectInput!) {
+  publishProject(data: $data)
+}
+`
+
+export const M_PUBLISH_CAPITAL = gql`
+mutation publishCapital($data: CapitalInput!) {
+  publishCapital(data: $data)
+}
+`

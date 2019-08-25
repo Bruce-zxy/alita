@@ -176,7 +176,7 @@ const FundsDetail = withApollo((props) => {
 
                             <div className="hdz-block-small-space"></div>
 
-                            <DetailPanel title="项目介绍" content={capital.info || "暂无简介"} />
+                            <DetailPanel title="资金详情" content={capital.info || "暂无详情"} />
 
                             <div className="hdz-block-small-space"></div>
 

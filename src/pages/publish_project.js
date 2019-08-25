@@ -1,38 +1,82 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { List, InputItem, TextareaItem, Toast, Modal, ImagePicker, Picker } from 'antd-mobile';
-import { Radio, Tag } from 'antd';
+import React, { Fragment, useRef, useState } from 'react';
+import { List, InputItem, TextareaItem, Toast, Modal, ImagePicker, Picker, Button } from 'antd-mobile';
+import { Radio } from 'antd';
 import { createForm } from 'rc-form';
+import AvatarEditor from 'react-avatar-editor';
+import { withApollo } from 'react-apollo';
 
 import TagsView from '../components/TagsView';
-import { LOCAL_URL } from '../config/common';
+import { M_PUBLISH_PROJECT } from '../gql';
+import { LOCAL_URL, API_ROOT } from '../config/common';
+import { toTransformAreaTreeProps, toGetLevel, dataURLtoBlob, Upload, toFetchCurrentUser } from '../utils/global';
 
 import 'antd/es/radio/style/css';
 import "../style/publish.scss";
 
-const seasons = [
-    [{
-        label: '2013',
-        value: '2013',
-    }, {
-        label: '2014',
-        value: '2014',
-    }], [{
-        label: '春',
-        value: '春',
-    }, {
-        label: '夏',
-        value: '夏',
-    }]
-];
+const PublishProject = withApollo((props) => {
 
-const PublishProject = (props) => {
-
-    const { getFieldProps, getFieldsValue, setFieldsValue, validateFields } = props.form;
+    const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history } = props;
     
+    const [thisImage, toCropImage] = useState(null);
+    const [thisModal, setModal] = useState({});
     const [thisMap, setMap] = useState(new Map());
     const [thisFiles, setFile] = useState([]);
-    const [thisType, setType] = useState(0);
+    const [thisType, setType] = useState('equity');
+    const cropedImage = useRef(null);
+
+    let industry_set = [];
+    let industry_origin_set = [];
+    let area_set = [];
+    let area_origin_set = [];
+    let stage_set = [];
+    let stage_origin_set = [];
+    let ratio_set = [];
+    let ratio_origin_set = [];
+    let withdrawal_year_set = [];
+    let withdrawal_year_origin_set = [];
+    let risk_set = [];
+    let risk_origin_set = [];
+    let interest_set = [];
+    let interest_origin_set = [];
+    let occupancy_time_set = [];
+    let occupancy_time_origin_set = [];
+    let exit_mode_set = [];
+    let exit_mode_origin_set = [];
+    let data_set = [];
+    let data_origin_set = [];
+
+    let metadata = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+
+        industry_origin_set = metadata[metadata.findIndex(data => data.title === '行业')].children;
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        stage_origin_set = metadata[metadata.findIndex(data => data.title === '阶段')].children;
+        ratio_origin_set = metadata[metadata.findIndex(data => data.title === '比例')].children;
+        withdrawal_year_origin_set = metadata[metadata.findIndex(data => data.title === '年限')].children;
+        risk_origin_set = metadata[metadata.findIndex(data => data.title === '风控')].children;
+        interest_origin_set = metadata[metadata.findIndex(data => data.title === '利息')].children;
+        occupancy_time_origin_set = metadata[metadata.findIndex(data => data.title === '时长')].children;
+
+        exit_mode_origin_set = metadata[metadata.findIndex(data => data.title === '退出方式')].children;
+        data_origin_set = metadata[metadata.findIndex(data => data.title === '可提供资料')].children;
+
+        industry_set = toTransformAreaTreeProps(industry_origin_set, { key: 'title', value: 'title', children: 'children' });
+        area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'title', children: 'children' });
+        stage_set = toTransformAreaTreeProps(stage_origin_set, { key: 'title', value: 'title', children: 'children' });
+        ratio_set = toTransformAreaTreeProps(ratio_origin_set, { key: 'title', value: 'title', children: 'children' });
+        withdrawal_year_set = toTransformAreaTreeProps(withdrawal_year_origin_set, { key: 'title', value: 'title', children: 'children' });
+        risk_set = toTransformAreaTreeProps(risk_origin_set, { key: 'title', value: 'title', children: 'children' });
+        interest_set = toTransformAreaTreeProps(interest_origin_set, { key: 'title', value: 'title', children: 'children' });
+        occupancy_time_set = toTransformAreaTreeProps(occupancy_time_origin_set, { key: 'title', value: 'title', children: 'children' });
+
+        exit_mode_set = toTransformAreaTreeProps(exit_mode_origin_set, { key: 'title', value: 'title', children: 'children' });
+        data_set = toTransformAreaTreeProps(data_origin_set, { key: 'title', value: 'title', children: 'children' });
+
+    } catch (error) {
+        console.error(error.message);
+    }
 
     /* 【Part 1】 ↓ */
     const onErrorClick = (key) => () => {
@@ -50,15 +94,99 @@ const PublishProject = (props) => {
         setMap(new Map(thisMap));
     }
     const toPublish = () => {
-        validateFields((error, values) => {
-            global.TNT(values);
-            if (!!thisMap.size || !thisFiles.length || error) return Toast.fail('请按正确的格式填写表单！');;
+        validateFields(async (error, values) => {
             let k_v = {};
+            Object.keys(values).forEach(key => k_v[key.toLocaleLowerCase()] = values[key] ? values[key] : '');
+            if (!!thisMap.size || !thisFiles.length || error) return Toast.fail('请按正确的格式填写表单！');;
 
+            if (!k_v.title) return Toast.fail('请填写项目名称！');
+            if (!thisFiles.length) return Toast.fail('请上传项目封面');
+            if (!k_v.amount) {
+                return Toast.fail('请填写项目融资金额！')
+            } else {
+                k_v.amount *= 1;
+            }
+            if (!k_v.industry) {
+                return Toast.fail('请选择行业类型！');
+            } else {
+                k_v.industry = { id: industry_origin_set[industry_origin_set.findIndex(item => item.title === k_v.industry[0])].id }
+            }
+            if (!k_v.area) {
+                return Toast.fail('请选择项目所在地区！');
+            } else {
+                k_v.area = { id: area_origin_set[area_origin_set.findIndex(item => item.title === k_v.area[0])].id };
+            }
 
-            Object.keys(values).forEach(key => k_v[key.toLocaleLowerCase()] = values[key])
-            console.log(k_v);
-            console.log(thisFiles);
+            if (thisType === 'equity') {
+                if (!k_v.stage.length) {
+                    return Toast.fail('请选择项目所在处阶段！');
+                } else {
+                    k_v.stage = { id: stage_origin_set[stage_origin_set.findIndex(item => item.title === k_v.stage[0])].id };
+                }
+                if (!k_v.ratio.length) {
+                    return Toast.fail('请选择项目占股比例！');
+                } else {
+                    k_v.ratio = { id: ratio_origin_set[ratio_origin_set.findIndex(item => item.title === k_v.ratio[0])].id };
+                }
+                if (!k_v.withdrawal_year.length) {
+                    return Toast.fail('请选择项目最短退出年限！');
+                } else {
+                    k_v.withdrawal_year = { id: withdrawal_year_origin_set[withdrawal_year_origin_set.findIndex(item => item.title === k_v.withdrawal_year[0])].id };
+                }
+                if (!k_v.exit_mode.length) {
+                    k_v.exit_mode = [];
+                } else {
+                    k_v.exit_mode = k_v.exit_mode.map(mode => ({
+                        id: exit_mode_origin_set[exit_mode_origin_set.findIndex(item => item.title === mode)].id
+                    }))
+                }
+            } else {
+                if (!k_v.risk.length) {
+                    return Toast.fail('请选择项目风控要求！');
+                } else {
+                    k_v.risk = { id: risk_origin_set[risk_origin_set.findIndex(item => item.title === k_v.risk[0])].id };
+                }
+                if (!k_v.interest.length) {
+                    return Toast.fail('请选择项目所需承担的利息！');
+                } else {
+                    k_v.interest = { id: interest_origin_set[interest_origin_set.findIndex(item => item.title === k_v.interest[0])].id };
+                }
+                if (!k_v.occupancy_time.length) {
+                    return Toast.fail('请选择项目资金占用时长！');
+                } else {
+                    k_v.occupancy_time = { id: occupancy_time_origin_set[occupancy_time_origin_set.findIndex(item => item.title === k_v.occupancy_time[0])].id };
+                }
+                if (!k_v.payment) return Toast.fail('请填写还款来源！');
+            }
+
+            if (!k_v.purposes) return Toast.fail('请填写项目融资用途！');
+            if (!k_v.progress) return Toast.fail('请填写项目发展！');
+            if (!k_v.info) return Toast.fail('请填写项目介绍！');
+            if (!k_v.data) {
+                k_v.data = [];
+            } else {
+                k_v.data = k_v.data.map(mode => ({
+                    id: data_origin_set[data_origin_set.findIndex(item => item.title === mode)].id
+                }))
+            }
+
+            global.TNT(k_v);
+
+            const res = await client.mutate({
+                mutation: M_PUBLISH_PROJECT,
+                variables: {
+                    data: k_v
+                }
+            });
+
+            if (res.data && res.data.publishProject) {
+                Toast.success('发布项目成功！请等待管理员审核！');
+                await toFetchCurrentUser(client);
+                history.push(LOCAL_URL['MINE']);
+            } else {
+                Toast.fail('发布项目失败！');
+            }
+
         })
     }
     /* 【Part 1】 ↑ */
@@ -74,42 +202,44 @@ const PublishProject = (props) => {
     })
     const toCreatePickerProps = (name) => (data) => ({
         data: data,
-        cascade: data && !!data[0].children,
+        cascade: data && data[0] && data[0].children,
+        cols: toGetLevel(data),
         onOk: (val) => setFieldsValue({ [name]: val })
     })
-    const FIELD_1 = 'TITLE';
-    const FIELD_2 = 'PRICE';
-    const FIELD_3 = 'INDUSTRY';
-    const FIELD_4 = 'AREA';
-    const FIELD_5 = 'FINANCING';
-    const FIELD_6 = 'STAGE';
-    const FIELD_7 = 'PROPORTION';
-    const FIELD_8 = 'EXIT';
-    const FIELD_9 = 'EXIT_WAY';
-    const FIELD_10 = 'RISK_CONTROL';
-    const FIELD_11 = 'BEAR_INTEREST';
-    const FIELD_12 = 'CAPITAL_OCCUPATION';
-    const FIELD_13 = 'BACK_ORIGINAL';
-    const FIELD_14 = 'FINANCING_USE';
+    const FIELD_1 = 'title';
+    const FIELD_2 = 'amount';
+    const FIELD_3 = 'industry';
+    const FIELD_4 = 'area';
+    const FIELD_5 = 'category';
+    const FIELD_6 = 'stage';
+    const FIELD_7 = 'ratio';
+    const FIELD_8 = 'withdrawal_year';
+    const FIELD_9 = 'exit_mode';
+    const FIELD_10 = 'risk';
+    const FIELD_11 = 'interest';
+    const FIELD_12 = 'occupancy_time';
+    const FIELD_13 = 'payment';
 
-    const FIELD_15 = 'PROJECT_DEV';
-    const FIELD_16 = 'PROJECT_INTRO';
-    const FIELD_17 = 'PROVIDE_INFO';
-    const FIELD_18 = 'TEAM_INTRO';
-    const FIELD_19 = 'PROJECT_BENEFITS';
+    const FIELD_14 = 'purposes';
+    const FIELD_15 = 'progress';
+    const FIELD_16 = 'info';
+    const FIELD_17 = 'data';
+    const FIELD_18 = 'team_info';
+    const FIELD_19 = 'advantage';
+    const FIELD_20 = 'company_info';
 
-    const FIELD_1_PROPS = toCreateProps(FIELD_1)("text")("请填写标题")(/\S/ig, "请不要留空！")();
+    const FIELD_1_PROPS = toCreateProps(FIELD_1)("text")("请填写项目名称")(/\S/ig, "请不要留空！")();
     const FIELD_2_PROPS = toCreateProps(FIELD_2)("digit")("请输入金额")(/\S/ig, "请不要留空！")("万元");
-    const FIELD_3_PROPS = toCreatePickerProps(FIELD_3)(seasons);
-    const FIELD_4_PROPS = toCreatePickerProps(FIELD_4)(seasons);
+    const FIELD_3_PROPS = toCreatePickerProps(FIELD_3)(industry_set);
+    const FIELD_4_PROPS = toCreatePickerProps(FIELD_4)(area_set);
 
-    const FIELD_6_PROPS = toCreatePickerProps(FIELD_6)(seasons);
-    const FIELD_7_PROPS = toCreatePickerProps(FIELD_7)(seasons);
-    const FIELD_8_PROPS = toCreatePickerProps(FIELD_8)(seasons);
+    const FIELD_6_PROPS = toCreatePickerProps(FIELD_6)(stage_set);
+    const FIELD_7_PROPS = toCreatePickerProps(FIELD_7)(ratio_set);
+    const FIELD_8_PROPS = toCreatePickerProps(FIELD_8)(withdrawal_year_set);
 
-    const FIELD_10_PROPS = toCreatePickerProps(FIELD_10)(seasons);
-    const FIELD_11_PROPS = toCreatePickerProps(FIELD_11)(seasons);
-    const FIELD_12_PROPS = toCreatePickerProps(FIELD_12)(seasons);
+    const FIELD_10_PROPS = toCreatePickerProps(FIELD_10)(risk_set);
+    const FIELD_11_PROPS = toCreatePickerProps(FIELD_11)(interest_set);
+    const FIELD_12_PROPS = toCreatePickerProps(FIELD_12)(occupancy_time_set);
     const FIELD_13_PROPS = toCreateProps(FIELD_13)("text")("请详细介绍")(/\S/ig, "请不要留空！")();
     const FIELD_14_PROPS = toCreateProps(FIELD_14)("text")("请详细介绍")(/\S/ig, "请不要留空！")();
 
@@ -118,10 +248,35 @@ const PublishProject = (props) => {
     
     const FIELD_18_PROPS = toCreateProps(FIELD_18)("text")("请详细介绍（非必填项）")()();
     const FIELD_19_PROPS = toCreateProps(FIELD_19)("text")("请详细介绍（非必填项）")()();
+    const FIELD_20_PROPS = toCreateProps(FIELD_20)("text")("请详细介绍（非必填项）")()();
     /* 【Part 2】 ↑ */
 
     /* 【Part 3】 ↓ */
-    const onFileChange = (files, type, index) => {
+    const toUploadImage = (cropedImage) => async (e) => {
+        const formData = new FormData();
+        const { current } = cropedImage;
+        const fakeFile = dataURLtoBlob(current.getImageScaledToCanvas().toDataURL("image/jpeg"));
+        fakeFile.name = thisImage.file.name;
+        fakeFile.lastModifiedDate = new Date();
+        formData.append('file', fakeFile);
+        formData.append('fileName', thisImage.file.name);
+        try {
+            const { relativePath } = await Upload(`${API_ROOT}/storage`, formData).then(res => res.json());
+            console.log(relativePath);
+            if (relativePath) {
+                Toast.success('上传成功！');
+                thisImage.url = relativePath;
+                setFile([thisImage]);
+                toCropImage(null);
+            } else {
+                Toast.fail('上传失败！');
+            }
+        } catch (error) {
+            console.error(error.message);
+            Toast.fail('上传图片失败！');
+        }  
+    }
+    const onFileChange = (thisFiles, setFile) => async (files, type, index) => {
         if (files.length < thisFiles.length) {
             Modal.alert('移除图片', "是否确认要移除此张图片？", [
                 { text: '取消', onPress: () => global.TNT('用户已取消！') },
@@ -131,7 +286,8 @@ const PublishProject = (props) => {
             if (files.length && files[0].file.size > 1024 * 1024 * 2) {
                 Toast.fail(`当前图片大小【${(files[0].file.size / 1024 / 1024).toString().slice(0,5)}MB】，请上传小于【2M】的图片！`);
             } else {
-                setFile(files);
+                
+                toCropImage(files[files.length - 1])
             }
         }
     };
@@ -156,8 +312,9 @@ const PublishProject = (props) => {
                         className="publish-image-picker"
                         length={1}
                         files={thisFiles}
-                        onChange={onFileChange}
-                        onFail={msg => Toast.fail(msg)}
+                        onChange={onFileChange(thisFiles, setFile)}
+                        onFail={msg => Toast.fail(msg.message) || global.TNT(msg.message)}
+                        onImageClick={(index, img) => setModal({ show: true, url: img[index].url })}
                         selectable={!thisFiles.length}
                     />
                     <p>图片大小不超过2M</p>
@@ -174,13 +331,13 @@ const PublishProject = (props) => {
 
                 <List.Item className="none-input-item">
                     <label>融资方式</label>
-                    <Radio.Group {...getFieldProps(FIELD_5, { initialValue: 0, onChange: (e) => setType(e.target.value) })} >
-                        <Radio value={0} >股权融资</Radio>
-                        <Radio value={1} >债权融资</Radio>
+                    <Radio.Group {...getFieldProps(FIELD_5, { initialValue: "equity", onChange: (e) => setType(e.target.value) })} >
+                        <Radio value="equity" >股权融资</Radio>
+                        <Radio value="claim" >债权融资</Radio>
                     </Radio.Group>
                 </List.Item>
 
-                {thisType*1 === 0 ? (
+                {thisType === 'equity' ? (
                     <Fragment>
                         <Picker {...getFieldProps(FIELD_6)} {...FIELD_6_PROPS} >
                             <List.Item arrow="horizontal">所处阶段</List.Item>
@@ -191,7 +348,7 @@ const PublishProject = (props) => {
                         <Picker {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} >
                             <List.Item arrow="horizontal">最短退出年限</List.Item>
                         </Picker>
-                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="退出方式" data={['首次公开发行', '买壳或借壳上市', '二次出售', '管理层回购', '破产清算']} />
+                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="退出方式" data={exit_mode_set.map(item => item.value)} />
                     </Fragment>
                 ) : (
                     <Fragment>
@@ -238,7 +395,17 @@ const PublishProject = (props) => {
                     />
                 </List.Item>
 
-                <TagsView {...getFieldProps(FIELD_17)} className="tags-view" title="可提供资料" data={['首次公开发行', '买壳或借壳上市', '二次出售', '管理层回购', '破产清算']} />
+                <List.Item className="none-input-item">
+                    <label>公司介绍</label>
+                    <TextareaItem
+                        {...getFieldProps(FIELD_20)}
+                        {...FIELD_20_PROPS}
+                        rows={5}
+                        autoHeight
+                    />
+                </List.Item>
+
+                <TagsView {...getFieldProps(FIELD_17)} className="tags-view" title="需提供资料" data={data_set.map(item => item.value)} />
 
 
                 <List.Item className="none-input-item">
@@ -264,9 +431,34 @@ const PublishProject = (props) => {
             </List>
 
             <div className="publish-button" onClick={toPublish}>立即发布</div>
+
+            <Modal
+                visible={thisImage && thisImage.url}
+                maskClosable={false}
+                transparent
+            >
+                <AvatarEditor
+                    ref={cropedImage}
+                    image={thisImage && thisImage.url}
+                    width={200}
+                    height={100}
+                    border={5}
+                    color={[255, 255, 255, 0.6]} // RGBA
+                    scale={1}
+                />
+                <Button onClick={toUploadImage(cropedImage)}>确认上传</Button>
+            </Modal>
+            <Modal
+                className="publish-image-modal"
+                visible={thisModal.show}
+                onClose={() => setModal({ show: false, url: thisModal.url })}
+                closable
+            >
+                <img style={{ width: "100%" }} src={thisModal.url} alt='placeholder' />
+            </Modal>
         </div>
     )
-}
+})
 
 
 

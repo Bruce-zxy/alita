@@ -5,6 +5,7 @@
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
+
     .am-list-body {
 
         >div {
@@ -12,6 +13,14 @@
         }
 
         .am-list-line {
+            .am-list-content {
+                flex: 1;
+            }
+
+            .am-list-extra {
+                flex: 1;
+            }
+
             &:after {
                 opacity: 0;
                 display: none;
@@ -99,6 +108,17 @@
         }
     }
 
+    .am-image-picker-list {
+        .am-image-picker-item {
+            .am-image-picker-item-content {
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-color: transparent;
+            }
+        }
+    }
+
     .publish-button {
         width: 94.67vw;
         height: 12vw;
@@ -107,5 +127,13 @@
         margin: $SIZE_10 auto;
         @include display-flex();
         @include font($FONT_SIZE_18, $WHITE);
+    }
+}
+
+.publish-image-modal {
+    .am-modal-body {
+        display:flex;
+        justify-content: center;
+        align-items: center;
     }
 }

@@ -9670,6 +9670,12 @@ react-app-rewired@^2.1.1:
     dotenv "^6.2.0"
     semver "^5.6.0"
 
+react-avatar-editor@^11.0.7:
+  version "11.0.7"
+  resolved "https://registry.yarnpkg.com/react-avatar-editor/-/react-avatar-editor-11.0.7.tgz#021053cfeaa138407b79279ee5a0384f273f0c54"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-dev-utils@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-8.0.0.tgz#7c5b227a45a32ea8ff7fbc318f336cf9e2c6e34c"

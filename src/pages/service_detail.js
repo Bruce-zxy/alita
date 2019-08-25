@@ -3,13 +3,21 @@ import { Modal, Toast } from 'antd-mobile';
 import { Query, withApollo } from 'react-apollo';
 
 import Loader from '../components/Loader';
-import { toFetchCurrentUser } from '../utils/global';
+import { toFetchCurrentUser, buildingQuery } from '../utils/global';
 import { Q_GET_PROVIDER, M_APPLY_PROVIDERS } from '../gql';
 import { LOCAL_URL } from '../config/common';
 import '../style/service.scss';
 
 
 export default withApollo((props) => {
+
+    const defaultVariables = {
+        join: [
+            { field: 'creator' },
+            { field: 'area' },
+            { field: 'category' },
+        ],
+    };
     
     const { client, match, history } = props
     const [currUser, setCurrUser] = useState(null);
@@ -56,15 +64,16 @@ export default withApollo((props) => {
     return (
         <Query
             query={Q_GET_PROVIDER}
-            variables={{ id: match.params.id, metadataRoot: "地区" }}
+            variables={{ id: match.params.id, metadataRoot: "地区", queryString: buildingQuery(defaultVariables) }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
 
                 if (loading) return <Loader />;
-                
+
                 if (data && data.provider) {
                     const { provider } = data;
+                    global.TNT(provider);
                     return (
                         <div className="hdz-service-detail">
                             <div className="service-detail-banner">
