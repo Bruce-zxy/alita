@@ -9,7 +9,7 @@ import { buildingQuery, toFetchCurrentUser } from '../utils/global';
 
 import Loader from '../components/Loader';
 
-import { COLOR_ARRAY, IFT_MODE_ENUM, DATA_ARRAY, LOCAL_URL } from '../config/common';
+import { COLOR_ARRAY, IFT_MODE_ENUM, DATA_ARRAY, LOCAL_URL, DEFAULT_AVATAR } from '../config/common';
 import '../style/project.scss';
 import '../style/home_detail.scss';
 
@@ -183,7 +183,7 @@ const FundsDetail = withApollo((props) => {
                             <DetailPanel title="会员名片">
                                 {capital.creator ? (
                                     <div className="member-info">
-                                        <img src={capital.creator.avatar} alt='AVATAR' />
+                                        <img src={capital.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
                                             <p>{capital.creator.hideName}</p>
                                             <p>所在公司：{capital.creator.hideCompany}</p>
@@ -191,7 +191,7 @@ const FundsDetail = withApollo((props) => {
                                     </div>
                                 ) : (
                                         <div className="member-info">
-                                            <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR' alt='AVATAR' />
+                                            <img src={DEFAULT_AVATAR} alt='AVATAR' />
                                             <div className="menber-detail">
                                                 <p>未知</p>
                                                 <p>所在公司：暂无</p>

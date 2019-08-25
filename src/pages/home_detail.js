@@ -8,7 +8,7 @@ import TabPanel from '../components/TabPanel';
 
 import { buildingQuery, toFetchCurrentUser } from '../utils/global';
 import { Q_GET_PROJECT, M_APPLY_PROJECTS } from '../gql';
-import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY } from '../config/common';
+import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY, DEFAULT_AVATAR } from '../config/common';
 
 import '../style/home_detail.scss';
 
@@ -21,7 +21,10 @@ const defaultVariables = {
         { field: 'stage' }, 
         { field: 'withdrawal_year' }, 
         { field: 'data' },
-        { field: 'area' }
+        { field: 'area' },
+        { field: 'risk' },
+        { field: 'interest' },
+        { field: 'occupancy_time' },
     ]
 };
 
@@ -69,6 +72,53 @@ export default withApollo((props) => {
             { text: '确认', onPress: apply },
         ])
     }
+
+    const toCreatekVContent = (project) => ({
+        equity: (
+            <div className="home-detail-intro">
+                <div className="project-intro">
+                    <div>
+                        <p>{toSetVal(project.ratio)('title')('未知')}</p>
+                        <p>资金方占股比例</p>
+                    </div>
+                    <div>
+                        <p>{toSetVal(project.stage)('title')('未知')}</p>
+                        <p>项目所处阶段</p>
+                    </div>
+                    <div>
+                        <p>{toSetVal(project.withdrawal_year)('title')('未知')}</p>
+                        <p>最短退出年限</p>
+                    </div>
+                </div>
+                <p className="detail-kv">
+                    <span>投资退出方式</span>
+                    <span>{project.exit_mode && project.exit_mode.length ? project.exit_mode.map(mode => mode.title).join('，') : '未知'}</span>
+                </p>
+            </div>
+        ),
+        claim: (
+            <div className="home-detail-intro">
+                <div className="project-intro">
+                    <div>
+                        <p>{toSetVal(project.risk)('title')('未知')}</p>
+                        <p>风控要求</p>
+                    </div>
+                    <div>
+                        <p>{toSetVal(project.interest)('title')('未知')}</p>
+                        <p>承担利息</p>
+                    </div>
+                    <div>
+                        <p>{toSetVal(project.occupancy_time)('title')('未知')}</p>
+                        <p>资金占用时长</p>
+                    </div>
+                </div>
+                <p className="detail-kv">
+                    <span>还款来源</span>
+                    <span>{project.payment || '未知'}</span>
+                </p>
+            </div>
+        )
+    })
 
     return (
         <Query
@@ -132,26 +182,7 @@ export default withApollo((props) => {
                                 </p>
                             </div>
                             <div className="hdz-block-small-space"></div>
-                            <div className="home-detail-intro">
-                                <div className="project-intro">
-                                    <div>
-                                        <p>{toSetVal(project.ratio)('title')('未知')}</p>
-                                        <p>资金方占股比例</p>
-                                    </div>
-                                    <div>
-                                        <p>{toSetVal(project.stage)('title')('未知')}</p>
-                                        <p>项目所处阶段</p>
-                                    </div>
-                                    <div>
-                                        <p>{toSetVal(project.withdrawal_year)('title')('未知')}</p>
-                                        <p>最短退出年限</p>
-                                    </div>
-                                </div>
-                                <p className="detail-kv">
-                                    <span>投资退出方式</span>
-                                    <span>{project.exit_mode && project.exit_mode.length ? project.exit_mode.map(mode => mode.title).join('，') : '未知'}</span>
-                                </p>
-                            </div>
+                            {toCreatekVContent(project)[project.category]}
                             <div className="hdz-block-small-space"></div>
                             <DetailPanel title="需提供资料">
                                 <div className="project-information">
@@ -181,7 +212,7 @@ export default withApollo((props) => {
                             <DetailPanel title="会员名片">
                                 {project.creator ? (
                                     <div className="member-info">
-                                        <img src={project.creator.avatar} alt='AVATAR' />
+                                        <img src={project.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
                                             <p>{project.creator.hideName}</p>
                                             <p>所在公司：{project.creator.hideCompany || '未知'}</p>
@@ -189,7 +220,7 @@ export default withApollo((props) => {
                                     </div>
                                 ) : (
                                     <div className="member-info">
-                                        <img src='http://dummyimage.com/800x600/4d494d/686a82.gif&text=AVATAR' alt='AVATAR' />
+                                        <img src={DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
                                             <p>未知</p>
                                             <p>所在公司：暂无</p>
