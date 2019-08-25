@@ -11,6 +11,8 @@ import "../style/mine.scss";
 
 const FundsList = (props) => {
     if (props.list.length) {
+        console.log(props.list);
+        
         return (
             <div className="funds-list">
                 {props.list.map((item, i) => (
@@ -28,11 +30,11 @@ const FundsList = (props) => {
                                 <p>投资金额</p>
                             </div>
                             <div>
-                                <p>{item.stage.length ? item.stage.map(item => item.title).join('，') : '未知'}</p>
+                                <p>{item.period}</p>
                                 <p>投资阶段</p>
                             </div>
                             <div>
-                                <p>{item.type.length ? item.type.map(item => item.title).join('，') : '未知'}</p>
+                                <p>{item.category}</p>
                                 <p>资金类型</p>
                             </div>
                         </div>

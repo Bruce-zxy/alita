@@ -163,8 +163,8 @@ const LookingFunds = withApollo((props) => {
                                     <p>投资金额</p>
                                 </div>
                                 <div>
-                                    <p>{item.stage && item.stage.length ? item.stage.map(stage => stage.title).join(',') : '未知'}</p>
-                                    <p>投资阶段</p>
+                                    <p>{item.area ? item.area.title : '未知'}</p>
+                                    <p>所在地区</p>
                                 </div>
                                 <div>
                                     <p>{item.type && item.type.length ? item.type.map(type => type.title).join(',') : '未知'}</p>

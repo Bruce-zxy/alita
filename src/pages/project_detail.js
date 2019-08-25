@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Query, withApollo } from "react-apollo";
 import { Toast, Modal } from 'antd-mobile';
 import * as moment from 'moment';
@@ -28,7 +28,11 @@ const FundsDetail = withApollo((props) => {
             { field: 'invest_area' },
             { field: 'risk' },
             { field: 'data' },
-            { field: 'ratio' }
+            { field: 'ratio' },
+            { field: 'return' },
+            { field: 'pledge' },
+            { field: 'discount' },
+            { field: 'pre_payment' },
         ],
     };
 
@@ -116,14 +120,23 @@ const FundsDetail = withApollo((props) => {
                                     <span>投资方式</span>
                                     <span>{capital.category ? IFT_MODE_ENUM[capital.category.toUpperCase()] : '未知'}</span>
                                 </p>
-                                <p className="detail-kv">
-                                    <span>投资类型</span>
-                                    <span>{capital.invest_type.length ? capital.invest_type.map(item => item.title).join('，') : "未知"}</span>
-                                </p>
-                                <p className="detail-kv">
-                                    <span>参股类型</span>
-                                    <span>{capital.equity_type ? capital.equity_type.title : '未知'}</span>
-                                </p>
+                                {capital.category === 'equity' ? (
+                                    <Fragment>
+                                        <p className="detail-kv">
+                                            <span>投资类型</span>
+                                            <span>{capital.invest_type.length ? capital.invest_type.map(item => item.title).join('，') : "未知"}</span>
+                                        </p>
+                                        <p className="detail-kv">
+                                            <span>参股类型</span>
+                                            <span>{capital.equity_type ? capital.equity_type.title : '未知'}</span>
+                                        </p>
+                                    </Fragment>
+                                ) : (
+                                    <p className="detail-kv">
+                                        <span>最低回报要求</span>
+                                        <span>{capital.return || "未知"}</span>
+                                    </p>
+                                )}
                                 <p className="detail-kv">
                                     <span>资金类型</span>
                                     <span>{capital.type.length ? capital.type.map(item => item.title).join('，') : '未知'}</span>
@@ -137,29 +150,47 @@ const FundsDetail = withApollo((props) => {
                             <div className="hdz-block-small-space"></div>
 
                             <div className="home-detail-intro">
-                                <div className="project-intro">
-                                    <div>
-                                        <p>{capital.ratio ? capital.ratio.title : '未知'}</p>
-                                        <p>资金方占股比例</p>
+                                {capital.category === 'equity' ? (
+                                    <div className="project-intro">
+                                        <div>
+                                            <p>{capital.ratio ? capital.ratio.title : '未知'}</p>
+                                            <p>资金方占股比例</p>
+                                        </div>
+                                        <div>
+                                            <p>{capital.stage.length ? capital.stage.map(item => item.title).join('，') : '未知'}</p>
+                                            <p>项目所处阶段</p>
+                                        </div>
+                                        <div>
+                                            <p>{capital.term ? capital.term.title : '未知'}</p>
+                                            <p>最短退出年限</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p>{capital.stage.length ? capital.stage.map(item => item.title).join('，') : '未知'}</p>
-                                        <p>项目所处阶段</p>
+                                ): (
+                                    <div className="project-intro">
+                                        <div>
+                                            <p>{capital.risk ? capital.risk.title : '未知'}</p>
+                                            <p>风控要求</p>
+                                        </div>
+                                        <div>
+                                            <p>{capital.pledge || '未知'}</p>
+                                            <p>抵质押物类型</p>
+                                        </div>
+                                        <div>
+                                            <p>{capital.discount || '未知'}</p>
+                                            <p>抵质押物折扣率</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p>{capital.term ? capital.term.title : '未知'}</p>
-                                        <p>最短退出年限</p>
-                                    </div>
-                                </div>
+                                )}
+                                
                                 <p className="detail-kv">
                                     <span>前期费用</span>
-                                    <span>{capital.pre_payment ? capital.pre_payment.title : '未知' }</span>
+                                    <span>{capital.pre_payment || '未知' }</span>
                                 </p>
                             </div>
 
                             <div className="hdz-block-small-space"></div>
 
-                            <DetailPanel title="可提供资料">
+                            <DetailPanel title="需提供资料">
                                 <div className="project-information">
                                     {capital.data && capital.data.length ? (
                                         capital.data.map((item, k) => (

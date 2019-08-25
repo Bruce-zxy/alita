@@ -256,7 +256,7 @@ const Login = withApollo((props) => {
             </p>
             <p className="signin-button" onClick={toLogin}>登录</p>
             <p className="signin-function">
-                <Link to={LOCAL_URL['SIGNUP']}>去注册</Link>
+                <Link to={LOCAL_URL['SIGNUP']}>前往注册</Link>
                 <a href="javascript:;" onClick={() => props.toSetPanelIndex(1)}>忘记密码</a>
             </p>
         </div>

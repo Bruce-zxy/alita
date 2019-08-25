@@ -16,6 +16,10 @@ export const F_CAPITAL_FIELDS = gql`
     create_at
     publish_at
     info
+    return
+    pledge
+    discount
+    pre_payment
     type {
       id
       title

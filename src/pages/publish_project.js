@@ -100,7 +100,11 @@ const PublishProject = withApollo((props) => {
             if (!!thisMap.size || !thisFiles.length || error) return Toast.fail('请按正确的格式填写表单！');;
 
             if (!k_v.title) return Toast.fail('请填写项目名称！');
-            if (!thisFiles.length) return Toast.fail('请上传项目封面');
+            if (!thisFiles.length) {
+                return Toast.fail('请上传项目封面')
+            } else {
+                k_v.cover = thisFiles[0].url;
+            };
             if (!k_v.amount) {
                 return Toast.fail('请填写项目融资金额！')
             } else {
@@ -348,7 +352,7 @@ const PublishProject = withApollo((props) => {
                         <Picker {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} >
                             <List.Item arrow="horizontal">最短退出年限</List.Item>
                         </Picker>
-                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="退出方式" data={exit_mode_set.map(item => item.value)} />
+                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="退出方式" data={exit_mode_set.map(item => item.value)} limit={3} />
                     </Fragment>
                 ) : (
                     <Fragment>
