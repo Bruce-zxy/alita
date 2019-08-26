@@ -12,10 +12,18 @@
             border-bottom: 1px solid $GRAY_EEE;
         }
 
-        .am-list-line {
-            .am-list-content {
-                flex: initial;
+        .am-list-item {
+            &:not(.none-input-item) {
+                .am-list-content {
+                    flex: initial;
+                }
             }
+        }
+
+        .am-list-line {
+            // .am-list-content {
+            //     flex: initial;
+            // }
 
             .am-list-extra {
                 flex: 1;
