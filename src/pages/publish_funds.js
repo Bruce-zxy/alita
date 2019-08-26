@@ -39,9 +39,11 @@ const PublishFunds = withApollo((props) => {
     let data_origin_set = [];
 
     let metadata = [];
+    let user = {};
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        user = JSON.parse(localStorage.getItem('u_user'));
 
         industry_origin_set = metadata[metadata.findIndex(data => data.title === '行业')].children;
         type_origin_set = metadata[metadata.findIndex(data => data.title === '资金类型')].children;
@@ -53,15 +55,15 @@ const PublishFunds = withApollo((props) => {
         ratio_origin_set = metadata[metadata.findIndex(data => data.title === '比例')].children;
         data_origin_set = metadata[metadata.findIndex(data => data.title === '可提供资料')].children;
 
-        industry_set = toTransformAreaTreeProps(industry_origin_set, { key: 'title', value: 'title', children: 'children' });
-        type_set = toTransformAreaTreeProps(type_origin_set, { key: 'title', value: 'title', children: 'children' });
-        area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'title', children: 'children' });
-        equity_type_set = toTransformAreaTreeProps(equity_type_origin_set, { key: 'title', value: 'title', children: 'children' });
-        stage_set = toTransformAreaTreeProps(stage_origin_set, { key: 'title', value: 'title', children: 'children' });
-        invest_type_set = toTransformAreaTreeProps(invest_type_origin_set, { key: 'title', value: 'title', children: 'children' });
-        risk_set = toTransformAreaTreeProps(risk_origin_set, { key: 'title', value: 'title', children: 'children' });
-        ratio_set = toTransformAreaTreeProps(ratio_origin_set, { key: 'title', value: 'title', children: 'children' });
-        data_set = toTransformAreaTreeProps(data_origin_set, { key: 'title', value: 'title', children: 'children' });
+        industry_set = toTransformAreaTreeProps(industry_origin_set, { key: 'title', value: 'id', children: 'children' });
+        type_set = toTransformAreaTreeProps(type_origin_set, { key: 'title', value: 'id', children: 'children' });
+        area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'id', children: 'children' });
+        equity_type_set = toTransformAreaTreeProps(equity_type_origin_set, { key: 'title', value: 'id', children: 'children' });
+        stage_set = toTransformAreaTreeProps(stage_origin_set, { key: 'title', value: 'id', children: 'children' });
+        invest_type_set = toTransformAreaTreeProps(invest_type_origin_set, { key: 'title', value: 'id', children: 'children' });
+        risk_set = toTransformAreaTreeProps(risk_origin_set, { key: 'title', value: 'id', children: 'children' });
+        ratio_set = toTransformAreaTreeProps(ratio_origin_set, { key: 'title', value: 'id', children: 'children' });
+        data_set = toTransformAreaTreeProps(data_origin_set, { key: 'title', value: 'id', children: 'children' });
 
     } catch (error) {
         console.error(error.message);
@@ -84,6 +86,7 @@ const PublishFunds = withApollo((props) => {
     }
     const toPublish = () => {
         validateFields(async (error, values) => {
+            global.TNT(values);
             let k_v = {};
             Object.keys(values).forEach(key => k_v[key.toLocaleLowerCase()] = values[key] ? values[key] : '');
             if (!!thisMap.size || error) return Toast.fail('请按正确的格式填写表单！');;
@@ -92,9 +95,7 @@ const PublishFunds = withApollo((props) => {
             if (!k_v.industry.length || k_v.industry.length >3) {
                 return Toast.fail('请选择不多于3个的行业类型！');
             } else {
-                k_v.industry = k_v.industry.map(item => ({
-                    id: industry_origin_set[industry_origin_set.findIndex(o => o.title === item)].id
-                }))
+                k_v.industry = k_v.industry.map(item => ({ id: item }))
             }
             if (!k_v.amount) {
                 return Toast.fail('请填写资金的融资金额！')
@@ -104,34 +105,28 @@ const PublishFunds = withApollo((props) => {
             if (!k_v.type.length || k_v.type.length > 3) {
                 return Toast.fail('请选择不多于3个的资金类型！');
             } else {
-                k_v.type = k_v.type.map(item => ({
-                    id: type_origin_set[type_origin_set.findIndex(o => o.title === item)].id
-                }))
+                k_v.type = k_v.type.map(item => ({ id: item }))
             }
             if (!k_v.area.length) {
                 return Toast.fail('请选择资金所在地区！');
             } else {
-                k_v.area = { id: area_origin_set[area_origin_set.findIndex(o => o.title === k_v.area[0])].id };
+                k_v.area = { id: k_v.area[k_v.area.length - 1] };
             }
             if (!k_v.invest_area.length || k_v.invest_area.length > 3) {
                 return Toast.fail('请选择不多于3个的投资地区！');
             } else {
-                k_v.invest_area = k_v.invest_area.map(item => ({
-                    id: area_origin_set[area_origin_set.findIndex(o => o.title === item)].id
-                }))
+                k_v.invest_area = k_v.invest_area.map(item => ({ id: item }))
             }
             if (k_v.category === 'equity') {
                 if (!k_v.equity_type.length) {
                     return Toast.fail('请选择资金参股类型！');
                 } else {
-                    k_v.equity_type = { id: equity_type_origin_set[equity_type_origin_set.findIndex(o => o.title === k_v.equity_type[0])].id };
+                    k_v.equity_type = { id: k_v.equity_type[k_v.equity_type.length - 1] };
                 }
                 if (!k_v.stage.length) {
                     return Toast.fail('请选择资金所在处阶段！');
                 } else {
-                    k_v.stage = k_v.stage.map(item => ({
-                        id: stage_origin_set[stage_origin_set.findIndex(o => o.title === item)].id
-                    }))
+                    k_v.stage = k_v.stage.map(item => ({ id: item }))
                 }
                 if (!k_v.term) {
                     return Toast.fail('请填写资金的投资期限！')
@@ -141,22 +136,20 @@ const PublishFunds = withApollo((props) => {
                 if (!k_v.invest_type.length) {
                     return Toast.fail('请选择资金的投资类型！');
                 } else {
-                    k_v.invest_type = k_v.invest_type.map(item => ({
-                        id: invest_type_origin_set[invest_type_origin_set.findIndex(o => o.title === item)].id
-                    }))
+                    k_v.invest_type = k_v.invest_type.map(item => ({ id: item }))
                 }
 
                 if (!k_v.ratio.length) {
                     return Toast.fail('请选择资金所占比例！');
                 } else {
-                    k_v.ratio = { id: ratio_origin_set[ratio_origin_set.findIndex(o => o.title === k_v.ratio[0])].id };
+                    k_v.ratio = { id: k_v.ratio[k_v.ratio.length - 1] };
                 }
             } else {
                 if (!k_v.return) return Toast.fail('请填写资金最低回报要求！');
                 if (!k_v.risk.length) {
                     return Toast.fail('请选择资金的风控要求！');
                 } else {
-                    k_v.risk = { id: risk_origin_set[risk_origin_set.findIndex(item => item.title === k_v.risk[0])].id };
+                    k_v.risk = { id: k_v.risk[k_v.risk.length - 1] };
                 }
                 if (!k_v.discount) {
                     return Toast.fail('请填写资金的抵质押物折扣率！')
@@ -168,9 +161,7 @@ const PublishFunds = withApollo((props) => {
             if (!k_v.data.length) {
                 return Toast.fail('请选择资金所需要的资料！');
             } else {
-                k_v.data = k_v.data.map(item => ({
-                    id: data_origin_set[data_origin_set.findIndex(o => o.title === item)].id
-                }))
+                k_v.data = k_v.data.map(item => ({ id: item }))
             }
             if (!k_v.info) return Toast.fail('请填写资金详情！');
 
@@ -266,13 +257,13 @@ const PublishFunds = withApollo((props) => {
                 />
                 <p className="title-remind">参考格式：寻+（省级）投资地区+（行业）项目+合作方式+（市级）资金所在地+资金主体+金额</p>
 
-                <TagsView {...getFieldProps(FIELD_2)} className="tags-view" title="行业类型" data={industry_set.map(item => item.value)} limit={3}/>
+                <TagsView {...getFieldProps(FIELD_2)} className="tags-view" title="行业类型" data={industry_set} limit={3}/>
                 <InputItem {...getFieldProps(FIELD_3)} {...FIELD_3_PROPS} >投资金额</InputItem>
-                <TagsView {...getFieldProps(FIELD_4)} className="tags-view" title="资金类型" data={type_set.map(item => item.value)} limit={3}/>
+                <TagsView {...getFieldProps(FIELD_4)} className="tags-view" title="资金类型" data={type_set} limit={3}/>
                 <Picker {...getFieldProps(FIELD_5)} {...FIELD_5_PROPS} >
                     <List.Item arrow="horizontal">所在地区</List.Item>
                 </Picker>
-                <TagsView {...getFieldProps(FIELD_6)} className="tags-view" title="投资地区" data={area_set.map(item => item.value)} limit={3}/>
+                <TagsView {...getFieldProps(FIELD_6)} className="tags-view" title="投资地区" data={area_set} limit={3}/>
 
                <List.Item className="none-input-item">
                     <label>投资方式</label>
@@ -287,9 +278,9 @@ const PublishFunds = withApollo((props) => {
                         <Picker {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} >
                             <List.Item arrow="horizontal">参股类型</List.Item>
                         </Picker>
-                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="投资阶段" data={stage_set.map(item => item.value)} />
+                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="投资阶段" data={stage_set} />
                         <InputItem {...getFieldProps(FIELD_10)} {...FIELD_10_PROPS} >投资期限</InputItem>
-                        <TagsView {...getFieldProps(FIELD_11)} className="tags-view" title="投资类型" data={invest_type_set.map(item => item.value)} />
+                        <TagsView {...getFieldProps(FIELD_11)} className="tags-view" title="投资类型" data={invest_type_set} />
                         <Picker {...getFieldProps(FIELD_12)} {...FIELD_12_PROPS} >
                             <List.Item arrow="horizontal">占股比例</List.Item>
                         </Picker>
@@ -312,7 +303,7 @@ const PublishFunds = withApollo((props) => {
                 )}
 
                 <InputItem {...getFieldProps(FIELD_17)} {...FIELD_17_PROPS} labelNumber={5} >前期费用</InputItem>
-                <TagsView {...getFieldProps(FIELD_18)} className="tags-view" title="需提供资料" data={data_set.map(item => item.value)} />
+                <TagsView {...getFieldProps(FIELD_18)} className="tags-view" title="需提供资料" data={data_set} />
 
                 <List.Item className="none-input-item">
                     <label>资金详情</label>

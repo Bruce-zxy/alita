@@ -64,7 +64,7 @@ const gTabBar = [{
     icon: <i className="iconfont iconfuwushang"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconfuwushang" style={{ color: ACTIVE_COLOR }}></i>,
   }, {
-    name: '行业资讯',
+    name: '政策资讯',
     page: 'NEWS',
     icon: <i className="iconfont iconxinwen"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconxinwen" style={{ color: ACTIVE_COLOR }}></i>,
@@ -112,7 +112,7 @@ const MainRouteConfig = {
       </Switch>
     )
   }, 
-  行业资讯: (props) => {
+  政策资讯: (props) => {
     return (
       <Switch>
         <Route path={LOCAL_URL['NEWS']} component={(props) => <News {...props} />} exact />

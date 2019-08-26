@@ -24,7 +24,10 @@ const NewsList = withApollo((props) => {
         page: 0,
         limit: 10,
         join: [{ field: 'category' }],
-        filter: [{ field: 'category.title', operator: CondOperator.EQUALS, value: category }],
+        filter: [
+            { field: 'category.title', operator: CondOperator.EQUALS, value: category },
+            { field: 'is_published', operator: CondOperator.EQUALS, value: true }
+        ],
         sort: [{ field: 'create_at', order: 'DESC' }, { field: 'sort', order: 'DESC' }],
     };
 

@@ -197,3 +197,24 @@ export const dataURLtoBlob = (dataurl) => {
     type: mime
   });
 }
+
+export const toFindAreaTree = (tree, target) => {
+  let key = Object.keys(target).shift();
+  let val = Object.values(target).shift();
+  let isGet = false;
+  let retNode = null;
+  const deepSearch = (tree) => {
+    for (let i = 0; i < tree.length; i++) {
+      if (tree[i].children && tree[i].children.length > 0) {
+        deepSearch(tree[i].children);
+      }
+      if (val === tree[i][key] || isGet) {
+        isGet || (retNode = tree[i]);
+        isGet = true;
+        break;
+      }
+    }
+  }
+  deepSearch(tree);
+  return retNode;
+}
