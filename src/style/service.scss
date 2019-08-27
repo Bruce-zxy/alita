@@ -115,6 +115,16 @@
                 }
             }
         }
+
+        // .am-picker {
+        //     position: fixed;
+        //     bottom: 50px;
+        //     left: 0;
+        //     width: 100vw;
+        //     height: auto;
+        //     box-shadow: 2px 2px 20px #999;
+        //     background: rgba(255, 255, 255, .95);
+        // }
     }
 }
 
@@ -211,6 +221,7 @@
         font-weight: bold;
 
         @include display-flex();
+
         &.finished {
             background: #E1E1E1;
         }

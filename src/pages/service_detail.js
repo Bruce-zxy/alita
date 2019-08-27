@@ -3,13 +3,23 @@ import { Modal, Toast } from 'antd-mobile';
 import { Query, withApollo } from 'react-apollo';
 
 import Loader from '../components/Loader';
-import { toFetchCurrentUser, buildingQuery } from '../utils/global';
+import { toFetchCurrentUser, buildingQuery, toGetParentArrayByChildNode } from '../utils/global';
 import { Q_GET_PROVIDER, M_APPLY_PROVIDERS } from '../gql';
 import { LOCAL_URL } from '../config/common';
 import '../style/service.scss';
 
 
 export default withApollo((props) => {
+
+    let metadata = [];
+    let area_origin_set = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+    } catch (err) {
+        console.error(err.message);
+    }
 
     const defaultVariables = {
         join: [
@@ -88,7 +98,7 @@ export default withApollo((props) => {
                                 </p>
                                 <p className="service-detail-location">
                                     <i className="iconfont icondidian"></i>
-                                    <span>所在地：{provider.area ? provider.area.title : '无'}</span>
+                                    <span>所在地：{provider.area ? (toGetParentArrayByChildNode(area_origin_set, { id: provider.area.id }) || []).map(item => item.title).join(',') : '无'}</span>
                                 </p>
                                 <div className="service-detail-content" dangerouslySetInnerHTML={{ __html: provider.introduction }} />
                             </div>

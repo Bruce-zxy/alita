@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 import DetailPanel from '../components/DetailPanel';
 import { Q_GET_CAPITAL, Q_GET_PRODUCT, M_APPLY_PRODUCTS, M_APPLY_CAPITALS } from '../gql';
-import { buildingQuery, toFetchCurrentUser } from '../utils/global';
+import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
 
 import Loader from '../components/Loader';
 
@@ -15,6 +15,16 @@ import '../style/home_detail.scss';
 
 
 const FundsDetail = withApollo((props) => {
+
+    let metadata = [];
+    let area_origin_set = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+    } catch(err) {
+        console.error(err.message);
+    }
 
     const defaultVariables = {
         join: [
@@ -28,6 +38,7 @@ const FundsDetail = withApollo((props) => {
             { field: 'invest_area' },
             { field: 'risk' },
             { field: 'data' },
+            { field: 'term' },
             { field: 'ratio' },
             { field: 'return' },
             { field: 'pledge' },
@@ -105,7 +116,7 @@ const FundsDetail = withApollo((props) => {
                                 </p>
                                 <p>
                                     <span>&yen;{capital.amount}万元</span>
-                                    <span>所在地区：{capital.area ? capital.area.title: '未知'}</span>
+                                    <span>所在地区：{capital.area ? (toGetParentArrayByChildNode(area_origin_set, { id: capital.area.id }) || []).map(item => item.title).join(',') : '未知'}</span>
                                 </p>
                             </div>
 

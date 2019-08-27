@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import * as moment from 'moment';
@@ -14,23 +14,26 @@ const ProjectList = (props) => {
         return (
             <div className="project-list">
                 {props.list.map((item, i) => (
-                    <Link className="project-item" key={i} to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
-                        <p>
-                            <span>{item.publish}</span>
-                            <span>{item.status}</span>
-                        </p>
-                        <div className="project-content">
-                            <img src={item.image} alt='cover' />
-                            <div className="project-intro">
-                                <p>{item.name}</p>
-                                <p>{item.tags && item.tags.map((tag, j) => tag && <span key={j}>{tag}</span>)}</p>
-                                <p>&yen;{item.price}万元</p>
+                    <Fragment>
+                        <Link className="project-item" key={i} to={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>
+                            <p>
+                                <span>{item.publish}</span>
+                                <span>{item.status}</span>
+                            </p>
+                            <div className="project-content">
+                                <img src={item.image} alt='cover' />
+                                <div className="project-intro">
+                                    <p>{item.name}</p>
+                                    <p>{item.tags && item.tags.map((tag, j) => tag && <span key={j}>{tag}</span>)}</p>
+                                    <p>&yen;{item.price}万元</p>
+                                </div>
                             </div>
-                        </div>
-                        <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-category">编辑项目</Link>
-                    </Link>
+                            <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-category">编辑项目</Link>
+                        </Link>
+                        {item.status === PROJECT_STATUS_ENUM_CN['rejected'] && <div className="project-tips">审核未通过理由：{item.reason}</div>}
+                    </Fragment>
                 ))}
-                <div className="project-tips">审核未通过理由：完善资料并审核通过之后，系统将自动给您升级VIP等级并生成一张名片，名片可以和其他会员交换。</div>
+                
                 <div className="hdz-block-large-space"></div>
                 <div className="hdz-block-large-space"></div>
                 <div className="hdz-block-large-space"></div>
@@ -64,8 +67,11 @@ export default withApollo((props) => {
         publish: moment(project.create_at*1).format('YYYY-MM-DD HH:mm:ss'),
         price: project.amount,
         status: PROJECT_STATUS_ENUM_CN[project.status] || '未知',
-        image: project.cover
+        image: project.cover,
+        reason: project.reason
     })) : []
+
+    global.TNT(list)
 
     const data = [{
         title: "全部",

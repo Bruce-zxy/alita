@@ -110,6 +110,8 @@ const NewsList = withApollo((props) => {
                         <img src={item.cover} alt='placeholder' />
                     </Link>
                 ))}
+                <div className="hdz-block-large-space"></div>
+                <div className="hdz-block-large-space"></div>
             </InfiniteScroll>
         </div>
     )

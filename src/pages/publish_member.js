@@ -7,7 +7,7 @@ import { withApollo } from 'react-apollo';
 
 import { LOCAL_URL, API_ROOT } from '../config/common';
 import { M_LEVEL_UP } from '../gql';
-import { toTransformAreaTreeProps, toGetLevel, dataURLtoBlob, Upload, toFetchCurrentUser } from '../utils/global';
+import { buildingQuery, toTransformAreaTreeProps, toGetLevel, dataURLtoBlob, Upload, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
 
 import 'antd/es/radio/style/css';
 import "../style/publish.scss";
@@ -16,15 +16,6 @@ const PublishProject = withApollo((props) => {
 
     const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history } = props;
 
-    // const [thisImage, toCropImage] = useState(null);
-    const [thisModal, setModal] = useState({});
-    const [thisMap, setMap] = useState(new Map());
-    const [thisAFiles, setAFile] = useState([]);
-    const [thisBFiles, setBFile] = useState([]);
-    const [thisPVDFiles, setPVDFile] = useState([]);
-    const [thisType, setType] = useState('enterprise');
-    const [thisUserType, setUserType] = useState('financer');
-    // const cropedImage = useRef(null);
     let area = [];
     let area_origin = [];
     let metadata = [];
@@ -44,6 +35,74 @@ const PublishProject = withApollo((props) => {
     } catch (error) {
         console.error(error.message);
     }
+
+    // const [thisImage, toCropImage] = useState(null);
+    const [thisModal, setModal] = useState({});
+    const [thisMap, setMap] = useState(new Map());
+    const [thisAFiles, setAFile] = useState([]);
+    const [thisBFiles, setBFile] = useState([]);
+    const [thisPVDFiles, setPVDFile] = useState([]);
+    const [thisType, setType] = useState(user.type);
+    const [thisUserType, setUserType] = useState(user.identity);
+    const disabled = user.status === 1;
+    // const cropedImage = useRef(null);
+
+    useEffect(() => {
+        if (thisUserType !== "provider") setPVDFile([]);
+        setMap(new Map());
+    }, [thisUserType]);
+
+    useEffect(() => {
+        if (thisType === "enterprise") {
+            setAFile([]);
+            setBFile([]);
+        }
+        setMap(new Map());
+    }, [thisType]);
+    useEffect(() => {
+        if (user) {
+            let k_v = {};
+            let provider = user.providers[0];
+
+            if (user.realname) k_v.realname = user.realname;
+            if (user.phone) k_v.phone = user.phone;
+            if (user.area) {
+                k_v.area = toGetParentArrayByChildNode(area_origin, { id: user.area.id }).map(item => item.id);
+            }
+            if (user.company) k_v.company = user.company;
+            if (user.org_code) k_v.org_code = user.org_code;
+            if (user.idcard) k_v.idcard = user.idcard;
+            if (user.identity) k_v.identity = user.identity;
+            if (user.type) k_v.type = user.type;
+
+            if (provider) {
+                if (provider.name) k_v.name = provider.name;
+                if (provider.slogan) k_v.slogan = provider.slogan;
+                if (provider.category) k_v.category = [provider.category.id];
+                if (provider.introduction) k_v.introduction = provider.introduction;
+            }
+
+            setFieldsValue(k_v);
+            if (user.type === "enterprise" && user.business_license) {
+                setAFile([{ url: user.business_license }]);
+            } else if (user.type === "personal" && user.idcardA) {
+                setAFile([{ url: user.idcardA }]);
+            }
+            if (user.type === "personal" && user.idcardB) {
+                setBFile([{ url: user.idcardB }]);
+            }
+            if (user.identity === "provider") {
+                setPVDFile([{ url: provider.logo }]);
+            }
+        }
+    }, [])
+
+    console.log(thisType);
+    console.log(thisUserType);
+    console.log(thisAFiles);
+    console.log(thisBFiles);
+    console.log(thisPVDFiles);
+    
 
     /* 【Part 1】 ↓ */
     const onErrorClick = (key) => () => {
@@ -86,11 +145,12 @@ const PublishProject = withApollo((props) => {
                 user_constructor.area = { id: k_v.area[k_v.area.length - 1] };
             }
 
+            user_constructor.type = k_v.type;
             if (k_v.type === 'enterprise') {
                 if (!k_v.company.trim()) {
                     return Toast.fail('请填写企业全称！')
                 } else {
-                    user_constructor.type = k_v.type;
+                    user_constructor.company = k_v.company;
                 };;
                 if (!k_v.org_code.trim()) {
                     return Toast.fail('请填写统一社会信用代码！')
@@ -115,9 +175,9 @@ const PublishProject = withApollo((props) => {
                     user_constructor.idcardB = thisBFiles[0].url;
                 };
             }
-
+            
+            if (k_v.identity === 'user') return Toast.fail('请选择正确的会员属性！');
             user_constructor.identity = k_v.identity;
-            user_constructor.type = k_v.type;
             if (k_v.identity === "provider") {
                 
                 if (!k_v.name.trim()) {
@@ -263,33 +323,22 @@ const PublishProject = withApollo((props) => {
     };
     /* 【Part 3】 ↑ */
 
-    useEffect(() => {
-        if (thisUserType !== "provider") setPVDFile([]);
-        setMap(new Map());
-    }, [thisUserType]);
-
-    useEffect(() => {
-        setAFile([]);
-        setBFile([]);
-        setMap(new Map());
-    }, [thisType]);
-
     global.TNT(thisMap, thisAFiles, thisBFiles, thisPVDFiles);
 
     return (
         <div className="hdz-publish-project">
             <List>
 
-                <InputItem {...getFieldProps(FIELD_7)} {...FIELD_7_PROPS} labelNumber={5}>真实姓名</InputItem>
-                <InputItem {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} labelNumber={5}>联系电话</InputItem>
+                <InputItem disabled={disabled} {...getFieldProps(FIELD_7)} {...FIELD_7_PROPS} labelNumber={5}>真实姓名</InputItem>
+                <InputItem disabled={disabled} {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} labelNumber={5}>联系电话</InputItem>
 
-                <Picker {...getFieldProps(FIELD_6)} {...FIELD_6_PROPS} >
-                    <List.Item arrow="horizontal">所在地区</List.Item>
+                <Picker disabled={disabled} {...getFieldProps(FIELD_6)} {...FIELD_6_PROPS} >
+                    <List.Item disabled={disabled} arrow="horizontal">所在地区</List.Item>
                 </Picker>
 
-                <List.Item className="none-input-item">
+                <List.Item disabled={disabled} className="none-input-item" >
                     <label>会员身份</label>
-                    <Radio.Group {...getFieldProps(FIELD_1, { initialValue: "enterprise", onChange: (e) => setType(e.target.value) })} >
+                    <Radio.Group disabled={disabled} {...getFieldProps(FIELD_1, { initialValue: "enterprise", onChange: (e) => setType(e.target.value) })} >
                         <Radio value="enterprise" >企业</Radio>
                         <Radio value="personal" >个人</Radio>
                     </Radio.Group>
@@ -297,11 +346,11 @@ const PublishProject = withApollo((props) => {
 
                 {thisType === "enterprise" ? (
                     <Fragment>
-                        <InputItem {...getFieldProps(FIELD_2)} {...FIELD_2_PROPS} labelNumber={5}>企业全称</InputItem>
-                        <InputItem {...getFieldProps(FIELD_3)} {...FIELD_3_PROPS} labelNumber={8}>统一社会信用代码</InputItem>
+                        <InputItem disabled={disabled} {...getFieldProps(FIELD_2)} {...FIELD_2_PROPS} labelNumber={5}>企业全称</InputItem>
+                        <InputItem disabled={disabled} {...getFieldProps(FIELD_3)} {...FIELD_3_PROPS} labelNumber={8}>统一社会信用代码</InputItem>
 
                         <div className="avatar-upload">
-                            <p>点击上传企业营业执照</p>
+                            <p>点击{disabled ? '查看' : '上传'}企业营业执照</p>
                             <ImagePicker
                                 className="publish-image-picker"
                                 length={1}
@@ -309,7 +358,8 @@ const PublishProject = withApollo((props) => {
                                 onChange={onFileChange(thisAFiles, setAFile)}
                                 onFail={msg => Toast.fail(msg.message) || global.TNT(msg.message)}
                                 onImageClick={(index, img) => setModal({ show: true, url: img[index].url })}
-                                selectable={!thisAFiles.length}
+                                selectable={!disabled && !thisAFiles.length}
+                                disableDelete={disabled}
                             />
                             <p>图片大小不超过2M</p>
                         </div>
@@ -317,10 +367,10 @@ const PublishProject = withApollo((props) => {
                     </Fragment>
                 ) : (
                     <Fragment>
-                        <InputItem {...getFieldProps(FIELD_5)} {...FIELD_5_PROPS} labelNumber={5}>身份证号</InputItem>
+                        <InputItem disabled={disabled} {...getFieldProps(FIELD_5)} {...FIELD_5_PROPS} labelNumber={5}>身份证号</InputItem>
 
                         <div className="avatar-upload">
-                            <p>点击上传身份证正面</p>
+                            <p>点击{disabled ? '查看' : '上传'}身份证正面</p>
                             <ImagePicker
                                 className="publish-image-picker"
                                 length={1}
@@ -328,13 +378,14 @@ const PublishProject = withApollo((props) => {
                                 onChange={onFileChange(thisAFiles, setAFile)}
                                 onFail={msg => Toast.fail(msg.message) || global.TNT(msg.message)}
                                 onImageClick={(index, img) => setModal({ show: true, url: img[index].url })}
-                                selectable={thisAFiles.length < 1}
+                                selectable={!disabled && thisAFiles.length < 1}
+                                disableDelete={disabled}
                             />
                             <p>图片大小不超过2M</p>
                         </div>
 
                         <div className="avatar-upload">
-                            <p>点击上传身份证反面</p>
+                            <p>点击{disabled ? '查看' : '上传'}身份证反面</p>
                             <ImagePicker
                                 className="publish-image-picker"
                                 length={1}
@@ -342,7 +393,8 @@ const PublishProject = withApollo((props) => {
                                 onChange={onFileChange(thisBFiles, setBFile)}
                                 onFail={msg => Toast.fail(msg.message) || global.TNT(msg.message)}
                                 onImageClick={(index, img) => setModal({ show: true, url: img[index].url })}
-                                selectable={thisBFiles.length < 1}
+                                selectable={!disabled && thisBFiles.length < 1}
+                                disableDelete={disabled}
                             />
                             <p>图片大小不超过2M</p>
                         </div>
@@ -350,24 +402,25 @@ const PublishProject = withApollo((props) => {
                     </Fragment>
                 )}
 
-                <List.Item className="none-input-item" multipleLine>
+                <List.Item disabled={disabled} className="none-input-item" multipleLine>
                     <label>会员属性</label>
-                    <Radio.Group {...getFieldProps(FIELD_9, { initialValue: "financer", onChange: (e) => setUserType(e.target.value) })} style={{ width: "calc(100% - 85px)", display: "inline-flex", flexWrap: "wrap" }} >
+                    <Radio.Group disabled={disabled} {...getFieldProps(FIELD_9, { initialValue: "financer", onChange: (e) => setUserType(e.target.value) })} style={{ width: "calc(100% - 85px)", display: "inline-flex", flexWrap: "wrap" }} >
                         <Radio value="financer" style={{ marginBottom: "3.2vw" }}>项目方</Radio>
                         <Radio value="investor" style={{ marginBottom: "3.2vw" }}>资金方</Radio>
                         <Radio value="provider" >服务商</Radio>
+                        <Radio value="user" disabled>普通用户</Radio>
                     </Radio.Group>
                 </List.Item>
 
                 {thisUserType === "provider" ? (
                     <Fragment>
-                        <InputItem {...getFieldProps(FIELD_1_PVD)} {...FIELD_1_PVD_PROPS} labelNumber={3}>名称</InputItem>
-                        <InputItem {...getFieldProps(FIELD_2_PVD)} {...FIELD_2_PVD_PROPS} labelNumber={3}>简称</InputItem>
-                        <Picker {...getFieldProps(FIELD_3_PVD)} {...FIELD_3_PVD_PROPS} >
-                            <List.Item arrow="horizontal">分类</List.Item>
+                        <InputItem disabled={disabled} {...getFieldProps(FIELD_1_PVD)} {...FIELD_1_PVD_PROPS} labelNumber={3}>名称</InputItem>
+                        <InputItem disabled={disabled} {...getFieldProps(FIELD_2_PVD)} {...FIELD_2_PVD_PROPS} labelNumber={3}>简称</InputItem>
+                        <Picker disabled={disabled} {...getFieldProps(FIELD_3_PVD)} {...FIELD_3_PVD_PROPS} >
+                            <List.Item disabled={disabled} arrow="horizontal">分类</List.Item>
                         </Picker>
                         <div className="avatar-upload">
-                            <p>点击上传服务商图标</p>
+                            <p>点击{disabled ? '查看' : '上传'}服务商图标</p>
                             <ImagePicker
                                 className="publish-image-picker"
                                 length={1}
@@ -375,24 +428,28 @@ const PublishProject = withApollo((props) => {
                                 onChange={onFileChange(thisPVDFiles, setPVDFile)}
                                 onFail={msg => Toast.fail(msg)}
                                 onImageClick={(index, img) => setModal({ show: true, url: img[index].url })}
-                                selectable={!thisPVDFiles.length}
+                                selectable={!disabled && !thisPVDFiles.length}
+                                disableDelete={disabled}
                             />
                             <p>图片大小不超过2M</p>
                         </div>
-                        <List.Item className="none-input-item">
+                        <List.Item disabled={disabled} className="none-input-item">
                             <label>机构简介</label>
                             <TextareaItem
                                 {...getFieldProps(FIELD_4_PVD)}
                                 {...FIELD_4_PVD_PROPS}
                                 rows={5}
                                 autoHeight
+                                disabled={disabled}
                             />
                         </List.Item>
                     </Fragment>
                 ) : ''}
 
             </List>
-            <div className="publish-button" onClick={toPublish}>立即提交</div>
+            {!disabled && <div className="publish-button" onClick={toPublish}>立即提交</div>}
+            <div className="hdz-block-large-space" style={{ background: "#FFF" }}></div>
+            <div className="hdz-block-large-space" style={{ background: "#FFF" }}></div>
             {/* <Modal
                 visible={thisImage && thisImage.url}
                 maskClosable={false}

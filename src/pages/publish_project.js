@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { List, InputItem, TextareaItem, Toast, Modal, ImagePicker, Picker, Button } from 'antd-mobile';
 import { Radio } from 'antd';
 import { createForm } from 'rc-form';
@@ -6,16 +6,32 @@ import AvatarEditor from 'react-avatar-editor';
 import { withApollo } from 'react-apollo';
 
 import TagsView from '../components/TagsView';
-import { M_PUBLISH_PROJECT } from '../gql';
+import { M_PUBLISH_PROJECT, Q_GET_PROJECT, M_UPDATE_PROJECT } from '../gql';
 import { LOCAL_URL, API_ROOT } from '../config/common';
-import { toTransformAreaTreeProps, toGetLevel, dataURLtoBlob, Upload, toFetchCurrentUser } from '../utils/global';
+import { buildingQuery, toTransformAreaTreeProps, toGetLevel, dataURLtoBlob, Upload, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
 
 import 'antd/es/radio/style/css';
 import "../style/publish.scss";
 
+const defaultVariables = {
+    join: [
+        { field: 'creator' },
+        { field: 'exit_mode' },
+        { field: 'industry' },
+        { field: 'ratio' },
+        { field: 'stage' },
+        { field: 'withdrawal_year' },
+        { field: 'data' },
+        { field: 'area' },
+        { field: 'risk' },
+        { field: 'interest' },
+        { field: 'occupancy_time' },
+    ]
+};
+
 const PublishProject = withApollo((props) => {
 
-    const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history } = props;
+    const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history, location: { search } } = props;
     
     const [thisImage, toCropImage] = useState(null);
     const [thisModal, setModal] = useState({});
@@ -23,7 +39,7 @@ const PublishProject = withApollo((props) => {
     const [thisFiles, setFile] = useState([]);
     const [thisType, setType] = useState('equity');
     const cropedImage = useRef(null);
-
+    
     let industry_set = [];
     let industry_origin_set = [];
     let area_set = [];
@@ -44,14 +60,20 @@ const PublishProject = withApollo((props) => {
     let exit_mode_origin_set = [];
     let data_set = [];
     let data_origin_set = [];
-
+    
     let metadata = [];
     let user = {};
-
+    let params = {};
+    let params_str = search.split('?')[1] || '';
+    params_str.split('&').forEach(param => {
+        let [key, val] = param.split('=');
+        params[key] = val;
+    })
+    
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
         user = JSON.parse(localStorage.getItem('u_user'));
-
+        
         industry_origin_set = metadata[metadata.findIndex(data => data.title === '行业')].children;
         area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
         stage_origin_set = metadata[metadata.findIndex(data => data.title === '阶段')].children;
@@ -60,10 +82,10 @@ const PublishProject = withApollo((props) => {
         risk_origin_set = metadata[metadata.findIndex(data => data.title === '风控')].children;
         interest_origin_set = metadata[metadata.findIndex(data => data.title === '利息')].children;
         occupancy_time_origin_set = metadata[metadata.findIndex(data => data.title === '时长')].children;
-
+        
         exit_mode_origin_set = metadata[metadata.findIndex(data => data.title === '退出方式')].children;
         data_origin_set = metadata[metadata.findIndex(data => data.title === '可提供资料')].children;
-
+        
         industry_set = toTransformAreaTreeProps(industry_origin_set, { key: 'title', value: 'id', children: 'children' });
         area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'id', children: 'children' });
         stage_set = toTransformAreaTreeProps(stage_origin_set, { key: 'title', value: 'id', children: 'children' });
@@ -79,6 +101,54 @@ const PublishProject = withApollo((props) => {
     } catch (error) {
         console.error(error.message);
     }
+
+    useEffect(() => {
+        (async () => {
+            if (params.id) {
+                let projects = user.projects;
+                let index = projects.findIndex((project => project.id === params.id));
+
+                if (index !== -1) {
+                    const { data } = await client.query({
+                        query: Q_GET_PROJECT,
+                        variables: { id: params.id, queryString: buildingQuery(defaultVariables) }
+                    });
+                    if (data) {
+                        global.TNT(data.project);
+
+                        let k_v = {};
+                        let { project } = data;
+                        if (project.title) k_v.title = project.title;
+                        if (project.amount) k_v.amount = project.amount;
+                        if (project.industry) k_v.industry = [project.industry.id];
+                        if (project.area) {
+                            k_v.area = toGetParentArrayByChildNode(area_origin_set, { id: project.area.id }).map(item => item.id);
+                        }
+                        if (project.stage) k_v.stage = [project.stage.id];
+                        if (project.ratio) k_v.ratio = [project.ratio.id];
+                        if (project.withdrawal_year) k_v.withdrawal_year = [project.withdrawal_year.id];
+                        if (project.exit_mode) k_v.exit_mode = project.exit_mode.map(item => item.id);
+                        if (project.risk) k_v.risk = [project.risk.id];
+                        if (project.interest) k_v.interest = [project.interest.id];
+                        if (project.occupancy_time) k_v.occupancy_time = [project.occupancy_time.id];
+                        if (project.purposes) k_v.purposes = project.purposes;
+                        if (project.progress) k_v.progress = project.progress;
+                        if (project.info) k_v.info = project.info;
+                        if (project.data) k_v.data = project.data.map(item => item.id);
+                        if (project.team_info) k_v.team_info = project.team_info;
+                        if (project.advantage) k_v.advantage = project.advantage;
+                        if (project.company_info) k_v.company_info = project.company_info;
+
+                        setFieldsValue(k_v);
+                        setType(project.category);
+                        setFile([{ url: project.cover }]);
+                    } 
+                }
+            }
+        })()
+    }, []);
+
+
 
     /* 【Part 1】 ↓ */
     const onErrorClick = (key) => () => {
@@ -97,6 +167,7 @@ const PublishProject = withApollo((props) => {
     }
     const toPublish = () => {
         validateFields(async (error, values) => {
+            global.TNT(values);
             let k_v = {};
             Object.keys(values).forEach(key => k_v[key.toLocaleLowerCase()] = values[key] ? values[key] : '');
             if (!!thisMap.size || !thisFiles.length || error) return Toast.fail('请按正确的格式填写表单！');;
@@ -122,8 +193,7 @@ const PublishProject = withApollo((props) => {
             } else {
                 k_v.area = { id: k_v.area[k_v.area.length - 1] };
             }
-
-            if (thisType === 'equity') {
+            if (k_v.category === 'equity') {
                 if (!k_v.stage.length) {
                     return Toast.fail('请选择项目所在处阶段！');
                 } else {
@@ -175,20 +245,19 @@ const PublishProject = withApollo((props) => {
             global.TNT(k_v);
 
             const res = await client.mutate({
-                mutation: M_PUBLISH_PROJECT,
+                mutation: params.id ? M_UPDATE_PROJECT : M_PUBLISH_PROJECT,
                 variables: {
                     data: k_v
                 }
             });
 
-            if (res.data && res.data.publishProject) {
-                Toast.success('发布项目成功！请等待管理员审核！');
+            if (!res.data || (!res.data.publishProject && !res.data.updateProject)) {
+                return Toast.fail(`${params.id ? '更新' : '发布'}项目失败！`);
+            } else {
+                Toast.success(`${params.id ? '更新' : '发布'}项目成功！请等待管理员审核！`);
                 await toFetchCurrentUser(client);
                 history.push(LOCAL_URL['MINE']);
-            } else {
-                Toast.fail('发布项目失败！');
             }
-
         })
     }
     /* 【Part 1】 ↑ */

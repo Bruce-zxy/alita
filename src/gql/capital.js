@@ -20,6 +20,7 @@ export const F_CAPITAL_FIELDS = gql`
     pledge
     discount
     pre_payment
+    term
     type {
       id
       title

@@ -218,3 +218,17 @@ export const toFindAreaTree = (tree, target) => {
   deepSearch(tree);
   return retNode;
 }
+
+export const toGetParentArrayByChildNode = (tree, target) => {
+  let key = Object.keys(target).shift();
+  let val = Object.values(target).shift();
+  for (let treeNode of tree) {
+    if (treeNode[key] === val) return [treeNode];
+    if (treeNode.children) {
+      let childNode = toGetParentArrayByChildNode(treeNode.children, target);
+      if (childNode) {
+        return [treeNode].concat(childNode);
+      };
+    }
+  }
+}

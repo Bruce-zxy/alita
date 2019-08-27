@@ -116,6 +116,7 @@
         font-size: $FONT_SIZE_16;
         font-weight: bold;
         color: $GRAY_333;
+        padding-bottom: 2vw;
     }
 
     .news-intro {
@@ -135,6 +136,7 @@
 
         p {
             text-align: justify;
+            padding: $SIZE_10 0;
         }
 
         img {

@@ -1,20 +1,41 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { List, InputItem, TextareaItem, Toast, Picker } from 'antd-mobile';
 import { Radio } from 'antd';
 import { createForm } from 'rc-form';
 import { withApollo } from 'react-apollo';
 
 import TagsView from '../components/TagsView';
-import { M_PUBLISH_CAPITAL } from '../gql';
+import { M_PUBLISH_CAPITAL, Q_GET_CAPITAL, M_UPDATE_CAPITAL } from '../gql';
 import { LOCAL_URL } from '../config/common';
-import { toTransformAreaTreeProps, toGetLevel, toFetchCurrentUser } from '../utils/global';
+import { buildingQuery, toTransformAreaTreeProps, toGetLevel, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
 
 import 'antd/es/radio/style/css';
 import "../style/publish.scss";
 
+const defaultVariables = {
+    join: [
+        { field: 'creator' },
+        { field: 'industry' },
+        { field: 'area' },
+        { field: 'stage' },
+        { field: 'type' },
+        { field: 'equity_type' },
+        { field: 'invest_type' },
+        { field: 'invest_area' },
+        { field: 'risk' },
+        { field: 'data' },
+        { field: 'term' },
+        { field: 'ratio' },
+        { field: 'return' },
+        { field: 'pledge' },
+        { field: 'discount' },
+        { field: 'pre_payment' },
+    ],
+};
+
 const PublishFunds = withApollo((props) => {
 
-    const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history } = props;
+    const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history, location: { search } } = props;
     
     const [thisMap, setMap] = useState(new Map());
     const [thisType, setType] = useState('equity');
@@ -40,6 +61,12 @@ const PublishFunds = withApollo((props) => {
 
     let metadata = [];
     let user = {};
+    let params = {};
+    let params_str = search.split('?')[1] || '';
+    params_str.split('&').forEach(param => {
+        let [key, val] = param.split('=');
+        params[key] = val;
+    })
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
@@ -68,6 +95,50 @@ const PublishFunds = withApollo((props) => {
     } catch (error) {
         console.error(error.message);
     }
+
+    useEffect(() => {
+        (async () => {
+            if (params.id) {
+                let capitals = user.capitals;
+                let index = capitals.findIndex((capital => capital.id === params.id));
+
+                if (index !== -1) {
+                    const { data } = await client.query({
+                        query: Q_GET_CAPITAL,
+                        variables: { id: params.id, queryString: buildingQuery(defaultVariables) }
+                    });
+                    if (data) {
+                        global.TNT(data.capital);
+
+                        let k_v = {};
+                        let { capital } = data;
+                        if (capital.title) k_v.title = capital.title;
+                        if (capital.amount) k_v.amount = capital.amount;
+                        if (capital.industry) k_v.industry = capital.industry.map(item => item.id);
+                        if (capital.type) k_v.type = capital.type.map(item => item.id);
+                        if (capital.area) {
+                            k_v.area = toGetParentArrayByChildNode(area_origin_set, { id: capital.area.id }).map(item => item.id);
+                        }
+                        if (capital.invest_area) k_v.invest_area = capital.invest_area.map(item => item.id);
+                        if (capital.equity_type) k_v.equity_type = [capital.equity_type.id];
+                        if (capital.stage) k_v.stage = capital.stage.map(item => item.id);
+                        if (capital.term) k_v.term = capital.term;
+                        if (capital.invest_type) k_v.invest_type = capital.invest_type.map(item => item.id);
+                        if (capital.ratio) k_v.ratio = [capital.ratio.id];
+                        if (capital.return) k_v.return = capital.return;
+                        if (capital.risk) k_v.risk = [capital.risk.id];
+                        if (capital.discount) k_v.discount = capital.discount;
+                        if (capital.pre_payment) k_v.pre_payment = capital.pre_payment;
+                        if (capital.data) k_v.data = capital.data.map(item => item.id);
+                        if (capital.info) k_v.info = capital.info;
+
+                        setFieldsValue(k_v);
+                        setType(capital.category);
+                    }
+                }
+            }
+        })()
+    }, []);
 
     /* 【Part 1】 ↓ */
     const onErrorClick = (key) => () => {
@@ -168,19 +239,21 @@ const PublishFunds = withApollo((props) => {
             global.TNT(k_v);
 
             const res = await client.mutate({
-                mutation: M_PUBLISH_CAPITAL,
+                mutation: params.id ? M_UPDATE_CAPITAL : M_PUBLISH_CAPITAL,
                 variables: {
+                    id: params.id,
                     data: k_v
                 }
             });
 
-            if (res.data && res.data.publishCapital) {
-                Toast.success('发布资金成功！请等待管理员审核！');
+            if (!res.data || (!res.data.publishCapital && !res.data.updateCapital)) {
+                return Toast.fail(`${params.id ? '更新' : '发布'}资金失败！`);
+            } else {
+                Toast.success(`${params.id ? '更新' : '发布'}资金成功！请等待管理员审核！`);
                 await toFetchCurrentUser(client);
                 history.push(LOCAL_URL['MINE']);
-            } else {
-                Toast.fail('发布资金失败！');
             }
+
         })
     }
     /* 【Part 1】 ↑ */

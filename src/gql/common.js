@@ -35,19 +35,71 @@ export const Q_FETCH_CURRENT_USER = gql`
       providers {
         id
         name
+        status
+        logo
+        slogan
+        category {
+          id
+          title
+        }
+        introduction
       }
       projects {
         id
         title
-        status
-        category
-        cover
-        create_at
         amount
         industry {
           id
           title
         }
+        area {
+          id
+          title
+        }
+        category
+        stage {
+          id
+          title
+        }
+        ratio {
+          id
+          title
+        }
+        withdrawal_year {
+          id
+          title
+        }
+        exit_mode {
+          id
+          title
+        }
+        risk {
+          id
+          title
+        }
+        interest {
+          id
+          title
+        }
+        occupancy_time {
+          id
+          title
+        }
+        payment
+        purposes
+        progress
+        info
+        data {
+          id
+          title
+        }
+        team_info
+        advantage
+        company_info
+        status
+        cover
+        create_at
+        reason
         creator {
           id
           realname
@@ -57,19 +109,55 @@ export const Q_FETCH_CURRENT_USER = gql`
       capitals {
         id
         title
-        category
-        amount
-        create_at
-        status
-        stage {
-          title
-        }
         industry {
+          id
           title
         }
+        amount
         type {
+          id
+          title
+        } 
+        area {
+          id
           title
         }
+        invest_area {
+          id
+          title
+        }
+        category
+        equity_type {
+          id
+          title
+        }
+        stage {
+          id
+          title
+        }
+        term 
+        invest_type {
+          id
+          title
+        }
+        ratio {
+          id
+          title
+        }
+        return 
+        risk {
+          id
+          title
+        }
+        pledge
+        discount
+        pre_payment
+        data {
+          id
+          title
+        }
+        info
+
         creator {
           id
           realname

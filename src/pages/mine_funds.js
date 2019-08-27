@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import * as moment from 'moment';
@@ -16,33 +16,36 @@ const FundsList = (props) => {
         return (
             <div className="funds-list">
                 {props.list.map((item, i) => (
-                    <Link className="funds-item" key={i} to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
-                        <p>
-                            <span>{item.publish}</span>
-                            <span>{item.status}</span>
-                        </p>
-                        <p>{item.name}</p>
-                        <p>{item.tags && item.tags.map((tag, j) => tag && <span key={j}>{tag}</span>)}</p>
+                    <Fragment>
+                        <Link className="funds-item" key={i} to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
+                            <p>
+                                <span>{item.publish}</span>
+                                <span>{item.status}</span>
+                            </p>
+                            <p>{item.name}</p>
+                            <p>{item.tags && item.tags.map((tag, j) => tag && <span key={j}>{tag}</span>)}</p>
 
-                        <div className="project-intro">
-                            <div>
-                                <p>&yen;{item.price}万元</p>
-                                <p>投资金额</p>
+                            <div className="project-intro">
+                                <div>
+                                    <p>&yen;{item.price}万元</p>
+                                    <p>投资金额</p>
+                                </div>
+                                <div>
+                                    <p>{item.period}</p>
+                                    <p>投资阶段</p>
+                                </div>
+                                <div>
+                                    <p>{item.category}</p>
+                                    <p>资金类型</p>
+                                </div>
                             </div>
-                            <div>
-                                <p>{item.period}</p>
-                                <p>投资阶段</p>
-                            </div>
-                            <div>
-                                <p>{item.category}</p>
-                                <p>资金类型</p>
-                            </div>
-                        </div>
 
-                        <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-category">编辑资金</Link>
-                    </Link>
+                            <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-category">编辑资金</Link>
+                        </Link>
+                        {item.status === PROJECT_STATUS_ENUM_CN['rejected'] && <div className="funds-tips">审核未通过理由：{item.reason}</div>}
+                    
+                    </Fragment>
                 ))}
-                <div className="funds-tips">审核未通过理由：完善资料并审核通过之后，系统将自动给您升级VIP等级并生成一张名片，名片可以和其他会员交换。</div>
                 <div className="hdz-block-large-space"></div>
                 <div className="hdz-block-large-space"></div>
                 <div className="hdz-block-large-space"></div>
@@ -75,7 +78,8 @@ export default withApollo((props) => {
         price: capital.amount,
         status: PROJECT_STATUS_ENUM_CN[capital.status] || '未知',
         period: capital.stage && capital.stage.length ? capital.stage.map(stage => stage.title).join(',') : '未知',
-        category: capital.type && capital.type.length ? capital.type.map(type => type.title).join(',') : '未知'
+        category: capital.type && capital.type.length ? capital.type.map(type => type.title).join(',') : '未知',
+        reason: capital.reason
     })) : []
 
     const data = [{
