@@ -216,8 +216,8 @@ const FundsDetail = withApollo((props) => {
                                     <div className="member-info">
                                         <img src={capital.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
-                                            <p>{capital.creator.hideName}</p>
-                                            <p>所在公司：{capital.creator.hideCompany}</p>
+                                            <p>{capital.creator.hideName || "匿名"}</p>
+                                            <p>所在公司：{capital.creator.hideCompany || "暂无"}</p>
                                         </div>
                                     </div>
                                 ) : (

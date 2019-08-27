@@ -3,12 +3,18 @@ import { List, Toast } from 'antd-mobile';
 import { Tag } from 'antd';
 import 'antd/es/tag/style/css';
 
+/* data: [{
+    label: 'text',
+    value: 'value'
+}]
+value: ['1', '2']; */
+
 const MyTag = (props) => {
-    const { value, onChange, children } = props;
-    const [tagState, setTagState] = useState(value && value.includes(children));
+    const { value, checkedGroup, onChange, children } = props;
+    const [tagState, setTagState] = useState(checkedGroup && checkedGroup.includes(value));
 
     const handleChange = checked => {
-        if (onChange(children, checked)) {
+        if (onChange(value, checked)) {
             setTagState(checked);
         };
     };
@@ -42,7 +48,7 @@ export default (props) => {
         <List.Item className={`none-input-item ${className ? className : ''}`} wrap>
             <label style={{ width: title.length * 20 + 5 + "px" }}>{title}</label>
             <div>
-                {data && data.map(tag => <MyTag key={tag} onChange={onTagChange} value={value}>{tag}</MyTag>)}
+                {data && data.map(tag => <MyTag key={tag.label} onChange={onTagChange} value={tag.value} checkedGroup={value}>{tag.label}</MyTag>)}
             </div>
         </List.Item>
     )

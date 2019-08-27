@@ -37,10 +37,10 @@ const PublishProject = withApollo((props) => {
 
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
         area_origin = metadata[metadata.findIndex(data => data.title === '地区')].children;
-        area = toTransformAreaTreeProps(area_origin, { key: 'title', value: 'title', children: 'children' });
+        area = toTransformAreaTreeProps(area_origin, { key: 'title', value: 'id', children: 'children' });
 
         provider_metadata = JSON.parse(sessionStorage.getItem('provider_metadata'));
-        provider_category = toTransformAreaTreeProps(provider_metadata, { key: 'title', value: 'title', children: 'children' });
+        provider_category = toTransformAreaTreeProps(provider_metadata, { key: 'title', value: 'id', children: 'children' });
     } catch (error) {
         console.error(error.message);
     }
@@ -62,8 +62,11 @@ const PublishProject = withApollo((props) => {
     }
     const toPublish = () => {
         validateFields(async (error, values) => {
+            global.TNT(values);
             let k_v = {};
+            let data = {};
             let user_constructor = { id: user.id };
+            let provider_constructor = {};
             Object.keys(values).forEach(key => k_v[key.toLocaleLowerCase()] = values[key] ? values[key] : '');
             if (!!thisMap.size || error) return Toast.fail('请按正确的格式填写表单！');
 
@@ -80,7 +83,7 @@ const PublishProject = withApollo((props) => {
             if (!k_v.area || !k_v.area.length) {
                 return Toast.fail('请选择地区！')
             } else {
-                user_constructor.area = { id: area_origin[area_origin.findIndex(item => item.title === k_v.area[0])].id };
+                user_constructor.area = { id: k_v.area[k_v.area.length - 1] };
             }
 
             if (k_v.type === 'enterprise') {
@@ -113,39 +116,43 @@ const PublishProject = withApollo((props) => {
                 };
             }
 
-            user_constructor.identify = k_v.identify;
+            user_constructor.identity = k_v.identity;
             user_constructor.type = k_v.type;
-
-            if (k_v.identity === '"provider"') {
-                if (!k_v.name.trim()) return Toast.fail('请填写服务商全称！');
-                if (!k_v.slogan.trim()) return Toast.fail('请填写服务商简称！');
+            if (k_v.identity === "provider") {
+                
+                if (!k_v.name.trim()) {
+                    return Toast.fail('请填写服务商全称！')
+                } else {
+                    provider_constructor.name = k_v.name;
+                };
+                if (!k_v.slogan.trim()) {
+                    return Toast.fail('请填写服务商简称！')
+                } else {
+                    provider_constructor.slogan = k_v.slogan;
+                };
                 if (!k_v.category.length) {
                     return Toast.fail('请选择服务商分类！')
                 } else {
-                    k_v.category = provider_metadata[provider_metadata.findIndex(item => item.title === k_v.category[0])].id;
-                };;
-                if (!k_v.introduction.trim()) return Toast.fail('请填写服务商简介！');
-                if (!thisPVDFiles.length) return Toast.fail('请上传服务商图标！');
+                    provider_constructor.category = { id: k_v.category[k_v.category.length - 1] };
+                };
+                if (!k_v.introduction.trim()) {
+                    return Toast.fail('请填写服务商简介！')
+                } else {
+                    provider_constructor.introduction = k_v.introduction;
+                };
+                if (!thisPVDFiles.length) {
+                    return Toast.fail('请上传服务商图标！')
+                } else {
+                    provider_constructor.logo = thisPVDFiles[0] && thisPVDFiles[0].url;
+                };
+                data.provider = provider_constructor;
             }
-            
-            global.TNT(user_constructor);
+
+            data.user = user_constructor;
 
             const res = await client.mutate({
                 mutation: M_LEVEL_UP,
-                variables: {
-                    data: {
-                        user: user_constructor,
-                        provider: {
-                            name: k_v.name,
-                            slogan: k_v.slogan,
-                            category: {
-                                id: k_v.category
-                            },
-                            introduction: k_v.introduction,
-                            logo: thisPVDFiles[0] && thisPVDFiles[0].url
-                        }
-                    }
-                }
+                variables: { data }
             });
 
             if (res.data && res.data.levelUp) {
@@ -193,15 +200,15 @@ const PublishProject = withApollo((props) => {
     const FIELD_3_PVD = 'category';
     const FIELD_4_PVD = 'introduction';
 
-    const FIELD_2_PROPS = toCreateProps(FIELD_2)("text")("请填写服务商名称")(/\S/ig, "请不要留空！")();
-    const FIELD_3_PROPS = toCreateProps(FIELD_3)("text")("请填写服务商简称")(/\S/ig, "请不要留空！")();
+    const FIELD_2_PROPS = toCreateProps(FIELD_2)("text")("请填写企业全称")(/\S/ig, "请不要留空！")();
+    const FIELD_3_PROPS = toCreateProps(FIELD_3)("text")("请填写统一社会信用代码")(/\S/ig, "请不要留空！")();
 
     // const FIELD_4_PROPS = toCreateProps(FIELD_4)("text")("请填写姓名")(/\S/ig, "请不要留空！")();
     const FIELD_5_PROPS = toCreateProps(FIELD_5)("text")("请填写身份证号")(/\S/ig, "请不要留空！")();
 
     const FIELD_6_PROPS = toCreatePickerProps(FIELD_6)(area);
-    const FIELD_7_PROPS = toCreateProps(FIELD_7)("text")("请详细介绍")(/\S/ig, "请不要留空！")();
-    const FIELD_8_PROPS = toCreateProps(FIELD_8)("number")("请详细介绍")(/\S/ig, "请不要留空！")();
+    const FIELD_7_PROPS = toCreateProps(FIELD_7)("text")("请填写真实姓名")(/\S/ig, "请不要留空！")();
+    const FIELD_8_PROPS = toCreateProps(FIELD_8)("number")("请填写联系电话")(/\S/ig, "请不要留空！")();
 
     const FIELD_1_PVD_PROPS = toCreateProps(FIELD_1_PVD)("text")("请填写服务商名称")(/\S/ig, "请不要留空！")();
     const FIELD_2_PVD_PROPS = toCreateProps(FIELD_2_PVD)("text")("请填写服务商简称")(/\S/ig, "请不要留空！")();

@@ -46,9 +46,11 @@ const PublishProject = withApollo((props) => {
     let data_origin_set = [];
 
     let metadata = [];
+    let user = {};
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        user = JSON.parse(localStorage.getItem('u_user'));
 
         industry_origin_set = metadata[metadata.findIndex(data => data.title === '行业')].children;
         area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
@@ -62,17 +64,17 @@ const PublishProject = withApollo((props) => {
         exit_mode_origin_set = metadata[metadata.findIndex(data => data.title === '退出方式')].children;
         data_origin_set = metadata[metadata.findIndex(data => data.title === '可提供资料')].children;
 
-        industry_set = toTransformAreaTreeProps(industry_origin_set, { key: 'title', value: 'title', children: 'children' });
-        area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'title', children: 'children' });
-        stage_set = toTransformAreaTreeProps(stage_origin_set, { key: 'title', value: 'title', children: 'children' });
-        ratio_set = toTransformAreaTreeProps(ratio_origin_set, { key: 'title', value: 'title', children: 'children' });
-        withdrawal_year_set = toTransformAreaTreeProps(withdrawal_year_origin_set, { key: 'title', value: 'title', children: 'children' });
-        risk_set = toTransformAreaTreeProps(risk_origin_set, { key: 'title', value: 'title', children: 'children' });
-        interest_set = toTransformAreaTreeProps(interest_origin_set, { key: 'title', value: 'title', children: 'children' });
-        occupancy_time_set = toTransformAreaTreeProps(occupancy_time_origin_set, { key: 'title', value: 'title', children: 'children' });
+        industry_set = toTransformAreaTreeProps(industry_origin_set, { key: 'title', value: 'id', children: 'children' });
+        area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'id', children: 'children' });
+        stage_set = toTransformAreaTreeProps(stage_origin_set, { key: 'title', value: 'id', children: 'children' });
+        ratio_set = toTransformAreaTreeProps(ratio_origin_set, { key: 'title', value: 'id', children: 'children' });
+        withdrawal_year_set = toTransformAreaTreeProps(withdrawal_year_origin_set, { key: 'title', value: 'id', children: 'children' });
+        risk_set = toTransformAreaTreeProps(risk_origin_set, { key: 'title', value: 'id', children: 'children' });
+        interest_set = toTransformAreaTreeProps(interest_origin_set, { key: 'title', value: 'id', children: 'children' });
+        occupancy_time_set = toTransformAreaTreeProps(occupancy_time_origin_set, { key: 'title', value: 'id', children: 'children' });
 
-        exit_mode_set = toTransformAreaTreeProps(exit_mode_origin_set, { key: 'title', value: 'title', children: 'children' });
-        data_set = toTransformAreaTreeProps(data_origin_set, { key: 'title', value: 'title', children: 'children' });
+        exit_mode_set = toTransformAreaTreeProps(exit_mode_origin_set, { key: 'title', value: 'id', children: 'children' });
+        data_set = toTransformAreaTreeProps(data_origin_set, { key: 'title', value: 'id', children: 'children' });
 
     } catch (error) {
         console.error(error.message);
@@ -113,52 +115,50 @@ const PublishProject = withApollo((props) => {
             if (!k_v.industry) {
                 return Toast.fail('请选择行业类型！');
             } else {
-                k_v.industry = { id: industry_origin_set[industry_origin_set.findIndex(item => item.title === k_v.industry[0])].id }
+                k_v.industry = { id: k_v.industry[k_v.industry.length - 1] }
             }
             if (!k_v.area) {
                 return Toast.fail('请选择项目所在地区！');
             } else {
-                k_v.area = { id: area_origin_set[area_origin_set.findIndex(item => item.title === k_v.area[0])].id };
+                k_v.area = { id: k_v.area[k_v.area.length - 1] };
             }
 
             if (thisType === 'equity') {
                 if (!k_v.stage.length) {
                     return Toast.fail('请选择项目所在处阶段！');
                 } else {
-                    k_v.stage = { id: stage_origin_set[stage_origin_set.findIndex(item => item.title === k_v.stage[0])].id };
+                    k_v.stage = { id: k_v.stage[k_v.stage.length - 1] };
                 }
                 if (!k_v.ratio.length) {
                     return Toast.fail('请选择项目占股比例！');
                 } else {
-                    k_v.ratio = { id: ratio_origin_set[ratio_origin_set.findIndex(item => item.title === k_v.ratio[0])].id };
+                    k_v.ratio = { id: k_v.ratio[k_v.ratio.length - 1] };
                 }
                 if (!k_v.withdrawal_year.length) {
                     return Toast.fail('请选择项目最短退出年限！');
                 } else {
-                    k_v.withdrawal_year = { id: withdrawal_year_origin_set[withdrawal_year_origin_set.findIndex(item => item.title === k_v.withdrawal_year[0])].id };
+                    k_v.withdrawal_year = { id: k_v.withdrawal_year[k_v.withdrawal_year.length - 1] };
                 }
                 if (!k_v.exit_mode.length) {
                     k_v.exit_mode = [];
                 } else {
-                    k_v.exit_mode = k_v.exit_mode.map(mode => ({
-                        id: exit_mode_origin_set[exit_mode_origin_set.findIndex(item => item.title === mode)].id
-                    }))
+                    k_v.exit_mode = k_v.exit_mode.map(mode => ({ id: mode }));
                 }
             } else {
                 if (!k_v.risk.length) {
                     return Toast.fail('请选择项目风控要求！');
                 } else {
-                    k_v.risk = { id: risk_origin_set[risk_origin_set.findIndex(item => item.title === k_v.risk[0])].id };
+                    k_v.risk = { id: k_v.risk[k_v.risk.length - 1] };
                 }
                 if (!k_v.interest.length) {
                     return Toast.fail('请选择项目所需承担的利息！');
                 } else {
-                    k_v.interest = { id: interest_origin_set[interest_origin_set.findIndex(item => item.title === k_v.interest[0])].id };
+                    k_v.interest = { id: k_v.interest[k_v.interest.length - 1] };
                 }
                 if (!k_v.occupancy_time.length) {
                     return Toast.fail('请选择项目资金占用时长！');
                 } else {
-                    k_v.occupancy_time = { id: occupancy_time_origin_set[occupancy_time_origin_set.findIndex(item => item.title === k_v.occupancy_time[0])].id };
+                    k_v.occupancy_time = { id: k_v.occupancy_time[k_v.occupancy_time.length - 1] };
                 }
                 if (!k_v.payment) return Toast.fail('请填写还款来源！');
             }
@@ -169,9 +169,7 @@ const PublishProject = withApollo((props) => {
             if (!k_v.data) {
                 k_v.data = [];
             } else {
-                k_v.data = k_v.data.map(mode => ({
-                    id: data_origin_set[data_origin_set.findIndex(item => item.title === mode)].id
-                }))
+                k_v.data = k_v.data.map(mode => ({ id: mode }));
             }
 
             global.TNT(k_v);
@@ -352,7 +350,7 @@ const PublishProject = withApollo((props) => {
                         <Picker {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} >
                             <List.Item arrow="horizontal">最短退出年限</List.Item>
                         </Picker>
-                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="退出方式" data={exit_mode_set.map(item => item.value)} limit={3} />
+                        <TagsView {...getFieldProps(FIELD_9)} className="tags-view" title="退出方式" data={exit_mode_set} limit={3} />
                     </Fragment>
                 ) : (
                     <Fragment>
@@ -409,7 +407,7 @@ const PublishProject = withApollo((props) => {
                     />
                 </List.Item>
 
-                <TagsView {...getFieldProps(FIELD_17)} className="tags-view" title="需提供资料" data={data_set.map(item => item.value)} />
+                <TagsView {...getFieldProps(FIELD_17)} className="tags-view" title="需提供资料" data={data_set} />
 
 
                 <List.Item className="none-input-item">
