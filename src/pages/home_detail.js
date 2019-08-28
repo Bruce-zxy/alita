@@ -143,14 +143,14 @@ export default withApollo((props) => {
                 if(data && data.project) {
                     const { project } = data;
                     const tab_data = [{
+                        title: "项目进展",
+                        content: project.progress || '暂无内容'
+                    }, {
                         title: "团队介绍",
                         content: project.team_info || '暂无内容'
                     }, {
                         title: "项目优势",
                         content: project.advantage || '暂无内容'
-                    }, {
-                        title: "项目进展",
-                        content: project.progress || '暂无内容'
                     }]
 
                     global.TNT(project);

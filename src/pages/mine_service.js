@@ -35,6 +35,12 @@ const FundsList = (props) => {
                                 <p>资金类型</p>
                             </div>
                         </div>
+                        <p className="card-bottom">
+                            <i className="iconfont iconyonghu"></i>
+                            <span>{item.creator.realname}</span>
+                            <i className="iconfont icondianhua"></i>
+                            <span><a href={`tel:${item.creator.phone}`}></a>{item.creator.phone}</span>
+                        </p>
                     </Link>
                 ))}
             </div>
