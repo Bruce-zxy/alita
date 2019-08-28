@@ -37,7 +37,7 @@ export default withApollo((props) => {
         console.error(err.message);
     }
 
-    const [thisState, setState] = useState({
+    const [thisState, setState] = useState({ 
         time: 1,
         category: '',
         area: [],

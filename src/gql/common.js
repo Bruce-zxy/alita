@@ -220,6 +220,7 @@ export const Q_FETCH_CURRENT_USER = gql`
         provider {
           id
           name
+          logo
           area {
             title
           }

@@ -62,7 +62,7 @@ const PublishProject = withApollo((props) => {
     useEffect(() => {
         if (user) {
             let k_v = {};
-            let provider = user.providers[0];
+            let provider = user.providers ? user.providers[0] : {};
 
             if (user.realname) k_v.realname = user.realname;
             if (user.phone) k_v.phone = user.phone;
@@ -185,11 +185,11 @@ const PublishProject = withApollo((props) => {
                 } else {
                     provider_constructor.name = k_v.name;
                 };
-                if (!k_v.slogan.trim()) {
-                    return Toast.fail('请填写服务商简称！')
-                } else {
-                    provider_constructor.slogan = k_v.slogan;
-                };
+                // if (!k_v.slogan.trim()) {
+                //     return Toast.fail('请填写服务商简称！')
+                // } else {
+                //     provider_constructor.slogan = k_v.slogan;
+                // };
                 if (!k_v.category.length) {
                     return Toast.fail('请选择服务商分类！')
                 } else {
@@ -256,7 +256,7 @@ const PublishProject = withApollo((props) => {
     const FIELD_9 = 'identity';
 
     const FIELD_1_PVD = 'name';
-    const FIELD_2_PVD = 'slogan';
+    // const FIELD_2_PVD = 'slogan';
     const FIELD_3_PVD = 'category';
     const FIELD_4_PVD = 'introduction';
 
@@ -271,7 +271,7 @@ const PublishProject = withApollo((props) => {
     const FIELD_8_PROPS = toCreateProps(FIELD_8)("number")("请填写联系电话")(/\S/ig, "请不要留空！")();
 
     const FIELD_1_PVD_PROPS = toCreateProps(FIELD_1_PVD)("text")("请填写服务商名称")(/\S/ig, "请不要留空！")();
-    const FIELD_2_PVD_PROPS = toCreateProps(FIELD_2_PVD)("text")("请填写服务商简称")(/\S/ig, "请不要留空！")();
+    // const FIELD_2_PVD_PROPS = toCreateProps(FIELD_2_PVD)("text")("请填写服务商简称")(/\S/ig, "请不要留空！")();
     const FIELD_3_PVD_PROPS = toCreatePickerProps(FIELD_3_PVD)(provider_category);
     const FIELD_4_PVD_PROPS = toCreateProps(FIELD_4_PVD)("text")("请详细介绍")(/\S/ig, "请不要留空！")();
 
@@ -415,7 +415,7 @@ const PublishProject = withApollo((props) => {
                 {thisUserType === "provider" ? (
                     <Fragment>
                         <InputItem disabled={disabled} {...getFieldProps(FIELD_1_PVD)} {...FIELD_1_PVD_PROPS} labelNumber={3}>名称</InputItem>
-                        <InputItem disabled={disabled} {...getFieldProps(FIELD_2_PVD)} {...FIELD_2_PVD_PROPS} labelNumber={3}>简称</InputItem>
+                        {/* <InputItem disabled={disabled} {...getFieldProps(FIELD_2_PVD)} {...FIELD_2_PVD_PROPS} labelNumber={3}>简称</InputItem> */}
                         <Picker disabled={disabled} {...getFieldProps(FIELD_3_PVD)} {...FIELD_3_PVD_PROPS} >
                             <List.Item disabled={disabled} arrow="horizontal">分类</List.Item>
                         </Picker>

@@ -27,7 +27,7 @@ export default withApollo((props) => {
         tags: [provider.provider.category.title],
         location: provider.provider.area.title || '未知',
         create: moment(provider.create_at*1).format('YYYY-MM-DD HH:mm:ss'),
-        avatar: provider.provider.creator.avatar,
+        logo: provider.provider.logo,
         concat: provider.provider.creator.realname || '未知',
         phone: provider.provider.creator.phone || '未知'
     })) : [];
@@ -41,7 +41,7 @@ export default withApollo((props) => {
                         <div className="card-top">
                             <p>{item.create}</p>
                             <div className="business-card-content">
-                                <img src={item.avatar} alt='avatar' />
+                                <img src={item.logo} alt='logo' />
                                 <div className="business-card-intro">
                                     <p>{item.company}</p>
                                     <p>
@@ -56,7 +56,7 @@ export default withApollo((props) => {
                             <i className="iconfont iconyonghu"></i>
                             <span>{item.concat}</span>
                             <i className="iconfont icondianhua"></i>
-                            <span>{item.phone}</span>
+                            <span><a href={`tel:${item.phone}`}>{item.phone}</a></span>
                         </p>
 
                         <Link to={`${LOCAL_URL['SERVICE_DETAIL']}/${item.id}`} className="card-category">服务商详情</Link>
