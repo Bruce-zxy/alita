@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-expressions */
 import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, ActivityIndicator } from 'antd-mobile';
+import { Modal, ActivityIndicator, Picker } from 'antd-mobile';
 import InfiniteScroll from 'react-infinite-scroller';
 import { withApollo } from "react-apollo";
 import { CondOperator } from '@nestjsx/crud-request';
 
-import { buildingQuery } from '../utils/global';
+import { buildingQuery, toGetLevel, toTransformAreaTreeProps, toGetParentArrayByChildNode } from '../utils/global';
 import { Q_GET_PROVIDERS } from '../gql';
 
 import Loader from '../components/Loader';
@@ -25,10 +25,22 @@ export default withApollo((props) => {
 
     const { client } = props;
 
+    let metadata = [];
+    let area_origin_set = [];
+    let area_set = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'title', children: 'children' });
+    } catch (err) {
+        console.error(err.message);
+    }
+
     const [thisState, setState] = useState({
         time: 1,
         category: '',
-        area: '',
+        area: [],
 
         hasMore: true,
         data: [],
@@ -51,23 +63,15 @@ export default withApollo((props) => {
             { text: '清除排序', onPress: () => toSetState({ category: '', page: 0 }) },
         ])
     }
-    const toShowFilterModal_2 = () => {
-        const area = thisState.area_data.map(are => ({ text: are.title, onPress: () => toSetState({ area: are.title, page: 0 }) }))
-        Modal.operation([
-            ...area,
-            { text: '清除排序', onPress: () => toSetState({ area: '', page: 0 }) },
-        ])
-    }
-    
 
     useEffect(() => {
 
-        if (!thisState.category && !thisState.area) {
+        if (!thisState.category && !thisState.area.length) {
             delete defaultVariables.filter;
         } else {
             defaultVariables.filter = [];
             thisState.category ? defaultVariables.filter.push({ field: "category.title", operator: CondOperator.EQUALS, value: thisState.category }) : '';
-            thisState.area ? defaultVariables.filter.push({ field: "area.title", operator: CondOperator.EQUALS, value: thisState.area }) : '';
+            thisState.area.length ? defaultVariables.filter.push({ field: "area.title", operator: CondOperator.EQUALS, value: thisState.area.pop() }) : '';
         }
 
         defaultVariables.sort = [{
@@ -134,8 +138,19 @@ export default withApollo((props) => {
                         <span>机构筛选</span>
                         <i className="iconfont iconpaixu"></i>
                     </div>
-                    <div className={`filter-factor state-${thisState.area ? 'active' : 'none'}`} onClick={toShowFilterModal_2}>
-                        <span>地区筛选</span>
+                    <div className={`filter-factor state-${thisState.area.length ? 'active' : 'none'}`} onClick={() => 'toShowFilterModal_2'}>
+                        <Picker
+                            title="选择地区"
+                            dismissText="清除"
+                            onDismiss={() => toSetState({ area: [], page: 0 })}
+                            onOk={(val) => toSetState({ area: val, page: 0 })}
+                            value={thisState.area}
+                            cascade={area_set && area_set[0] && area_set[0].children}
+                            cols={toGetLevel(area_set)}
+                            data={area_set}
+                        >
+                            <span>地区筛选</span>
+                        </Picker>
                         <i className="iconfont iconshaixuan-tianchong"></i>
                     </div>
                 </div>
@@ -154,7 +169,7 @@ export default withApollo((props) => {
                                     <p>{item.slogan}</p>
                                     <p>
                                         {item.category ? <span className="service-tags">{item.category.title}</span> : <span></span>}
-                                        <span className="service-location">所在地：{item.area ? item.area.title : '无'}</span>
+                                        <span className="service-location">所在省份：{item.area ? (toGetParentArrayByChildNode(area_origin_set, { id: item.area.id }) || []).shift().title : '无'}</span>
                                     </p>
                                 </div>
                             </Link>
@@ -162,6 +177,7 @@ export default withApollo((props) => {
                         <div className="hdz-block-large-space"></div>
                     </InfiniteScroll>
                 </div>
+                
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import DetailPanel from '../components/DetailPanel';
 import TabPanel from '../components/TabPanel';
 
-import { buildingQuery, toFetchCurrentUser } from '../utils/global';
+import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
 import { Q_GET_PROJECT, M_APPLY_PROJECTS } from '../gql';
 import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY, DEFAULT_AVATAR } from '../config/common';
 
@@ -31,6 +31,16 @@ const defaultVariables = {
 export default withApollo((props) => {
     const { match: { params: { id } }, history, client } = props;
     const [currUser, setCurrUser] = useState(null);
+
+    let metadata = [];
+    let area_origin_set = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+    } catch (err) {
+        console.error(err.message);
+    }
 
     useEffect(() => {
         try {
@@ -167,7 +177,7 @@ export default withApollo((props) => {
                                 <p className="detail-title">{project.title}</p>
                                 <p className="detail-subtitle">
                                     <span>&yen;{project.amount}万元</span>
-                                    <span>所在地区：{toSetVal(project.area)('title')('未知')}</span>
+                                    <span>所在地区：{project.area ? (toGetParentArrayByChildNode(area_origin_set, { id: project.area.id }) || []).map(item => item.title).join(',') : '未知'}</span>
                                 </p>
                             </div>
                             <div className="hdz-block-small-space"></div>

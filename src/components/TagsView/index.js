@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { List, Toast } from 'antd-mobile';
 import { Tag } from 'antd';
 import 'antd/es/tag/style/css';
@@ -18,6 +18,7 @@ const MyTag = (props) => {
             setTagState(checked);
         };
     };
+
     return (
         <Tag.CheckableTag {...props} checked={tagState} onChange={handleChange}>{children}</Tag.CheckableTag>
     );
@@ -39,15 +40,21 @@ export default (props) => {
         if (!checked && tagsState.includes(name)) {
             val = tagsState.filter(tag => tag !== name);
         }
-        setTagsState(val);
         onChange(val);
         return true;
     }
 
+    // 根据外部的value自动设置当前已选择的标签
+    useEffect(() => {
+        if (value && value.length >= 0) {
+            setTagsState(value);
+        }
+    }, [value])
+
     return (
         <List.Item className={`none-input-item ${className ? className : ''}`} wrap>
             <label style={{ width: title.length * 20 + 5 + "px" }}>{title}</label>
-            <div>
+            <div key={value}>
                 {data && data.map(tag => <MyTag key={tag.label} onChange={onTagChange} value={tag.value} checkedGroup={value}>{tag.label}</MyTag>)}
             </div>
         </List.Item>

@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { withApollo } from "react-apollo";
 import { CondOperator } from '@nestjsx/crud-request';
 
-import { buildingQuery } from '../utils/global';
+import { buildingQuery, toGetParentArrayByChildNode } from '../utils/global';
 import { Q_GET_PROJECTS } from '../gql';
 
 import { LOCAL_URL, IF_MODE_ENUM } from '../config/common';
@@ -23,6 +23,16 @@ const defaultVariables = {
 export default withApollo((props) => {
 
     const { client } = props;
+
+    let metadata = [];
+    let area_origin_set = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+    } catch (err) {
+        console.error(err.message);
+    }
 
     const [thisState, setState] = useState({
         time: 1,
@@ -156,7 +166,7 @@ export default withApollo((props) => {
                                     </p>
                                     <p>
                                         <span className="price">{item.amount}万元</span>
-                                        <span className="province">{item.area ? item.area.title : '无'}</span>
+                                        <span className="province">{item.area ? (toGetParentArrayByChildNode(area_origin_set, { id: item.area.id }) || []).shift().title : '无'}</span>
                                     </p>
                                 </div>
                             </Link>
