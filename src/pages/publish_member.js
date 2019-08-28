@@ -44,7 +44,10 @@ const PublishProject = withApollo((props) => {
     const [thisPVDFiles, setPVDFile] = useState([]);
     const [thisType, setType] = useState(user.type);
     const [thisUserType, setUserType] = useState(user.identity);
-    const disabled = user.status === 1;
+    const disabled = user.status*1 === 1;
+    console.log(user.vip, user.status);
+    console.log(disabled);
+    
     // const cropedImage = useRef(null);
 
     useEffect(() => {

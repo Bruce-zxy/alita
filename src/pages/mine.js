@@ -58,7 +58,7 @@ export default withApollo((props) => {
                 </div>
 
                 <p className="mine-status">{user_status[status]}</p>
-                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{status === 1 ? '查看资料' : vip === 0 ? "升级VIP" : "查看资料"}</Link>
+                <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{status === 1 ? '查看资料' : vip === 0 ? "升级VIP" : "修改资料"}</Link>
 
                 <div className="mine-function">
                     <Link to={`${LOCAL_URL['MINE_FINANCIAL']}`} className="mine-function-item">
@@ -76,12 +76,12 @@ export default withApollo((props) => {
                         <span>名片管理</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>
-                    {IDENTITY_MAPS[identity] === '项目方' && !!vip && <Link to={`${LOCAL_URL['MINE_PROJECT']}`} className="mine-function-item">
+                    {IDENTITY_MAPS[identity] === '项目方' && vip === 1 && status !== 1 && <Link to={`${LOCAL_URL['MINE_PROJECT']}`} className="mine-function-item">
                         <i className="iconfont iconproject-o icon"></i>
                         <span>项目管理</span>
                         <i className="iconfont iconyoubian"></i>
                     </Link>}
-                    {IDENTITY_MAPS[identity] === '资金方' && !!vip && <Link to={`${LOCAL_URL['MINE_FUNDS']}`} className="mine-function-item">
+                    {IDENTITY_MAPS[identity] === '资金方' && vip === 1 && status !== 1 && <Link to={`${LOCAL_URL['MINE_FUNDS']}`} className="mine-function-item">
                         <i className="iconfont iconzijin icon"></i>
                         <span>资金管理</span>
                         <i className="iconfont iconyoubian"></i>

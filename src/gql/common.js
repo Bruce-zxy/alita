@@ -109,6 +109,8 @@ export const Q_FETCH_CURRENT_USER = gql`
       capitals {
         id
         title
+        status
+        create_at
         industry {
           id
           title
