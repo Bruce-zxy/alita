@@ -11,12 +11,13 @@ import { Q_GET_PROJECTS } from '../gql';
 import { LOCAL_URL, IF_MODE_ENUM } from '../config/common';
 
 import '../style/home.scss';
+import SUCCESS_IF from '../images/successful_financing.png';
 
 const defaultVariables = {
     page: 0,
     limit: 10,
     join: [{field: "area"}],
-    filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }],
+    filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waitting,following" }],
     sort: [{ field: 'create_at', order: 'DESC' }],
 };
 
@@ -169,6 +170,7 @@ export default withApollo((props) => {
                                         <span className="province">{item.area ? (toGetParentArrayByChildNode(area_origin_set, { id: item.area.id }) || []).shift().title : '无'}</span>
                                     </p>
                                 </div>
+                                {item.status === 'finished' && (<div className="successful-financing" style={{ backgroundImage: `url(${SUCCESS_IF}` }}></div>) }
                             </Link>
                         ))}
                     </InfiniteScroll>

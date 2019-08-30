@@ -15,6 +15,7 @@ import TabPanel from '../components/TabPanel';
 import { LOCAL_URL, COLOR_ARRAY, ICON_ARRAY, IFT_MODE_ENUM } from '../config/common';
 
 import '../style/project.scss';
+import SUCCESS_IFT from '../images/successful_investment.png';
 
 const LookingFunds = withApollo((props) => {
 
@@ -171,6 +172,7 @@ const LookingFunds = withApollo((props) => {
                                     <p>资金类型</p>
                                 </div>
                             </div>
+                            {item.status === 'finished' && (<div className="successful-investment" style={{ backgroundImage: `url(${SUCCESS_IFT}` }}></div>)}
                         </Link>
                     ))}
                     <div className="hdz-block-large-space"></div>

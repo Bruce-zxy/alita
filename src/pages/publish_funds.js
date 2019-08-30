@@ -119,6 +119,7 @@ const PublishFunds = withApollo((props) => {
                         if (capital.area) {
                             k_v.area = toGetParentArrayByChildNode(area_origin_set, { id: capital.area.id }).map(item => item.id);
                         }
+                        if (capital.category) k_v.category = capital.category;
                         if (capital.invest_area) k_v.invest_area = capital.invest_area.map(item => item.id);
                         if (capital.equity_type) k_v.equity_type = [capital.equity_type.id];
                         if (capital.stage) k_v.stage = capital.stage.map(item => item.id);
@@ -127,13 +128,14 @@ const PublishFunds = withApollo((props) => {
                         if (capital.ratio) k_v.ratio = [capital.ratio.id];
                         if (capital.return) k_v.return = capital.return;
                         if (capital.risk) k_v.risk = [capital.risk.id];
+                        if (capital.pledge) k_v.pledge = capital.pledge;
                         if (capital.discount) k_v.discount = capital.discount;
                         if (capital.pre_payment) k_v.pre_payment = capital.pre_payment;
                         if (capital.data) k_v.data = capital.data.map(item => item.id);
                         if (capital.info) k_v.info = capital.info;
 
-                        setFieldsValue(k_v);
                         setType(capital.category);
+                        setFieldsValue(k_v);
                     }
                 }
             }

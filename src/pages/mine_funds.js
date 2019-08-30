@@ -31,7 +31,7 @@ const FundsList = (props) => {
                                     <p>投资金额</p>
                                 </div>
                                 <div>
-                                    <p>{item.period}</p>
+                                    <p>{item.area}</p>
                                     <p>投资阶段</p>
                                 </div>
                                 <div>
@@ -79,7 +79,8 @@ export default withApollo((props) => {
         status: PROJECT_STATUS_ENUM_CN[capital.status] || '未知',
         period: capital.stage && capital.stage.length ? capital.stage.map(stage => stage.title).join(',') : '未知',
         category: capital.type && capital.type.length ? capital.type.map(type => type.title).join(',') : '未知',
-        reason: capital.reason
+        reason: capital.reason,
+        area: capital.area && capital.area.title
     })) : []
 
     const data = [{

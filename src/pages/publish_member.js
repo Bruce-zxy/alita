@@ -85,7 +85,6 @@ const PublishProject = withApollo((props) => {
                 if (provider.introduction) k_v.introduction = provider.introduction;
             }
 
-            setFieldsValue(k_v);
             if (user.type === "enterprise" && user.business_license) {
                 setAFile([{ url: user.business_license }]);
             } else if (user.type === "personal" && user.idcardA) {
@@ -97,14 +96,9 @@ const PublishProject = withApollo((props) => {
             if (user.identity === "provider") {
                 setPVDFile([{ url: provider.logo }]);
             }
+            setFieldsValue(k_v);
         }
     }, [])
-
-    console.log(thisType);
-    console.log(thisUserType);
-    console.log(thisAFiles);
-    console.log(thisBFiles);
-    console.log(thisPVDFiles);
     
 
     /* 【Part 1】 ↓ */

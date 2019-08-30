@@ -242,7 +242,6 @@ export default withApollo((props) => {
                             
 
                             {(() => {
-
                                 if (currUser) {
                                     if (currUser.projects.findIndex(pro => pro.id === project.id) === -1) {
                                         return project.status === PROJECT_STATUS_ENUM.CHECKED ? (
