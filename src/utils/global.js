@@ -151,7 +151,7 @@ export const toGetLevel = (data) => {
   return max;
 }
 
-export const initMetadata = () => {
+export const initMetadata = async () => {
   if (!sessionStorage.getItem('metadata')) {
     const defaultVariables = {
       page: 0,
@@ -160,28 +160,35 @@ export const initMetadata = () => {
       sort: [{ field: 'sort', order: 'DESC' }, { field: 'create_at', order: 'DESC' }],
     };
 
-    client.mutate({
+    const metadata = await client.mutate({
       mutation: Q_GET_METADATA_TREES,
       variables: {
         queryString: buildingQuery(defaultVariables)
       },
-      update: (proxy, { data }) => {
-        if (data && data.metadataTrees) {
-          sessionStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
-        }
-      }
+      // update: (proxy, { data }) => {
+      //   if (data && data.metadataTrees) {
+      //     sessionStorage.setItem('metadata', JSON.stringify(data.metadataTrees));
+      //   }
+      // }
     });
+    if (metadata.data && metadata.data.metadataTrees) {
+      sessionStorage.setItem('metadata', JSON.stringify(metadata.data.metadataTrees));
+    }
   }
   if (!sessionStorage.getItem('provider_metadata')) {
-    client.mutate({
+    const providerMetadata = await client.mutate({
       mutation: Q_GET_PROVIDER_CATEGORY_TREES,
-      update: (proxy, { data }) => {
-        if (data && data.providerCategoryTrees) {
-          sessionStorage.setItem('provider_metadata', JSON.stringify(data.providerCategoryTrees));
-        }
-      }
+      // update: (proxy, { data }) => {
+      //   if (data && data.providerCategoryTrees) {
+      //     sessionStorage.setItem('provider_metadata', JSON.stringify(data.providerCategoryTrees));
+      //   }
+      // }
     });
+    if (providerMetadata.data && providerMetadata.data.providerCategoryTrees) {
+      sessionStorage.setItem('provider_metadata', JSON.stringify(providerMetadata.data.providerCategoryTrees));
+    }
   }
+  return true;
 }
 
 export const dataURLtoBlob = (dataurl) => {
@@ -232,3 +239,5 @@ export const toGetParentArrayByChildNode = (tree, target) => {
     }
   }
 }
+
+export const asyncEffectHandler = async (fn) => await fn();

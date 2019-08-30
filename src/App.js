@@ -13,7 +13,7 @@ import ErrorBoundary from './components/Error';
 import Loader from './components/Loader';
 
 import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
-import { initMetadata } from './utils/global';
+import { initMetadata, asyncEffectHandler } from './utils/global';
 import client from './config/apollo-client';
 
 initReactFastclick();
@@ -150,7 +150,12 @@ const AppRoute = (props) => {
     props.history.push(LOCAL_URL[gTabBar[tab_key_index].page]);
   }
 
-  initMetadata();
+  const [flag, setFlag] = useState(false);
+  useEffect(() => {
+    asyncEffectHandler(async () => {
+      setFlag(await initMetadata());
+    })
+  }, []);
 
   useEffect(() => {
     const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[3]);
@@ -160,32 +165,36 @@ const AppRoute = (props) => {
     }
   }, [pathname])
 
-  return (
-    <ErrorBoundary>
-      <ApolloProvider client={client}>
-        {LOCAL_URL_SHOW.includes(pathname.split('/')[3]) && <TabBar 
-          unselectedTintColor={NORMAL_COLOR} 
-          tintColor={ACTIVE_COLOR} 
-          barTintColor="white" 
-          hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[3])}
-        >
-          {gTabBar.map((tabbar, i) => (
-            <TabBar.Item 
-              key={tabbar.name}
-              title={tabbar.name}
-              icon={tabbar.icon}
-              selectedIcon={tabbar.selected}
-              selected={tabKey === tabbar.name}
-              onPress={gotoPage(tabbar.name)}
-            >
-              {MainRouteConfig[tabbar.name](props)}
-            </TabBar.Item>
-          ))}
-        </TabBar>}
-        <AdditionalRouteConfig />
-      </ApolloProvider>
-    </ErrorBoundary>
-  );
+  if (!flag) {
+    return <Loader />
+  } else {
+    return (
+      <ErrorBoundary>
+        <ApolloProvider client={client}>
+          {LOCAL_URL_SHOW.includes(pathname.split('/')[3]) && <TabBar
+            unselectedTintColor={NORMAL_COLOR}
+            tintColor={ACTIVE_COLOR}
+            barTintColor="white"
+            hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[3])}
+          >
+            {gTabBar.map((tabbar, i) => (
+              <TabBar.Item
+                key={tabbar.name}
+                title={tabbar.name}
+                icon={tabbar.icon}
+                selectedIcon={tabbar.selected}
+                selected={tabKey === tabbar.name}
+                onPress={gotoPage(tabbar.name)}
+              >
+                {MainRouteConfig[tabbar.name](props)}
+              </TabBar.Item>
+            ))}
+          </TabBar>}
+          <AdditionalRouteConfig />
+        </ApolloProvider>
+      </ErrorBoundary>
+    );
+  }
 }
 
 export default () => (
