@@ -34,7 +34,7 @@ export default class ErrorBoundary extends Component {
       // You can render any custom fallback UI
       return (
         <div>
-          【错误信息：】<b>{error}</b>
+          【错误信息：】<b>{error}, 请您刷新页面后重新访问！</b>
         </div>
       )
     }

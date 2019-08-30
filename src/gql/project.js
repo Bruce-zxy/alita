@@ -88,16 +88,10 @@ export const Q_GET_PROJECTS = gql`
 
 export const Q_GET_PROJECT = gql`
   ${F_PROJECT_FIELDS}
-  ${F_METADATA_FIELDS}
-  ${F_METADATA_RECURSIVE}
 
   query getProject($id: String!, $queryString: String! = "") {
     project(id: $id, queryString: $queryString) {
       ...ProjectFields
-    }
-
-    metadataTrees {
-      ...MetadataRecursive
     }
   }
 `;

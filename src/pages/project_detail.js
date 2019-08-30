@@ -256,9 +256,8 @@ const FundsDetail = withApollo((props) => {
                                     } else {
                                         return '';
                                     }
-                                } else {
-                                    return <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>;
                                 }
+                                return <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>;
                             })()}
 
                             <div className="hdz-block-large-space"></div>
@@ -398,7 +397,7 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
 export default (props) => {
 
     const { pathname } = props.location;
-    const type = pathname.split('/')[4];
+    const type = pathname.split('/')[2];
 
     switch (type) {
         case 'funds':

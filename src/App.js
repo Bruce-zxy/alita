@@ -158,24 +158,29 @@ const AppRoute = (props) => {
   }, []);
 
   useEffect(() => {
-    const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[3]);
+    const tab_key_index = gTabBar.findIndex(item => item.page.toLowerCase() === pathname.split('/')[1]);
     if (gTabBar[tab_key_index]) {
       const tab_key = gTabBar[tab_key_index].name;
       setTabKey(tab_key);
     }
   }, [pathname])
 
+  console.log(pathname);
+  
+  if (pathname === "/") {
+    return <Redirect to="/home" />;
+  }
   if (!flag) {
     return <Loader />
   } else {
     return (
       <ErrorBoundary>
         <ApolloProvider client={client}>
-          {LOCAL_URL_SHOW.includes(pathname.split('/')[3]) && <TabBar
+          {LOCAL_URL_SHOW.includes(pathname.split('/')[1]) && <TabBar
             unselectedTintColor={NORMAL_COLOR}
             tintColor={ACTIVE_COLOR}
             barTintColor="white"
-            hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[3])}
+            hidden={!LOCAL_URL_SHOW.includes(pathname.split('/')[1])}
           >
             {gTabBar.map((tabbar, i) => (
               <TabBar.Item

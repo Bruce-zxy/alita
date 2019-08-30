@@ -32,6 +32,7 @@ export default withApollo((props) => {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
         area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
     } catch (err) {
+        window.location.reload();
         console.error(err.message);
     }
 
