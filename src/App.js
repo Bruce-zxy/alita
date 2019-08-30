@@ -165,8 +165,6 @@ const AppRoute = (props) => {
     }
   }, [pathname])
 
-  console.log(pathname);
-  
   if (pathname === "/") {
     return <Redirect to="/home" />;
   }
