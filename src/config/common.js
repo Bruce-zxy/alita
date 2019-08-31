@@ -45,13 +45,13 @@ module.exports = {
     "LOCAL_URL_SHOW": ['home', 'project', 'service', 'news', 'mine'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
-    "API_ROOT": "https://m.lvyoto.com/api",
+    "API_ROOT": "http://127.0.0.1:3000/api",
     "API_URL": {
         "UPLOAD": {
             "BACKEND_STORAGE": ""
         }
     },
-    "APOLLO_ROOT": "https://m.lvyoto.com/graphql",
+    "APOLLO_ROOT": "http://127.0.0.1:3000/graphql",
 
     DEFAULT_AVATAR: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561547251987&di=e63f4f0adfe4ffffa7ed7fa8c0fc9580&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa12f24e688c1cda3ff4cc453f3486a88adaf08cc2cdb-tQvJqX_fw658',
     IDENTITY_MAPS: {
