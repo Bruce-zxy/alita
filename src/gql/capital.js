@@ -72,8 +72,6 @@ export const F_CAPITAL_FIELDS = gql`
 
 export const Q_GET_CAPITALS = gql`
   ${F_CAPITAL_FIELDS}
-  ${F_METADATA_FIELDS}
-  ${F_METADATA_RECURSIVE}
 
   query queryCapital($queryString: String!) {
     queryCapital(queryString: $queryString) {
@@ -84,25 +82,17 @@ export const Q_GET_CAPITALS = gql`
         ...CapitalFields
       }
     }
-    metadataTrees {
-      ...MetadataRecursive
-    }
   }
 `;
 
 export const Q_GET_CAPITAL = gql`
   ${F_CAPITAL_FIELDS}
-  ${F_METADATA_FIELDS}
-  ${F_METADATA_RECURSIVE}
 
   query getCapital($id: String!, $queryString: String! = "") {
     capital(id: $id, queryString: $queryString) {
       ...CapitalFields
     }
 
-    metadataTrees {
-      ...MetadataRecursive
-    }
   }
 `;
 

@@ -243,6 +243,9 @@ const FundsDetail = withApollo((props) => {
                             </DetailPanel>
 
                             {(() => {
+                                if (data.capital.status === 'finished') {
+                                    return <div className="apply-to finished">投资已结束</div>
+                                }
                                 if (currUser) {
                                     if (currUser.capitals.findIndex(pro => pro.id === data.capital.id) === -1) {
                                         return currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) !== -1 ? (
@@ -253,9 +256,8 @@ const FundsDetail = withApollo((props) => {
                                     } else {
                                         return '';
                                     }
-                                } else {
-                                    return <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>;
                                 }
+                                return <div className="apply-to" onClick={toApply(data.capital)}>立即投递</div>;
                             })()}
 
                             <div className="hdz-block-large-space"></div>
@@ -395,7 +397,7 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
 export default (props) => {
 
     const { pathname } = props.location;
-    const type = pathname.split('/')[4];
+    const type = pathname.split('/')[2];
 
     switch (type) {
         case 'funds':

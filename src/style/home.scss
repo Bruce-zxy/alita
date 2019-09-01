@@ -44,6 +44,7 @@
             transition: all .25s ease-in-out;
 
             .lvyoto-home-item {
+                position: relative;
                 width: 100%;
                 height: 29.87vw;
                 padding: 0 $SIZE_10*1.4 0 $SIZE_10;
@@ -120,6 +121,16 @@
                             }
                         }
                     }
+                }
+
+                .successful-financing {
+                    width: 16vw;
+                    height: 16vw;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    @include display-flex();
+                    @include position(absolute, 7vw, auto, 1, auto, 1vw);
                 }
             }
         }

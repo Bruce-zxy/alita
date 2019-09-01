@@ -15,10 +15,21 @@ import TabPanel from '../components/TabPanel';
 import { LOCAL_URL, COLOR_ARRAY, ICON_ARRAY, IFT_MODE_ENUM } from '../config/common';
 
 import '../style/project.scss';
+import SUCCESS_IFT from '../images/successful_investment.png';
 
 const LookingFunds = withApollo((props) => {
 
     const { client } = props;
+
+    let metadata = [];
+    let industry_data = [];
+
+    try {
+        metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        industry_data = metadata[metadata.findIndex(data => data.title === '行业')].children;
+    } catch (err) {
+        console.error(err.message);
+    }
 
     const defaultVariables = {
         page: 0,
@@ -35,7 +46,6 @@ const LookingFunds = withApollo((props) => {
 
         hasMore: true,
         data: [],
-        industry_data: [],
         page: 0
     });
 
@@ -47,12 +57,14 @@ const LookingFunds = withApollo((props) => {
     }
 
     const toShowFilterModal = () => {
-        const area = thisState.industry_data.map(are => ({ text: are.title, onPress: () => toSetState({ industry: are.title, page: 0 }) }))
+        const area = industry_data.map(are => ({ text: are.title, onPress: () => toSetState({ industry: are.title, page: 0 }) }))
         Modal.operation([
             ...area,
             { text: '清除筛选', onPress: () => toSetState({ industry: '', page: 0 }) },
         ])
     }
+
+
 
     useEffect(() => {
 
@@ -104,20 +116,17 @@ const LookingFunds = withApollo((props) => {
         });
 
         if (res.data && res.data.queryCapital) {
-            const { data: { queryCapital, metadataTrees } } = res;
-            const industry = metadataTrees[metadataTrees.findIndex((item => item.title === '行业'))].children;
+            const { data: { queryCapital } } = res;
 
             if (this_page >= queryCapital.pageCount) {
                 toSetState({
                     data: data.concat(queryCapital.data),
-                    industry_data: industry,
                     page: this_page,
                     hasMore: false
                 });
             } else {
                 toSetState({
                     data: data.concat(queryCapital.data),
-                    industry_data: industry,
                     page: this_page,
                     hasMore: true
                 })
@@ -171,6 +180,7 @@ const LookingFunds = withApollo((props) => {
                                     <p>资金类型</p>
                                 </div>
                             </div>
+                            {item.status === 'finished' && (<div className="successful-investment" style={{ backgroundImage: `url(${SUCCESS_IFT}` }}></div>)}
                         </Link>
                     ))}
                     <div className="hdz-block-large-space"></div>

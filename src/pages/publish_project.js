@@ -139,9 +139,9 @@ const PublishProject = withApollo((props) => {
                         if (project.advantage) k_v.advantage = project.advantage;
                         if (project.company_info) k_v.company_info = project.company_info;
 
-                        setFieldsValue(k_v);
                         setType(project.category);
                         setFile([{ url: project.cover }]);
+                        setFieldsValue(k_v);
                     } 
                 }
             }

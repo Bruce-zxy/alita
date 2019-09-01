@@ -242,24 +242,21 @@ export default withApollo((props) => {
                             
 
                             {(() => {
-
+                                if (project.status === 'finished') {
+                                    return <div className="apply-to finished">融资已结束</div>;
+                                }
                                 if (currUser) {
                                     if (currUser.projects.findIndex(pro => pro.id === project.id) === -1) {
-                                        return project.status === PROJECT_STATUS_ENUM.CHECKED ? (
-                                            currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
-                                                <div className="apply-to" onClick={toApply(project)}>立即投递</div>
-                                            ) : (
-                                                <div className="apply-to finished">您已投递</div>
-                                            )
+                                        return currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (
+                                            <div className="apply-to" onClick={toApply(project)}>立即投递</div>
                                         ) : (
-                                            <div className="apply-to finished">已结束</div>
+                                            <div className="apply-to finished">您已投递</div>
                                         );
                                     } else {
                                         return '';
                                     }
-                                } else {
-                                    return <div className="apply-to" onClick={toApply(project)}>立即投递</div>;
                                 }
+                                return <div className="apply-to" onClick={toApply(project)}>立即投递</div>;
 
                             })()}
 

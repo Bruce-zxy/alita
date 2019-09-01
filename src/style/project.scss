@@ -64,6 +64,7 @@
 
 
                 .financing-project {
+                    position: relative;
                     width: 100%;
                     padding: $SIZE_10 $SIZE_10*1.4 $SIZE_10 $SIZE_10;
                     background: #FFF;
@@ -132,6 +133,16 @@
                                 width: 40%
                             }
                         }
+                    }
+
+                    .successful-investment {
+                        width: 16vw;
+                        height: 16vw;
+                        background-size: contain;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        @include display-flex();
+                        @include position(absolute, 7vw, auto, 1, auto, 1vw);
                     }
                 }
             }

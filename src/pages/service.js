@@ -45,7 +45,6 @@ export default withApollo((props) => {
         hasMore: true,
         data: [],
         category_data: [],
-        area_data: [],
         page: 0
     });
 
@@ -107,7 +106,6 @@ export default withApollo((props) => {
             if (this_page >= queryProvider.pageCount) {
                 toSetState({
                     data: data.concat(queryProvider.data),
-                    area_data: res.data.metadataDescendantsTree,
                     category_data: res.data.providerCategoryTrees,
                     page: this_page,
                     hasMore: false
@@ -115,7 +113,6 @@ export default withApollo((props) => {
             } else {
                 toSetState({
                     data: data.concat(queryProvider.data),
-                    area_data: res.data.metadataDescendantsTree,
                     category_data: res.data.providerCategoryTrees,
                     page: this_page,
                     hasMore: true
