@@ -164,7 +164,7 @@ const AppRoute = (props) => {
       setTabKey(tab_key);
     }
   }, [pathname])
-
+  
   if (pathname === "/") {
     return <Redirect to="/home" />;
   }

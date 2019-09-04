@@ -228,7 +228,7 @@ export const toFindAreaTree = (tree, target) => {
 
 export const toGetParentArrayByChildNode = (tree, target) => {
   let key = Object.keys(target).shift();
-  let val = Object.values(target).shift();
+  let val = target[key];
   for (let treeNode of tree) {
     if (treeNode[key] === val) return [treeNode];
     if (treeNode.children) {

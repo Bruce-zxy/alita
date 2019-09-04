@@ -170,9 +170,10 @@
     position: relative;
     z-index: 99;
     width: 100vw;
-    height: 100vh;
+    height: auto;
     padding-top: 16vw;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
 
     .signin-panel {
         width: 90vw;
@@ -198,6 +199,8 @@
 
                 input {
                     flex: auto;
+                    height: 100%;
+                    @include font($FONT_SIZE_16, $BLACK);
 
                     &::-webkit-input-placeholder {
                         @include font($FONT_SIZE_16, $GRAY_999);
@@ -216,6 +219,8 @@
 
                 input {
                     flex: auto;
+                    height: 100%;
+                    @include font($FONT_SIZE_16, $BLACK);
 
                     &::-webkit-input-placeholder {
                         @include font($FONT_SIZE_16, $GRAY_999);
@@ -234,6 +239,8 @@
 
                 input {
                     flex: auto;
+                    height: 100%;
+                    @include font($FONT_SIZE_16, $BLACK);
 
                     &::-webkit-input-placeholder {
                         @include font($FONT_SIZE_16, $GRAY_999);

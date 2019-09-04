@@ -24,6 +24,7 @@
                 width: 33%;
                 height: 100%;
                 color: $GRAY_999;
+                font-size: $FONT_SIZE_14;
                 @include display-flex();
 
                 &.state-active {
