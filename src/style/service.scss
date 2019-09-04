@@ -24,7 +24,7 @@
                 width: 33%;
                 height: 100%;
                 color: $GRAY_999;
-                font-size: $FONT_SIZE_14;
+                font-size: $FONT_SIZE_16;
                 @include display-flex();
 
                 &.state-active {
@@ -208,6 +208,9 @@
             text-align: justify;
             img {
                 width: 100%;
+            }
+            p {
+                padding: $SIZE_10;
             }
         }
     }
