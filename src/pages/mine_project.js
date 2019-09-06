@@ -58,7 +58,7 @@ export default withApollo((props) => {
         })
     }, []);
 
-    const toSetVal = (val) => (key) => (def) => val ? val[key] : def;
+    const toSetVal = (val) => (key) => (def) => val && val[key] ? val[key] : def;
 
     const list = user && user.projects ? user.projects.map(project => ({
         id: project.id,

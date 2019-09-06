@@ -50,7 +50,7 @@ export default withApollo((props) => {
         }
     }, [])
 
-    const toSetVal = (val) => (key) => (def) => val ? val[key] : def;
+    const toSetVal = (val) => (key) => (def) => val && val[key] ? val[key] : def;
 
     const toApply = (project) => () => {
         const apply = async () => {

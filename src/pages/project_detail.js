@@ -293,7 +293,7 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
         }
     }, [])
 
-    const toSetVal = (val) => (key) => (def) => val ? val[key] : def;
+    const toSetVal = (val) => (key) => (def) => val && val[key] ? val[key] : def;
 
     const toApply = (product) => () => {
         const apply = async () => {
