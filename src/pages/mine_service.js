@@ -15,8 +15,8 @@ const FundsList = (props) => {
         return (
             <div className="service-list">
                 {props.list.map((item, i) => (
-                    <Link key={i} className="financing-project" to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
-                        <p className="project-name">{item.title}</p>
+                    <div key={i} className="financing-project">
+                        <p className="project-name"><Link to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>{item.title}</Link></p>
                         <p className="project-tags">
                             {item.category ? <span className="financing">{IFT_MODE_ENUM[item.category.toUpperCase()]}</span> : ''}
                             {item.industry && item.industry.length ? item.industry.map(industry => (<span className="industry" key={industry.title}>{industry.title}</span>)) : ''}
@@ -37,11 +37,11 @@ const FundsList = (props) => {
                         </div>
                         <p className="card-bottom">
                             <i className="iconfont iconyonghu"></i>
-                            <span>{item.creator.realname}</span>
+                            <span>{item.contact}</span>
                             <i className="iconfont icondianhua"></i>
-                            <span><a href={`tel:${item.creator.phone}`}></a>{item.creator.phone}</span>
+                            <span><a href={`tel:${item.phone}`}>{item.phone}</a></span>
                         </p>
-                    </Link>
+                    </div>
                 ))}
             </div>
         )
@@ -68,7 +68,7 @@ const ProjectList = (props) => {
                                     <i className="iconfont iconyonghu"></i>
                                     <span>{item.concat}</span>
                                     <i className="iconfont icondianhua"></i>
-                                    <span>{item.phone}</span>
+                                    <span><a href={`tel:${item.phone}`}>{item.phone}</a></span>
                                 </p>
                             </div>
                         </div>

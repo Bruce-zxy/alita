@@ -35,6 +35,7 @@ export const Q_FETCH_CURRENT_USER = gql`
       providers {
         id
         name
+        area_path
         status
         logo
         slogan
@@ -47,6 +48,7 @@ export const Q_FETCH_CURRENT_USER = gql`
       projects {
         id
         title
+        area_path
         amount
         industry {
           id
@@ -109,6 +111,7 @@ export const Q_FETCH_CURRENT_USER = gql`
       capitals {
         id
         title
+        area_path
         status
         create_at
         industry {
@@ -181,6 +184,7 @@ export const Q_FETCH_CURRENT_USER = gql`
       apply_projects {
         create_at
         project {
+          area_path
           id
           title
           status
@@ -197,10 +201,13 @@ export const Q_FETCH_CURRENT_USER = gql`
       apply_capitals {
         create_at
         capital {
+          area_path
           id
           title
           category
           amount
+          contact
+          phone
           stage {
             title
           }
@@ -210,16 +217,12 @@ export const Q_FETCH_CURRENT_USER = gql`
           type {
             title
           }
-          creator {
-            id
-            realname
-            phone
-          }
         }
       }
       apply_providers {
         create_at
         provider {
+          area_path
           id
           name
           logo

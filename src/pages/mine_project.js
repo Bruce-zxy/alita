@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { Modal } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import * as moment from 'moment';
@@ -10,6 +11,12 @@ import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM_CN } from '../config/commo
 import "../style/mine.scss";
 
 const ProjectList = (props) => {
+    const toCompleteProject = (name) => () => {
+        Modal.alert(`您正在申请完成【${name}】`, '是否确认完成此次申请？', [
+            { text: '取消', onPress: () => global.TNT('已取消') },
+            { text: '确认', onPress: () => alert('功能开发中') },
+        ])
+    }
     if (props.list.length) {
         return (
             <div className="project-list">
@@ -28,7 +35,11 @@ const ProjectList = (props) => {
                                     <p>&yen;{item.price}万元</p>
                                 </div>
                             </div>
-                            <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-category">编辑项目</Link>
+                            {item.status === '已通过' ? (
+                                <a onClick={toCompleteProject(item.name)} className="project-category">完成项目</a>
+                            ) : (
+                                <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-category">编辑项目</Link>
+                            )}
                         </Link>
                         {item.status === PROJECT_STATUS_ENUM_CN['rejected'] && <div className="project-tips">审核未通过理由：{item.reason}</div>}
                     </Fragment>
@@ -89,6 +100,10 @@ export default withApollo((props) => {
         title: "未通过",
         className: 'my-project',
         content: <ProjectList list={list.filter(item => item.status === PROJECT_STATUS_ENUM_CN['rejected'])} />
+    }, {
+        title: "已完成",
+        className: 'my-project',
+        content: <ProjectList list={list.filter(item => item.status === PROJECT_STATUS_ENUM_CN['finished'])} />
     }]
 
     return (

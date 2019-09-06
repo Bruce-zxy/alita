@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { Modal } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import * as moment from 'moment';
@@ -10,8 +11,13 @@ import { LOCAL_URL, IFT_MODE_ENUM, PROJECT_STATUS_ENUM_CN } from '../config/comm
 import "../style/mine.scss";
 
 const FundsList = (props) => {
+    const toCompleteProject = (name) => () => {
+        Modal.alert(`您正在申请完成【${name}】`, '是否确认完成此次申请？', [
+            { text: '取消', onPress: () => global.TNT('已取消') },
+            { text: '确认', onPress: () => alert('功能开发中') },
+        ])
+    }
     if (props.list.length) {
-        console.log(props.list);
         
         return (
             <div className="funds-list">
@@ -31,8 +37,8 @@ const FundsList = (props) => {
                                     <p>投资金额</p>
                                 </div>
                                 <div>
-                                    <p>{item.area}</p>
-                                    <p>投资阶段</p>
+                                    <p>{item.area_path.split(' ')[0]}</p>
+                                    <p>投资地区</p>
                                 </div>
                                 <div>
                                     <p>{item.category}</p>
@@ -40,7 +46,11 @@ const FundsList = (props) => {
                                 </div>
                             </div>
 
-                            <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-category">编辑资金</Link>
+                            {item.status === '已通过' ? (
+                                <a onClick={toCompleteProject(item.name)} className="funds-category">完成资金</a> 
+                            ) : (
+                                <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-category">编辑资金</Link>
+                            )}
                         </Link>
                         {item.status === PROJECT_STATUS_ENUM_CN['rejected'] && <div className="funds-tips">审核未通过理由：{item.reason}</div>}
                     
@@ -80,7 +90,7 @@ export default withApollo((props) => {
         period: capital.stage && capital.stage.length ? capital.stage.map(stage => stage.title).join(',') : '未知',
         category: capital.type && capital.type.length ? capital.type.map(type => type.title).join(',') : '未知',
         reason: capital.reason,
-        area: capital.area && capital.area.title
+        area_path: capital.area_path
     })) : []
 
     const data = [{
@@ -99,6 +109,10 @@ export default withApollo((props) => {
         title: "未通过",
         className: 'my-funds',
         content: <FundsList list={list.filter(item => item.status === PROJECT_STATUS_ENUM_CN['rejected'])} />
+    }, {
+        title: "已完成",
+        className: 'my-funds',
+        content: <FundsList list={list.filter(item => item.status === PROJECT_STATUS_ENUM_CN['finished'])} />
     }]
 
     return (

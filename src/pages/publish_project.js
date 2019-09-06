@@ -354,8 +354,8 @@ const PublishProject = withApollo((props) => {
                 { text: '确认', onPress: () => setFile(files) },
             ])
         } else {
-            if (files.length && files[0].file.size > 1024 * 1024 * 2) {
-                Toast.fail(`当前图片大小【${(files[0].file.size / 1024 / 1024).toString().slice(0,5)}MB】，请上传小于【2M】的图片！`);
+            if (files.length && files[0].file.size > 1024 * 1024 * 5) {
+                Toast.fail(`当前图片大小【${(files[0].file.size / 1024 / 1024).toString().slice(0,5)}MB】，请上传小于【10M】的图片！`);
             } else {
                 
                 toCropImage(files[files.length - 1])
@@ -388,7 +388,7 @@ const PublishProject = withApollo((props) => {
                         onImageClick={(index, img) => setModal({ show: true, url: img[index].url })}
                         selectable={!thisFiles.length}
                     />
-                    <p>图片大小不超过2M</p>
+                    <p>图片大小不超过5M</p>
                 </div>
                 <InputItem {...getFieldProps(FIELD_2)} {...FIELD_2_PROPS} >融资金额</InputItem>
 

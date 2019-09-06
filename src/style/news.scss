@@ -113,16 +113,16 @@
     padding: $SIZE_20;
 
     .news-title {
-        font-size: $FONT_SIZE_16;
         font-weight: bold;
-        color: $GRAY_333;
         padding-bottom: 2vw;
+        text-align: center;
+        line-height: 1.5;
+        @include font($FONT_SIZE_18, $GRAY_333, bold);
     }
 
     .news-intro {
-        font-size: $FONT_SIZE_12;
-        color: $GRAY_999;
         margin-top: $SIZE_10;
+        @include font($FONT_SIZE_14, $GRAY_999);
 
         span {
             &:nth-child(1) {
@@ -133,6 +133,7 @@
 
     .news-content {
         padding: $SIZE_20 0;
+        font-size: $FONT_SIZE_16;
 
         p {
             text-align: justify;

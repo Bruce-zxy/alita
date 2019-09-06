@@ -4,7 +4,8 @@ import { Toast } from 'antd-mobile';
 import { withApollo } from "react-apollo";
 
 import { LOCAL_URL, API_ROOT } from '../config/common';
-import { Fetch } from '../utils/global';
+import { Fetch, toFetchCurrentUser } from '../utils/global';
+import { M_LOGIN } from '../gql'
 
 import "../style/sign.scss";
 import * as BG from "../images/bg.jpg";
@@ -14,6 +15,8 @@ const DEFAULT_PASSWD = global.C4("18679183994");
 const DEFAULT_RE_PASSWD = global.C4("18679183994");
 
 export default withApollo((props) => {
+
+    const { client } = props;
 
     const CODE_INTERVAL = 60;
 
@@ -42,6 +45,37 @@ export default withApollo((props) => {
         setForm(Object.assign({}, thisForm));
     }
 
+    const toLogin = async () => {
+
+        const { phone, password } = thisForm;
+
+        if (phone && password) {
+            let { data } = await props.client.mutate({
+                mutation: M_LOGIN,
+                variables: {
+                    loginData: {
+                        account: phone,
+                        password,
+                    } 
+                }
+            });
+
+            if (data && data.login && data.login.token) {
+                localStorage.setItem('u_token', data.login.token);
+                const user = await toFetchCurrentUser(client);
+                if (user) {
+                    props.history.push(LOCAL_URL['MINE']);
+                } else {
+                    Toast.fail('登录失败！请联系管理员！');
+                }
+            } else {
+                Toast.fail('登录失败！请联系管理员！');
+            }
+        } else {
+            Toast.info('用户名密码不能为空！', 1);
+        }
+    }
+
     const toSubmitRegisterInfo = async () => {
 
         const res = await Fetch(`${API_ROOT}/user/register`, {
@@ -55,8 +89,8 @@ export default withApollo((props) => {
             const { message: { error, message } } = res;
             if (error) Toast.fail(message);
         } else if (res.id) {
-            Toast.success('恭喜，注册成功！页面即将跳转到登录界面！');
-            props.history.push(LOCAL_URL['MINE']);
+            Toast.success('恭喜，注册成功！正在为您自动登录中...');
+            toLogin();
         }
         
     }
@@ -121,7 +155,7 @@ export default withApollo((props) => {
                 <div className="signup-form">
                     <p>
                         <i className="iconfont iconicon--"></i>
-                        <input defaultValue="18679183994" type="number" placeholder="请输入手机号" onChange={(e) => toChangeFormFactor('phone')(phone => phone = e.target.value)}/>
+                        <input defaultValue={DEFAULT_PHONE} type="number" placeholder="请输入手机号" onChange={(e) => toChangeFormFactor('phone')(phone => phone = e.target.value)}/>
                     </p>
                     <p>
                         <i className="iconfont iconyanzhengma1"></i>
@@ -135,11 +169,11 @@ export default withApollo((props) => {
                     </p>
                     <p>
                         <i className="iconfont iconmimasuo"></i>
-                        <input defaultValue="18679183994" type="password" placeholder="请输入密码" onChange={(e) => toChangeFormFactor('password')(password => password = e.target.value)}/>
+                        <input defaultValue={DEFAULT_PASSWD} type="password" placeholder="请输入密码" onChange={(e) => toChangeFormFactor('password')(password => password = e.target.value)}/>
                     </p>
                     <p>
                         <i className="iconfont iconmimasuo"></i>
-                        <input defaultValue="18679183993" type="password" placeholder="请再次输入密码" onChange={(e) => toChangeFormFactor('re_password')(re_password => re_password = e.target.value)} />
+                        <input defaultValue={DEFAULT_RE_PASSWD} type="password" placeholder="请再次输入密码" onChange={(e) => toChangeFormFactor('re_password')(re_password => re_password = e.target.value)} />
                     </p>
                 </div>
                 <div className="to-signup" onClick={toSubmitRegisterInfo}>注册</div>

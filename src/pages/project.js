@@ -301,16 +301,16 @@ const JLFinancial = withApollo((props) => {
                     useWindow={false}
                 >
                     {thisState.data.map((item, i) => (
-                        <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
+                        <Link className="financial-item" to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}?index=${i}`} style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
                             <div className="finnacial-item-left">
                                 <p>{item.name}</p>
                                 <p>{item.slogan}</p>
                                 <p>
-                                    <Link to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}?index=${i}`}>查看详情</Link>
+                                    <a>查看详情</a>
                                 </p>
                             </div>
                             <i className={`iconfont ${ICON_ARRAY[i % ICON_ARRAY.length]}`}></i>
-                        </div>
+                        </Link>
                     ))}
                 </InfiniteScroll>
             </div>
