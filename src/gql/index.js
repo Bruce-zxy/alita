@@ -12,3 +12,4 @@ export * from './provider';
 export * from './provider-category';
 export * from './user';
 export * from './project';
+export * from './approval';

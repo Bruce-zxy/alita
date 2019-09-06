@@ -95,7 +95,7 @@ module.exports = {
         waiting: "待分配",
         following: "跟进中",
         cancelled: "已取消",
-        finished: "已结束",
+        finished: "已完成",
     },
     USER_STATUS_ENUM: {
         0: 'NORMAL',

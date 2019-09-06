@@ -333,7 +333,6 @@ const PublishProject = withApollo((props) => {
         formData.append('fileName', thisImage.file.name);
         try {
             const { relativePath } = await Upload(`${API_ROOT}/storage`, formData).then(res => res.json());
-            console.log(relativePath);
             if (relativePath) {
                 Toast.success('上传成功！');
                 thisImage.url = relativePath;

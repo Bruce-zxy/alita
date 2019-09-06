@@ -39,17 +39,19 @@ export default withApollo((props) => {
                     <div className="business-card-item" key={i}>
 
                         <div className="card-top">
-                            <p>{item.create}</p>
-                            <div className="business-card-content">
-                                <img src={item.logo} alt='logo' />
-                                <div className="business-card-intro">
-                                    <p>{item.company}</p>
-                                    <p>
-                                        {item.tags && item.tags.map((tag, j) => <span key={j}>{tag}</span>)}
-                                        <span>所在地：{item.location}</span>
-                                    </p>
+                            <Link to={`${LOCAL_URL['SERVICE_DETAIL']}/${item.id}`} >
+                                <p>{item.create}</p>
+                                <div className="business-card-content">
+                                    <img src={item.logo} alt='logo' />
+                                    <div className="business-card-intro">
+                                        <p>{item.company}</p>
+                                        <p>
+                                            {item.tags && item.tags.map((tag, j) => <span key={j}>{tag}</span>)}
+                                            <span>所在地：{item.location}</span>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <p className="card-bottom">

@@ -171,7 +171,7 @@ export default withApollo(({ client }) => {
 
     return (
         <div className="hdz-lvyoto-news" id="news">
-            <TabPanel data={data} current="行业快讯" activeColor="#0572E4" commonColor="#999" swipable={false} clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
+            <TabPanel data={data} current="行业快讯" activeColor="#0572E4" commonColor="#999" swipable={false} clickHandler={(from, to) => global.TNT(`from ${from} to ${to}`)} />
         </div>
     )
 });

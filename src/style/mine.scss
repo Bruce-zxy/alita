@@ -792,7 +792,7 @@
             .funds-item {
                 position: relative;
                 width: 100%;
-                // height: 44.8vw;
+                height: 54vw;
                 overflow: hidden;
                 margin: 1.6vw 0;
                 padding: 2.4vw $SIZE_10 3.2vw;
@@ -885,13 +885,13 @@
 
 
                 .funds-category {
-                    width: 19.2vw * 1.2;
-                    height: $SIZE_20 * 1.2;
+                    width: 30vw;
+                    height: 8vw;
                     border-radius: $SIZE_10 $SIZE_10 0 0;
                     background: #A8D1FB;
                     transform-origin: 50% 100%;
                     transform: scale(.83);
-                    @include font($FONT_SIZE_12, $WHITE);
+                    @include font($FONT_SIZE_14, $WHITE);
                     @include position(absolute, auto, auto, 99, 0, $SIZE_5);
                     @include display-flex();
                 }

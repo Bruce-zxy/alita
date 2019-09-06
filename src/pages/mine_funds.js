@@ -1,20 +1,41 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Modal } from 'antd-mobile';
+import { Modal, Toast } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import * as moment from 'moment';
 
 import TabPanel from '../components/TabPanel';
 import { toFetchCurrentUser } from '../utils/global';
-import { LOCAL_URL, IFT_MODE_ENUM, PROJECT_STATUS_ENUM_CN } from '../config/common';
+import { LOCAL_URL, IFT_MODE_ENUM, PROJECT_STATUS_ENUM_CN, PROJECT_STATUS_ENUM } from '../config/common';
+import { M_APPROVAL_CAPITAL } from '../gql';
 
 import "../style/mine.scss";
 
-const FundsList = (props) => {
-    const toCompleteProject = (name) => () => {
-        Modal.alert(`您正在申请完成【${name}】`, '是否确认完成此次申请？', [
+const FundsList = withApollo((props) => {
+    const toApprovalProject = async (target) => {
+        const { data } = await props.client.mutate({
+            mutation: M_APPROVAL_CAPITAL,
+            variables: {
+                data: {
+                    id: target.id,
+                    status: PROJECT_STATUS_ENUM.FINISHED
+                }
+            }
+        });
+        if (data && data.result) {
+            Toast.success('操作成功！');
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        } else {
+            Toast.fail('操作失败！');
+        }
+    }
+    const toCompleteProject = (target) => (e) => {
+        e.stopPropagation();
+        Modal.alert(`您正在申请完成【${target.name}】`, '是否确认完成此次申请？', [
             { text: '取消', onPress: () => global.TNT('已取消') },
-            { text: '确认', onPress: () => alert('功能开发中') },
+            { text: '确认', onPress: () => toApprovalProject(target) },
         ])
     }
     if (props.list.length) {
@@ -47,7 +68,9 @@ const FundsList = (props) => {
                             </div>
 
                             {item.status === '已通过' ? (
-                                <a onClick={toCompleteProject(item.name)} className="funds-category">完成资金</a> 
+                                <a onClick={toCompleteProject(item)} className="funds-category">完成资金</a> 
+                            ) : item.status === '已完成' ? (
+                                ''
                             ) : (
                                 <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-category">编辑资金</Link>
                             )}
@@ -66,7 +89,7 @@ const FundsList = (props) => {
             <div className="funds-list none">暂无数据</div>
         )
     }
-}
+})
 
 export default withApollo((props) => {
 
@@ -117,7 +140,7 @@ export default withApollo((props) => {
 
     return (
         <div className="hdz-funds-management" id="my-funds">
-            <TabPanel data={data} current="全部" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
+            <TabPanel data={data} current="全部" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => global.TNT(`from ${from} to ${to}`)} />
             <Link to={LOCAL_URL['PUBLISH_FUNDS']} className="publish-funds">发布<br/>资金</Link>
         </div>
     )

@@ -121,7 +121,7 @@ export default withApollo((props) => {
 
     return (
         <div className="hdz-my-service" id="my-service">
-            <TabPanel data={data} current="项目" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(`from ${from} to ${to}`)} />
+            <TabPanel data={data} current="项目" activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => global.TNT(`from ${from} to ${to}`)} />
             {!user && <Loader />}
         </div>
     )

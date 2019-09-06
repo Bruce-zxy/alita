@@ -53,7 +53,7 @@ const FundsDetail = withApollo((props) => {
         try {
             setCurrUser(JSON.parse(localStorage.getItem('u_user')));
         } catch (error) {
-            console.log('未登录');
+            global.TNT('未登录');
         }
     }, []);
 
@@ -289,7 +289,7 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
         try {
             setCurrUser(JSON.parse(localStorage.getItem('u_user')));
         } catch (error) {
-            console.log('未登录');
+            global.TNT('未登录');
         }
     }, [])
 

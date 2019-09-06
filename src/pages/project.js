@@ -342,7 +342,7 @@ export default (props) => {
 
     return (
         <div className="hdz-lvyoto-project" id="project">
-            <TabPanel data={data} current={data[params.index] ? data[params.index].title : data[0].title} activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => console.log(props) || window.history.pushState({}, '', `${location.pathname}?index=${to}`)} />
+            <TabPanel data={data} current={data[params.index] ? data[params.index].title : data[0].title} activeColor="#0572E4" commonColor="#999" clickHandler={(from, to) => global.TNT(props) || window.history.pushState({}, '', `${location.pathname}?index=${to}`)} />
         </div>
     )
 };
