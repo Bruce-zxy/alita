@@ -224,8 +224,8 @@ export default withApollo((props) => {
                                     <div className="member-info">
                                         <img src={project.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
-                                            <p>{project.creator.hideName}</p>
-                                            <p>所在公司：{project.creator.hideCompany || '未知'}</p>
+                                            <p>{project.hideContact || '未知'}</p>
+                                            <p>所在公司：{project.hideCompany || '暂无'}</p>
                                         </div>
                                     </div>
                                 ) : (

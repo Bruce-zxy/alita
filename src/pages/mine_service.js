@@ -104,8 +104,8 @@ export default withApollo((props) => {
         tags: [IF_MODE_ENUM[project.project.category.toUpperCase()]],
         publish: moment(project.project.create_at * 1).format('YYYY-MM-DD HH:mm:ss'),
         delivery: moment(project.create_at * 1).format('YYYY-MM-DD HH:mm:ss'),
-        concat: project.project.creator.realname,
-        phone: project.project.creator.phone,
+        concat: project.project.hideContact,
+        phone: project.project.hidePhone,
         image: project.project.cover
     })) : [];
 
