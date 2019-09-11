@@ -34,7 +34,7 @@ export default withApollo((props) => {
         <div className="hdz-financial-service">
             <div className="service-list">
                 {data.map((item, i) => (
-                    <Link className="service-item" to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}`}>
+                    <Link className="service-item" to={`${LOCAL_URL['FINANCE_FINANCING']}/${item.id}`}>
                         <p>{item.date}</p>
                         <div className="service-intro">
                             <img src={item.icon} alt='icon' />
@@ -47,7 +47,7 @@ export default withApollo((props) => {
                         </div>
                     </Link>
                 ))}
-                <Link to={`${LOCAL_URL['PROJECT']}?index=1`} className="service-apply">去申请</Link>
+                <Link to={`${LOCAL_URL['FINANCE']}?index=1`} className="service-apply">去申请</Link>
                 {!user && <Loader />}
             </div>
         </div>

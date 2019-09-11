@@ -44,7 +44,7 @@ const FundsList = withApollo((props) => {
             <div className="funds-list">
                 {props.list.map((item, i) => (
                     <Fragment>
-                        <Link className="funds-item" key={i} to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
+                        <Link className="funds-item" key={i} to={`${LOCAL_URL['FINANCE_FUNDS']}/${item.id}`}>
                             <p>
                                 <span>{item.publish}</span>
                                 <span>{item.status}</span>

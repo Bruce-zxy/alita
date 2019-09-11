@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import DetailPanel from '../components/DetailPanel';
 import TabPanel from '../components/TabPanel';
 
-import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
+import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode, toSetWeChatShareConfig } from '../utils/global';
 import { Q_GET_PROJECT, M_APPLY_PROJECTS } from '../gql';
 import { LOCAL_URL, IF_MODE_ENUM, PROJECT_STATUS_ENUM, DATA_ARRAY, DEFAULT_AVATAR } from '../config/common';
 
@@ -140,6 +140,8 @@ export default withApollo((props) => {
 
                 if (loading) return <Loader />;
 
+                
+
                 if(data && data.project) {
                     const { project } = data;
                     const tab_data = [{
@@ -151,7 +153,9 @@ export default withApollo((props) => {
                     }, {
                         title: "项目优势",
                         content: project.advantage || '暂无内容'
-                    }]
+                    }];
+
+                    toSetWeChatShareConfig(project.title, project.info, project.cover);
 
                     global.TNT(project);
 

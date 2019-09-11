@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import * as moment from 'moment';
 
 import Loader from '../components/Loader';
+import { toSetWeChatShareConfig } from '../utils/global';
 import { Q_GET_ARTICLE } from '../gql';
 import '../style/news.scss';
 import QRCode from '../images/qr_code.png';
@@ -24,6 +25,8 @@ export default (props) => {
                 if (data && data.article) {
                     
                     const { article } = data;
+
+                    toSetWeChatShareConfig(article.title, article.summary, article.cover)
 
                     return (
                         <div className="hdz-news-detail">

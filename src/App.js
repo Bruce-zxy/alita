@@ -13,7 +13,7 @@ import ErrorBoundary from './components/Error';
 import Loader from './components/Loader';
 
 import { LOCAL_URL, LOCAL_URL_SHOW } from './config/common';
-import { initMetadata, asyncEffectHandler } from './utils/global';
+import { initMetadata, asyncEffectHandler, toSetWeChatShareConfig } from './utils/global';
 import client from './config/apollo-client';
 
 initReactFastclick();
@@ -22,8 +22,8 @@ moment.locale('zh-cn');
 const Home = loadable(() => import('./pages/home'), { fallback: <Loader /> });
 const HomeDetail = loadable(() => import('./pages/home_detail'), { fallback: <Loader /> });
 
-const Project = loadable(() => import('./pages/project'), { fallback: <Loader /> });
-const ProjectDetail = loadable(() => import('./pages/project_detail'), { fallback: <Loader /> });
+const Finance = loadable(() => import('./pages/finance'), { fallback: <Loader /> });
+const FinanceDetail = loadable(() => import('./pages/finance_detail'), { fallback: <Loader /> });
 
 const Service = loadable(() => import('./pages/service'), { fallback: <Loader /> });
 const ServiceDetail = loadable(() => import('./pages/service_detail'), { fallback: <Loader /> });
@@ -55,7 +55,7 @@ const gTabBar = [{
     selected: <i className="iconfont iconxiangmu" style={{ color: ACTIVE_COLOR }}></i>,
   }, {
     name: '金融资本',
-    page: 'PROJECT',
+    page: 'FINANCE',
     icon: <i className="iconfont iconqian"  style={{ color: NORMAL_COLOR }}></i>,
     selected: <i className="iconfont iconqian" style={{ color: ACTIVE_COLOR }}></i>,
   }, {
@@ -98,9 +98,9 @@ const MainRouteConfig = {
   金融资本: (props) => {
     return (
       <Switch>
-        <Route path={LOCAL_URL['PROJECT']} component={(props) => <Project {...props} />} exact />
-        <Route path={`${LOCAL_URL['PROJECT_FUNDS']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
-        <Route path={`${LOCAL_URL['PROJECT_FINANCING']}/:id`} component={(props) => <ProjectDetail {...props} />} exact />
+        <Route path={LOCAL_URL['FINANCE']} component={(props) => <Finance {...props} />} exact />
+        <Route path={`${LOCAL_URL['FINANCE_FUNDS']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['FINANCE_FINANCING']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
       </Switch>
     )
   }, 
@@ -162,6 +162,7 @@ const AppRoute = (props) => {
     if (gTabBar[tab_key_index]) {
       const tab_key = gTabBar[tab_key_index].name;
       setTabKey(tab_key);
+      toSetWeChatShareConfig()
     }
   }, [pathname])
   

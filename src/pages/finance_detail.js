@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 import DetailPanel from '../components/DetailPanel';
 import { Q_GET_CAPITAL, Q_GET_PRODUCT, M_APPLY_PRODUCTS, M_APPLY_CAPITALS } from '../gql';
-import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode } from '../utils/global';
+import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode, toSetWeChatShareConfig } from '../utils/global';
 
 import Loader from '../components/Loader';
 
@@ -103,6 +103,8 @@ const FundsDetail = withApollo((props) => {
 
                 if (data && data.capital) {
                     const { capital } = data;
+
+                    toSetWeChatShareConfig(capital.title, capital.summary);
 
                     global.TNT(capital);
 
@@ -338,14 +340,17 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
                 // if (loading) return <Loader />;
                 // if (error) return `【Error】 ${error.message}`;
 
+                
                 if (data && data.product) {
                     let flows = [];
-
+                    
                     try {
                         flows = JSON.parse(data.product.flows).sort((a, b) => a.sort - b.sort);
                     } catch (error) {
                         flows = [];
                     }
+
+                    toSetWeChatShareConfig(data.product.name, data.product.introduction);
 
                     global.TNT(data.product);
 

@@ -160,7 +160,7 @@ const LookingFunds = withApollo((props) => {
                     useWindow={false}
                 >
                     {thisState.data.map((item, i) => (
-                        <Link key={i} className="financing-project" to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>
+                        <Link key={i} className="financing-project" to={`${LOCAL_URL['FINANCE_FUNDS']}/${item.id}`}>
                             <p className="project-name">{item.title}</p>
                             <p className="project-tags">
                                 {item.category ? <span className="financing">{IFT_MODE_ENUM[item.category.toUpperCase()]}</span> : ''}
@@ -301,7 +301,7 @@ const JLFinancial = withApollo((props) => {
                     useWindow={false}
                 >
                     {thisState.data.map((item, i) => (
-                        <Link className="financial-item" to={`${LOCAL_URL['PROJECT_FINANCING']}/${item.id}?index=${i}`} style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
+                        <Link className="financial-item" to={`${LOCAL_URL['FINANCE_FINANCING']}/${item.id}?index=${i}`} style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
                             <div className="finnacial-item-left">
                                 <p>{item.name}</p>
                                 <p>{item.slogan}</p>

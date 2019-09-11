@@ -16,7 +16,7 @@ const FundsList = (props) => {
             <div className="service-list">
                 {props.list.map((item, i) => (
                     <div key={i} className="financing-project">
-                        <p className="project-name"><Link to={`${LOCAL_URL['PROJECT_FUNDS']}/${item.id}`}>{item.title}</Link></p>
+                        <p className="project-name"><Link to={`${LOCAL_URL['FINANCE_FUNDS']}/${item.id}`}>{item.title}</Link></p>
                         <p className="project-tags">
                             {item.category ? <span className="financing">{IFT_MODE_ENUM[item.category.toUpperCase()]}</span> : ''}
                             {item.industry && item.industry.length ? item.industry.map(industry => (<span className="industry" key={industry.title}>{industry.title}</span>)) : ''}

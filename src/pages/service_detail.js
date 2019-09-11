@@ -3,7 +3,7 @@ import { Modal, Toast } from 'antd-mobile';
 import { Query, withApollo } from 'react-apollo';
 
 import Loader from '../components/Loader';
-import { toFetchCurrentUser, buildingQuery, toGetParentArrayByChildNode } from '../utils/global';
+import { toFetchCurrentUser, buildingQuery, toGetParentArrayByChildNode, toSetWeChatShareConfig } from '../utils/global';
 import { Q_GET_PROVIDER, M_APPLY_PROVIDERS } from '../gql';
 import { LOCAL_URL } from '../config/common';
 import '../style/service.scss';
@@ -83,6 +83,7 @@ export default withApollo((props) => {
 
                 if (data && data.provider) {
                     const { provider } = data;
+                    toSetWeChatShareConfig(provider.name, provider.introduction, provider.logo);
                     global.TNT(provider);
                     return (
                         <div className="hdz-service-detail">
