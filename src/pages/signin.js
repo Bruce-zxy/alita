@@ -229,7 +229,7 @@ const Login = withApollo((props) => {
                 if (user) {
                     Toast.success('登录成功！', 1);
                     if (location.pathname === LOCAL_URL['SIGNIN']) {
-                        history.goBack();
+                        history.push(LOCAL_URL['MINE']);
                     } else {
                         window.location.reload();
                     }

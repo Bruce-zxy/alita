@@ -179,11 +179,11 @@ export default withApollo((props) => {
                         ))}
                     </InfiniteScroll>
                 </div>
-                <Draggable bounds="body">
-                    {!user || user.vip === 0 || user.identity === 'financer' ? (
+                {!user || user.vip === 0 || user.identity === 'financer' ? (
+                    <Draggable bounds="body">
                         <Link to={LOCAL_URL['PUBLISH_PROJECT']} className="publish-project">发布<br />项目</Link>
-                    ) : ''}
-                </Draggable>
+                    </Draggable>
+                ) : ''}
             </div>
         </div>
     )

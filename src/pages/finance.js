@@ -189,11 +189,11 @@ const LookingFunds = withApollo((props) => {
                     <div className="hdz-block-large-space"></div>
                 </InfiniteScroll>
             </div>
-            <Draggable bounds=".looking-funds">
-                {!user || user.vip === 0 || user.identity === 'investor' ? (
+            {!user || user.vip === 0 || user.identity === 'investor' ? (
+                <Draggable bounds=".looking-funds">
                     <Link to={LOCAL_URL['PUBLISH_FUNDS']} className="publish-finance">发布<br />资金</Link>
-                ) : ''}
-            </Draggable>
+                </Draggable>
+            ) : ''}
         </div>
     )
 

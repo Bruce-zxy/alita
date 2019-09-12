@@ -153,8 +153,6 @@ const PublishProject = withApollo((props) => {
         })()
     }, []);
 
-
-
     /* 【Part 1】 ↓ */
     const onErrorClick = (key) => () => {
         if (thisMap.size) {

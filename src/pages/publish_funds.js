@@ -96,7 +96,7 @@ const PublishFunds = withApollo((props) => {
         console.error(error.message);
     }
 
-    if (!user || user.identity) {
+    if (!user || !user.identity) {
         Toast.info('请先登录！');
         history.push(LOCAL_URL['SIGNIN']);
     }
