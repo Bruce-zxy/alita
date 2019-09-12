@@ -23,6 +23,7 @@
 
 
         .looking-funds {
+            position: relative;
             width: 100%;
             height: calc(100vh - 11.73vw - 50px);
             overflow: auto;
@@ -145,6 +146,20 @@
                         @include position(absolute, 7vw, auto, 1, auto, 1vw);
                     }
                 }
+            }
+
+            .publish-finance {
+                width: 16vw;
+                height: 16vw;
+                border-radius: 50%;
+                color: $WHITE;
+                text-align: center;
+                line-height: 1.35;
+                font-size: 3.73vw;
+                background: $TAB_BOTTOM_COLOR;
+                box-shadow: 0 2px 4px 0 rgba(5, 114, 228, 0.60);
+                @include display-flex();
+                @include position(absolute, auto, auto, 999, 5.8vw, 4.8vw);
             }
         }
     }

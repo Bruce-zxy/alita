@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Modal, ActivityIndicator } from 'antd-mobile';
 import InfiniteScroll from 'react-infinite-scroller';
 import { withApollo } from "react-apollo";
+import Draggable from 'react-draggable';
 import { CondOperator } from '@nestjsx/crud-request';
 
 import { buildingQuery, toGetParentArrayByChildNode } from '../utils/global';
@@ -17,7 +18,7 @@ const defaultVariables = {
     page: 0,
     limit: 10,
     join: [{field: "area"}],
-    filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waitting,following" }],
+    filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }],
     sort: [{ field: 'create_at', order: 'DESC' }],
 };
 
@@ -27,10 +28,12 @@ export default withApollo((props) => {
 
     let metadata = [];
     let area_origin_set = [];
+    let user = {};
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
         area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        user = JSON.parse(localStorage.getItem('u_user'));
     } catch (err) {
         window.location.reload();
         console.error(err.message);
@@ -176,6 +179,11 @@ export default withApollo((props) => {
                         ))}
                     </InfiniteScroll>
                 </div>
+                <Draggable bounds="body">
+                    {!user || user.vip === 0 || user.identity === 'financer' ? (
+                        <Link to={LOCAL_URL['PUBLISH_PROJECT']} className="publish-project">发布<br />项目</Link>
+                    ) : ''}
+                </Draggable>
             </div>
         </div>
     )

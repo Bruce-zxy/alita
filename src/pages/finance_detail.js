@@ -336,6 +336,7 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
+                
                 // if (networkStatus === 4) return <Loader />;
                 // if (loading) return <Loader />;
                 // if (error) return `【Error】 ${error.message}`;
@@ -350,7 +351,7 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
                         flows = [];
                     }
 
-                    toSetWeChatShareConfig(data.product.name, data.product.introduction);
+                    toSetWeChatShareConfig(data.product.name, data.product.introduction, data.product.cover);
 
                     global.TNT(data.product);
 

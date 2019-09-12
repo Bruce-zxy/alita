@@ -22,6 +22,9 @@ export const F_PROJECT_FIELDS = gql`
     purposes
     info
     payment
+    hideContact
+    hidePhone
+    hideCompany
     stage {
       id
       title

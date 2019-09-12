@@ -83,7 +83,7 @@ export default withApollo((props) => {
 
                 if (data && data.provider) {
                     const { provider } = data;
-                    toSetWeChatShareConfig(provider.name, provider.introduction, provider.logo);
+                    toSetWeChatShareConfig(provider.name, provider.introduction.replace(/<\/?.+?\/?>/g, ''), provider.logo);
                     global.TNT(provider);
                     return (
                         <div className="hdz-service-detail">

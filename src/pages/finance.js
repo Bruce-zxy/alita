@@ -6,6 +6,7 @@ import { withApollo } from 'react-apollo';
 import { CondOperator } from '@nestjsx/crud-request';
 import { ActivityIndicator } from 'antd-mobile';
 import InfiniteScroll from 'react-infinite-scroller';
+import Draggable from 'react-draggable';
 
 import { buildingQuery } from '../utils/global';
 import { Q_GET_CAPITALS, Q_GET_PRODUCTS } from '../gql';
@@ -23,10 +24,12 @@ const LookingFunds = withApollo((props) => {
 
     let metadata = [];
     let industry_data = [];
+    let user = {};
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
         industry_data = metadata[metadata.findIndex(data => data.title === '行业')].children;
+        user = JSON.parse(localStorage.getItem('u_user'));
     } catch (err) {
         console.error(err.message);
     }
@@ -35,7 +38,7 @@ const LookingFunds = withApollo((props) => {
         page: 0,
         limit: 10,
         join: [{ field: 'creator' }, { field: 'industry' }, { field: 'area' }, { field: 'stage' }, { field: 'type' }],
-        filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }],
+        filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }],
         sort: [{ field: 'create_at', order: 'DESC' }],
     };
     
@@ -186,6 +189,11 @@ const LookingFunds = withApollo((props) => {
                     <div className="hdz-block-large-space"></div>
                 </InfiniteScroll>
             </div>
+            <Draggable bounds=".looking-funds">
+                {!user || user.vip === 0 || user.identity === 'investor' ? (
+                    <Link to={LOCAL_URL['PUBLISH_FUNDS']} className="publish-finance">发布<br />资金</Link>
+                ) : ''}
+            </Draggable>
         </div>
     )
 
@@ -198,6 +206,7 @@ const JLFinancial = withApollo((props) => {
     const defaultVariables = {
         page: 0,
         limit: 10,
+        filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }],
         join: [{ field: 'category' }],
     };
 
@@ -229,10 +238,9 @@ const JLFinancial = withApollo((props) => {
     useEffect(() => {
 
         if (!thisState.category) {
-            delete defaultVariables.filter;
+            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }];
         } else {
-            defaultVariables.filter = [];
-            thisState.category ? defaultVariables.filter.push({ field: "category.title", operator: CondOperator.EQUALS, value: thisState.category }) : '';
+            defaultVariables.filter.push({ field: "category.title", operator: CondOperator.EQUALS, value: thisState.category });
         }
 
         defaultVariables.sort = [{
@@ -300,7 +308,7 @@ const JLFinancial = withApollo((props) => {
                     loader={<div key={0} style={{ margin: "1vh auto", display: "flex", justifyContent: "center" }}><ActivityIndicator /></div>}
                     useWindow={false}
                 >
-                    {thisState.data.map((item, i) => (
+                    {thisState.data.length ? thisState.data.map((item, i) => (
                         <Link className="financial-item" to={`${LOCAL_URL['FINANCE_FINANCING']}/${item.id}?index=${i}`} style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
                             <div className="finnacial-item-left">
                                 <p>{item.name}</p>
@@ -311,7 +319,9 @@ const JLFinancial = withApollo((props) => {
                             </div>
                             <i className={`iconfont ${ICON_ARRAY[i % ICON_ARRAY.length]}`}></i>
                         </Link>
-                    ))}
+                    )) : (
+                        <p style={{ color: "#999", textAlign: "center" }}>暂无数据</p>
+                    )}
                 </InfiniteScroll>
             </div>
         </div>

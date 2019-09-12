@@ -36,7 +36,7 @@ const defaultVariables = {
 const PublishFunds = withApollo((props) => {
 
     const { form: { getFieldProps, getFieldsValue, setFieldsValue, validateFields }, client, history, location: { search } } = props;
-    
+
     const [thisMap, setMap] = useState(new Map());
     const [thisType, setType] = useState('equity');
 
@@ -94,6 +94,11 @@ const PublishFunds = withApollo((props) => {
 
     } catch (error) {
         console.error(error.message);
+    }
+
+    if (!user || user.identity) {
+        Toast.info('请先登录！');
+        history.push(LOCAL_URL['SIGNIN']);
     }
 
     useEffect(() => {

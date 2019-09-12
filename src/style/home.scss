@@ -135,5 +135,19 @@
                 }
             }
         }
+
+        .publish-project {
+            width: 16vw;
+            height: 16vw;
+            border-radius: 50%;
+            color: $WHITE;
+            text-align: center;
+            line-height: 1.35;
+            font-size: 3.73vw;
+            background: $TAB_BOTTOM_COLOR;
+            box-shadow: 0 2px 4px 0 rgba(5, 114, 228, 0.60);
+            @include display-flex();
+            @include position(fixed, auto, auto, 999, 18.4vw, 4.8vw);
+        }
     }
 }
