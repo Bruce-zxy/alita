@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, ActivityIndicator } from 'antd-mobile';
+import { Modal, ActivityIndicator, Toast } from 'antd-mobile';
 import InfiniteScroll from 'react-infinite-scroller';
 import { withApollo } from "react-apollo";
 import Draggable from 'react-draggable';
@@ -24,7 +24,9 @@ const defaultVariables = {
 
 export default withApollo((props) => {
 
-    const { client } = props;
+    const { client, history } = props;
+
+    console.log(props)
 
     let metadata = [];
     let area_origin_set = [];
@@ -134,6 +136,18 @@ export default withApollo((props) => {
         }
     }
 
+    const toPublish = () => {
+        if (!user) {
+            Toast.info('请先登录账号再发布');
+            history.push(LOCAL_URL['SIGNIN']);
+        } else if (user && user.vip === 0) {
+            Toast.info('请先升级账号会员再发布');
+            history.push(LOCAL_URL['PUBLISH_MEMBER']);
+        } else {
+            history.push(LOCAL_URL['PUBLISH_PROJECT']);
+        }
+    }
+
     global.TNT(thisState.data);
 
     return (
@@ -181,7 +195,7 @@ export default withApollo((props) => {
                 </div>
                 {!user || user.vip === 0 || user.identity === 'financer' ? (
                     <Draggable bounds="body">
-                        <Link to={LOCAL_URL['PUBLISH_PROJECT']} className="publish-project">发布<br />项目</Link>
+                        <span className="publish-project" onClick={toPublish}>发布<br />项目</span>
                     </Draggable>
                 ) : ''}
             </div>

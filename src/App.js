@@ -92,6 +92,7 @@ const MainRouteConfig = {
       <Switch>
         <Route path={LOCAL_URL['HOME']} component={(props) => <Home {...props} />} exact />
         <Route path={`${LOCAL_URL['HOME_DETAIL']}/:id`} component={(props) => <HomeDetail {...props} />} exact />
+        <AdditionalRouteConfig />
       </Switch>
     )
   }, 
@@ -101,6 +102,7 @@ const MainRouteConfig = {
         <Route path={LOCAL_URL['FINANCE']} component={(props) => <Finance {...props} />} exact />
         <Route path={`${LOCAL_URL['FINANCE_FUNDS']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
         <Route path={`${LOCAL_URL['FINANCE_FINANCING']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
+        <AdditionalRouteConfig />
       </Switch>
     )
   }, 
@@ -123,7 +125,7 @@ const MainRouteConfig = {
   我的: (props) => {
     const token = localStorage.getItem('u_token');
     if (!token) {
-      return <Signin {...props} />
+      return <Signin {...props} />;
     } else {
       return (
         <Switch>
@@ -152,9 +154,7 @@ const AppRoute = (props) => {
 
   const [flag, setFlag] = useState(false);
   useEffect(() => {
-    asyncEffectHandler(async () => {
-      setFlag(await initMetadata());
-    })
+    initMetadata().then(setFlag);
   }, []);
 
   useEffect(() => {

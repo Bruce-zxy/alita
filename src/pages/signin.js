@@ -195,6 +195,7 @@ const Login = withApollo((props) => {
 
     const { client, history, location } = props;
     const token = localStorage.getItem('u_token');
+    
     if (token) {
         history.push(LOCAL_URL['MINE']);
     }
@@ -229,7 +230,7 @@ const Login = withApollo((props) => {
                 if (user) {
                     Toast.success('登录成功！', 1);
                     if (location.pathname === LOCAL_URL['SIGNIN']) {
-                        history.push(LOCAL_URL['MINE']);
+                        window.history.go(-1)
                     } else {
                         window.location.reload();
                     }

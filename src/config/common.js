@@ -42,7 +42,7 @@ module.exports = {
 
     },
 
-    "LOCAL_URL_SHOW": ['home', 'finance', 'service', 'news', 'mine'],
+    "LOCAL_URL_SHOW": ['home', 'finance', 'service', 'news', 'mine', 'signin'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
     "API_ROOT": process.env.NODE_ENV === 'development' ? "http://192.168.30.224:3000/api" : '/api',

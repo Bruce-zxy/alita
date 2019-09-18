@@ -98,10 +98,12 @@ export default withApollo((props) => {
             </div>
         )
     } else {
-        return <Redirect to={{
-            pathname: LOCAL_URL["SIGNIN"],
-            search: props.location.search,
-            state: { referrer: props.location }
-        }} />
+        return <Redirect 
+            to={{
+                pathname: LOCAL_URL["SIGNIN"],
+                search: props.location.search,
+                state: { referrer: props.location }
+            }} 
+        />
     }
 });

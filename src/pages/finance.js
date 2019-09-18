@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal } from 'antd-mobile';
+import { Modal, Toast } from 'antd-mobile';
 import { withApollo } from 'react-apollo';
 import { CondOperator } from '@nestjsx/crud-request';
 import { ActivityIndicator } from 'antd-mobile';
@@ -20,11 +20,14 @@ import SUCCESS_IFT from '../images/successful_investment.png';
 
 const LookingFunds = withApollo((props) => {
 
-    const { client } = props;
+    const { client, history } = props;
 
     let metadata = [];
     let industry_data = [];
     let user = {};
+
+    console.log(props);
+    
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
@@ -66,8 +69,6 @@ const LookingFunds = withApollo((props) => {
             { text: '清除筛选', onPress: () => toSetState({ industry: '', page: 0 }) },
         ])
     }
-
-
 
     useEffect(() => {
 
@@ -137,6 +138,18 @@ const LookingFunds = withApollo((props) => {
         }
     }
 
+    const toPublish = () => {
+        if (!user) {
+            Toast.info('请先登录账号再发布');
+            history.push(LOCAL_URL['SIGNIN']);
+        } else if (user && user.vip === 0) {
+            Toast.info('请先升级账号会员再发布');
+            history.push(LOCAL_URL['PUBLISH_MEMBER']);
+        } else {
+            history.push(LOCAL_URL['PUBLISH_FUNDS']);
+        }
+    }
+
     global.TNT(thisState.data);
 
     return (
@@ -191,7 +204,7 @@ const LookingFunds = withApollo((props) => {
             </div>
             {!user || user.vip === 0 || user.identity === 'investor' ? (
                 <Draggable bounds=".looking-funds">
-                    <Link to={LOCAL_URL['PUBLISH_FUNDS']} className="publish-finance">发布<br />资金</Link>
+                    <span className="publish-finance" onClick={toPublish}>发布<br />资金</span>
                 </Draggable>
             ) : ''}
         </div>
@@ -342,11 +355,11 @@ export default (props) => {
     const data = [{
         title: "找资金",
         className: 'project-looking-funds',
-        content: <LookingFunds />
+        content: <LookingFunds {...props} />
     }, {
         title: "江旅金融",
         className: 'project-jl-financial',
-        content: <JLFinancial />
+        content: <JLFinancial {...props} />
     }]
 
 
