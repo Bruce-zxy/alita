@@ -191,6 +191,8 @@ export const Q_FETCH_CURRENT_USER = gql`
           category
           cover
           create_at
+          contact
+          phone
           creator {
             id
             realname
