@@ -26,9 +26,6 @@ const LookingFunds = withApollo((props) => {
     let industry_data = [];
     let user = {};
 
-    console.log(props);
-    
-
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
         industry_data = metadata[metadata.findIndex(data => data.title === '行业')].children;
@@ -74,11 +71,11 @@ const LookingFunds = withApollo((props) => {
 
         if (thisState.industry) {
             defaultVariables.filter = [
-                { field: "status", operator: CondOperator.IN, value: "checked,finished" },
+                { field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" },
                 { field: "industry.title", operator: CondOperator.EQUALS, value: thisState.industry }
             ];
         } else {
-            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }];
+            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }];
         }
 
         defaultVariables.sort = [];

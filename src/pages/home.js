@@ -26,8 +26,6 @@ export default withApollo((props) => {
 
     const { client, history } = props;
 
-    console.log(props)
-
     let metadata = [];
     let area_origin_set = [];
     let user = {};
@@ -72,11 +70,11 @@ export default withApollo((props) => {
     useEffect(() => {
         if (thisState.category) {
             defaultVariables.filter = [
-                { field: "status", operator: CondOperator.IN, value: "checked,finished" },
+                { field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" },
                 { field: "category", operator: CondOperator.EQUALS, value: thisState.category }
             ];
         } else {
-            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished" }];
+            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }];
         }
         defaultVariables.sort = [];
         if (thisState.amount % 3 !== 0) {
