@@ -521,11 +521,18 @@
                 transform-origin: 50% 100%;
                 transform: scale(1.06);
 
+                a {
+                    >p {
+                        height: $SIZE_20;
+                        @include font($FONT_SIZE_12, $GRAY_999);
+                    }
+                }
+
                 >p {
                     width: 100%;
                     height: $SIZE_20;
                     margin-bottom: $SIZE_5;
-                    @include display-flex(fow, flex-start);
+                    @include display-flex(row, flex-start);
                     @include font($FONT_SIZE_12, $GRAY_999);
                 }
 

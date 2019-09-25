@@ -21,7 +21,7 @@ export default withApollo((props) => {
         })
     }, []);
 
-    const list = user && user.apply_providers ? user.apply_providers.map(provider => ({
+    const list = user && user.apply_providers ? user.apply_providers.sort((a, b) => a.create_at - b.create_at).map(provider => ({
         id: provider.provider.id,
         company: provider.provider.name || '未知',
         tags: [provider.provider.category.title],
