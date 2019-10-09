@@ -261,7 +261,7 @@ export const toSetWeChatShareConfig = async (title, desc, img) => {
       timestamp, // 必填，生成签名的时间戳
       nonceStr, // 必填，生成签名的随机串
       signature, // 必填，签名，见附录1
-      jsApiList: ["checkJsApi", "updateAppMessageShareData", "updateTimelineShareData"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      jsApiList: ["checkJsApi", "updateAppMessageShareData", "updateTimelineShareData","onMenuShareAppMessage","onMenuShareTimeline"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     window.wx.ready(function () {
       window.wx.updateAppMessageShareData({
