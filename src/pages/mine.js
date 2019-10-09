@@ -9,6 +9,7 @@ import "../style/mine.scss";
 export default withApollo((props) => {
 
     const token = localStorage.getItem('u_token');
+    const u_user = localStorage.getItem('u_user');
     const [user, updateUser] = useState({});
     const user_status = [
         '点击下方按钮可升级成为VIP',
@@ -23,10 +24,12 @@ export default withApollo((props) => {
     }
 
     useEffect(() => {
-        try {
-            updateUser(JSON.parse(localStorage.getItem('u_user')));
-        } catch (error) {
-            global.TNT(error);
+        if (u_user) {
+            try {
+                updateUser(JSON.parse(u_user));
+            } catch (error) {
+                global.TNT(error);
+            }
         }
         if (token) {
             toFetchCurrentUser(props.client).then((user) => {
