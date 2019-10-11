@@ -74,7 +74,7 @@ export default withApollo((props) => {
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再申请！', 2);
-                history.push(LOCAL_URL['SIGNIN']);
+                window.location.href = (LOCAL_URL['SIGNIN']);
             }
         }
         Modal.alert('您正在提交一个申请', '是否确认申请？', [

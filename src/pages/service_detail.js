@@ -62,7 +62,7 @@ export default withApollo((props) => {
                 }
             } else {
                 Toast.fail('您尚未登录，请登陆后再交换！', 2);
-                history.push(LOCAL_URL['SIGNIN']);
+                window.location.href = (LOCAL_URL['SIGNIN']);
             }
         }
         Modal.alert('您正在与服务商交换名片', '是否确认交换？', [
