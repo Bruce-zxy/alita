@@ -24,11 +24,15 @@ const LookingFunds = withApollo((props) => {
 
     let metadata = [];
     let industry_data = [];
+    let area_origin_set = [];
+    let type_data = [];
     let user = {};
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
         industry_data = metadata[metadata.findIndex(data => data.title === '行业')].children;
+        type_data = metadata[metadata.findIndex(data => data.title === '资金类型')].children;
         user = JSON.parse(localStorage.getItem('u_user'));
     } catch (err) {
         console.error(err.message);
@@ -46,7 +50,8 @@ const LookingFunds = withApollo((props) => {
         time: 1,
         amount: '',
         industry: '',
-
+        type: '',
+        area: '',
         hasMore: true,
         data: [],
         page: 0
@@ -67,15 +72,34 @@ const LookingFunds = withApollo((props) => {
         ])
     }
 
-    useEffect(() => {
+    const toShowAreaFilterModal = () => {
+        const area = area_origin_set.sort((a, b) => a.title === '江西省' ? -1 : 1).map(are => ({ text: are.title, onPress: () => toSetState({ area: are, page: 0 }) }))
+        Modal.operation([
+            ...area,
+            { text: '清除筛选', onPress: () => toSetState({ area: '', page: 0 }) },
+        ])
+    }
 
+    const toShowInvestTypeFilterModal = () => {
+        const type = type_data.map(are => ({ text: are.title, onPress: () => toSetState({ type: are.title, page: 0 }) }))
+        Modal.operation([
+            ...type,
+            { text: '清除筛选', onPress: () => toSetState({ type: '', page: 0 }) },
+        ])
+    }
+
+    useEffect(() => {
+        defaultVariables.filter = [
+            { field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }
+        ];
         if (thisState.industry) {
-            defaultVariables.filter = [
-                { field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" },
-                { field: "industry.title", operator: CondOperator.EQUALS, value: thisState.industry }
-            ];
-        } else {
-            defaultVariables.filter = [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }];
+            defaultVariables.filter.push({ field: "industry.title", operator: CondOperator.EQUALS, value: thisState.industry });
+        }
+        if (thisState.type) {
+            defaultVariables.filter.push({ field: "type.title", operator: CondOperator.IN, value: thisState.type });
+        }
+        if (thisState.area) {
+            defaultVariables.filter.push({ field: "area_path", operator: CondOperator.CONTAINS, value: thisState.area.title });
         }
 
         defaultVariables.sort = [];
@@ -96,7 +120,7 @@ const LookingFunds = withApollo((props) => {
         }
 
         toLoadMore();
-    }, [thisState.time, thisState.amount, thisState.industry]);
+    }, [thisState.time, thisState.amount, thisState.industry, thisState.type, thisState.area]);
 
     const toLoadMore = async () => {
 
@@ -152,13 +176,13 @@ const LookingFunds = withApollo((props) => {
     return (
         <div className="looking-funds">
             <div className="lvyoto-filter-bar">
-                <div className={`publish-time state-${thisState.time % 3 ? 'active' : 'none'}`} onClick={() => toSetState({ time: thisState.time + 1, page: 0 })}>
-                    <span>发布时间</span>
-                    <i className="iconfont iconpaixu"></i>
+                <div className={`filter-factor state-${thisState.type ? 'active' : 'none'}`} onClick={toShowInvestTypeFilterModal}>
+                    <span>资金类型</span>
+                    <i className="iconfont iconshaixuan-tianchong"></i>
                 </div>
-                <div className={`financing-amount state-${thisState.amount % 3 ? 'active' : 'none'}`} onClick={() => toSetState({ amount: thisState.amount + 1, page: 0 })}>
-                    <span>资金金额</span>
-                    <i className="iconfont iconpaixu"></i>
+                <div className={`filter-factor state-${thisState.area ? 'active' : 'none'}`} onClick={toShowAreaFilterModal}>
+                    <span>投资地区</span>
+                    <i className="iconfont iconshaixuan-tianchong"></i>
                 </div>
                 <div className={`filter-factor state-${thisState.industry ? 'active' : 'none'}`} onClick={toShowFilterModal}>
                     <span>行业筛选</span>
