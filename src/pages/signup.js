@@ -151,7 +151,7 @@ export default withApollo((props) => {
         <div className="hdz-lvyoto-signup" style={{ backgroundImage: `url(${BG})` }}>
             <div className="sign-up-panel">
                 <p>您好，</p>
-                <p>欢迎来到旅游项目通</p>
+                <p>欢迎来到江西省文化和旅游投融资服务平台</p>
                 <div className="signup-form">
                     <p>
                         <i className="iconfont iconicon--"></i>

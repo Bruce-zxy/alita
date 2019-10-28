@@ -265,14 +265,14 @@ export const toSetWeChatShareConfig = async (title, desc, img) => {
     });
     window.wx.ready(function () {
       window.wx.updateAppMessageShareData({
-        title: title || '旅游项目通', // 分享标题
+        title: title || '江西省文化和旅游投融资服务平台', // 分享标题
         link: window.location.href, // 分享链接
         imgUrl: img || 'https://www.lvyoto.com/static/img/share-logo.png', // 分享图标
         desc: desc || document.querySelector('meta[name="description"]').content, // 分享描述
       });
       //朋友
       window.wx.updateTimelineShareData({
-        title: title || '旅游项目通', // 分享标题
+        title: title || '江西省文化和旅游投融资服务平台', // 分享标题
         link: window.location.href, // 分享链接
         imgUrl: img || 'https://www.lvyoto.com/static/img/share-logo.png', // 分享图标
       });
