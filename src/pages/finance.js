@@ -43,7 +43,7 @@ const LookingFunds = withApollo((props) => {
         limit: 10,
         join: [{ field: 'creator' }, { field: 'industry' }, { field: 'area' }, { field: 'stage' }, { field: 'type' }],
         filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }],
-        sort: [{ field: 'create_at', order: 'DESC' }],
+        sort: [{ field: 'sort', order: 'DESC' }],
     };
     
     const [thisState, setState] = useState({
