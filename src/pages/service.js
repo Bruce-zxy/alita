@@ -67,13 +67,14 @@ export default withApollo((props) => {
     useEffect(() => {
 
         if (!thisState.category && !thisState.area.length) {
-            delete defaultVariables.filter;
+            defaultVariables.filter = [];
         } else {
             defaultVariables.filter = [];
             thisState.category ? defaultVariables.filter.push({ field: "category.title", operator: CondOperator.EQUALS, value: thisState.category }) : '';
             thisState.area.length ? defaultVariables.filter.push({ field: "area.title", operator: CondOperator.EQUALS, value: thisState.area.pop() }) : '';
             defaultVariables.filter.push({ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" });
         }
+        defaultVariables.filter.push({ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" });
 
         defaultVariables.sort = [{
             field: 'create_at',
