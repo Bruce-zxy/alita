@@ -101,7 +101,7 @@ export default withApollo((props) => {
                                     <i className="iconfont icondidian"></i>
                                     <span>所在地：{provider.area ? (toGetParentArrayByChildNode(area_origin_set, { id: provider.area.id }) || []).map(item => item.title).join(',') : '无'}</span>
                                 </p>
-                                <div className="service-detail-content" dangerouslySetInnerHTML={{ __html: provider.introduction }} />
+                                <div className="service-detail-content" dangerouslySetInnerHTML={{ __html: provider.introduction.replace(/\n/g, '<br />') }} />
                             </div>
 
                             {(() => {

@@ -74,6 +74,8 @@ export default withApollo((props) => {
             thisState.area.length ? defaultVariables.filter.push({ field: "area.title", operator: CondOperator.EQUALS, value: thisState.area.pop() }) : '';
         }
 
+        defaultVariables.filter.push({ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }),
+
         defaultVariables.sort = [{
             field: 'create_at',
             order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
