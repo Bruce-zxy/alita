@@ -75,7 +75,7 @@ const PublishProject = withApollo((props) => {
         user = JSON.parse(localStorage.getItem('u_user'));
         
         industry_origin_set = metadata[metadata.findIndex(data => data.title === '行业')].children;
-        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children.sort((a, b) => a.title === '江西省' ? -1 : 1);
         stage_origin_set = metadata[metadata.findIndex(data => data.title === '阶段')].children;
         ratio_origin_set = metadata[metadata.findIndex(data => data.title === '比例')].children;
         withdrawal_year_origin_set = metadata[metadata.findIndex(data => data.title === '年限')].children;

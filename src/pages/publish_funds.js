@@ -74,7 +74,7 @@ const PublishFunds = withApollo((props) => {
 
         industry_origin_set = metadata[metadata.findIndex(data => data.title === '行业')].children;
         type_origin_set = metadata[metadata.findIndex(data => data.title === '资金类型')].children;
-        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children.sort((a, b) => a.title === '江西省' ? -1 : 1);
         equity_type_origin_set = metadata[metadata.findIndex(data => data.title === '参股类型')].children;
         stage_origin_set = metadata[metadata.findIndex(data => data.title === '阶段')].children;
         invest_type_origin_set = metadata[metadata.findIndex(data => data.title === '投资类型')].children;

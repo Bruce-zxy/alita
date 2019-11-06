@@ -32,7 +32,7 @@ export default withApollo((props) => {
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
-        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        area_origin_set = metadata[metadata.findIndex(data => data.title === '地区')].children.sort((a, b) => a.title === '江西省' ? -1 : 1);
         area_set = toTransformAreaTreeProps(area_origin_set, { key: 'title', value: 'title', children: 'children' });
     } catch (err) {
         console.error(err.message);

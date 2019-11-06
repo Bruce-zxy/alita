@@ -27,7 +27,7 @@ const PublishProject = withApollo((props) => {
         user = JSON.parse(localStorage.getItem('u_user'));
 
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
-        area_origin = metadata[metadata.findIndex(data => data.title === '地区')].children;
+        area_origin = metadata[metadata.findIndex(data => data.title === '地区')].children.sort((a, b) => a.title === '江西省' ? -1 : 1);
         area = toTransformAreaTreeProps(area_origin, { key: 'title', value: 'id', children: 'children' });
 
         provider_metadata = JSON.parse(sessionStorage.getItem('provider_metadata'));
