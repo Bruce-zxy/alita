@@ -77,6 +77,9 @@ export default withApollo((props) => {
         defaultVariables.filter.push({ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" });
 
         defaultVariables.sort = [{
+            field: 'sort',
+            order: 'DESC'
+        }, {
             field: 'create_at',
             order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
         }];

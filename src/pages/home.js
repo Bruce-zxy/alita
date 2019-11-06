@@ -19,7 +19,7 @@ const defaultVariables = {
     limit: 10,
     join: [{field: "area"}],
     filter: [{ field: "status", operator: CondOperator.IN, value: "checked,finished,waiting,following" }],
-    sort: [{ field: 'create_at', order: 'ASC' }],
+    sort: [{ field: 'publish_at', order: 'DESC' }],
 };
 
 export default withApollo((props) => {
