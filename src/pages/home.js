@@ -204,7 +204,7 @@ export default withApollo((props) => {
                                         {item.industry ? <span className="industry">{item.industry.title}</span> : ''}
                                     </p>
                                     <p>
-                                        <span className="price">{item.amount <= 1 ? '保密' : item.amount + '万元'}</span>
+                                        <span className="price">{item.amount <= 1 ? '**万元' : item.amount + '万元'}</span>
                                         <span className="province">{item.area ? (toGetParentArrayByChildNode(area_origin_set, { id: item.area.id }) || []).shift().title : '无'}</span>
                                     </p>
                                 </div>

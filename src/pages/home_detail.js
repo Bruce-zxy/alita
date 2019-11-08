@@ -180,7 +180,7 @@ export default withApollo((props) => {
                             <div className="home-detail-title">
                                 <p className="detail-title">{project.title}</p>
                                 <p className="detail-subtitle">
-                                    <span>&yen;{project.amount <= 1 ? '保密' : project.amount + '万元'}</span>
+                                    <span>&yen;{project.amount <= 1 ? '**万元' : project.amount + '万元'}</span>
                                     <span>所在地区：{project.area ? (toGetParentArrayByChildNode(area_origin_set, { id: project.area.id }) || []).map(item => item.title).join(',') : '未知'}</span>
                                 </p>
                             </div>
