@@ -331,6 +331,16 @@ const PublishProject = withApollo((props) => {
                     <List.Item disabled={disabled} arrow="horizontal">所在地区</List.Item>
                 </Picker>
 
+                <List.Item disabled={disabled} className="none-input-item" multipleLine>
+                    <label>会员属性</label>
+                    <Radio.Group disabled={disabled} {...getFieldProps(FIELD_9, { initialValue: "financer", onChange: (e) => setUserType(e.target.value) })} style={{ width: "calc(100% - 85px)", display: "inline-flex", flexWrap: "wrap" }} >
+                        <Radio value="financer" style={{ marginBottom: "3.2vw" }}>项目方</Radio>
+                        <Radio value="investor" style={{ marginBottom: "3.2vw" }}>资金方</Radio>
+                        <Radio value="provider" >服务商</Radio>
+                        <Radio value="user" disabled>普通用户</Radio>
+                    </Radio.Group>
+                </List.Item>
+
                 <List.Item disabled={disabled} className="none-input-item" >
                     <label>会员身份</label>
                     <Radio.Group disabled={disabled} {...getFieldProps(FIELD_1, { initialValue: "enterprise", onChange: (e) => setType(e.target.value) })} >
@@ -396,16 +406,6 @@ const PublishProject = withApollo((props) => {
 
                     </Fragment>
                 )}
-
-                <List.Item disabled={disabled} className="none-input-item" multipleLine>
-                    <label>会员属性</label>
-                    <Radio.Group disabled={disabled} {...getFieldProps(FIELD_9, { initialValue: "financer", onChange: (e) => setUserType(e.target.value) })} style={{ width: "calc(100% - 85px)", display: "inline-flex", flexWrap: "wrap" }} >
-                        <Radio value="financer" style={{ marginBottom: "3.2vw" }}>项目方</Radio>
-                        <Radio value="investor" style={{ marginBottom: "3.2vw" }}>资金方</Radio>
-                        <Radio value="provider" >服务商</Radio>
-                        <Radio value="user" disabled>普通用户</Radio>
-                    </Radio.Group>
-                </List.Item>
 
                 {thisUserType === "provider" ? (
                     <Fragment>
