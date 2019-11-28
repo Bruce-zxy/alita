@@ -107,7 +107,7 @@ export default withApollo((props) => {
         }
         if (thisState.time % 3 !== 0) {
             defaultVariables.sort.push({
-                field: 'create_at',
+                field: 'publish_at',
                 order: thisState.time % 3 - 1 === 0 ? 'DESC' : 'ASC'
             });
         }
