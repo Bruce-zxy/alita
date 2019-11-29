@@ -174,7 +174,7 @@ const ForgotFirstStep = (props) => {
                 </p>
                 <p>
                     <i className="iconfont iconyanzhengma1"></i>
-                    <input type="text" placeholder="请输入图形验证码" onChange={(e) => toChangeStateFactor('svg_code')(svg_code => svg_code = e.target.value)} maxLength="4" />
+                    <input type="text" style={{background: '#FFF'}}placeholder="请输入图形验证码" onChange={(e) => toChangeStateFactor('svg_code')(svg_code => svg_code = e.target.value)} maxLength="4" />
                     <span onClick={toFetchCodeSVG} dangerouslySetInnerHTML={{ __html: thisState.svg_code_dom }}></span>
                 </p>
                 <p>
