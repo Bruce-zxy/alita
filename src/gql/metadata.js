@@ -46,7 +46,7 @@ export const Q_GET_METADATA_TREES = gql`
   ${F_METADATA_RECURSIVE}
 
   query getMetadataTrees {
-    metadataTrees {
+    findAllMetadata {
       ...MetadataRecursive
     }
   }
@@ -66,7 +66,7 @@ export const M_UPDATE_METADATA = gql`
   ${F_METADATA_FIELDS}
 
   mutation updateMetadata($id: String!, $data: MetadataInput!) {
-    updateMetadata(id: $id, data: $data) {
+    modifyMetadata(id: $id, data: $data) {
       ...MetadataFields
     }
   }
@@ -76,7 +76,7 @@ export const M_CREATE_METADATA = gql`
   ${F_METADATA_FIELDS}
 
   mutation createMetadata($data: MetadataInput!) {
-    createMetadata(data: $data) {
+    newMetadata(data: $data) {
       ...MetadataFields
     }
   }
@@ -84,6 +84,6 @@ export const M_CREATE_METADATA = gql`
 
 export const M_DELETE_METADATA = gql`
   mutation deleteMetadata($ids: String!) {
-    deleteMetadata(ids: $ids)
+    removeMetadata(ids: $ids)
   }
 `;
