@@ -175,8 +175,8 @@ export const initMetadata = async () => {
       //   }
       // }
     });
-    if (metadata.data && metadata.data.metadataTrees) {
-      sessionStorage.setItem('metadata', JSON.stringify(metadata.data.metadataTrees));
+    if (metadata.data && metadata.data.findAllMetadata) {
+      sessionStorage.setItem('metadata', JSON.stringify(metadata.data.findAllMetadata));
     }
   }
   if (!sessionStorage.getItem('provider_metadata')) {
