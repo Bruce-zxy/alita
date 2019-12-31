@@ -102,7 +102,7 @@ const NewsList = withApollo((props) => {
                     dots={false}
                 />
                 {thisState.data.map((item, i) => (
-                    <Link className="news-item" key={i} to={`${LOCAL_URL['NEWS_DETAIL']}/${item.id}`}>
+                    <Link className="news-item" key={i} to={`${LOCAL_URL['NEWS_DETAIL']}?id=${item.id}`}>
                         <div className="news-info">
                             <p>{item.title}</p>
                             <p>作者：{item.author}&nbsp;&nbsp;{moment(item.create_at).format('YYYY-MM-DD')}</p>
@@ -140,7 +140,7 @@ export default withApollo(({ client }) => {
                         id: item.id,
                         title: item.title,
                         image: item.cover,
-                        link: LOCAL_URL['NEWS_DETAIL'] + `/${item.id}`
+                        link: LOCAL_URL['NEWS_DETAIL'] + `?id=${item.id}`
                     })))
                 }
             }

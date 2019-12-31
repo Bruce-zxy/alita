@@ -10,7 +10,10 @@ import QRCode from '../images/qr_code.png';
 
 export default (props) => {
 
-    const { match: { params: { id } } } = props;
+    let { match: { params: { id } } } = props;
+    if (!id) {
+        id = props.location.search.split("=")[1];
+    }
 
     return (
         <Query

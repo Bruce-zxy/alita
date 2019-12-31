@@ -119,6 +119,7 @@ const MainRouteConfig = {
       <Switch>
         <Route path={LOCAL_URL['NEWS']} component={(props) => <News {...props} />} exact />
         <Route path={`${LOCAL_URL['NEWS_DETAIL']}/:id`} component={(props) => <NewsDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['NEWS_DETAIL']}`} component={(props) => <NewsDetail {...props} />} exact />
       </Switch>
     )
   }, 
