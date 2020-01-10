@@ -124,6 +124,9 @@ export default withApollo(({ client }) => {
     const defaultVariables = {
         page: 1,
         limit: 4,
+        filter: [
+            { field: 'is_top', operator: CondOperator.EQUALS, value: true }
+        ],
         sort: [{ field: 'sort', order: 'DESC' }],
     };
 
