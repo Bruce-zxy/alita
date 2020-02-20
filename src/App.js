@@ -92,6 +92,7 @@ const MainRouteConfig = {
       <Switch>
         <Route path={LOCAL_URL['HOME']} component={(props) => <Home {...props} />} exact />
         <Route path={`${LOCAL_URL['HOME_DETAIL']}/:id`} component={(props) => <HomeDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['HOME_DETAIL']}`} component={(props) => <HomeDetail {...props} />} exact />
         <AdditionalRouteConfig />
       </Switch>
     )
@@ -101,6 +102,7 @@ const MainRouteConfig = {
       <Switch>
         <Route path={LOCAL_URL['FINANCE']} component={(props) => <Finance {...props} />} exact />
         <Route path={`${LOCAL_URL['FINANCE_FUNDS']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['FINANCE_FUNDS']}`} component={(props) => <FinanceDetail {...props} />} exact />
         <Route path={`${LOCAL_URL['FINANCE_FINANCING']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
         <AdditionalRouteConfig />
       </Switch>
@@ -111,6 +113,7 @@ const MainRouteConfig = {
       <Switch>
         <Route path={LOCAL_URL['SERVICE']} component={(props) => <Service {...props} />} exact />
         <Route path={`${LOCAL_URL['SERVICE_DETAIL']}/:id`} component={(props) => <ServiceDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['SERVICE_DETAIL']}`} component={(props) => <ServiceDetail {...props} />} exact />
       </Switch>
     )
   }, 
@@ -168,7 +171,7 @@ const AppRoute = (props) => {
   }, [pathname])
   
   if (pathname === "/") {
-    return <Redirect to="/home" />;
+    return <Redirect to="/project" />;
   }
   if (!flag) {
     return <Loader />

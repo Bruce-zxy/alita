@@ -12,7 +12,7 @@ export default (props) => {
 
     let { match: { params: { id } } } = props;
     if (!id) {
-        id = props.location.search.split("=")[1];
+        id = props.location.search.split("=")[1].substring(0,36);
     }
 
     return (

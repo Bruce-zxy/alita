@@ -10,11 +10,11 @@ module.exports = {
     "LOCAL_URL": {
         "ROOT"            : "/",
 
-        "HOME"        : APP_ROOT + "/home",
-        "HOME_DETAIL" : APP_ROOT + "/home/detail",
+        "HOME"        : APP_ROOT + "/project",
+        "HOME_DETAIL" : APP_ROOT + "/project/detail",
         
         "FINANCE": APP_ROOT + "/finance",
-        "FINANCE_FUNDS": APP_ROOT + "/finance/funds",
+        "FINANCE_FUNDS": APP_ROOT + "/finance/detail",
         "FINANCE_FINANCING": APP_ROOT + "/finance/financing",
         
         "SERVICE": APP_ROOT + "/service",
@@ -42,7 +42,7 @@ module.exports = {
 
     },
 
-    "LOCAL_URL_SHOW": ['home', 'finance', 'service', 'news', 'mine', 'signin'],
+    "LOCAL_URL_SHOW": ['project', 'finance', 'service', 'news', 'mine', 'signin'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
     "API_ROOT": process.env.NODE_ENV === 'development' ? "https://m.lvyoto.com/api" : '/api',

@@ -29,7 +29,10 @@ const defaultVariables = {
 };
 
 export default withApollo((props) => {
-    const { match: { params: { id } }, history, client } = props;
+    let { match: { params: { id } }, history, client } = props;
+    if (!id) {
+        id = props.location.search.split("=")[1].substring(0,36);
+    }
     const [currUser, setCurrUser] = useState(null);
 
     let metadata = [];
