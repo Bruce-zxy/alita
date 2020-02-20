@@ -89,11 +89,14 @@ const FundsDetail = withApollo((props) => {
             { text: '确认', onPress: apply },
         ])
     }
-
+    let id = props.match.params.id;
+    if (!id) {
+        id = props.location.search.split("=")[1].substring(0,36);
+    }
     return (
         <Query
             query={Q_GET_CAPITAL}
-            variables={{ id: props.match.params.id, queryString: buildingQuery(defaultVariables) }}
+            variables={{ id: id, queryString: buildingQuery(defaultVariables) }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
@@ -406,7 +409,7 @@ export default (props) => {
     const type = pathname.split('/')[2];
 
     switch (type) {
-        case 'funds':
+        case 'detail':
             return <FundsDetail {...props}/>;
         case 'financing':
             return <FinancingDetail {...props}/>;

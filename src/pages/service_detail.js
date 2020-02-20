@@ -70,11 +70,14 @@ export default withApollo((props) => {
             { text: '确认', onPress: apply },
         ])
     }
-
+    let id = props.match.params.id;
+    if (!id) {
+        id = props.location.search.split("=")[1].substring(0,36);
+    }
     return (
         <Query
             query={Q_GET_PROVIDER}
-            variables={{ id: match.params.id, metadataRoot: "地区", queryString: buildingQuery(defaultVariables) }}
+            variables={{ id: id, metadataRoot: "地区", queryString: buildingQuery(defaultVariables) }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
