@@ -42,7 +42,7 @@ module.exports = {
 
     },
 
-    "LOCAL_URL_SHOW": ['project', 'finance', 'service', 'news', 'mine', 'signin'],
+    "LOCAL_URL_SHOW": ['project', 'finance', 'service', 'product', 'news', 'mine', 'signin'],
 
     // "API_ROOT": "http://atlantis.yg-net.com/api",
     "API_ROOT": process.env.NODE_ENV === 'development' ? "https://m.lvyoto.com/api" : '/api',

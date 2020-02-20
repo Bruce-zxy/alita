@@ -104,6 +104,7 @@ const MainRouteConfig = {
         <Route path={`${LOCAL_URL['FINANCE_FUNDS']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
         <Route path={`${LOCAL_URL['FINANCE_FUNDS']}`} component={(props) => <FinanceDetail {...props} />} exact />
         <Route path={`${LOCAL_URL['FINANCE_FINANCING']}/:id`} component={(props) => <FinanceDetail {...props} />} exact />
+        <Route path={`${LOCAL_URL['FINANCE_FINANCING']}`} component={(props) => <FinanceDetail {...props} />} exact />
         <AdditionalRouteConfig />
       </Switch>
     )

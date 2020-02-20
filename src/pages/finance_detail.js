@@ -9,7 +9,7 @@ import { buildingQuery, toFetchCurrentUser, toGetParentArrayByChildNode, toSetWe
 
 import Loader from '../components/Loader';
 
-import { COLOR_ARRAY, IFT_MODE_ENUM, DATA_ARRAY, LOCAL_URL, DEFAULT_AVATAR } from '../config/common';
+import { COLOR_ARRAY, ICON_ARRAY, IFT_MODE_ENUM, DATA_ARRAY, LOCAL_URL, DEFAULT_AVATAR } from '../config/common';
 import '../style/project.scss';
 import '../style/home_detail.scss';
 
@@ -331,11 +331,14 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
             { text: '确认', onPress: apply },
         ])
     }
-
+    let id = match.params.id;
+    if(!id) {
+        id = location.search.split("=")[1].substring(0,36);
+    }
     return (
         <Query
             query={Q_GET_PRODUCT}
-            variables={{ id: match.params.id }}
+            variables={{ id: id }}
             notifyOnNetworkStatusChange
         >
             {({ loading, error, data, refetch, fetchMore, networkStatus, startPolling, stopPolling }) => {
@@ -354,19 +357,19 @@ const FinancingDetail = withApollo(({ match, history, location, client }) => {
                         flows = [];
                     }
 
-                    toSetWeChatShareConfig(data.product.name, data.product.introduction, data.product.cover);
+                    //toSetWeChatShareConfig(data.product.name, data.product.introduction, data.product.cover);
 
                     global.TNT(data.product);
 
                     return (
                         <div className="financing-detail">
                             <div className="hdz-block-large-space"></div>
-                            <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[data.product.id*1 ? data.product.id*1%5 : 0] }}>
+                            <div className="financial-item" style={{ backgroundColor: COLOR_ARRAY[data.product.sort*1 ? data.product.sort*1%5 : 0] }}>
                                 <div className="finnacial-item-left">
-                                    <p>江旅定采通</p>
-                                    <p>你采购 我付款</p>
+                    <p>{data.product.name}</p>
+                                    <p>{data.product.slogan}</p>
                                 </div>
-                                <i className="iconfont iconcaiwu"></i>
+                                <i className={`iconfont ${ICON_ARRAY[data.product.sort*1 ? data.product.sort*1%5 : 0]}`}></i>
                             </div>
                             <div className="hdz-home-detail">
                                 <DetailPanel title="产品介绍" content={data.product.introduction} />

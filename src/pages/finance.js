@@ -343,7 +343,7 @@ const JLFinancial = withApollo((props) => {
                     useWindow={false}
                 >
                     {thisState.data.length ? thisState.data.map((item, i) => (
-                        <Link className="financial-item" to={`${LOCAL_URL['FINANCE_FINANCING']}/${item.id}?index=${i}`} style={{ backgroundColor: COLOR_ARRAY[i%5] }} key={i}>
+                        <Link className="financial-item" to={`${LOCAL_URL['FINANCE_FINANCING']}/${item.id}?index=${i}`} style={{ backgroundColor: COLOR_ARRAY[item.sort*1 ? item.sort*1%5 : 0] }} key={i}>
                             <div className="finnacial-item-left">
                                 <p>{item.name}</p>
                                 <p>{item.slogan}</p>
@@ -351,7 +351,7 @@ const JLFinancial = withApollo((props) => {
                                     <a>查看详情</a>
                                 </p>
                             </div>
-                            <i className={`iconfont ${ICON_ARRAY[i % ICON_ARRAY.length]}`}></i>
+                            <i className={`iconfont ${ICON_ARRAY[item.sort*1 ? item.sort*1%5 : 0]}`}></i>
                         </Link>
                     )) : (
                         <p style={{ color: "#999", textAlign: "center" }}>暂无数据</p>
