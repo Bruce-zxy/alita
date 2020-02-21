@@ -62,6 +62,24 @@ export default withApollo((props) => {
 
                 <p className="mine-status">{user_status[status]}</p>
                 <Link to={`${LOCAL_URL['PUBLISH_MEMBER']}`} className="upgrade-vip">{status === 1 ? '查看资料' : vip === 0 ? "升级VIP" : "修改资料"}</Link>
+                {
+                    "investor" === user.identity
+                    &&
+                    3 === user.status ? (
+                        <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}`} className="upgrade-vip">发布投资需求</Link>
+                    ) : (
+                        ''
+                    )
+                }
+                {
+                    "financer" === user.identity
+                    &&
+                    3 === user.status ? (
+                        <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}`} className="upgrade-vip">发布融资需求</Link>
+                    ) : (
+                        ''
+                    )
+                }
 
                 <div className="mine-function">
                     <Link to={`${LOCAL_URL['MINE_FINANCIAL']}`} className="mine-function-item">

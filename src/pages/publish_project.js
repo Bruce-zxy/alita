@@ -239,6 +239,7 @@ const PublishProject = withApollo((props) => {
             if (!k_v.purposes) return Toast.fail('请填写项目融资用途！');
             if (!k_v.progress) return Toast.fail('请填写项目发展！');
             if (!k_v.info) return Toast.fail('请填写项目介绍！');
+            if (!k_v.data) return Toast.fail('请选择需提供资料！');
             if (!k_v.data) {
                 k_v.data = [];
             } else {
