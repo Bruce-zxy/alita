@@ -62,7 +62,7 @@ const ProjectList = (props) => {
                         <div className="service-content">
                             <img src={item.image} alt='cover' />
                             <div className="service-intro">
-                                <p>{item.name}{item.tags && item.tags.slice(0, 1).map((tag, j) => <span key={j}>{tag}</span>)}</p>
+                                <p><a href={`${LOCAL_URL['HOME_DETAIL']}/${item.id}`}>{item.name}</a>{item.tags && item.tags.slice(0, 1).map((tag, j) => <span key={j}>{tag}</span>)}</p>
                                 <p>发布时间：{item.publish}</p>
                                 <p>
                                     <i className="iconfont iconyonghu"></i>

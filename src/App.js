@@ -140,6 +140,8 @@ const MainRouteConfig = {
           <Route path={`${LOCAL_URL['MINE_CARD']}`} component={(props) => <MineCard {...props} />} exact />
           <Route path={`${LOCAL_URL['MINE_PROJECT']}`} component={(props) => <MineProject {...props} />} exact />
           <Route path={`${LOCAL_URL['MINE_FUNDS']}`} component={(props) => <MineFunds {...props} />} exact />
+
+          <Route path={`${LOCAL_URL['HOME_DETAIL']}/:id`} component={(props) => <HomeDetail {...props} />} exact />
         </Switch>
       )
     }
@@ -159,7 +161,11 @@ const AppRoute = (props) => {
 
   const [flag, setFlag] = useState(false);
   useEffect(() => {
-    initMetadata().then(setFlag);
+    if (pathname.split("/")[1] !== "news") {
+      initMetadata().then(setFlag);
+    } else {
+      setFlag(true);
+    }
   }, []);
 
   useEffect(() => {

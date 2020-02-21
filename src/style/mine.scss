@@ -226,6 +226,10 @@
                                 @include font($FONT_SIZE_12, $TAG_2_COLOR);
                             }
                         }
+
+                        a {
+                            color: #333;
+                        }
                     }
                 }
 
@@ -369,6 +373,10 @@
                                     }
                                 }
                             }
+                        }
+
+                        a {
+                            color: #333;
                         }
                     }
                 }
