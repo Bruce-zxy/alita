@@ -62,7 +62,8 @@ const PublishProject = withApollo((props) => {
     let data_origin_set = [];
     
     let metadata = [];
-    let user = {};
+    //let user = {};
+    let [user, updateUser] = useState({});
     let params = {};
     let params_str = search.split('?')[1] || '';
     params_str.split('&').forEach(param => {
@@ -106,6 +107,20 @@ const PublishProject = withApollo((props) => {
         Toast.info('请先登录！');
         history.push(LOCAL_URL['SIGNIN']);
     }
+
+    useEffect(() => {
+        if (user) {
+            toFetchCurrentUser(props.client).then((user) => {
+                if (user) {
+                    updateUser(user);
+                    if (user.identity != "financer" || user.status !== 3) {
+                        Toast.info('请先升级账号会员再发布');
+                        history.push(LOCAL_URL['PUBLISH_MEMBER']);
+                    }
+                }
+            })
+        }
+    }, [])
 
     useEffect(() => {
         (async () => {
