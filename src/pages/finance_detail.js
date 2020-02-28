@@ -251,6 +251,9 @@ const FundsDetail = withApollo((props) => {
                                 if (data.capital.status === 'finished') {
                                     return <div className="apply-to finished">投资已结束</div>
                                 }
+                                if (!data.capital.deliverable) {
+                                    return '';
+                                }
                                 if (currUser) {
                                     if (currUser.capitals.findIndex(pro => pro.id === data.capital.id) === -1) {
                                         return currUser.apply_capitals.findIndex(pro => pro.capital && (pro.capital.id === data.capital.id)) !== -1 ? (

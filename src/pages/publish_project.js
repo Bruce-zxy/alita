@@ -1,5 +1,5 @@
 import React, { Fragment, useRef, useState, useEffect } from 'react';
-import { List, InputItem, TextareaItem, Toast, Modal, ImagePicker, Picker, Button } from 'antd-mobile';
+import { List, InputItem, TextareaItem, Toast, Modal, ImagePicker, Picker, Button, Switch } from 'antd-mobile';
 import { Radio } from 'antd';
 import { createForm } from 'rc-form';
 import AvatarEditor from 'react-avatar-editor';
@@ -70,6 +70,7 @@ const PublishProject = withApollo((props) => {
         let [key, val] = param.split('=');
         params[key] = val;
     })
+    const [status, setStatus] = useState();
     
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
@@ -158,10 +159,12 @@ const PublishProject = withApollo((props) => {
                         if (project.team_info) k_v.team_info = project.team_info;
                         if (project.advantage) k_v.advantage = project.advantage;
                         if (project.company_info) k_v.company_info = project.company_info;
+                        k_v.deliverable = project.deliverable;
 
                         setType(project.category);
                         setFile([{ url: project.cover }]);
                         setFieldsValue(k_v);
+                        setStatus(project.status);
                     } 
                 }
             }
@@ -260,14 +263,14 @@ const PublishProject = withApollo((props) => {
             } else {
                 k_v.data = k_v.data.map(mode => ({ id: mode }));
             }
-
+            k_v.deliverable = values.deliverable;
+            k_v.status = "pending";
             global.TNT(k_v);
 
+            const variables = params.id ? {id: params.id, data: k_v} : {data:k_v};
             const res = await client.mutate({
                 mutation: params.id ? M_UPDATE_PROJECT : M_PUBLISH_PROJECT,
-                variables: {
-                    data: k_v
-                }
+                variables
             });
 
             if (!res.data || (!res.data.publishProject && !res.data.updateProject)) {
@@ -317,6 +320,7 @@ const PublishProject = withApollo((props) => {
     const FIELD_18 = 'team_info';
     const FIELD_19 = 'advantage';
     const FIELD_20 = 'company_info';
+    const FIELD_21 = 'deliverable';
 
     const FIELD_1_PROPS = toCreateProps(FIELD_1)("text")("请填写项目名称")(/\S/ig, "请不要留空！")();
     const FIELD_2_PROPS = toCreateProps(FIELD_2)("digit")("请输入金额")(/\S/ig, "请不要留空！")("万元");
@@ -358,7 +362,7 @@ const PublishProject = withApollo((props) => {
                 setFile([thisImage]);
                 toCropImage(null);
             } else {
-                Toast.fail('上传失败！');
+                Toast.fail('上传失败，请重试！');
             }
         } catch (error) {
             console.error(error.message);
@@ -383,6 +387,18 @@ const PublishProject = withApollo((props) => {
     /* 【Part 3】 ↑ */
 
     global.TNT(thisMap, thisFiles, thisType);
+
+    const showSubmit = (status) => {
+        if (status && status !== "rejected") {
+            if (status === "pending") {
+                return (<div className="publish-button-disable">审核中</div>)
+            } else {
+                return (<div className="publish-button-disable">已发布</div>)
+            }
+        } else {
+            return (<div className="publish-button" onClick={toPublish}>立即发布</div>);
+        }
+    }
 
     return (
         <div className="hdz-publish-project">
@@ -516,10 +532,20 @@ const PublishProject = withApollo((props) => {
                         autoHeight
                     />
                 </List.Item>
+                <List.Item
+                    extra={<Switch
+                        {...getFieldProps(FIELD_21, {
+                        initialValue: true,
+                        valuePropName: 'checked'
+                        })}
+                       
+                    />}
+                    >是否允许投递</List.Item>
+                    <p className="switch-remind">若设置不允许，则资金方不能联系您。</p>
 
             </List>
-
-            <div className="publish-button" onClick={toPublish}>立即发布</div>
+            {showSubmit(status)}
+            {/*<div className="publish-button" onClick={toPublish}>立即发布</div>*/}
 
             <Modal
                 visible={thisImage && thisImage.url}

@@ -71,6 +71,7 @@ export const F_CAPITAL_FIELDS = gql`
       id
       title
     }
+    deliverable
   }
 `;
 

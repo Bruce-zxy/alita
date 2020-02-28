@@ -71,6 +71,7 @@ export const F_PROJECT_FIELDS = gql`
       hideCompany
       avatar
     }
+    deliverable
   }
 `;
 

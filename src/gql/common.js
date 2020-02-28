@@ -107,12 +107,14 @@ export const Q_FETCH_CURRENT_USER = gql`
           realname
           phone
         }
+        deliverable
       }
       capitals {
         id
         title
         area_path
         status
+        reason
         create_at
         industry {
           id
@@ -198,6 +200,7 @@ export const Q_FETCH_CURRENT_USER = gql`
             realname
             phone
           }
+          deliverable
         }
       }
       apply_capitals {

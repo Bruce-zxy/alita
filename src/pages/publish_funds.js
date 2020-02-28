@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { List, InputItem, TextareaItem, Toast, Picker } from 'antd-mobile';
+import { List, InputItem, TextareaItem, Toast, Picker, Switch } from 'antd-mobile';
 import { Radio } from 'antd';
 import { createForm } from 'rc-form';
 import { withApollo } from 'react-apollo';
@@ -68,6 +68,7 @@ const PublishFunds = withApollo((props) => {
         let [key, val] = param.split('=');
         params[key] = val;
     })
+    const [status, setStatus] = useState();
 
     try {
         metadata = JSON.parse(sessionStorage.getItem('metadata'));
@@ -153,9 +154,11 @@ const PublishFunds = withApollo((props) => {
                         if (capital.pre_payment) k_v.pre_payment = capital.pre_payment;
                         if (capital.data) k_v.data = capital.data.map(item => item.id);
                         if (capital.info) k_v.info = capital.info;
+                        k_v.deliverable = capital.deliverable;
 
                         setType(capital.category);
                         setFieldsValue(k_v);
+                        setStatus(capital.status);
                     }
                 }
             }
@@ -258,6 +261,9 @@ const PublishFunds = withApollo((props) => {
             }
             if (!k_v.info) return Toast.fail('请填写资金详情！');
 
+            k_v.deliverable = values.deliverable;
+            k_v.status = "pending";
+
             global.TNT(k_v);
 
             const res = await client.mutate({
@@ -316,6 +322,7 @@ const PublishFunds = withApollo((props) => {
     const FIELD_17 = 'pre_payment';
     const FIELD_18 = 'data';
     const FIELD_19 = 'info';
+    const FIELD_20 = 'deliverable';
 
     const FIELD_1_PROPS = toCreateProps(FIELD_1)("text")("请填写标题")(/\S/ig, "请不要留空！")();
 
@@ -339,6 +346,18 @@ const PublishFunds = withApollo((props) => {
     /* 【Part 2】 ↑ */
 
     global.TNT(thisMap, thisType);
+
+    const showSubmit = (status) => {
+        if (status && status !== "rejected") {
+            if (status === "pending") {
+                return (<div className="publish-button-disable">审核中</div>)
+            } else {
+                return (<div className="publish-button-disable">已发布</div>)
+            }
+        } else {
+            return (<div className="publish-button" onClick={toPublish}>立即发布</div>);
+        }
+    }
 
     return (
         <div className="hdz-publish-project">
@@ -409,10 +428,20 @@ const PublishFunds = withApollo((props) => {
                         autoHeight
                     />
                 </List.Item>
+                <List.Item
+                    extra={<Switch
+                        {...getFieldProps(FIELD_20, {
+                        initialValue: true,
+                        valuePropName: 'checked'
+                        })}
+                       
+                    />}
+                    >是否允许投递</List.Item>
+                    <p className="switch-remind">若设置不允许，则项目方不能联系您。</p>
 
             </List>
 
-            <div className="publish-button" onClick={toPublish}>立即发布</div>
+            {showSubmit(status)}
         </div>
     )
 })

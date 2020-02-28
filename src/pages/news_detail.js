@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Query } from "react-apollo";
 import * as moment from 'moment';
 
 import Loader from '../components/Loader';
-import { toSetWeChatShareConfig } from '../utils/global';
+import { toSetWeChatShareConfig, initMetadata } from '../utils/global';
 import { Q_GET_ARTICLE } from '../gql';
 import '../style/news.scss';
 import QRCode from '../images/qr_code.png';
@@ -14,6 +14,11 @@ export default (props) => {
     if (!id) {
         id = props.location.search.split("=")[1].substring(0,36);
     }
+
+    useEffect(() => {
+        initMetadata();
+        
+    }, [])
 
     return (
         <Query

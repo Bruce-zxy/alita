@@ -310,7 +310,7 @@ const PublishProject = withApollo((props) => {
                     files[files.length - 1].url = relativePath;
                     setFile(files);
                 } else {
-                    Toast.fail('上传失败！');
+                    Toast.fail('上传失败，请重试！');
                 }
                 // toCropImage(files[files.length - 1])
             }

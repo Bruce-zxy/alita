@@ -252,6 +252,9 @@ export default withApollo((props) => {
                                 if (project.status === 'finished') {
                                     return <div className="apply-to finished">融资已结束</div>;
                                 }
+                                if (!project.deliverable) {
+                                    return '';
+                                }
                                 if (currUser) {
                                     if (currUser.projects.findIndex(pro => pro.id === project.id) === -1) {
                                         return currUser.apply_projects.findIndex(pro => pro.project && (pro.project.id === project.id)) === -1 ? (

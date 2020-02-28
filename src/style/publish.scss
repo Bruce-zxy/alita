@@ -44,6 +44,14 @@
             @include font($FONT_SIZE_12, $GRAY_999);
         }
 
+        .switch-remind {
+            line-height: 1.35;
+            padding: 1.6vw 4vw 1.6vw 5.2vw;
+            margin-bottom: 1.6vw;
+            background: $WHITE;
+            @include font($FONT_SIZE_12, $GRAY_999);
+        }
+
         .avatar-upload {
             padding: $SIZE_10 20vw;
             border-bottom: 1px solid $GRAY_EEE;
@@ -132,6 +140,16 @@
         width: 94.67vw;
         height: 12vw;
         background-image: linear-gradient(133deg, #33B8FC 0%, #067CF5 100%);
+        border-radius: 4px;
+        margin: $SIZE_10 auto;
+        @include display-flex();
+        @include font($FONT_SIZE_18, $WHITE);
+    }
+
+    .publish-button-disable {
+        width: 94.67vw;
+        height: 12vw;
+        background-image: linear-gradient(133deg, #d9d9d9 0%, #d9d9d9 100%);
         border-radius: 4px;
         margin: $SIZE_10 auto;
         @include display-flex();
