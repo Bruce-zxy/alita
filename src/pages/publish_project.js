@@ -272,9 +272,9 @@ const PublishProject = withApollo((props) => {
                 mutation: params.id ? M_UPDATE_PROJECT : M_PUBLISH_PROJECT,
                 variables
             });
-
-            if (!res.data || (!res.data.publishProject && !res.data.updateProject)) {
-                return Toast.fail(`${params.id ? '更新' : '发布'}项目失败！`);
+            //console.log(res.data);
+            if (!params.id && !res.data.publishProject.success) {
+                return res.data.publishProject.code ? Toast.fail(`请勿重复发布！`) : Toast.fail(`${params.id ? '更新' : '发布'}项目失败！`);
             } else {
                 Toast.success(`${params.id ? '更新' : '发布'}项目成功！请等待管理员审核！`);
                 await toFetchCurrentUser(client);

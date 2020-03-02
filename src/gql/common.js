@@ -260,12 +260,18 @@ mutation levelUp($data: LevelUpInput!) {
 
 export const M_PUBLISH_PROJECT = gql`
 mutation publishProject($data: ProjectInput!) {
-  publishProject(data: $data)
+  publishProject(data: $data) {
+    success
+    code
+  }
 }
 `
 
 export const M_PUBLISH_CAPITAL = gql`
 mutation publishCapital($data: CapitalInput!) {
-  publishCapital(data: $data)
+  publishCapital(data: $data) {
+    success
+    code
+  }
 }
 `

@@ -274,8 +274,8 @@ const PublishFunds = withApollo((props) => {
                 }
             });
 
-            if (!res.data || (!res.data.publishCapital && !res.data.updateCapital)) {
-                return Toast.fail(`${params.id ? '更新' : '发布'}资金失败！`);
+            if (!params.id && !res.data.publishCapital.success) {
+                return res.data.publishCapital.code ? Toast.fail(`请勿重复发布！`) : Toast.fail(`${params.id ? '更新' : '发布'}资金失败！`);;
             } else {
                 Toast.success(`${params.id ? '更新' : '发布'}资金成功！请等待管理员审核！`);
                 await toFetchCurrentUser(client);
