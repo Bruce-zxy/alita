@@ -254,7 +254,10 @@ export const Q_FETCH_CURRENT_USER = gql`
 
 export const M_LEVEL_UP = gql`
 mutation levelUp($data: LevelUpInput!) {
-  levelUp(data: $data)
+  levelUp(data: $data) {
+    success
+    code
+  }
 }
 `
 

@@ -210,12 +210,12 @@ const PublishProject = withApollo((props) => {
                 variables: { data }
             });
 
-            if (res.data && res.data.levelUp) {
+            if (!res.data.levelUp.success) {
+                return Toast.fail(`该组织机构代码已被占用！`);
+            } else {
                 Toast.success('升级申请成功！请等待管理员审核！');
                 await toFetchCurrentUser(client);
                 history.push(LOCAL_URL['MINE']);
-            } else {
-                Toast.fail('升级申请失败！');
             }
 
         })
@@ -316,6 +316,11 @@ const PublishProject = withApollo((props) => {
             }
         }
     };
+
+    const canEdit = () => {
+        return disabled || thisType === 'personal';
+    }
+
     /* 【Part 3】 ↑ */
 
     global.TNT(thisMap, thisAFiles, thisBFiles, thisPVDFiles);
@@ -324,8 +329,8 @@ const PublishProject = withApollo((props) => {
         <div className="hdz-publish-project">
             <List>
 
-                <InputItem disabled={disabled} {...getFieldProps(FIELD_7)} {...FIELD_7_PROPS} labelNumber={5}>真实姓名</InputItem>
-                <InputItem disabled={disabled} {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} labelNumber={5}>联系电话</InputItem>
+                <InputItem disabled={canEdit()} {...getFieldProps(FIELD_7)} {...FIELD_7_PROPS} labelNumber={5}>真实姓名</InputItem>
+                <InputItem disabled={canEdit()} {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} labelNumber={5}>联系电话</InputItem>
 
                 <Picker disabled={disabled} {...getFieldProps(FIELD_6)} {...FIELD_6_PROPS} >
                     <List.Item disabled={disabled} arrow="horizontal">所在地区</List.Item>
