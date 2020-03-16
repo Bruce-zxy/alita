@@ -227,9 +227,9 @@ export default withApollo((props) => {
                             <div className="hdz-block-small-space"></div>
 
                             <DetailPanel title="会员名片">
-                                {project.creator ? (
+                                {project.hideContact ? (
                                     <div className="member-info">
-                                        <img src={project.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
+                                        <img src={project.creator && project.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
                                             <p>{project.hideContact || '未知'}</p>
                                             <p>所在公司：{project.hideCompany || '暂无'}</p>

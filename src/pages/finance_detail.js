@@ -228,9 +228,9 @@ const FundsDetail = withApollo((props) => {
                             <div className="hdz-block-small-space"></div>
 
                             <DetailPanel title="会员名片">
-                                {capital.creator ? (
+                                {capital.hideContact ? (
                                     <div className="member-info">
-                                        <img src={capital.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
+                                        <img src={capital.creator && capital.creator.avatar || DEFAULT_AVATAR} alt='AVATAR' />
                                         <div className="menber-detail">
                                             <p>{capital.hideContact || "匿名"}</p>
                                             <p>所在公司：{capital.hideCompany || "暂无"}</p>
