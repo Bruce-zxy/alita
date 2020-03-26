@@ -255,6 +255,10 @@ export const toSetWeChatShareConfig = async (title, desc, img) => {
       timestamp,
       appId
     } = result;
+    if(window.location.href.indexOf('from') != -1 || window.location.href.indexOf('isappinstalled') != -1){
+      // 二次分享url重定向 - 需要截取一次分享后微信自动拼接的url参数&from=singlemessage&isappinstalled=0
+      window.location.href = window.location.href.split('&')[0];  // 这里的split中的字符串会变换（?或&），主要看自己的url
+    }
     window.wx.config({
       debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       appId, // 必填，公众号的唯一标识

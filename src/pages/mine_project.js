@@ -33,7 +33,7 @@ const ProjectList = withApollo((props) => {
     }
     const toCompleteProject = (target) => (e) => {
         e.stopPropagation();
-        Modal.alert(`您正在申请完成【${target.name}】`, '是否确认完成此次操作？', [
+        Modal.alert(`我已融资完成，不需要再联系。`, '是否确认完成此次操作？', [
             { text: '取消', onPress: () => global.TNT('已取消') },
             { text: '确认', onPress: () => toApprovalProject(target) },
         ])

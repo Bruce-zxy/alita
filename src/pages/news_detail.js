@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import { toSetWeChatShareConfig, initMetadata } from '../utils/global';
 import { Q_GET_ARTICLE } from '../gql';
 import '../style/news.scss';
-import QRCode from '../images/qr_code.png';
+import QRCode from '../images/wechat_qr_code.png';
 
 export default (props) => {
 
@@ -44,7 +44,7 @@ export default (props) => {
                                 <span>日期：{moment(article.create_at).format('YYYY-MM-DD')}</span>
                             </p>
                             <div className="news-content" dangerouslySetInnerHTML={{ __html: article.text }} />
-                            <div className="qr-code" style={{ width: "40vw", height: "40vw", margin: '10vw auto 0' }}>
+                            <div className="qr-code" style={{ width: "90vw", height: "40vw", margin: '10vw auto 0' }}>
                                 <img src={QRCode} alt='qr_code' style={{ width: "100%", height: "100%" }} />
                             </div>
                         </div>
