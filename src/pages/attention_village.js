@@ -1,5 +1,5 @@
 import React, { Component, Fragment, useContext, useState, useEffect } from 'react';
-import { Link, Route, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Tabs } from 'antd-mobile';
 import _ from 'lodash';
 import * as moment from 'moment';
@@ -7,39 +7,10 @@ import * as moment from 'moment';
 import Carousel from '../components/Carousel';
 
 import ShopContext from '../context/shop';
-import AttenionVillage from './attention_village';
 import config from '../lib/config';
 import superFetch from '../lib/api';
 
 const gPageUrl = config.LOCAL_URL;
-
-// const carousel_list = [{
-//     id: '1',
-//     link: 'javascript:;',
-//     image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=1',
-//     title: '这是1个标题'
-// }];
-
-// const type_list = [{
-//     id: '1',
-//     type: '理论政策',
-//     list: [{
-//         id: 1,
-//         title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-//         image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-//         description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-//         interval: '17分钟前',
-//         link: ''
-//     }, {
-//         id: 2,
-//         title: '高考志愿填报公益讲座邀您免费来听 就在长沙晚报',
-//         image: 'http://dummyimage.com/1355x535/4d494d/686a82.gif&text=NEWS_1',
-//         description: '每场活动将分为三个流程，一是高考志愿填报，二是高考志愿填报，三是高考志愿填报',
-//         interval: '17分钟前',
-//         link: ''
-//     }]
-// }];
-
 
 class Attention extends Component {
 
@@ -61,14 +32,7 @@ class Attention extends Component {
             this.setState({ navi_show: false });
         }
     }
-    toSetCurrentTab = (tab, index) => {
-        if (tab.ex_info === 'village') {
-            window.location.href = config.LOCAL_URL.ATTENTION_VILLAGE;
-                //<Redirect to={{ pathname: config.LOCAL_URL.ATTENTION_VILLAGE }} />
-                //<Route path={config.LOCAL_URL.ATTENTION_VILLAGE}            component={AttenionVillage}      />
-        }
-        this.setState({ current: index })
-    }
+    toSetCurrentTab = (index) => this.setState({ current: index })
 
     toRenderTabHeader = props => (
         <div className="attention-tabs">
@@ -83,9 +47,6 @@ class Attention extends Component {
     toRenderTabContent = tab => {
         return (
             <div className="attention-tab-content">
-                <div className="attention-swiper">
-                    <Carousel list={tab.carousel || []} dots={false} infinite={false} />
-                </div>
                 <div className="attention-list">
                     {tab.list && tab.list.length > 0 ? tab.list.map((item, i) => (
                         <a className="attention-item" key={i} href={item.link}>
@@ -120,17 +81,17 @@ class Attention extends Component {
                     tabBarActiveTextColor="#FF6F70"
                     tabBarUnderlineStyle={{ display: 'none', background: "#FFF", borderColor: "#FFF" }}
                     renderTabBar={this.toRenderTabHeader}
-                    onTabClick={(tab, index) => this.toSetCurrentTab(tab, index)}
+                    onTabClick={(tab, index) => this.toSetCurrentTab(index)}
                 >
                     {this.toRenderTabContent}
                 </Tabs>
                 <div className={`attention-panel-mask ${navi_show ? 'active' : ''}`} onClick={this.toHidePanel}>
                     <div className="attention-panel">
                         <div className="attention-panel-title">
-                            <p>频道</p>
+                            <p>乡镇</p>
                         </div>
                         <div className="attention-panel-content">
-                            {tabs.map((item, i) => <span key={i} className={current === i ? 'active' : ''} onClick={(e) => this.toSetCurrentTab(item, tabs.findIndex(item => item.title === e.target.textContent))}>{item.title}</span>)}
+                            {tabs.map((item, i) => <span key={i} className={current === i ? 'active' : ''} onClick={(e) => this.toSetCurrentTab(tabs.findIndex(item => item.title === e.target.textContent))}>{item.title}</span>)}
                         </div>
                     </div>
                 </div>
@@ -147,10 +108,10 @@ export default () => {
         let list = [];
         if (shopContext.category.length && shopContext.content[1] && shopContext.carousel[1]) {
             const category_arr = _.find(shopContext.category, { name: "频道" }).children;
-            list = category_arr.sort((a, b) => a.sort - b.sort).map((item) => ({
+            const arr = _.find(category_arr, {ex_info: "village"}).children;
+            list = arr.sort((a, b) => a.sort - b.sort).map((item) => ({
                 id: item.id,
                 type: item.name,
-                ex_info: item.ex_info,
                 list: [],
                 carousel: []
             }));

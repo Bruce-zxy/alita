@@ -1,13 +1,13 @@
 import React, { Fragment, Component, useContext } from 'react';
-import { List, InputItem, DatePickerView, Button, Toast } from 'antd-mobile';
+import { List, InputItem, DatePickerView, Button, Toast, Picker } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import moment from 'moment';
 import _ from 'lodash';
-
 import ShopContext from '../context/shop';
 
 import config from '../lib/config';
 import superFetch from '../lib/api';
+import toTransformAreaTreeProps from '../lib/global';
 
 const { LOCAL_URL } = config;
 
@@ -24,7 +24,24 @@ class ServiceSubmit extends Component {
 
     state = {
         show_picker: false,
-        date: null
+        date: null,
+        village_data: []
+    }
+
+    componentDidMount (){
+        const { service, match: { params: { id } }} = this.props;
+        const details = _.find(service, { id: id });
+        this.fetchList(details);
+    }
+
+    fetchList = async (details) => {
+        const res = await superFetch.get('/organization/list', { name: details.category.ex_info });
+        if (res.length === 0) return;
+        const villageList = res.slice(1);
+        const village_data = toTransformAreaTreeProps(villageList, { key: 'name', value: 'name', children: 'children' });
+        this.setState({
+            village_data: village_data
+        })
     }
 
     onChange = (value) => {
@@ -38,9 +55,11 @@ class ServiceSubmit extends Component {
         const { date } = this.state;
         validateFields(async (error, value) => {
             if (!!error) {
-                Toast.fail('请将非选填的选项填写完整！', 2);
+                const msg = error[Object.keys(error)[0]].errors[0].message;
+                Toast.fail(msg, 2);
             } else {
                 value.date = date && date.format('YYYY-MM-DD HH:mm:ss');
+                value.village = value.village ? value.village[0] : '';
                 const res = await superFetch.post('/service/apply', { ...value, id });
                 if (res === true) {
                     Toast.success('提交成功！请等待管理员处理！', 2);
@@ -100,11 +119,17 @@ class ServiceSubmit extends Component {
                 <div className="hdz-block-space"></div>
 
                 <List className="service-details-input-area">
-                    <InputItem {...getFieldProps('realName', { rules: [{ required: true }] })} clear placeholder="姓名" labelNumber={3}>姓名</InputItem>
-                    <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/ }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
+                    <InputItem {...getFieldProps('realName', { rules: [{ required: true, message: '请填写真实姓名' }] })} clear placeholder="姓名" labelNumber={3}>姓名</InputItem>
+                    <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/, message: '请填写正确的手机号码', }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
+                    {!!details.category && details.category.ex_info.length > 0 ? (
+                        // <InputItem {...getFieldProps('village')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
+                        <Picker data={this.state.village_data} cols={1} placeholder="必选" {...getFieldProps('village', { rules: [{ required: true, message: '请选择服务乡村' }] })} className="forss">
+                            <List.Item arrow="horizontal">服务村</List.Item>
+                        </Picker>
+                    ) : ''}
                     <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
                     <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望时间</InputItem>
-                    <InputItem {...getFieldProps('other', { rules: [{ required: true }] })} clear placeholder="必填" labelNumber={5}>服务要求</InputItem>
+                    <InputItem {...getFieldProps('other', { rules: [{ required: true, message: '请填写服务内容' }] })} clear placeholder="必填" labelNumber={5}>服务要求</InputItem>
                 </List>
 
                 <div className={`service-details-button ${!this.state.show_picker ? 'show' : 'noshow'}`}>

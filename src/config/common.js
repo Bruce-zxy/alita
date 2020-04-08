@@ -20,6 +20,7 @@ module.exports = {
         "HOME_DETAIL"     : APP_ROOT + "/mainpage/home/detail",
         
         "ATTENTION"       : APP_ROOT + "/mainpage/attention",
+        "ATTENTION_VILLAGE": APP_ROOT + "/mainpage/attention/village",
         "ATTENTION_DETAIL": APP_ROOT + "/mainpage/attention/detail",
         "ATTENTION_SEARCH": APP_ROOT + "/mainpage/attention/search",
         
@@ -40,7 +41,7 @@ module.exports = {
         "VOLUNTEER_APPLY" : APP_ROOT + "/mainpage/mine/volunteer_apply"
     },
 
-    "API_ROOT": "http://atlantis.yg-net.com/api",
+    "API_ROOT": "http://localhost:3000/api",
     "API_URL": {
         "UPLOAD": {
             "BACKEND_STORAGE": ""

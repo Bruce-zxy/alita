@@ -130,7 +130,7 @@ class MineOrder extends Component {
                 state: item.state,
             }
         });
-        const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date)).filter(item => !user.isVolunteer && item.state !== "待接单");
+        const data_use = data_set.filter(item => tab.title === '全部' ? true : tab.title === item.state).sort((a, b) => new Date(b.date) - new Date(a.date)).filter(item => item.state !== "待接单");
         if (!data_use.length) {
             return (
                 <div className="mine-order-list">
@@ -291,7 +291,7 @@ class MineOrder extends Component {
                 <div className="hdz-block-space-20"></div>
                 <div className="order-details-function">
                     {flow && flow.user && flow.user.id === user.id && <Link to={`${LOCAL_URL['COMPLAINT']}?id=${flow && flow.id}&type=${type}`}>我要投诉</Link>}
-                    {user.isVolunteer && type === "todo" && ['待接单'].includes(details.state) && [<a key={1} href="javascript:;" onClick={this.orderHandler('接单')(flow)}>接单</a>, <a href="javascript:;" onClick={this.orderHandler('拒绝')(flow)}>拒绝</a>]}
+                    {/* {user.isVolunteer && type === "todo" && ['待接单'].includes(details.state) && [<a key={1} href="javascript:;" onClick={this.orderHandler('接单')(flow)}>接单</a>, <a href="javascript:;" onClick={this.orderHandler('拒绝')(flow)}>拒绝</a>]} */}
                     {!user.isVolunteer && ['待派单', '待接单'].includes(details.state) && <a href="javascript:;" onClick={this.orderHandler('作废')(flow)}>取消订单</a>}
                 </div>
             </div>

@@ -27,7 +27,7 @@ export default ({ match }) => {
 
     if (id === 'none') {
 
-        return <div style={{ textAlign: "center", margin: "100vw 0", color: "#999" }}>暂无文章详情</div>;
+        return <div style={{ textAlign: "center", margin: "100vw 0", color: "#999" }}>加载中...</div>;
 
     } else {
 
@@ -50,7 +50,7 @@ export default ({ match }) => {
                 </div>
             )
         } else {
-            return <div style={{ textAlign: "center", margin: "100vw 0", color: "#999" }}>暂无文章详情</div>;
+            return <div style={{ textAlign: "center", margin: "100vw 0", color: "#999" }}>内容加载中...</div>;
         }   
     }
 }

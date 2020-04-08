@@ -221,6 +221,13 @@ textarea {
     color: #FFF;
     background: linear-gradient(to right, #ff6f70 0%, #ff916d 100%);
 
+    .am-list-item-middle {
+        width: 76vw;
+        border-radius: 5.87vw;
+        font-size: 14px;
+        color: #888888;
+    }
+
 
     .hdz-application-header {
         width: 100vw;
@@ -270,6 +277,32 @@ textarea {
             justify-content: flex-start;
             align-items: center;
             padding: 3.73vw 0;
+
+            .my-radio {
+                color: #888888;
+
+                input {
+                    width: 10vw;
+                }
+
+                .am-radio {
+                    padding: 2.5px;
+                    border: 1px solid #ccc;
+                    border-radius: 50%;
+                    margin-right: 5px;
+                    width: 20px;
+                    height: 20px;
+                  }
+            }
+
+            .am-list-item-middle {
+                margin: 1.87vw 0;
+            }
+
+            .am-list-content {
+                color: #888888;
+                font-size: 15px;
+            }
 
             input {
                 height: 11.73vw;
@@ -522,11 +555,12 @@ textarea {
 
         .am-tabs-default-bar {
             display: inline-flex;
-            width: 80vw;
+            width: 85vw;
             overflow: hidden;
 
             .am-tabs-default-bar-tab {
                 height: 100%;
+                font-size: 3.5vw;
             }
 
             .am-tabs-default-bar-content {

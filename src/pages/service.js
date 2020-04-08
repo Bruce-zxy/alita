@@ -1,6 +1,6 @@
 import React, { Fragment, Component, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal } from 'antd-mobile';
+import { Tabs, Modal } from 'antd-mobile';
 import _ from 'lodash';
 
 import ShopContext from '../context/shop';
@@ -112,7 +112,13 @@ class Service extends Component {
                 keyword: value
             })
         }
-        const service_list = list.filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+        const tabs = [
+            { title: '县级志愿服务', sub: '1' },
+            { title: '乡村志愿服务', sub: '2' }
+          ];
+
+        const county_service_list = list.filter(item => item.category.ex_info.length === 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+        const village_service_list = list.filter(item => item.category.ex_info.length > 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
 
         return (
             <div className="hdz-service">
@@ -125,32 +131,59 @@ class Service extends Component {
                         <input type="text" placeholder="请输入服务关键字" value={keyword} onChange={onChangeHandler} />
                     </div>
                 </div>
-                <div className="service-function">
+                {/* <div className="service-function">
                     <div className="service-sort" onClick={this.onFilterClickHandler('sort')}>综合排序 <i className="iconfont iconbelow-s"></i></div>
                     <div className="service-type" onClick={this.onFilterClickHandler('type')}>类型 <i className="iconfont iconbelow-s"></i></div>
                     <div className="service-filter" onClick={this.onFilterClickHandler('filter')}>筛选 <i className="iconfont iconguolv"></i></div>
-                </div>
-                <div className="service-list">
-                    {service_list.length > 0 ? service_list.map((item, i) => [
-                        <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
-                            <div className="service-item-left">
-                                <img src={item.image} alt="service-item" />
-                            </div>
-                            <div className="service-item-right">
-                                <p className="service-title">{item.title}</p>
-                                <p className="service-description">{item.description}</p>
-                                <p className="service-tags">
-                                    {item.tags && item.tags.map((tag) => (
-                                        <span key={tag}>{tag}</span>
-                                    ))}
-                                </p>
-                            </div>
-                        </Link>,
-                        <div className="hdz-block-space" key={i}></div>
-                    ]) : (
-                        <p className="list-empty">暂无此分类数据</p>
-                    )}
-                </div>
+                </div> */}
+                <Tabs tabs={tabs}
+                    initialPage={0}
+                    onChange={(tab, index) => { console.log('onChange', index, tab); }}
+                    onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+                    >
+                    <div className="service-list">
+                        {county_service_list.length > 0 ? county_service_list.map((item, i) => [
+                            <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
+                                <div className="service-item-left">
+                                    <img src={item.image} alt="service-item" />
+                                </div>
+                                <div className="service-item-right">
+                                    <p className="service-title">{item.title}</p>
+                                    <p className="service-description">{item.description}</p>
+                                    <p className="service-tags">
+                                        {item.tags && item.tags.map((tag) => (
+                                            <span key={tag}>{tag}</span>
+                                        ))}
+                                    </p>
+                                </div>
+                            </Link>,
+                            <div className="hdz-block-space" key={i}></div>
+                        ]) : (
+                            <p className="list-empty">暂无此分类数据</p>
+                        )}
+                    </div>
+                    <div className="service-list">
+                        {village_service_list.length > 0 ? village_service_list.map((item, i) => [
+                            <Link className="service-item" key={item.id} to={`${LOCAL_URL['SERVICE']}/${item.id}`}>
+                                <div className="service-item-left">
+                                    <img src={item.image} alt="service-item" />
+                                </div>
+                                <div className="service-item-right">
+                                    <p className="service-title">{item.title}</p>
+                                    <p className="service-description">{item.description}</p>
+                                    <p className="service-tags">
+                                        {item.tags && item.tags.map((tag) => (
+                                            <span key={tag}>{tag}</span>
+                                        ))}
+                                    </p>
+                                </div>
+                            </Link>,
+                            <div className="hdz-block-space" key={i}></div>
+                        ]) : (
+                            <p className="list-empty">暂无此分类数据</p>
+                        )}
+                    </div>
+                </Tabs>
             </div>
         )
     }
