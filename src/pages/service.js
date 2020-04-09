@@ -117,8 +117,8 @@ class Service extends Component {
             { title: '乡村志愿服务', sub: '2' }
           ];
 
-        const county_service_list = list.filter(item => item.category.ex_info.length === 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
-        const village_service_list = list.filter(item => item.category.ex_info.length > 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+        const county_service_list = list.filter(item => item.category.ex_info.indexOf('支队') > -1).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+        const village_service_list = list.filter(item => item.category.ex_info.indexOf('支队') < 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
 
         return (
             <div className="hdz-service">

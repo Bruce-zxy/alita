@@ -121,7 +121,7 @@ class ServiceSubmit extends Component {
                 <List className="service-details-input-area">
                     <InputItem {...getFieldProps('realName', { rules: [{ required: true, message: '请填写真实姓名' }] })} clear placeholder="姓名" labelNumber={3}>姓名</InputItem>
                     <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/, message: '请填写正确的手机号码', }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
-                    {!!details.category && details.category.ex_info.length > 0 ? (
+                    {!!details.category && details.category.ex_info.indexOf('支队') < 0 ? (
                         // <InputItem {...getFieldProps('village')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
                         <Picker data={this.state.village_data} cols={1} placeholder="必选" {...getFieldProps('village', { rules: [{ required: true, message: '请选择服务乡村' }] })} className="forss">
                             <List.Item arrow="horizontal">服务村</List.Item>
