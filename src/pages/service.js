@@ -113,12 +113,12 @@ class Service extends Component {
             })
         }
         const tabs = [
-            { title: '县级志愿服务', sub: '1' },
+            { title: '志愿服务项目', sub: '1' },
             { title: '乡村志愿服务', sub: '2' }
           ];
 
-        const county_service_list = list.filter(item => item.category.ex_info.indexOf('支队') > -1).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
-        const village_service_list = list.filter(item => item.category.ex_info.indexOf('支队') < 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+        const county_service_list = list.filter(item => item.category.ex_info.length === 0).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
+        const village_service_list = list.filter(item => item.category.ex_info.length > 0 && item.album).filter(item => !keyword || item.title.includes(keyword) || item.description.includes(keyword) || item.tags.includes(keyword));
 
         return (
             <div className="hdz-service">
@@ -138,8 +138,8 @@ class Service extends Component {
                 </div> */}
                 <Tabs tabs={tabs}
                     initialPage={0}
-                    onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                    onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+                    //onChange={(tab, index) => { console.log('onChange', index, tab); }}
+                    //onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     >
                     <div className="service-list">
                         {county_service_list.length > 0 ? county_service_list.map((item, i) => [
@@ -200,7 +200,7 @@ class Service extends Component {
                 ...details,
                 description: details.desc,
                 tags: [details.category.name],
-                images: details.albumList.map(item => item.url)
+                //images: details.albumList.map(item => item.url)
             });
         } else {
             return this.toRenderServiceList(services.map(item => ({

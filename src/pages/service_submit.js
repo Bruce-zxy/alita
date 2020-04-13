@@ -25,12 +25,17 @@ class ServiceSubmit extends Component {
     state = {
         show_picker: false,
         date: null,
-        village_data: []
+        village_data: [],
+        form_data: []
     }
 
     componentDidMount (){
         const { service, match: { params: { id } }} = this.props;
         const details = _.find(service, { id: id });
+        if (!!details.ex_info) {
+            const forms = toTransformAreaTreeProps(details.ex_info.links, { key: 'form', value: 'form', children: 'children' });
+            this.setState({form_data: forms});
+        }
         this.fetchList(details);
     }
 
@@ -60,6 +65,7 @@ class ServiceSubmit extends Component {
             } else {
                 value.date = date && date.format('YYYY-MM-DD HH:mm:ss');
                 value.village = value.village ? value.village[0] : '';
+                value.form = value.form ? value.form[0] : '';
                 const res = await superFetch.post('/service/apply', { ...value, id });
                 if (res === true) {
                     Toast.success('提交成功！请等待管理员处理！', 2);
@@ -97,7 +103,7 @@ class ServiceSubmit extends Component {
         const { service, match: { params: { id } }, form: { getFieldProps } } = this.props;
         const details = _.find(service, { id: id });
         details.tags = [details.category.name];
-        details.images = details.albumList.map(item => item.url);
+        //details.images = details.albumList.map(item => item.url);
         details.description = details.desc;
 
         return (
@@ -109,11 +115,11 @@ class ServiceSubmit extends Component {
                             <span key={tag}>{tag}</span>
                         ))}
                     </p>
-                    <p className="service-images">
+                    {/* <p className="service-images">
                         {details.images && details.images.map((image, i) => (
                             <img src={image} alt="service-images" key={i} />
                         ))}
-                    </p>
+                    </p> */}
                 </div>
 
                 <div className="hdz-block-space"></div>
@@ -121,15 +127,20 @@ class ServiceSubmit extends Component {
                 <List className="service-details-input-area">
                     <InputItem {...getFieldProps('realName', { rules: [{ required: true, message: '请填写真实姓名' }] })} clear placeholder="姓名" labelNumber={3}>姓名</InputItem>
                     <InputItem {...getFieldProps('phone', { rules: [{ required: true, pattern: /\d{11}/, message: '请填写正确的手机号码', }] })} clear placeholder="用于取得联系" labelNumber={3}>电话</InputItem>
-                    {!!details.category && details.category.ex_info.indexOf('支队') < 0 ? (
+                    {!!details.category && details.category.ex_info.length > 0 ? (
                         // <InputItem {...getFieldProps('village')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
                         <Picker data={this.state.village_data} cols={1} placeholder="必选" {...getFieldProps('village', { rules: [{ required: true, message: '请选择服务乡村' }] })} className="forss">
                             <List.Item arrow="horizontal">服务村</List.Item>
                         </Picker>
                     ) : ''}
+                    {!!details.ex_info ? (
+                        <Picker data={this.state.form_data} cols={1} placeholder="必选" {...getFieldProps('form', { rules: [{ required: true, message: '请选择服务形式' }] })} className="forss">
+                            <List.Item arrow="horizontal">服务形式</List.Item>
+                        </Picker>
+                    ) : ''}
                     <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
                     <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望时间</InputItem>
-                    <InputItem {...getFieldProps('other', { rules: [{ required: true, message: '请填写服务内容' }] })} clear placeholder="必填" labelNumber={5}>服务要求</InputItem>
+                    <InputItem {...getFieldProps('other', { rules: [{ required: false, message: '请填写服务内容' }] })} clear placeholder="选填" labelNumber={5}>服务要求</InputItem>
                 </List>
 
                 <div className={`service-details-button ${!this.state.show_picker ? 'show' : 'noshow'}`}>

@@ -207,7 +207,7 @@ class MineOrder extends Component {
             details = _.find(service, { id: flow.target });
             if (details) {
                 details.tags = [details.category.name];
-                details.images = details.albumList.map(item => item.url);
+                //details.images = details.albumList.map(item => item.url);
                 details.description = details.desc;
                 details.state = flow.state;
             } else {
@@ -257,7 +257,7 @@ class MineOrder extends Component {
                             <span>{flow && flow.state}</span>
                         </p>
                         <p className="order-title">
-                            <label>服务标题</label>
+                            <label>服务类型</label>
                             <span>{flow && flow.ex_info && flow.ex_info.service && flow.ex_info.service.title}</span>
                         </p>
                         <p className="order-category">
@@ -272,6 +272,18 @@ class MineOrder extends Component {
                             <label>申请者联系方式</label>
                             <span>{flow && flow.ex_info && flow.ex_info.phone}</span>
                         </p>
+                        {flow.ex_info.village ? (
+                            <p className="order-name">
+                            <label>服务村</label>
+                            <span>{flow.ex_info.village}</span>
+                        </p>
+                        ) : ''}
+                        {flow.ex_info.form ? (
+                            <p className="order-name">
+                            <label>服务形式</label>
+                            <span>{flow.ex_info.form}</span>
+                        </p>
+                        ) : ''}
                         <p className="order-name">
                             <label>申请者联系地址</label>
                             <span>{flow && flow.ex_info && flow.ex_info.address}</span>

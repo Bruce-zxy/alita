@@ -163,6 +163,7 @@ export default ({ history }) => {
                     //     ))}
                     // </select>
                     <Picker 
+                        rowKey={record => record.value}
                         data={org_data}
                         cols={1}
                         placeholder="必选" 
