@@ -134,13 +134,13 @@ class ServiceSubmit extends Component {
                         </Picker>
                     ) : ''}
                     {!!details.ex_info ? (
-                        <Picker data={this.state.form_data} cols={1} placeholder="必选" {...getFieldProps('form', { rules: [{ required: true, message: '请选择服务形式' }] })} className="forss">
-                            <List.Item arrow="horizontal">服务形式</List.Item>
+                        <Picker data={this.state.form_data} cols={1} placeholder="必选" {...getFieldProps('form', { rules: [{ required: true, message: '请选择服务内容' }] })} className="forss">
+                            <List.Item arrow="horizontal">服务内容</List.Item>
                         </Picker>
                     ) : ''}
                     <InputItem {...getFieldProps('address')} clear placeholder="选填" labelNumber={7}>服务地址</InputItem>
                     <InputItem {...getFieldProps('date')} clear placeholder="选填" labelNumber={7} extra={<i className="iconfont iconrili"></i>} onFocus={() => document.activeElement.blur() || this.toShowDatePicker()} value={this.state.date ? this.state.date.format('YYYY-MM-DD HH:mm:ss') : ''}>期望时间</InputItem>
-                    <InputItem {...getFieldProps('other', { rules: [{ required: false, message: '请填写服务内容' }] })} clear placeholder="选填" labelNumber={5}>服务要求</InputItem>
+                    <InputItem {...getFieldProps('other', { rules: [{ required: false, message: '请填写服务内容' }] })} clear placeholder="选填" labelNumber={5}>具体要求</InputItem>
                 </List>
 
                 <div className={`service-details-button ${!this.state.show_picker ? 'show' : 'noshow'}`}>

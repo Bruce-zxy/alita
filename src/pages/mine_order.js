@@ -280,7 +280,7 @@ class MineOrder extends Component {
                         ) : ''}
                         {flow.ex_info.form ? (
                             <p className="order-name">
-                            <label>服务形式</label>
+                            <label>服务内容</label>
                             <span>{flow.ex_info.form}</span>
                         </p>
                         ) : ''}
