@@ -32,7 +32,7 @@ class ServiceSubmit extends Component {
     componentDidMount (){
         const { service, match: { params: { id } }} = this.props;
         const details = _.find(service, { id: id });
-        if (!!details.ex_info) {
+        if (!!details.ex_info && !!details.ex_info.links) {
             const forms = toTransformAreaTreeProps(details.ex_info.links, { key: 'form', value: 'form', children: 'children' });
             this.setState({form_data: forms});
         }
@@ -66,6 +66,7 @@ class ServiceSubmit extends Component {
                 value.date = date && date.format('YYYY-MM-DD HH:mm:ss');
                 value.village = value.village ? value.village[0] : '';
                 value.form = value.form ? value.form[0] : '';
+                value.number = Date.now();
                 const res = await superFetch.post('/service/apply', { ...value, id });
                 if (res === true) {
                     Toast.success('提交成功！请等待管理员处理！', 2);
@@ -133,7 +134,7 @@ class ServiceSubmit extends Component {
                             <List.Item arrow="horizontal">服务村</List.Item>
                         </Picker>
                     ) : ''}
-                    {!!details.ex_info ? (
+                    {!!details.ex_info && !!details.ex_info.links ? (
                         <Picker data={this.state.form_data} cols={1} placeholder="必选" {...getFieldProps('form', { rules: [{ required: true, message: '请选择服务内容' }] })} className="forss">
                             <List.Item arrow="horizontal">服务内容</List.Item>
                         </Picker>
