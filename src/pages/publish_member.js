@@ -329,8 +329,8 @@ const PublishProject = withApollo((props) => {
         <div className="hdz-publish-project">
             <List>
 
-                <InputItem disabled={canEdit()} {...getFieldProps(FIELD_7)} {...FIELD_7_PROPS} labelNumber={5}>真实姓名</InputItem>
-                <InputItem disabled={canEdit()} {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} labelNumber={5}>联系电话</InputItem>
+                <InputItem disabled={disabled} {...getFieldProps(FIELD_7)} {...FIELD_7_PROPS} labelNumber={5}>真实姓名</InputItem>
+                <InputItem disabled={disabled} {...getFieldProps(FIELD_8)} {...FIELD_8_PROPS} labelNumber={5}>联系电话</InputItem>
 
                 <Picker disabled={disabled} {...getFieldProps(FIELD_6)} {...FIELD_6_PROPS} >
                     <List.Item disabled={disabled} arrow="horizontal">所在地区</List.Item>
