@@ -68,11 +68,14 @@ const FundsList = withApollo((props) => {
                             </div>
 
                             {item.status === '已通过' ? (
+                                <>
+                                <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-editor">编辑资金</Link>
                                 <a onClick={toCompleteProject(item)} className="funds-category">完成资金</a> 
+                                </>
                             ) : item.status === '已完成' ? (
                                 ''
                             ) : (
-                                <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-category">编辑资金</Link>
+                                <Link to={`${LOCAL_URL['PUBLISH_FUNDS']}?id=${item.id}`} className="funds-editor">编辑资金</Link>
                             )}
                         </Link>
                         {item.status === PROJECT_STATUS_ENUM_CN['rejected'] && <div className="funds-tips">审核未通过理由：{item.reason}</div>}

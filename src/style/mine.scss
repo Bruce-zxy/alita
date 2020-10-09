@@ -745,6 +745,18 @@
                     }
                 }
 
+                .project-editor {
+                    width: 30vw;
+                    height: 8vw;
+                    border-radius: $SIZE_10 $SIZE_10 0 0;
+                    background: #A8D1FB;
+                    transform-origin: 50% 100%;
+                    transform: scale(.83);
+                    @include font($FONT_SIZE_14, $WHITE);
+                    @include position(auto, auto, 99, 0, $SIZE_5);
+                    @include display-flex();
+                }
+
                 .project-category {
                     width: 30vw;
                     height: 8vw;
@@ -899,6 +911,17 @@
                 }
 
 
+                .funds-editor {
+                    width: 30vw;
+                    height: 8vw;
+                    border-radius: $SIZE_10 $SIZE_10 0 0;
+                    background: #A8D1FB;
+                    transform-origin: 50% 100%;
+                    transform: scale(.83);
+                    @include font($FONT_SIZE_14, $WHITE);
+                    @include position(auto, auto, 99, 0, $SIZE_5);
+                    @include display-flex();
+                }
                 .funds-category {
                     width: 30vw;
                     height: 8vw;

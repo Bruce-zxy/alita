@@ -57,11 +57,14 @@ const ProjectList = withApollo((props) => {
                                 </div>
                             </div>
                             {item.status === '已通过' ? (
+                                <>
+                                <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-editor">编辑项目</Link>
                                 <a onClick={toCompleteProject(item)} className="project-category">完成项目</a>
+                                </>
                             ) : item.status === '已完成' ? (
                                 ''
                             ) : (
-                                <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-category">编辑项目</Link>
+                                <Link to={`${LOCAL_URL['PUBLISH_PROJECT']}?id=${item.id}`} className="project-editor">编辑项目</Link>
                             )}
                         </Link>
                         {item.status === PROJECT_STATUS_ENUM_CN['rejected'] && <div className="project-tips">审核未通过理由：{item.reason}</div>}
