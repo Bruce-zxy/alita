@@ -389,7 +389,7 @@ const PublishProject = withApollo((props) => {
     global.TNT(thisMap, thisFiles, thisType);
 
     const showSubmit = (status) => {
-        if (status && status !== "rejected") {
+        if (status && status !== "rejected" && status !== "checked") {
             if (status === "pending") {
                 return (<div className="publish-button-disable">审核中</div>)
             } else {
